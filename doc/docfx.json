@@ -38,8 +38,7 @@
     "globalMetadata": {
       "_appName": "",
       "_appTitle": "",
-      "_enableSearch": true,
-      "pdf": true
+      "_enableSearch": true
     }
   }
 }
