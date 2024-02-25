@@ -1,0 +1,20 @@
+@startuml Object
+
+object "ViewModel" as vm
+object "View" as v
+object "Warehouse" as w
+object "Controller" as c
+object "BFSController" as bfs
+object "AController" as ac
+object "CAController" as cac
+
+v *-- vm
+vm o-- w
+w o-- c
+
+c <|-- bfs
+c <|-- ac
+c <|-- cac
+' Lehetne egy default controller (a bfs) és a másik kettő csak override-ol
+
+@enduml

@@ -1,0 +1,13 @@
+pages:
+  stage: deploy
+  image:
+    name: container-registry.pommalabs.xyz/pommalabs/docfx
+    entrypoint: [""]
+  script:
+    - docfx docs/docfx.json
+    - mv docs/_site public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
