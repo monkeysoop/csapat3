@@ -35,7 +35,7 @@ Branch-ek listázása:
 git branch -a
 ```
 
-Fájl hozzáadása az aktuális branch-hez:
+Fájl hozzáadása commit-hoz (akkor is, ha a fájl nem új csak megváltozott):
 ```
 git add file_neve
 ```
