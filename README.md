@@ -2,6 +2,66 @@
 
 [Documentation](https://szofttech-ab-2024.szofttech.gitlab-pages.hu/group-07/csapat3)
 
+## Git tutoriál
+
+Repo klónozása:
+```
+git clone https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
+```
+
+Log-ok (commit és merge):
+```
+git log
+```
+
+Commitokhoz szükséges név email megadása:
+```
+git config user.name "neved"
+git config user.email "neptun@inf.elte.hu"
+``` 
+
+Branch létrehozása (lokálisan a leklónozott repoban jön létre):
+```
+git branch új_branch_neve
+```
+
+Váltás másik branch-re:
+```
+git checkout branch_neve
+```
+
+Branch-ek listázása:
+```
+git branch -a
+```
+
+Fájl hozzáadása az aktuális branch-hez:
+```
+git add file_neve
+```
+
+Módosítások (lokális) kiírása:
+```
+git status
+```
+
+Módosítások mentése:
+```
+git commit -m "változtatások leírása tömören"
+```
+
+Mergel-és:
+```
+git push branch_neve
+```
+majd szerintem a legegyszerűbb és biztosabb, ha a gitlab honlapon csinálod a merge request-et
+
+A repóban történt változások "letöltése":
+```
+git pull
+```
+
+
 ## Getting started
 
 To make it easy for you to get started with GitLab, here's a list of recommended next steps.
