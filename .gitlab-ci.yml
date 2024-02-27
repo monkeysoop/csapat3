@@ -1,7 +1,7 @@
 build:
   stage: build
   image:
-    name: container-registry.pommalabs.xyz/pommalabs/dotnet
+    name: mcr.microsoft.com/dotnet/sdk
     entrypoint: [""]
   script:
     - dotnet restore
@@ -10,7 +10,7 @@ build:
 tests:
   stage: test
   image:
-    name: container-registry.pommalabs.xyz/pommalabs/docfx
+    name: mcr.microsoft.com/dotnet/sdk
     entrypoint: [""]
   script:
     - dotnet test
