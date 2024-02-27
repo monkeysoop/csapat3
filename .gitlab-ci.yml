@@ -1,3 +1,21 @@
+build:
+  stage: build
+  image:
+    name: container-registry.pommalabs.xyz/pommalabs/dotnet
+    entrypoint: [""]
+  script:
+    - dotnet restore
+    - dotnet build
+
+tests:
+  stage: test
+  image:
+    name: container-registry.pommalabs.xyz/pommalabs/docfx
+    entrypoint: [""]
+  script:
+    - dotnet test
+    - if [ $? -ne 0 ]; then exit 1; fi
+
 pages:
   stage: deploy
   image:
