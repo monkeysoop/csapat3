@@ -1,2 +1,58 @@
 @startuml ClassDiagram
+interface ViewModelBase {}
+
+class App {}
+
+class MainView {}
+
+class MainViewModel {}
+
+class MapEditView {}
+
+class MapEditViewModel {}
+
+class ConfigEditView {}
+
+class ConfigEditViewModel {}
+
+class Persistence {}
+
+class Test {}
+
+class WareHouse {
+
+}
+
+class Config {
+
+    {static} +Load(path : string) : Config
+}
+
+class Board {
+    {static} +Load(path : string) : Board
+}
+
+class LogFile {
+    {static} +Load(path : string) : void
+}
+
+App o-- MainView
+App o-- MainViewModel
+
+ViewModelBase <|-- MainViewModel
+
+MainView o-left- MainViewModel
+MapEditView o-down- MapEditViewModel
+ConfigEditView o-down- ConfigEditViewModel
+
+MainViewModel o-left- WareHouse
+
+WareHouse -- Persistence : loads, saves >
+
+Persistence -- Config : loads > 
+Persistence -- Board : loads > 
+Persistence -- LogFile : loads, saves >
+
+Test -right- WareHouse : tests >
+
 @enduml
