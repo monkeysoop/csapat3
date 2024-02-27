@@ -19,13 +19,22 @@ class Persistence {}
 
 class Test {}
 
-class WareHouse {
-
-}
+class WareHouse {}
 
 class Config {
-
+    -mapFile : string
+    -agentFile : string
+    -teamSize : int
+    -taskFile : string
+    -numTasksReveal : int
+    -taskAssignmentStrategy : STRATEGY
     {static} +Load(path : string) : Config
+}
+
+enum STRATEGY {
+    roundrobin
+    a*
+    cooperativea*
 }
 
 class Board {
