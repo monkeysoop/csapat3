@@ -1,16 +1,15 @@
-namespace MekkdonaldsTest
-{
-    public class Tests
-    {
-        [SetUp]
-        public void Setup()
-        {
-        }
+namespace Mekkdonalds.Test;
 
-        [Test]
-        public void Test1()
-        {
-            Assert.Pass();
-        }
+public class Tests
+{
+    [SetUp]
+    public void Setup()
+    {
+    }
+
+    [Test]
+    public void Test1()
+    {
+        Assert.Pass();
     }
 }

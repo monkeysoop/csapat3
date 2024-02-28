@@ -1,3 +1,21 @@
+build:
+  stage: build
+  image:
+    name: mcr.microsoft.com/dotnet/sdk:7.0
+    entrypoint: [""]
+  script:
+    - dotnet restore
+    - dotnet build
+
+tests:
+  stage: test
+  image:
+    name: mcr.microsoft.com/dotnet/sdk:7.0
+    entrypoint: [""]
+  script:
+    - dotnet test
+    - if [ $? -ne 0 ]; then exit 1; fi
+
 pages:
   stage: deploy
   image:

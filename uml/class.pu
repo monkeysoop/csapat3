@@ -1,2 +1,142 @@
 @startuml ClassDiagram
+
+package "View" {
+    class MainWindow
+    class MapEditWindow
+    class ConfigEditWindow
+}
+
+package "ViewModel" {
+    interface ViewModelBase
+    class MainWindowViewModel
+    class MapEditWindowViewModel
+    class ConfigEditWindowViewModel
+}
+
+package "Persistence" {
+    class Config
+    class Board
+    class LogFile
+    class Persistence
+}
+
+package "Simulation" {
+    class WareHouse
+    class Empty
+    class Wall
+    class Robot
+    class IObject
+
+    enum Action
+    enum Direction
+    enum Strategy
+}
+
+interface ViewModelBase {}
+
+class App {}
+
+class MainWindow {}
+
+class MainWindowViewModel {}
+
+class MapEditWindow {}
+
+class MapEditWindowViewModel {}
+
+class ConfigEditWindow {}
+
+class ConfigEditWindowViewModel {}
+
+class Persistence {}
+
+class Test {}
+
+class WareHouse {}
+
+class Config {
+    -mapFile : string
+    -agentFile : string
+    -teamSize : int
+    -taskFile : string
+    -numTasksReveal : int
+    -taskAssignmentStrategy : Strategy
+    {static} +Load(path : string) : Config
+}
+
+enum Strategy {
+    roundrobin
+    a*
+    cooperativea*
+}
+
+enum Direction {
+    north
+    east
+    south
+    west
+}
+
+enum Action {
+    F
+    R
+    C
+    W
+}
+
+class Board {
+    -Type : string
+    +Width : int
+    +Height : int
+    +Map : IObject[,]
+    {static} +Load(path : string) : Board
+}
+
+class LogFile {
+    {static} +Load(path : string) : void
+}
+
+interface IObject {}
+
+class Wall {}
+
+class Empty {}
+
+class Robot {
+    +Position : int x int
+    +Direction : Direction
+    +Target : int x int
+    +Path : Action*
+    +Step()
+}
+
+App o-- MainWindow
+'App o-down- MainWindowViewModel
+App o-- MapEditWindow
+'App o-right- MapEditWindowViewModel
+App o-- ConfigEditWindow
+'App o-up- ConfigEditWindowViewModel
+
+ViewModelBase <|-up- MainWindowViewModel
+ViewModelBase <|-up- MapEditWindowViewModel
+ViewModelBase <|-up- ConfigEditWindowViewModel
+
+MainWindow o-left- MainWindowViewModel
+MapEditWindow o-down- MapEditWindowViewModel
+ConfigEditWindow o-down- ConfigEditWindowViewModel
+
+MainWindowViewModel o-down- WareHouse
+
+WareHouse -right- Persistence : loads, saves >
+
+Persistence -- Config : loads > 
+Persistence -- Board : loads > 
+Persistence -- LogFile : loads, saves >
+
+Test -- WareHouse : tests >
+
+IObject <|-up- Wall
+IObject <|-up- Empty
+IObject <|-- Robot
+
 @enduml
