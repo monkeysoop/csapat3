@@ -1,31 +1,87 @@
 @startuml usecase
 left to right direction
 skinparam monochrome false
-actor U as "Felhasználó"
+actor U as "Termékgazda"
+rectangle Szerkesztő {
+    (Konfiguráció szerkesztése) #CadetBlue
+    (Pálya szerkesztése) #CadetBlue
+    (Célpontok szerkesztése) #CadetBlue
+}
 
-rectangle Futtatás {
-  U -- (Szimuláció futtatása)
-  U -- (Robotok pozíciójának megadása)
-  U -- (Raktár alaprajzának megadása)
-  U -- (Útkereső algoritmus kiválasztása)
-  U - (Célpont felülírása)
+    
+rectangle Perzisztencia {
+    (Szimuláció betöltése) #CadetBlue
+    (Szimuláció mentése) #CadetBlue
+    (Új szimuláció) #CadetBlue
+    
+    (Konfiguráció betöltése) #CadetBlue
+    (Konfiguráció mentése) #CadetBlue
+    (Új konfiguráció) #CadetBlue
 
-  (Robotok pozíciójának megadása) .-> (Szimuláció futtatása) : precedes
-  (Raktár alaprajzának megadása) .-> (Szimuláció futtatása) : precedes
-  (Útkereső algoritmus kiválasztása) .-> (Szimuláció futtatása) : precedes
-  (Szimuláció futtatása) .-> (Célpont felülírása) : extend
-  (Szimuláció futtatása) .-> (Naplófájl elkészülése) : invokes
+    (Pálya betöltése) #CadetBlue
+    (Pálya mentése) #CadetBlue
+    (Új pálya) #CadetBlue
+    
+    (Pálya létrehozása)
+    (Konfiguráció létrehozása)
+
+
+
+
+
+    (Szimuláció betöltése) .-> (Pálya betöltése) : invoke
+    (Szimuláció betöltése) .-> (Konfiguráció betöltése) : invoke
+    
+    (Szimuláció mentése) .-> (Pálya mentése) : invoke
+    (Szimuláció mentése) .-> (Konfiguráció mentése) : invoke
+    
+    (Új szimuláció) .-> (Új pálya) : invoke
+    (Új szimuláció) .-> (Új konfiguráció) : invoke
+    
+
+
+    (Új pálya) .-> (Pálya létrehozása) : invoke
+    (Pálya betöltése) .-> (Pálya létrehozása) : invoke
+    
+    (Új konfiguráció) .-> (Konfiguráció létrehozása) : invoke
+    (Konfiguráció betöltése) .-> (Konfiguráció létrehozása) : invoke
+}
+
+
+rectangle Szimuláció {
+    (Szimuláció létrehozása)
+    (Szimuláció futtatása) #CadetBlue
+    (Szimuláció léptetése) #CadetBlue
+    
+
+
+    (Szimuláció létrehozása) .-> (Szimuláció futtatása) : precede
+    (Szimuláció létrehozása) .-> (Szimuláció mentése) : precede
+    
+    (Szimuláció futtatása) .-> (Célpontok szerkesztése) : extend
+    (Szimuláció futtatása) .-> (Szimuláció léptetése) : extend
+
+
+
+    
+    (Pálya létrehozása) .-> (Szimuláció létrehozása) : precede
+    (Konfiguráció létrehozása) .-> (Szimuláció létrehozása) : precede
+
+    (Konfiguráció létrehozása) .-> (Konfiguráció szerkesztése) : precede
+    (Pálya létrehozása) .-> (Pálya szerkesztése) : precede
 }
 
 rectangle Nézet {
-  (Szimuláció futtatása) .-> (Raktár megjelenítése) : invokes
+    (Konfiguráció megjelenítése)
+    (Raktár megjelenítése)
+
+
+    (Szimuláció futtatása) .right-> (Raktár megjelenítése) : invoke
+    
+    (Konfiguráció szerkesztése) .-> (Konfiguráció megjelenítése) : invoke
+    (Pálya szerkesztése) .-> (Raktár megjelenítése) : invoke
+    (Célpontok szerkesztése) .-> (Raktár megjelenítése) : invoke
 }
 
-rectangle Visszajátszás {
-  U -- (Lefutott szimuláció betöltése)
 
-  (Lefutott szimuláció betöltése) .-> (Raktár megjelenítése) : invokes
-  (Lefutott szimuláció betöltése) .-> (Sebesség módosítása) : include
-  (Lefutott szimuláció betöltése) .-> (Lépegetés) : include
-}
 @enduml

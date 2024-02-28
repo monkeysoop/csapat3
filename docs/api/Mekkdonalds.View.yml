@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mekkdonalds.View
+  commentId: N:Mekkdonalds.View
+  id: Mekkdonalds.View
+  children:
+  - Mekkdonalds.View.MainWindow
+  langs:
+  - csharp
+  - vb
+  name: Mekkdonalds.View
+  nameWithType: Mekkdonalds.View
+  fullName: Mekkdonalds.View
+  type: Namespace
+  assemblies:
+  - MekkdonaldsWPF
+references:
+- uid: Mekkdonalds.View.MainWindow
+  commentId: T:Mekkdonalds.View.MainWindow
+  href: Mekkdonalds.View.MainWindow.html
+  name: MainWindow
+  nameWithType: MainWindow
+  fullName: Mekkdonalds.View.MainWindow
