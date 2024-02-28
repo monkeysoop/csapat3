@@ -1,6 +1,8 @@
 @startuml ClassDiagram
+skinparam classAttributeIconSize 0
 
 package "View" {
+    class App
     class MainWindow
     class MapEditWindow
     class ConfigEditWindow
@@ -17,12 +19,10 @@ package "Persistence" {
     class Config
     class Board
     class LogFile
-    class Persistence
 }
 
 package "Simulation" {
     class WareHouse
-    class Empty
     class Wall
     class Robot
     class IObject
@@ -48,8 +48,6 @@ class ConfigEditWindow {}
 
 class ConfigEditWindowViewModel {}
 
-class Persistence {}
-
 class Test {}
 
 class WareHouse {}
@@ -66,8 +64,6 @@ class Config {
 
 enum Strategy {
     roundrobin
-    a*
-    cooperativea*
 }
 
 enum Direction {
@@ -75,6 +71,8 @@ enum Direction {
     east
     south
     west
+    {static}+ClockWise() : Direction {extension}
+    {static}+CounterClockWise() : Direction {extension}
 }
 
 enum Action {
@@ -90,6 +88,7 @@ class Board {
     +Height : int
     +Map : IObject[,]
     {static} +Load(path : string) : Board
+    +this[int x, int y]() : IObject {operator}
 }
 
 class LogFile {
@@ -98,24 +97,27 @@ class LogFile {
 
 interface IObject {}
 
-class Wall {}
 
-class Empty {}
+class Wall <<singleton>> {}
 
 class Robot {
+    +Id : int {readonly}
+    +Start : int x int {readonly}
     +Position : int x int
     +Direction : Direction
     +Target : int x int
     +Path : Action*
+    -PathIndex : int
+    +History : Action*
+    +Robot(x : int, y : int, i : int, j : int, wh : WareHouse, a : Action*)
     +Step()
+    +ModifyPath()
+    +ChangeTarget()
 }
 
 App o-- MainWindow
-'App o-down- MainWindowViewModel
 App o-- MapEditWindow
-'App o-right- MapEditWindowViewModel
 App o-- ConfigEditWindow
-'App o-up- ConfigEditWindowViewModel
 
 ViewModelBase <|-up- MainWindowViewModel
 ViewModelBase <|-up- MapEditWindowViewModel
@@ -127,16 +129,13 @@ ConfigEditWindow o-down- ConfigEditWindowViewModel
 
 MainWindowViewModel o-down- WareHouse
 
-WareHouse -right- Persistence : loads, saves >
+WareHouse -down- Test : tests <
 
-Persistence -- Config : loads > 
-Persistence -- Board : loads > 
-Persistence -- LogFile : loads, saves >
-
-Test -- WareHouse : tests >
+WareHouse o-up- Config
+WareHouse o-up- Board
+WareHouse o-up- LogFile
 
 IObject <|-up- Wall
-IObject <|-up- Empty
 IObject <|-- Robot
 
 @enduml
