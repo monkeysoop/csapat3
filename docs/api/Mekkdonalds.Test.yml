@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mekkdonalds.Test
+  commentId: N:Mekkdonalds.Test
+  id: Mekkdonalds.Test
+  children:
+  - Mekkdonalds.Test.Tests
+  langs:
+  - csharp
+  - vb
+  name: Mekkdonalds.Test
+  nameWithType: Mekkdonalds.Test
+  fullName: Mekkdonalds.Test
+  type: Namespace
+  assemblies:
+  - MekkdonaldsTest
+references:
+- uid: Mekkdonalds.Test.Tests
+  commentId: T:Mekkdonalds.Test.Tests
+  href: Mekkdonalds.Test.Tests.html
+  name: Tests
+  nameWithType: Tests
+  fullName: Mekkdonalds.Test.Tests

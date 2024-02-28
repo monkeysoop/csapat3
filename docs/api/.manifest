@@ -1,0 +1,23 @@
+{
+  "Mekkdonalds": "Mekkdonalds.yml",
+  "Mekkdonalds.App": "Mekkdonalds.App.yml",
+  "Mekkdonalds.App.#ctor": "Mekkdonalds.App.yml",
+  "Mekkdonalds.Test": "Mekkdonalds.Test.yml",
+  "Mekkdonalds.Test.Tests": "Mekkdonalds.Test.Tests.yml",
+  "Mekkdonalds.Test.Tests.Setup": "Mekkdonalds.Test.Tests.yml",
+  "Mekkdonalds.Test.Tests.Test1": "Mekkdonalds.Test.Tests.yml",
+  "Mekkdonalds.View": "Mekkdonalds.View.yml",
+  "Mekkdonalds.View.MainWindow": "Mekkdonalds.View.MainWindow.yml",
+  "Mekkdonalds.View.MainWindow.#ctor": "Mekkdonalds.View.MainWindow.yml",
+  "Mekkdonalds.ViewModel": "Mekkdonalds.ViewModel.yml",
+  "Mekkdonalds.ViewModel.DelegateCommand": "Mekkdonalds.ViewModel.DelegateCommand.yml",
+  "Mekkdonalds.ViewModel.DelegateCommand.#ctor(System.Action{System.Object},System.Predicate{System.Object})": "Mekkdonalds.ViewModel.DelegateCommand.yml",
+  "Mekkdonalds.ViewModel.DelegateCommand.CanExecute(System.Object)": "Mekkdonalds.ViewModel.DelegateCommand.yml",
+  "Mekkdonalds.ViewModel.DelegateCommand.CanExecuteChanged": "Mekkdonalds.ViewModel.DelegateCommand.yml",
+  "Mekkdonalds.ViewModel.DelegateCommand.Execute(System.Object)": "Mekkdonalds.ViewModel.DelegateCommand.yml",
+  "Mekkdonalds.ViewModel.DelegateCommand.Predicate": "Mekkdonalds.ViewModel.DelegateCommand.yml",
+  "Mekkdonalds.ViewModel.DelegateCommand.RaiseCanExecuteChanged": "Mekkdonalds.ViewModel.DelegateCommand.yml",
+  "Mekkdonalds.ViewModel.ViewModelBase": "Mekkdonalds.ViewModel.ViewModelBase.yml",
+  "Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(System.String)": "Mekkdonalds.ViewModel.ViewModelBase.yml",
+  "Mekkdonalds.ViewModel.ViewModelBase.PropertyChanged": "Mekkdonalds.ViewModel.ViewModelBase.yml"
+}
