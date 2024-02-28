@@ -6,9 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Simulation\" />
-    <Folder Include="Persistence\" />
-  </ItemGroup>
-
 </Project>
