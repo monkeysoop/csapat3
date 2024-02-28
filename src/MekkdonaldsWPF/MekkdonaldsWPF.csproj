@@ -5,13 +5,9 @@
     <TargetFramework>net7.0-windows</TargetFramework>
 	<EnableWindowsTargeting>true</EnableWindowsTargeting> <!--This allows CI/CD to build on Linux-->
     <Nullable>enable</Nullable>
+	<ImplicitUsings>true</ImplicitUsings>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModel\" />
-    <Folder Include="View\" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MekkdonaldsModel\MekkdonaldsModel.csproj" />
