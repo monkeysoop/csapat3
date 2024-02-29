@@ -1,0 +1,91 @@
+{
+    "actionModel": "MAPF_T", // robotmozgás szabályainak neve
+    "AllValid": "No", // minden lépés ütközésmentes volt-e
+    "teamSize": 2, // a robotok száma
+    "start": [ // a robotok kiindulási helye
+        [
+            15,
+            10,
+            "E"
+        ],
+        [
+            30,
+            20,
+            "W"
+        ]
+    ],
+    "numTaskFinished": 1, // összesen hány feladatot hajtottak végre
+    "sumOfCost": 20, // összesen hány műveletet hajtottak végre
+    "makespan": 10, // hány lépésig tartott a szimuláció
+    "actualPaths": [ // minden robotra, hogy ténylegesen milyen műveleteket hajtott végre (vesszővel elválasztva: “F” előre lépett, “R” órajárás szerint fordult, “C” órajárással szembe fordult, “W” várt)
+        "F,C,F,F,R,F,F,W,W,F",
+        "F,R,R,F,C,C,F,W,W,F"
+    ],
+    "plannerPaths": [ // minden robotra, hogy az ütemező mit jelölt ki számára (ugyanolyan formátumban, mint az előző pontban, illetve “T” időtúllépés, azaz nem kapott műveletet)
+        "F,C,F,F,R,F,F,T,T,F",
+        "F,R,R,F,C,C,F,T,T,F"
+    ],
+    "plannerTimes": [ // minden ütemező válaszra, hogy az ütemező mennyi idő után adta ki a következő műveletet (másodpercben, törtszám)
+        0.85070321,
+        0.12345678,
+        0.12345678,
+        0.12345678,
+        0.12345678,
+        0.12345678,
+        0.12345678,
+        2.12345678
+    ],
+    "errors": [ // hibák listája ([robot1, robot2, melyik lépésben, milyen hiba], ahol ha nincs robot, mert pl. falnak menne, akkor a robot azonosító -1)
+        [
+            -1,
+            -1,
+            8,
+            "timeout"
+        ],
+        [
+            -1,
+            -1,
+            9,
+            "timeout"
+        ]
+    ],
+    "events": [ // feladat események listája ([melyik feladat, melyik lépésben, esemény], ahol az esemény „assigned” vagy „finished”)        
+        [
+            0,
+            0,
+            "assigned"
+        ],
+        [
+            0,
+            6,
+            "finished"
+        ],
+        [
+            2,
+            6,
+            "assigned"
+        ],
+        [
+            1,
+            0,
+            "assigned"
+        ]
+    ],
+    "tasks": [ // feladatok listája ([melyik feladat, honnan, hova])
+        [
+            0,
+            2,
+            27
+        ],
+        [
+            1,
+            4,
+            29
+        ],
+        [
+            2,
+            27,
+            32
+        ]
+    ]
+}
