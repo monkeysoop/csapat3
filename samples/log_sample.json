@@ -49,30 +49,26 @@
             "timeout"
         ]
     ],
-    "events": [ // feladat események listája ([melyik feladat, melyik lépésben, esemény], ahol az esemény „assigned” vagy „finished”)
+    "events": [ // feladat események listája ([melyik feladat, melyik lépésben, esemény], ahol az esemény „assigned” vagy „finished”)        
         [
-            [
-                0,
-                0,
-                "assigned"
-            ],
-            [
-                0,
-                6,
-                "finished"
-            ],
-            [
-                2,
-                6,
-                "assigned"
-            ]
+            0,
+            0,
+            "assigned"
         ],
         [
-            [
-                1,
-                0,
-                "assigned"
-            ]
+            0,
+            6,
+            "finished"
+        ],
+        [
+            2,
+            6,
+            "assigned"
+        ],
+        [
+            1,
+            0,
+            "assigned"
         ]
     ],
     "tasks": [ // feladatok listája ([melyik feladat, honnan, hova])
