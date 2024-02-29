@@ -1,38 +1,53 @@
 @startuml ClassDiagram
 skinparam classAttributeIconSize 0
 
-package "View" {
-    class App
-    class MainWindow
-    class MapEditWindow
-    class ConfigEditWindow
+package {
+    package "View" {
+        class App
+        class MainWindow
+        class MapEditWindow
+        class ConfigEditWindow
+    }
+
+    package "ViewModel" {
+        class ViewModelBase
+        class MainWindowViewModel
+        class MapEditWindowViewModel
+        class ConfigEditWindowViewModel
+    }
+}
+package {
+    package "Persistence" {
+        class Config
+        class Board
+        class LogFile
+    }
+
+    package "Simulation" {
+        class IMapObject
+        class Wall
+        class Robot
+        class Task
+
+        class WareHouse
+
+        enum Action
+        enum Direction
+        enum Strategy
+
+        class IEvent
+        class AssignmentEvent
+        class FinishedEvent
+
+        class Error
+    }
 }
 
-package "ViewModel" {
-    interface ViewModelBase
-    class MainWindowViewModel
-    class MapEditWindowViewModel
-    class ConfigEditWindowViewModel
+package "Tests" {
+    class Test
 }
 
-package "Persistence" {
-    class Config
-    class Board
-    class LogFile
-}
-
-package "Simulation" {
-    class WareHouse
-    class Wall
-    class Robot
-    class IObject
-
-    enum Action
-    enum Direction
-    enum Strategy
-}
-
-interface ViewModelBase {}
+class ViewModelBase <<abstract>> {}
 
 class App {}
 
@@ -52,51 +67,70 @@ class Test {}
 
 class WareHouse {}
 
+enum Strategy {
+    DFS
+}
+
+enum Direction {
+    north, east, south, west
+
+    {static}+ClockWise() : Direction {extension}
+    {static}+CounterClockWise() : Direction {extension}
+}
+
+enum Action {
+    F, R, C, W, T
+}
+
+class IEvent <<abstract>> {
+    +TaskId : int
+    +Step : int
+}
+class AssignmentEvent {
+    +ToString() : string {override}
+}
+class FinishedEvent {
+    +ToString() : string {override}
+}
+
+class Error {
+    +R1Id : int {readonly}
+    +R2Id : int {readonly}
+    +Step : int {readonly}
+    +Type : string {readonly}
+}
+
 class Config {
     -mapFile : string
     -agentFile : string
     -teamSize : int
     -taskFile : string
     -numTasksReveal : int
-    -taskAssignmentStrategy : Strategy
+    -taskAssignmentStrategy : string
     {static} +Load(path : string) : Config
-}
-
-enum Strategy {
-    roundrobin
-}
-
-enum Direction {
-    north
-    east
-    south
-    west
-    {static}+ClockWise() : Direction {extension}
-    {static}+CounterClockWise() : Direction {extension}
-}
-
-enum Action {
-    F
-    R
-    C
-    W
 }
 
 class Board {
     -Type : string
     +Width : int
     +Height : int
-    +Map : IObject[,]
+    +Map : IMapObject[,]
     {static} +Load(path : string) : Board
-    +this[int x, int y]() : IObject {operator}
+    +this[int x, int y]() : IMapObject {operator}
 }
 
 class LogFile {
-    {static} +Load(path : string) : void
+    -Events : IEvent*
+    -Errors : Error*
+    -PlannerTimes : double*
+    -previous : DateTime
+    +LogError(r1, r2, t : int, msg : string)
+    +LogEvent(event : IEvent)
+    +Save(path : string)
+    {static} +Load(path : string)
 }
 
-interface IObject {}
-
+interface IMapObject {}
 
 class Wall <<singleton>> {}
 
@@ -105,14 +139,23 @@ class Robot {
     +Start : int x int {readonly}
     +Position : int x int
     +Direction : Direction
-    +Target : int x int
+    +Task : Task
     +Path : Action*
     -PathIndex : int
     +History : Action*
     +Robot(x : int, y : int, i : int, j : int, wh : WareHouse, a : Action*)
     +Step()
+    +Assign(task : Task)
     +ModifyPath()
     +ChangeTarget()
+}
+
+class Task {
+    +Id : int {readonly}
+    +Goal : int x int {readonly}
+    +Assigned : bool {readonly}
+    +Robot : Robot? {readonly}
+    ~Assign(r : Robot)
 }
 
 App o-- MainWindow
@@ -135,7 +178,10 @@ WareHouse o-up- Config
 WareHouse o-up- Board
 WareHouse o-up- LogFile
 
-IObject <|-up- Wall
-IObject <|-- Robot
+IMapObject <|-up- Wall
+IMapObject <|-- Robot
+
+IEvent <|-down- AssignmentEvent
+IEvent <|-down- FinishedEvent
 
 @enduml
