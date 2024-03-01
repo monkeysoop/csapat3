@@ -1,0 +1,46 @@
+---
+_layout: landing
+---
+
+# Terv
+
+<br>
+
+## Megvalósíthatósági terv
+
+<br>
+
+## Funkcionális specifikáció
+
+<br>
+
+## Használati eset
+
+![use case diagram](https://www.plantuml.com/plantuml/svg/bPQ_ZjGm4CPxFuLrD5p1FS0MwCILIEZ4mGEOP3RhYsD7zWH1q3q4BTsMAQYGU06BzsBnibA6dSo6RVtDR_vySvExJMWY3ftJGuBA950EjgWnw6YR7UhQHgZG1gzIQtrlekbq5toeTZ5qeBV67K9CXI7gzzeaVVKEOfUdjZ5ZRQxKds3Z6mVwOOJOGXhnrrVzHUd3x_dhuBUs6MBULpR_qEcao5E2Q_tipjI0hzm0H_LzthlFvfBgBa-k3nv3AoYVL17Fghk7EDg357nbpQc-Xz5sW_jRtGV0_DFnMQco0xyWozyUTPf9pnHqBd9cLYldRecOQCYCfOmdZPofBwApDq9mUS88kp3cVJBNN3l_IihlWZKtBrxoVMoqzHz32wi0j0u19FfVK7HUD5uC5Smb27wt2eAQGQBu07vFQ3frPdE9P6sbiRmnQuENzfWVba2IxLqFAuTaTaI8bTmDeHX6i1qG3PPNwSOKKe_0_m4gTIbrQL98lT5zX0fgM0lYTvXYn7OBIBhU6msV47ozWi9FYbAKakyHZw82qfwmClzBMucJlvzpeDpawMav_cc-v6_oD08kVC8xQ1x1WS_VZv2ZwArfCU_Z-Qkwv6Rv7-HG8elWBw4y5dvoCdLXFZUhwvBsMgQGGtCBlXuwftu3)
+
+## Nem funkcionális követelmények
+
+<br>
+
+## Wireframe mockup
+
+<br>
+
+## Felhasználói történetek
+
+|   |   |   |
+|---|---|---|
+|   |   |   |
+|   |   |   |
+|   |   |   |
+
+## Szerkezeti felépítés
+
+<br>
+
+### Komponens/csomag
+
+<br>
+
+### Osztály
+![UML class diagram](https://www.plantuml.com/plantuml/svg/hLVDRjiu4BxhAOXUuZGoiEsn2DgcJhC9qA11x5qVYXveQIApeKY173dnUhtFlYHjMTPOT12WFaIJcM_-oT7eiqLki2ub6qbkxQNWXU5bOX-5ghYZMERP5uX6p6g4cqohiVW7s1z9Kl7iaHV0tlmjuEaDMoNC_NgP_XVii8kgOgirOTvoeQP2vVffNtRI2AklkS2eVAJLWoWE8UlaC9vRdOCy36ed-i8jiFDpFhDeU8OVFnwBTQSL3ve0uz77iUjalLVf83eezHqOAoo2oe0crtW8xFOtB7br9IIm3yoY4QheIfrLXKVa2Bpqfy29XK8Yu_RnYAggoub3s7jO09Sn0nVMYaALe72CXYCKotvpAuiSHRPcPzyqpmSLn_aEUEgea7ohiav8SRveRd9QcycoYaH_DXKvpdk2Fhi6KSonJ-AEWcFVkCVtsI_8y4VwyrKfX12x9d4kx0_dY3sdp3-MFmUd7HzifIim7BLf3rnBaHfyquNl5wt2rmKejDvieDuIgJ7QU6aWYF1ESgN0J4G97fBhUYQ1O2e32w5hBx_a21xRJTA55MmFpBkKcVSfsrOtPQKjsWeTAlbe1-3_xe8dg35V02dqaPR4aFrZPYpAMZfjhVQleb08ve5dq6dImN6SSYdT_B7EZmJKAWmW2hhNCusaMsStUQYEunlWkLPokIOv-p6_nJmVHTvfAtpy--0kub8OoBQG7Ts5-3lkfFv1h6-AUH5qtf9B92ngiuo9G-A3v-OOB1j2DCIlXdZoBgRSmBMkBQICjoRfKK2e1eIt6Ju3R5CW03U5nSFIPq9LHtEk2fXmKm3koMWFWz5Nj_1FpUMH3j84mDkRQIq9ZXJKWSBpKmpstxOUfa6UTiL_ARu1nFDjUq6JzeMmsohtjTisJebm8ZBVd72xhxdA9HZIsBeSQOk-yQXBaTqeXA87v0VF2w1i3dajmUVlqKIyIsrGwjoRyk_ebCN72pabfZcqk24ejZO65DwsjhjpTCHbvWSE-EFOziYPQyvkv3eDlojVn845bOVST9XAdr86JM4lJ65xcmggBhT6IKElKdQVib7AfYcRH5MReK6rbJOuTm5mwnAmklR_F875f7SydusapXwdme9__UqRXMS4PHsvZYZgsW_ar-ZJ59gzX6HmUJMEglZc4NZxjd1rWqhoPVmEXPQGxVJmCZLJv73C4Nvq7sXthur7waIFmvaEDRE1P2kz06D43kju-5T22Jk7_BSQ3Hi2DNR_xiLHUly-3g4bYqCwYs8Vgc-5du15wtU3DWlFOgi0yzz7UZZS-yn8JbfU-AYWRFe9aIJaU-RVOLtjMzo9avC8ilNp8hZrJl59wz75AU418q4q_Xge-wlYKJGEgS9BaH3cJcqtlvDaHxAjB3Jc0qFVCdQ-3z1xoLFsPcMdt6RFJf9s1MoAwFS-mXvkvdYIXFlYEI4aUZk9k7lBakGpgBmkvVy0)
