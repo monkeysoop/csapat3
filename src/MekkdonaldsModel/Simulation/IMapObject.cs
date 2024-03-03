@@ -1,3 +1,3 @@
 ﻿namespace Mekkdonalds.Simulation;
 
-internal interface IObject { }
+internal interface IMapObject { }

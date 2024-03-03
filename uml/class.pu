@@ -1,198 +1,171 @@
 @startuml ClassDiagram
 skinparam classAttributeIconSize 0
 
-package {
-    package "View" {
-        class App
-        class MainWindow
-        class MapEditWindow
-        class ConfigEditWindow
+
+package "View" {
+    class App {}
+    class SimulationWindow {}
+    class ReplayWindow {}
+    'class MapEditWindow {}
+    'class ConfigEditWindow {}
+}
+
+package "ViewModel" {
+    class ViewModelBase <<abstract>> {}
+    class SimulationWindowViewModel {}
+    class ReplayWindowViewModel {}
+    'class MapEditWindowViewModel {}
+    'class ConfigEditWindowViewModel {}
+}
+
+package "Persistence" {
+    class Config {
+        -mapFile : string
+        -agentFile : string
+        -teamSize : int
+        -taskFile : string
+        -numTasksReveal : int
+        -taskAssignmentStrategy : string
+        {static} +Load(path : string) : Config
     }
 
-    package "ViewModel" {
-        class ViewModelBase
-        class MainWindowViewModel
-        class MapEditWindowViewModel
-        class ConfigEditWindowViewModel
+    class Board {
+        -Type : string
+        +Width : int
+        +Height : int
+        +Map : IMapObject[,]
+        {static} +Load(path : string) : Board
+        +this[int x, int y]() : IMapObject {operator}
+    }
+    
+    class LogFile {
+        -Events : IEvent*
+        -Errors : Error*
+        -PlannerTimes : double*
+        -previous : DateTime
+        +LogError(r1, r2, t : int, msg : string)
+        +LogEvent(event : IEvent)
+        +Save(path : string)
+        {static} +Load(path : string)
     }
 }
 
-package {
-    package "Persistence" {
-        class Config
-        class Board
-        class LogFile
+package "Simulation" {
+    interface IMapObject {}
+
+    class Wall <<singleton>> {}
+
+    class Robot {
+        +Id : int {readonly}
+        +Start : int x int {readonly}
+        +Position : int x int
+        +Direction : Direction
+        +Task : Task
+        +Path : Action*
+        +History : Action*
+        +Robot(x : int, y : int, i : int, j : int, wh : SimulationController, a : Action*)
+        +Step()
+        +Assign(task : Task)
+        +ModifyPath()
+        +ChangeTarget()
     }
 
-    package "Simulation" {
-        class IMapObject
-        class Wall
-        class Robot
-        class Task
+    class Task {
+        +Id : int {readonly}
+        +Goal : int x int {readonly}
+        +Assigned : bool {readonly}
+        +Robot : Robot? {readonly}
+        ~Assign(r : Robot)
+        ~Unassign()
+    }
 
-        class WareHouse
+    class ReplayController {}
 
-        enum Action
-        enum Direction
-        enum Strategy
+    class SimulationController {
+        +Tasks : Task*
+        +Robots : Robot*
+        +Tick : EventHandler
+        +SumCost : AtomicInteger
+        +SumTime : AtomicInteger
+        +Scheduler : Timer
+        +SimulationController(path : string)
+        +ChangeTarget(r : int, t : int)
+        -CalculatePath(r : Robot, t : Task) : Action*
+        -OnTick(sender : object?, e : EventArgs)
+    }
 
-        class IEvent
-        class AssignmentEvent
-        class FinishedEvent
+    enum Action {
+        F, R, C, W, T
+    }
 
-        class Error
+    enum Direction {
+        north, east, south, west
+
+        {static}+ClockWise() : Direction {extension}
+        {static}+CounterClockWise() : Direction {extension}
+    }
+
+    enum Strategy {
+        DFS
+    }
+
+    class Event <<abstract>> {
+        +TaskId : int
+        +Step : int
+    }
+    
+    class AssignmentEvent {
+        +ToString() : string {override}
+    }
+
+    class FinishedEvent {
+        +ToString() : string {override}
+    }
+
+    class Error {
+        +R1Id : int {readonly}
+        +R2Id : int {readonly}
+        +Step : int {readonly}
+        +Type : string {readonly}
     }
 }
+
 
 package "Tests" {
-    class Test
+    class Test {}
 }
 
-class ViewModelBase <<abstract>> {}
+App o-- SimulationWindow
+App o-- ReplayWindow
+'App o-- MapEditWindow
+'App o-- ConfigEditWindow
 
-class App {}
+ViewModelBase <|-up- SimulationWindowViewModel
+ViewModelBase <|-up- ReplayWindowViewModel
+'ViewModelBase <|-up- MapEditWindowViewModel
+'ViewModelBase <|-up- ConfigEditWindowViewModel
 
-class MainWindow {}
+SimulationWindow o-- SimulationWindowViewModel
+ReplayWindow o-- ReplayWindowViewModel
+'MapEditWindow o-down- MapEditWindowViewModel
+'ConfigEditWindow o-down- ConfigEditWindowViewModel
 
-class MainWindowViewModel {}
+SimulationWindowViewModel o-down- SimulationController
+ReplayWindowViewModel o-down- ReplayController
 
-class MapEditWindow {}
+SimulationController -down- Test : tests <
+ReplayController -down- Test : tests <
 
-class MapEditWindowViewModel {}
+SimulationController o-up- Config
+SimulationController o-up- Board
+SimulationController o-up- LogFile
 
-class ConfigEditWindow {}
-
-class ConfigEditWindowViewModel {}
-
-class Test {}
-
-class WareHouse {
-    +Tasks : Task*
-    +Robots : Robot*
-    +Tick : EventHandler
-    +SumCost : AtomicInteger
-    +SumTime : AtomicInteger
-    +Scheduler : Timer
-    +ChangeTarget(r : int, t : int)
-    -CalculatePath(r : Robot, t : Task) : Action*
-    -OnTick(sender : object?, e : EventArgs)
-}
-
-enum Strategy {
-    DFS
-}
-
-enum Direction {
-    north, east, south, west
-
-    {static}+ClockWise() : Direction {extension}
-    {static}+CounterClockWise() : Direction {extension}
-}
-
-enum Action {
-    F, R, C, W, T
-}
-
-class IEvent <<abstract>> {
-    +TaskId : int
-    +Step : int
-}
-class AssignmentEvent {
-    +ToString() : string {override}
-}
-class FinishedEvent {
-    +ToString() : string {override}
-}
-
-class Error {
-    +R1Id : int {readonly}
-    +R2Id : int {readonly}
-    +Step : int {readonly}
-    +Type : string {readonly}
-}
-
-class Config {
-    -mapFile : string
-    -agentFile : string
-    -teamSize : int
-    -taskFile : string
-    -numTasksReveal : int
-    -taskAssignmentStrategy : string
-    {static} +Load(path : string) : Config
-}
-
-class Board {
-    -Type : string
-    +Width : int
-    +Height : int
-    +Map : IMapObject[,]
-    {static} +Load(path : string) : Board
-    +this[int x, int y]() : IMapObject {operator}
-}
-
-class LogFile {
-    -Events : IEvent*
-    -Errors : Error*
-    -PlannerTimes : double*
-    -previous : DateTime
-    +LogError(r1, r2, t : int, msg : string)
-    +LogEvent(event : IEvent)
-    +Save(path : string)
-    {static} +Load(path : string)
-}
-
-interface IMapObject {}
-
-class Wall <<singleton>> {}
-
-class Robot {
-    +Id : int {readonly}
-    +Start : int x int {readonly}
-    +Position : int x int
-    +Direction : Direction
-    +Task : Task
-    +Path : Action*
-    +History : Action*
-    +Robot(x : int, y : int, i : int, j : int, wh : WareHouse, a : Action*)
-    +Step()
-    +Assign(task : Task)
-    +ModifyPath()
-    +ChangeTarget()
-}
-
-class Task {
-    +Id : int {readonly}
-    +Goal : int x int {readonly}
-    +Assigned : bool {readonly}
-    +Robot : Robot? {readonly}
-    ~Assign(r : Robot)
-    ~Unassign()
-}
-
-App o-- MainWindow
-App o-- MapEditWindow
-App o-- ConfigEditWindow
-
-ViewModelBase <|-up- MainWindowViewModel
-ViewModelBase <|-up- MapEditWindowViewModel
-ViewModelBase <|-up- ConfigEditWindowViewModel
-
-MainWindow o-left- MainWindowViewModel
-MapEditWindow o-down- MapEditWindowViewModel
-ConfigEditWindow o-down- ConfigEditWindowViewModel
-
-MainWindowViewModel o-down- WareHouse
-
-WareHouse -down- Test : tests <
-
-WareHouse o-up- Config
-WareHouse o-up- Board
-WareHouse o-up- LogFile
+ReplayController o-up- LogFile
 
 IMapObject <|-up- Wall
 IMapObject <|-- Robot
 
-IEvent <|-down- AssignmentEvent
-IEvent <|-down- FinishedEvent
+Event <|-down- AssignmentEvent
+Event <|-down- FinishedEvent
 
 @enduml
