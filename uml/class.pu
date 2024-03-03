@@ -6,16 +6,20 @@ package "View" {
     class App {}
     class SimulationWindow {}
     class ReplayWindow {}
-    'class MapEditWindow {}
-    'class ConfigEditWindow {}
 }
 
 package "ViewModel" {
     class ViewModelBase <<abstract>> {}
-    class SimulationWindowViewModel {}
-    class ReplayWindowViewModel {}
-    'class MapEditWindowViewModel {}
-    'class ConfigEditWindowViewModel {}
+    class SimulationWindowViewModel {
+        +Play : ICommand
+        +ChangeTarget : ICommand
+    }
+    class ReplayWindowViewModel {
+        +Play : ICommand
+        +Pause : ICommand
+        +Resume : ICommand
+        +Jump : ICommand
+    }
 }
 
 package "Persistence" {
@@ -63,8 +67,10 @@ package "Simulation" {
         +Task : Task
         +Path : Action*
         +History : Action*
-        +Robot(x : int, y : int, i : int, j : int, wh : SimulationController, a : Action*)
+        +Robot(x, y, i, j : int, wh : SimulationController, a : Action*)
+        +Robot(x, y, i, j : int, wh : ReplayController, a : Action*)
         +Step()
+        +Jump(t: int)
         +Assign(task : Task)
         +ModifyPath()
         +ChangeTarget()
@@ -79,7 +85,16 @@ package "Simulation" {
         ~Unassign()
     }
 
-    class ReplayController {}
+    class ReplayController {
+        +Robots : Robot*
+        +PlayBackSpeed : int
+        +Scheduler : Timer
+        +TimeStamp : int
+        +ReplayController(path : string)
+        +Pause()
+        +Resume()
+        +Jump(t : int)
+    }
 
     class SimulationController {
         +Tasks : Task*
@@ -88,8 +103,10 @@ package "Simulation" {
         +SumCost : AtomicInteger
         +SumTime : AtomicInteger
         +Scheduler : Timer
+        +SimulationEnded : EventHandler
         +SimulationController(path : string)
-        +ChangeTarget(r : int, t : int)
+        +ChangeTarget(r, t : int)
+        +Check(i, j : int) : bool
         -CalculatePath(r : Robot, t : Task) : Action*
         -OnTick(sender : object?, e : EventArgs)
     }
@@ -132,29 +149,26 @@ package "Simulation" {
 
 
 package "Tests" {
-    class Test {}
+    class SimulationTests {}
+    class ReplayTests {}
+    class BotTests {}
 }
 
 App o-- SimulationWindow
 App o-- ReplayWindow
-'App o-- MapEditWindow
-'App o-- ConfigEditWindow
 
 ViewModelBase <|-up- SimulationWindowViewModel
 ViewModelBase <|-up- ReplayWindowViewModel
-'ViewModelBase <|-up- MapEditWindowViewModel
-'ViewModelBase <|-up- ConfigEditWindowViewModel
 
 SimulationWindow o-- SimulationWindowViewModel
 ReplayWindow o-- ReplayWindowViewModel
-'MapEditWindow o-down- MapEditWindowViewModel
-'ConfigEditWindow o-down- ConfigEditWindowViewModel
 
 SimulationWindowViewModel o-down- SimulationController
 ReplayWindowViewModel o-down- ReplayController
 
-SimulationController -down- Test : tests <
-ReplayController -down- Test : tests <
+SimulationController -right- SimulationTests : tests <
+ReplayController -right- ReplayTests : tests <
+Robot -right- BotTests : tests <
 
 SimulationController o-up- Config
 SimulationController o-up- Board
