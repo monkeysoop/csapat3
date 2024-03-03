@@ -24,7 +24,8 @@ _layout: landing
 
 ## Wireframe mockup
 
-<br>
+<img src="./wirefame/pngs/load_in.png" alt="After starting the program" width="1000"/>
+<img src="./wirefame/pngs/load_log_file.png" alt="Loading in a log file" width="1000"/>
 
 ## Felhasználói történetek
 
