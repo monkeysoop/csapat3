@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Simulation;
 
-internal class Wall : IObject
+internal class Wall : IMapObject
 {
     private static Wall? _instnace;
 
