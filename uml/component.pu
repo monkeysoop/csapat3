@@ -1,3 +1,50 @@
 @startuml Component
+skinparam componentStyle rectangle
+
+package View {
+    interface App
+}
+
+package ViewModel {
+    [ViewModelBase] as VMB
+    [SimulationViewModel] as SVM
+    [ReplayViewModel] as RVM
+}
+
+package Model {
+    [SimulationContoller] as SC
+    [ReplayController] as RC
+    [Robot] as R
+    [Target] as T
+    [Event] as E
+}
+
+package Persistence {        
+    [Board] as B
+    [Config] as C
+    [LogFile] as L
+}
+
+SC -down-> R
+RC -down-> R
+
+R -down-> T
+
+SVM <-up- VMB
+RVM <-up- VMB
+
+SVM -down-> SC
+RVM -down-> RC
+
+App -up-> SVM
+App -up-> RVM
+
+SC --> E
+
+SC -right-> B
+SC -right-> C
+
+SC -right-> L
+RC -up-> L
 
 @enduml
