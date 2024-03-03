@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
-      branch: Adorka
+      branch: doc_fixing
       repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
     id: ViewModelBase
     path: ../src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
@@ -54,7 +54,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
-      branch: Adorka
+      branch: doc_fixing
       repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
     id: PropertyChanged
     path: ../src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
-      branch: Adorka
+      branch: doc_fixing
       repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
     id: OnPropertyChanged
     path: ../src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
