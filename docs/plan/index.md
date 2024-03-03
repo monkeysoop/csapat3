@@ -24,17 +24,15 @@ _layout: landing
 
 ## Wireframe mockup
 
-<img src="./wirefame/pngs/load_in.png" alt="After starting the program" width="1000"/>
-<img src="./wirefame/pngs/load_log_file.png" alt="Loading in a log file" width="1000"/>
-<img src="./wirefame/pngs/load_conf.png" alt="Config file interface" width="1000"/>
-<img src="./wirefame/pngs/edit_conf.png" alt="Config editing" width="1000"/>
-<img src="./wirefame/pngs/after_config.png" alt="After loading in a config file" width="1000"/>
-<img src="./wirefame/pngs/simulation_runtime.png" alt="Simulation runtime" width="1000"/>
-<img src="./wirefame/pngs/simulation_zooming.png" alt="Example for simulation zooming" width="1000"/>
-<img src="./wirefame/pngs/simulation_done.png" alt="Pop-up after the simulation is done" width="1000"/>
-<img src="./wirefame/pngs/after_log.png" alt="After loading in a log file" width="1000"/>
-<img src="./wirefame/pngs/log_replay_runtime.png" alt="Log replay runtime" width="1000"/>
-<img src="./wirefame/pngs/log_replay_paused.png" alt="Log replay paused" width="1000"/>
+|   |   |   |
+|---|---|---|
+| ![After starting the program](~/images/wireframe/load_in.png) | ![Loading in a log file](~/images/wireframe/load_log_file.png) | ![Config file interface](~/images/wireframe/load_conf.png) |
+| ![Config editing](~/images/wireframe/edit_conf.png) | ![After loading in a config file](~/images/wireframe/after_config.png) | ![Simulation runtime](~/images/wireframe/simulation_runtime.png) |
+| ![Example for simulation zooming](~/images/wireframe/simulation_zooming.png) | ![Pop-up after the simulation is done](~/images/wireframe/simulation_done.png) | ![After loading in a log file](~/images/wireframe/after_log.png) |
+| ![Log replay runtime](~/images/wireframe/log_replay_runtime.png) | ![Log replay paused](~/images/wireframe/log_replay_paused.png) | |
+
+
+
 
 
 ## Felhasználói történetek
