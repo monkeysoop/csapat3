@@ -45,27 +45,27 @@ _layout: landing
 
 ## Nem funkcionális követelmények
 
-- <b>Hatékonyság:</b>
+- **Hatékonyság:**
     - A pálya méretétől és a robotok számától függ
     - Magas robotszám vagy nagy pályaméret esetén a szimuláció lelassulhat, és a memóriaigény megnőhet
-- <b> Megbízhatóság:</b>
+- ** Megbízhatóság:**
     - Szabványos használat esetén nem jelenik meg hibaüzenet, és nincsenek hibák
     - Az emberi tényező miatt lehet hiba, pl. hibás beviteli formátum vagy fájl, ez esetben hibaüzenet jelenik meg.
-- <b>Biztonság:</b>
+- **Biztonság:**
     - A szimulációban nem releváns
     - A való élet beli megvalósítás során fontos lehet, hogy a robotok programjához ne férjenek hozzá illetéktelenül.
-- <b>Hordozhatóság:</b>
+- **Hordozhatóság:**
     - A legtöbb személyi számítógépen futtatható, például Windows 10, 11
     - Azonnal használható, nem szükséges telepíteni
-- <b>Felhasználhatóság:</b>
+- **Felhasználhatóság:**
     - Egyszerű, letisztult felhasználói felület, megfelelő instrukciókkal
     - Külön segédlet nem szükséges a használatához
-- <b>Környezeti:</b>
+- **Környezeti:**
     - Nem működik együtt semmilyen külső szoftverrel, szolgáltatással
-- <b>Működési:</b>
+- **Működési:**
     - Nagy raktár és sok robot esetén a szimuláció indítása lassú lehet, de később stabilizálódik
     - gyakori használat
-- <b>Fejlesztési:</b>
+- **Fejlesztési:**
     - Git, CI használat
     - Unit Testek
     - Clean Code
@@ -98,132 +98,132 @@ _layout: landing
   </tr>
   <tr>
       <td rowspan=3>Új szimuláció</td>
-      <td>Given</td>
+      <td><b>GIVEN</b></td>
       <td>Konfiguráció és pálya megadása</td>
   </tr>
   <tr>
-      <td>When</td>
+      <td><b>WHEN</b></td>
       <td>Az alkalmazás egy szimláció létrehozására vár</td>
   </tr>
   <tr>
-      <td>Then</td>
+      <td><b>THEN</b></td>
       <td>Létrejön egy új szimuláció</td>
   </tr>
   <tr>
       <td rowspan=3>Szimuláció futtatása</td>
-      <td>Given</td>
+      <td><b>GIVEN</b></td>
       <td>Létező szimuláció</td>
   </tr>
   <tr>
-      <td>When</td>
+      <td><b>WHEN</b></td>
       <td>A szimuláció futtatásának igénye</td>
   </tr>
   <tr> 
-      <td>Then</td>
+      <td><b>THEN</b></td>
       <td>A szimuláció fut</td>
   </tr>
   <tr>
       <td rowspan=3>Pálya szerkesztése</td>
-      <td>Given</td>
+      <td><b>GIVEN</b></td>
       <td>Létező pálya</td>
   </tr>
   <tr>
-      <td>When</td>
+      <td><b>WHEN</b></td>
       <td>A pálya szerkesztésének igénye</td>
   </tr>
   <tr>
-      <td>Then</td>
+      <td><b>THEN</b></td>
       <td>A pálya szerkeszthető</td>
   </tr>
   <tr>
       <td rowspan=3>Szimuláció mentése</td>
-      <td>Given</td>
+      <td><b>GIVEN</b></td>
       <td>Létező szimuláció</td>
   </tr>
   <tr>
-      <td>When</td>
+      <td><b>WHEN</b></td>
       <td>A szimuláció mentésének igénye</td>
   </tr>
   <tr>
-      <td>Then</td>
+      <td><b>THEN</b></td>
       <td>A szimuláció mentése megtörténik, a pálya és a konfiguráció mentésével</td>
   </tr>
   <tr>
       <td rowspan=3>Pálya betöltése</td>
-      <td>Given</td>
+      <td><b>GIVEN</b></td>
       <td>A pálya paraméterei</td>
   </tr>
   <tr>
-      <td>When</td>
+      <td><b>WHEN</b></td>
       <td>Szimuláció betöltésének igénye</td>
   </tr>
   <tr> 
-      <td>Then</td>
+      <td><b>THEN</b></td>
       <td>Létrejön egy új pálya a kapott paraméterekkel</td>
   </tr>
   <tr>
       <td rowspan=3>Konfiguráció megjelenítése</td>
-      <td>Given</td>
+      <td><b>GIVEN</b></td>
       <td>Egy létező konfiguráció</td>
   </tr>
   <tr>
-      <td>When</td>
+      <td><b>WHEN</b></td>
       <td>Konfiguráció szerkesztésének igénye</td>
   </tr>
   <tr>
-      <td>Then</td>
+      <td><b>THEN</b></td>
       <td>A konfiguráció megjelenik</td>
   </tr>
   <tr>
       <td rowspan=3>Szimuláció léptetése</td>
-      <td>Given</td>
+      <td><b>GIVEN</b></td>
       <td>Létező szimuláció</td>
   </tr>
   <tr>
-      <td>When</td>
+      <td><b>WHEN</b></td>
       <td>A szimuláció fut és léptetni akarjuk</td>
   </tr>
   <tr>
-      <td>Then</td>
+      <td><b>THEN</b></td>
       <td>A szimuláció léptetése megtörténik</td>
   </tr>
   <tr>
       <td rowspan=3>Célpontok szerkesztése</td>
-      <td>Given</td>
+      <td><b>GIVEN</b></td>
       <td>Létező szimuláció</td>
   </tr>
   <tr>
-      <td>When</td>
+      <td><b>WHEN</b></td>
       <td>A szimuláció fut és szerkeszteni akarjuk a célpontot</td>
   </tr>
   <tr>
-      <td>Then</td>
+      <td><b>THEN</b></td>
       <td>A célpont módosul</td>
   </tr>
   <tr>
       <td rowspan=3>Pálya mentése</td>
-      <td>Given</td>
+      <td><b>GIVEN</b></td>
       <td>Létező szimuláció</td>
   </tr>
   <tr>
-      <td>When</td>
+      <td><b>WHEN</b></td>
       <td>A szimulációt el akarjuk menteni</td>
   </tr>
   <tr>
-      <td>Then</td>
+      <td><b>THEN</b></td>
       <td>A pálya mentése megtörténik</td>
   </tr>
   <tr>
       <td rowspan=3>Pálya létrehozása</td>
-      <td>Given</td>
+      <td><b>GIVEN</b></td>
       <td>A pálya paraméterei</td>
   </tr>
   <tr>
-      <td>When</td>
+      <td><b>WHEN</b></td>
       <td>Pálya létrehozásának igénye</td>
   </tr>
   <tr>
-      <td>Then</td>
+      <td><b>THEN</b></td>
       <td>Létrejön egy új pálya</td>
   </tr>
 </table>
