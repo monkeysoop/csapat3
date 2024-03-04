@@ -117,7 +117,6 @@ _layout: landing
       <td>A szimuláció mentésének igénye</td>
   </tr>
   <tr>
-       
       <td>Then</td>
       <td>A szimuláció mentése megtörténik, a pálya és a konfiguráció mentésével</td>
   </tr>
