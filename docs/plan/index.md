@@ -93,7 +93,7 @@ _layout: landing
 <table>
   <tr>
       <td>Eset</td>
-      <td>x</td>
+      <td></td>
       <td>Leírás</td>
   </tr>
   <tr>
@@ -216,7 +216,7 @@ _layout: landing
   <tr>
       <td rowspan=3>Pálya létrehozása</td>
       <td>Given</td>
-      <td>A pálya paramétrei</td>
+      <td>A pálya paraméterei</td>
   </tr>
   <tr>
       <td>When</td>
