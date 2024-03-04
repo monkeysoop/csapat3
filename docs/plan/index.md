@@ -11,25 +11,24 @@ _layout: landing
 <br>
 
 ## Funkcionális specifikáció
-Funkciók:
-    Általános:
-        Új szimuláció indítása
-        Meglévő szimuláció (log fájl) betöltése, mentése
-        Új konfiguráció létrehozása
-        Konfiguráció betöltése, mentése
-        Konfiguráció szerkesztése
-        Új pálya létrehozása
-        Pálya betöltése, mentése
-        Pálya szerkesztése
-        Kilépés
-    Pálya szerkesztése és szimuláció futása alatt:
-        Pálya megjelenítése
-    Szimuláció futása közben:
-        Megállítás
-        Léptetés (előre, hátra)
-        Célpontok szerkesztése
-        Szimuláció sebességének állítása
-        Opcionálisan automatikus mentés
+- Általános:
+    - Új szimuláció indítása
+    - Meglévő szimuláció (log fájl) betöltése, mentése
+    - Új konfiguráció létrehozása
+    - Konfiguráció betöltése, mentése
+    - Konfiguráció szerkesztése
+    - Új pálya létrehozása
+    - Pálya betöltése, mentése
+    - Pálya szerkesztése
+    - Kilépés
+- Pálya szerkesztése és szimuláció futása alatt:
+    - Pálya megjelenítése
+- Szimuláció futása közben:
+    - Megállítás
+    - Léptetés (előre, hátra)
+    - Célpontok szerkesztése
+    - Szimuláció sebességének állítása
+    - Opcionálisan automatikus mentés
 
 
 <br>
