@@ -1,6 +1,6 @@
 namespace Mekkdonalds.Test;
 
-public class Tests
+public class ReplayTests
 {
     [SetUp]
     public void Setup()
