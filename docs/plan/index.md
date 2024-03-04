@@ -45,7 +45,7 @@ _layout: landing
 
 ## Nem funkcionális követelmények
 
-- <b>Hatékonság:</b>
+- <b>Hatékonyság:</b>
     - A pálya méretétől és a robotok számától függ
     - Magas robotszám vagy nagy pályaméret esetén a szimuláció lelassulhat, és a memóriaigény megnőhet
 - <b> Megbízhatóság:</b>
@@ -58,12 +58,12 @@ _layout: landing
     - A legtöbb személyi számítógépen futtatható, például Windows 10, 11
     - Azonnal használható, nem szükséges telepíteni
 - <b>Felhasználhatóság:</b>
-    - Egyszerű, letisztult felhasználó felület, megfelelő instrukciókkal
+    - Egyszerű, letisztult felhasználói felület, megfelelő instrukciókkal
     - Külön segédlet nem szükséges a használatához
 - <b>Környezeti:</b>
     - Nem működik együtt semmilyen külső szoftverrel, szolgáltatással
 - <b>Működési:</b>
-    - Általában ? futási idő, maximum ? óra
+    - Nagy raktár és sok robot esetén a szimuláció indítása lassú lehet, de később stabilizálódik
     - gyakori használat
 - <b>Fejlesztési:</b>
     - Git, CI használat
