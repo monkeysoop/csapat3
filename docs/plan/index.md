@@ -7,6 +7,12 @@ _layout: landing
 <br>
 
 ## Megvalósíthatósági terv
+- Humán erőforrások: egy termékgazda (13 * 1.5 óra), egy scrum mester (13 * 1.5 óra), négy tervező/fejlesztő/tesztelő (60 óra)
+- Hardver erőforrások: négy fejlesztői (közepes hardverigény), GitLab automatikus tesztelő szervere (nem túl erős)
+- Szoftver erőforrások: fejlesztőkörnyezet (Visual Studio, Visual Studio Code), verziókövető (GitLab), Git
+- Üzemeltetés: üzemeltetést nem kell biztosítani
+- Karbantartás: az esetleges hibajavításon felül nem kell biztosítani
+- Megvalósítás időtartama ~100 emberóra, költsége fizikailag nem mérhető
 
 <br>
 
