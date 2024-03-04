@@ -62,11 +62,38 @@ _layout: landing
 
 ## Felhasználói történetek
 
-|   |   |   |
+|   eset   |   | leírás  |
 |---|---|---|
-|   |   |   |
-|   |   |   |
-|   |   |   |
+|   |  given |   |
+|   |  when |   |
+|   |  then |   |
+|   |  given |   |
+|   |  when |   |
+|   |  then |   |
+|   |  when |   |
+|   |  then |   |
+|   |  given |   |
+|   |  when |   |
+|   |  then |   |
+|   |  given |   |
+|   |  when |   |
+|   |  then |   |
+|   |  given |   |
+|   |  when |   |
+|   |  then |   |
+|   |  given |   |
+|   |  when |   |
+|   |  then |   |
+|   |  given |   |
+|   |  when |   |
+|   |  then |   |
+|   |  given |   |
+|   |  when |   |
+|   |  then |   |
+|   |  given |   |
+|   |  when |   |
+|   |  then |   |
+
 
 ## Szerkezeti felépítés
 
