@@ -45,6 +45,34 @@ _layout: landing
 
 ## Nem funkcionális követelmények
 
+- <b>Hatékonság:</b>
+    - A pálya méretétől és a robotok számától függ
+    - Magas robotszám vagy nagy pályaméret esetén a szimuláció lelassulhat, és a memóriaigény megnőhet
+- <b> Megbízhatóság:</b>
+    - Szabványos használat esetén nem jelenik meg hibaüzenet, és nincsenek hibák
+    - Az emberi tényező miatt lehet hiba, pl. hibás beviteli formátum vagy fájl, ez esetben hibaüzenet jelenik meg.
+- <b>Biztonság:</b>
+    - A szimulációban nem releváns
+    - A való élet beli megvalósítás során fontos lehet, hogy a robotok programjához ne férjenek hozzá illetéktelenül.
+- <b>Hordozhatóság:</b>
+    - A legtöbb személyi számítógépen futtatható, például Windows 10, 11
+    - Azonnal használható, nem szükséges telepíteni
+- <b>Felhasználhatóság:</b>
+    - Egyszerű, letisztult felhasználó felület, megfelelő instrukciókkal
+    - Külön segédlet nem szükséges a használatához
+- <b>Környezeti:</b>
+    - Nem működik együtt semmilyen külső szoftverrel, szolgáltatással
+- <b>Működési:</b>
+    - Általában ? futási idő, maximum ? óra
+    - gyakori használat
+- <b>Fejlesztési:</b>
+    - Git, CI használat
+    - Unit Testek
+    - Clean Code
+    - Dokumentáció
+    - C# nyelv, WPF keretrendszer, MVVM architektúra
+    - objektumorientált paradigma
+
 <br>
 
 ## Wireframe mockup
