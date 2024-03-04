@@ -8,8 +8,12 @@ items:
 - uid: Mekkdonalds.Test
   name: Mekkdonalds.Test
   items:
-  - uid: Mekkdonalds.Test.Tests
-    name: Tests
+  - uid: Mekkdonalds.Test.BotTests
+    name: BotTests
+  - uid: Mekkdonalds.Test.ReplayTests
+    name: ReplayTests
+  - uid: Mekkdonalds.Test.SimulationTests
+    name: SimulationTests
 - uid: Mekkdonalds.View
   name: Mekkdonalds.View
   items:

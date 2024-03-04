@@ -4,7 +4,9 @@ items:
   commentId: N:Mekkdonalds.Test
   id: Mekkdonalds.Test
   children:
-  - Mekkdonalds.Test.Tests
+  - Mekkdonalds.Test.BotTests
+  - Mekkdonalds.Test.ReplayTests
+  - Mekkdonalds.Test.SimulationTests
   langs:
   - csharp
   - vb
@@ -15,9 +17,21 @@ items:
   assemblies:
   - MekkdonaldsTest
 references:
-- uid: Mekkdonalds.Test.Tests
-  commentId: T:Mekkdonalds.Test.Tests
-  href: Mekkdonalds.Test.Tests.html
-  name: Tests
-  nameWithType: Tests
-  fullName: Mekkdonalds.Test.Tests
+- uid: Mekkdonalds.Test.BotTests
+  commentId: T:Mekkdonalds.Test.BotTests
+  href: Mekkdonalds.Test.BotTests.html
+  name: BotTests
+  nameWithType: BotTests
+  fullName: Mekkdonalds.Test.BotTests
+- uid: Mekkdonalds.Test.ReplayTests
+  commentId: T:Mekkdonalds.Test.ReplayTests
+  href: Mekkdonalds.Test.ReplayTests.html
+  name: ReplayTests
+  nameWithType: ReplayTests
+  fullName: Mekkdonalds.Test.ReplayTests
+- uid: Mekkdonalds.Test.SimulationTests
+  commentId: T:Mekkdonalds.Test.SimulationTests
+  href: Mekkdonalds.Test.SimulationTests.html
+  name: SimulationTests
+  nameWithType: SimulationTests
+  fullName: Mekkdonalds.Test.SimulationTests

@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
-      branch: doc_fixing
+      branch: Adorka
       repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
     id: DelegateCommand
     path: ../src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
@@ -58,7 +58,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
-      branch: doc_fixing
+      branch: Adorka
       repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
     id: CanExecuteChanged
     path: ../src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
@@ -89,7 +89,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
-      branch: doc_fixing
+      branch: Adorka
       repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
     id: Predicate
     path: ../src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
@@ -118,7 +118,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
-      branch: doc_fixing
+      branch: Adorka
       repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
     id: .ctor
     path: ../src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
@@ -152,7 +152,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
-      branch: doc_fixing
+      branch: Adorka
       repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
     id: CanExecute
     path: ../src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
-      branch: doc_fixing
+      branch: Adorka
       repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
     id: Execute
     path: ../src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
@@ -229,7 +229,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
-      branch: doc_fixing
+      branch: Adorka
       repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
     id: RaiseCanExecuteChanged
     path: ../src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
