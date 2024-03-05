@@ -48,7 +48,7 @@ _layout: landing
 - **Hatékonyság:**
     - A pálya méretétől és a robotok számától függ
     - Magas robotszám vagy nagy pályaméret esetén a szimuláció lelassulhat, és a memóriaigény megnőhet
-- ** Megbízhatóság:**
+- **Megbízhatóság:**
     - Szabványos használat esetén nem jelenik meg hibaüzenet, és nincsenek hibák
     - Az emberi tényező miatt lehet hiba, pl. hibás beviteli formátum vagy fájl, ez esetben hibaüzenet jelenik meg.
 - **Biztonság:**
