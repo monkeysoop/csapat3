@@ -43,51 +43,6 @@ _layout: landing
 
 ![use case diagram](https://www.plantuml.com/plantuml/svg/bPQ_ZjGm4CPxFuLrD5p1FS0MwCILIEZ4mGEOP3RhYsD7zWH1q3q4BTsMAQYGU06BzsBnibA6dSo6RVtDR_vySvExJMWY3ftJGuBA950EjgWnw6YR7UhQHgZG1gzIQtrlekbq5toeTZ5qeBV67K9CXI7gzzeaVVKEOfUdjZ5ZRQxKds3Z6mVwOOJOGXhnrrVzHUd3x_dhuBUs6MBULpR_qEcao5E2Q_tipjI0hzm0H_LzthlFvfBgBa-k3nv3AoYVL17Fghk7EDg357nbpQc-Xz5sW_jRtGV0_DFnMQco0xyWozyUTPf9pnHqBd9cLYldRecOQCYCfOmdZPofBwApDq9mUS88kp3cVJBNN3l_IihlWZKtBrxoVMoqzHz32wi0j0u19FfVK7HUD5uC5Smb27wt2eAQGQBu07vFQ3frPdE9P6sbiRmnQuENzfWVba2IxLqFAuTaTaI8bTmDeHX6i1qG3PPNwSOKKe_0_m4gTIbrQL98lT5zX0fgM0lYTvXYn7OBIBhU6msV47ozWi9FYbAKakyHZw82qfwmClzBMucJlvzpeDpawMav_cc-v6_oD08kVC8xQ1x1WS_VZv2ZwArfCU_Z-Qkwv6Rv7-HG8elWBw4y5dvoCdLXFZUhwvBsMgQGGtCBlXuwftu3)
 
-## Nem funkcionális követelmények
-
-- **Hatékonyság:**
-    - A pálya méretétől és a robotok számától függ
-    - Magas robotszám vagy nagy pályaméret esetén a szimuláció lelassulhat, és a memóriaigény megnőhet
-- **Megbízhatóság:**
-    - Szabványos használat esetén nem jelenik meg hibaüzenet, és nincsenek hibák
-    - Az emberi tényező miatt lehet hiba, pl. hibás beviteli formátum vagy fájl, ez esetben hibaüzenet jelenik meg.
-- **Biztonság:**
-    - A szimulációban nem releváns
-    - A való élet beli megvalósítás során fontos lehet, hogy a robotok programjához ne férjenek hozzá illetéktelenül.
-- **Hordozhatóság:**
-    - A legtöbb személyi számítógépen futtatható, például Windows 10, 11
-    - Azonnal használható, nem szükséges telepíteni
-- **Felhasználhatóság:**
-    - Egyszerű, letisztult felhasználói felület, megfelelő instrukciókkal
-    - Külön segédlet nem szükséges a használatához
-- **Környezeti:**
-    - Nem működik együtt semmilyen külső szoftverrel, szolgáltatással
-- **Működési:**
-    - Nagy raktár és sok robot esetén a szimuláció indítása lassú lehet, de később stabilizálódik
-    - gyakori használat
-- **Fejlesztési:**
-    - Git, CI használat
-    - Unit Testek
-    - Clean Code
-    - Dokumentáció
-    - C# nyelv, WPF keretrendszer, MVVM architektúra
-    - objektumorientált paradigma
-
-<br>
-
-## Wireframe mockup
-
-|   |   |   |
-|---|---|---|
-| ![After starting the program](~/images/wireframe/load_in.png) | ![Loading in a log file](~/images/wireframe/load_log_file.png) | ![Config file interface](~/images/wireframe/load_conf.png) |
-| ![Config editing](~/images/wireframe/edit_conf.png) | ![After loading in a config file](~/images/wireframe/after_config.png) | ![Simulation runtime](~/images/wireframe/simulation_runtime.png) |
-| ![Example for simulation zooming](~/images/wireframe/simulation_zooming.png) | ![Pop-up after the simulation is done](~/images/wireframe/simulation_done.png) | ![After loading in a log file](~/images/wireframe/after_log.png) |
-| ![Log replay runtime](~/images/wireframe/log_replay_runtime.png) | ![Log replay paused](~/images/wireframe/log_replay_paused.png) | |
-
-
-
-
-
 ## Felhasználói történetek
 
 <table>
@@ -228,6 +183,46 @@ _layout: landing
   </tr>
 </table>
 
+## Nem funkcionális követelmények
+
+- **Hatékonyság:**
+    - A pálya méretétől és a robotok számától függ
+    - Magas robotszám vagy nagy pályaméret esetén a szimuláció lelassulhat, és a memóriaigény megnőhet
+- **Megbízhatóság:**
+    - Szabványos használat esetén nem jelenik meg hibaüzenet, és nincsenek hibák
+    - Az emberi tényező miatt lehet hiba, pl. hibás beviteli formátum vagy fájl, ez esetben hibaüzenet jelenik meg.
+- **Biztonság:**
+    - A szimulációban nem releváns
+    - A való élet beli megvalósítás során fontos lehet, hogy a robotok programjához ne férjenek hozzá illetéktelenül.
+- **Hordozhatóság:**
+    - A legtöbb személyi számítógépen futtatható, például Windows 10, 11
+    - Azonnal használható, nem szükséges telepíteni
+- **Felhasználhatóság:**
+    - Egyszerű, letisztult felhasználói felület, megfelelő instrukciókkal
+    - Külön segédlet nem szükséges a használatához
+- **Környezeti:**
+    - Nem működik együtt semmilyen külső szoftverrel, szolgáltatással
+- **Működési:**
+    - Nagy raktár és sok robot esetén a szimuláció indítása lassú lehet, de később stabilizálódik
+    - gyakori használat
+- **Fejlesztési:**
+    - Git, CI használat
+    - Unit Testek
+    - Clean Code
+    - Dokumentáció
+    - C# nyelv, WPF keretrendszer, MVVM architektúra
+    - objektumorientált paradigma
+
+<br>
+
+## Wireframe mockup
+
+|   |   |   |
+|---|---|---|
+| ![After starting the program](~/images/wireframe/load_in.png) | ![Loading in a log file](~/images/wireframe/load_log_file.png) | ![Config file interface](~/images/wireframe/load_conf.png) |
+| ![Config editing](~/images/wireframe/edit_conf.png) | ![After loading in a config file](~/images/wireframe/after_config.png) | ![Simulation runtime](~/images/wireframe/simulation_runtime.png) |
+| ![Example for simulation zooming](~/images/wireframe/simulation_zooming.png) | ![Pop-up after the simulation is done](~/images/wireframe/simulation_done.png) | ![After loading in a log file](~/images/wireframe/after_log.png) |
+| ![Log replay runtime](~/images/wireframe/log_replay_runtime.png) | ![Log replay paused](~/images/wireframe/log_replay_paused.png) | |
 
 ## Szerkezeti felépítés
 
