@@ -59,20 +59,30 @@ package "Simulation" {
 
     class Wall <<singleton>> {}
 
+    class RobotController <<abstract>> {
+        #Board : Board
+        #Robots : Robot*
+        #CalculatedPaths : Dictonary<Robot, Action*>
+        +RobotController(b : Board, r : Robot*)
+        #CalculatePath() {async, abstract}
+        +MoveRobots() {async?}
+        -Check(i, j : int) : bool
+    }
+
+    class DFSController {}
+
     class Robot {
         +Id : int {readonly}
         +Start : int x int {readonly}
         +Position : int x int
         +Direction : Direction
         +Task : Task
-        +Path : Action*
         +History : Action*
-        +Robot(x, y, i, j : int, wh : SimulationController, a : Action*)
-        +Robot(x, y, i, j : int, wh : ReplayController, a : Action*)
-        +Step()
+        +Robot(x, y, i, j : int, wh : SimulationController)
+        +Robot(x, y, i, j : int, wh : ReplayController)
+        +Step(a : Action)
         +Jump(t: int)
         +Assign(task : Task)
-        +ModifyPath()
         +ChangeTarget()
     }
 
@@ -106,8 +116,6 @@ package "Simulation" {
         +SimulationEnded : EventHandler
         +SimulationController(path : string)
         +ChangeTarget(r, t : int)
-        +Check(i, j : int) : bool
-        -CalculatePath(r : Robot, t : Task) : Action*
         -OnTick(sender : object?, e : EventArgs)
     }
 
@@ -120,10 +128,6 @@ package "Simulation" {
 
         {static}+ClockWise() : Direction {extension}
         {static}+CounterClockWise() : Direction {extension}
-    }
-
-    enum Strategy {
-        DFS
     }
 
     class Event <<abstract>> {
@@ -181,5 +185,10 @@ IMapObject <|-- Robot
 
 Event <|-down- AssignmentEvent
 Event <|-down- FinishedEvent
+
+RobotController <|-down- DFSController
+
+SimulationController -- RobotController
+ReplayController -- RobotController
 
 @enduml
