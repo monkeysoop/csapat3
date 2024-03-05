@@ -12,7 +12,7 @@ _layout: landing
 - Szoftver erőforrások: fejlesztőkörnyezet (Visual Studio, Visual Studio Code), verziókövető (GitLab), Git
 - Üzemeltetés: üzemeltetést nem kell biztosítani
 - Karbantartás: az esetleges hibajavításon felül nem kell biztosítani
-- Megvalósítás időtartama ~100 emberóra, költsége fizikailag nem mérhető
+- Megvalósítás időtartama ~100 emberóra, ~600.000 huf (gyakornoki fizetésekkel számolva)
 
 <br>
 
