@@ -30,7 +30,6 @@ public class Robot : IMapObject
     {
         ID = id;
         Start = Position = new Point(x, y);
-        Task = new Task();
         _history = [];
     }
 
