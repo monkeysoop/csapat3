@@ -32,7 +32,7 @@ public partial class App : Application
     /// Clears the canvas and redraws every element
     /// </summary>
     /// <param name="c">The currently open window's canvas</param>
-    private static void Redraw(Canvas c)
+    private void Redraw(Canvas c)
     {
         c.Children.Clear();
         Draw(c);
