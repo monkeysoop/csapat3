@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Simulation;
 
-internal enum Direction
+public enum Direction
 {
     North,
     East,
@@ -8,9 +8,9 @@ internal enum Direction
     West
 }
 
-internal static class DirectionMethods
+public static class DirectionMethods
 {
-    internal static Direction ClockWise(this Direction original) => (Direction)(((int)original + 1) % 4);
+    public static Direction ClockWise(this Direction original) => (Direction)(((int)original + 1) % 4);
 
-    internal static Direction CounterClockWise(this Direction original) => (Direction)((3 + (int)original) % 4);
+    public static Direction CounterClockWise(this Direction original) => (Direction)((3 + (int)original) % 4);
 }

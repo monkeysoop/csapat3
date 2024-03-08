@@ -1,9 +1,9 @@
 ﻿namespace Mekkdonalds.ViewModel;
 
-public class DelegateCommand : ICommand
+public class DelegateCommand(Action<object?> execute, Predicate<object?>? canExecute = null) : ICommand
 {
-    private readonly Action<object?> _execute;
-    private Predicate<object?>? _canExecute;
+    private readonly Action<object?> _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+    private Predicate<object?>? _canExecute = canExecute;
     public event EventHandler? CanExecuteChanged;
 
     public Predicate<object?>? Predicate
@@ -17,12 +17,6 @@ public class DelegateCommand : ICommand
             _canExecute = value;
             RaiseCanExecuteChanged();
         }
-    }
-
-    public DelegateCommand(Action<object?> execute, Predicate<object?>? canExecute = null)
-    {
-        _execute = execute ?? throw new ArgumentNullException(nameof(execute));
-        _canExecute = canExecute;
     }
 
     public bool CanExecute(object? parameter) => _canExecute is null || _canExecute(parameter);

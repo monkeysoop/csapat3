@@ -1,7 +1,4 @@
-﻿using System.Windows.Controls;
-using System.Windows.Media;
-
-namespace Mekkdonalds;
+﻿namespace Mekkdonalds;
 
 /// <summary>
 /// Interaction logic for App.xaml
@@ -11,6 +8,8 @@ public partial class App : Application
     private const int MARGIN = 20;
     private const int BORDERTHICKNESS = 4;
     private MainWindow? _mainWindow;
+    private ViewModel _viewModel;
+
     public App()
     {
         Startup += OnStartup;
@@ -43,16 +42,16 @@ public partial class App : Application
     /// Handels drawing
     /// </summary>
     /// <param name="c">The currently open window's canvas</param>
-    private static void Draw(Canvas c)
+    private void Draw(Canvas c)
     {
-        DrawOuterBorder(c);
+        DrawFrame(c);
     }
 
     /// <summary>
-    /// Draws the outer border of the map
+    /// Draws the frame of the map
     /// </summary>
     /// <param name="c">The currently open window's canvas</param>
-    private static void DrawOuterBorder(Canvas c)
+    private static void DrawFrame(Canvas c)
     {
         var length = Math.Min(c.ActualHeight, c.ActualWidth) - MARGIN;
 
@@ -107,5 +106,10 @@ public partial class App : Application
         );
 
         l.ForEach(x => c.Children.Add(x));
+    }
+
+    private static void DrawRobots(List<Robot> r)
+    {
+
     }
 }
