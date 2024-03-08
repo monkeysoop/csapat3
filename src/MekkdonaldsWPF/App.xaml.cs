@@ -8,7 +8,7 @@ public partial class App : Application
     private const int MARGIN = 20;
     private const int BORDERTHICKNESS = 4;
     private MainWindow? _mainWindow;
-    private ViewModel _viewModel;
+    private SimViewModel? _viewModel;
 
     public App()
     {
