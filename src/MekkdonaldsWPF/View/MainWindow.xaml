@@ -9,13 +9,13 @@
         Title="MainWindow" Width="796" Height="600">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="30*"/>
             <ColumnDefinition Width="70*"/>
+            <ColumnDefinition Width="30*"/>
         </Grid.ColumnDefinitions>
         <!--<ScrollViewer Grid.Column="1">
             <Canvas x:Name="MapCanvas" Grid.Column="1"/>
         </ScrollViewer>-->
-        <Border Grid.Column="1">
+        <Border Grid.Column="0">
             <Canvas x:Name="MapCanvas"/>
         </Border>
     </Grid>
