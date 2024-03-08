@@ -1,4 +1,6 @@
-﻿namespace Mekkdonalds.View;
+﻿using System.Windows.Media;
+
+namespace Mekkdonalds.View;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml
