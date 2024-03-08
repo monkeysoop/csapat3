@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.ViewModel;
 
-internal abstract class SimViewModel : ViewModelBase
+internal abstract class ViewModel : ViewModelBase
 {
     private int _size;
     public int Size

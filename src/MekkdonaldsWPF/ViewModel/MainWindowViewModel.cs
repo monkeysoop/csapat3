@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.ViewModel;
 
-internal class MainWindowViewModel : SimViewModel
+internal class MainWindowViewModel : ViewModel
 {
 
 }
