@@ -54,32 +54,60 @@ package "Persistence" {
     }
 }
 
-package "Simulation" {
-    interface IMapObject {}
+package "Simulation" {    
 
-    class Wall <<singleton>> {}
+    class Controller <<abstract>> {}
 
-    class RobotController <<abstract>> {
+    class ReplayController {}
+
+    class SimulationController <<abstract>> {
         #Board : Board
         #Robots : Robot*
         #CalculatedPaths : Dictonary<Robot, Action*>
-        +RobotController(b : Board, r : Robot*)
+        +SimulationController(b : Board, r : Robot*)
         #CalculatePath() {async, abstract}
         +MoveRobots() {async?}
         -Check(i, j : int) : bool
     }
+    class Replayer {
+        +Robots : Robot*
+        +PlayBackSpeed : int
+        +Scheduler : Timer
+        +TimeStamp : int
+        +Replayer(path : string)
+        +Pause()
+        +Resume()
+        +Jump(t : int)
+    }
+
+    class Simulator {
+        +Tasks : Task*
+        +Robots : Robot*
+        +Tick : EventHandler
+        +SumCost : AtomicInteger
+        +SumTime : AtomicInteger
+        +Scheduler : Timer
+        +SimulationEnded : EventHandler
+        +Simulator(path : string)
+        +ChangeTarget(r, t : int)
+        -OnTick(sender : object?, e : EventArgs)
+    }
 
     class DFSController {}
 
+    interface IMapObject {}
+
+    class Wall {}
+
     class Robot {
         +Id : int {readonly}
-        +Start : int x int {readonly}
-        +Position : int x int
+        +Start : Point {readonly}
+        +Position : Point
         +Direction : Direction
         +Task : Task
         +History : Action*
-        +Robot(x, y, i, j : int, wh : SimulationController)
-        +Robot(x, y, i, j : int, wh : ReplayController)
+        +Robot(x, y, i, j : int, wh : Simulator)
+        +Robot(x, y, i, j : int, wh : Replayer)
         +Step(a : Action)
         +Jump(t: int)
         +Assign(task : Task)
@@ -88,35 +116,11 @@ package "Simulation" {
 
     class Task {
         +Id : int {readonly}
-        +Goal : int x int {readonly}
+        +Goal : Point {readonly}
         +Assigned : bool {readonly}
         +Robot : Robot? {readonly}
         ~Assign(r : Robot)
         ~Unassign()
-    }
-
-    class ReplayController {
-        +Robots : Robot*
-        +PlayBackSpeed : int
-        +Scheduler : Timer
-        +TimeStamp : int
-        +ReplayController(path : string)
-        +Pause()
-        +Resume()
-        +Jump(t : int)
-    }
-
-    class SimulationController {
-        +Tasks : Task*
-        +Robots : Robot*
-        +Tick : EventHandler
-        +SumCost : AtomicInteger
-        +SumTime : AtomicInteger
-        +Scheduler : Timer
-        +SimulationEnded : EventHandler
-        +SimulationController(path : string)
-        +ChangeTarget(r, t : int)
-        -OnTick(sender : object?, e : EventArgs)
     }
 
     enum Action {
@@ -167,28 +171,34 @@ ViewModelBase <|-up- ReplayWindowViewModel
 SimulationWindow o-- SimulationWindowViewModel
 ReplayWindow o-- ReplayWindowViewModel
 
-SimulationWindowViewModel o-down- SimulationController
-ReplayWindowViewModel o-down- ReplayController
+SimulationWindowViewModel o-down- Simulator
+ReplayWindowViewModel o-down- Replayer
 
-SimulationController -right- SimulationTests : tests <
-ReplayController -right- ReplayTests : tests <
+Simulator -right- SimulationTests : tests <
+Replayer -right- ReplayTests : tests <
 Robot -right- BotTests : tests <
 
-SimulationController o-up- Config
-SimulationController o-up- Board
-SimulationController o-up- LogFile
+Simulator o-up- Config
+Simulator o-up- Board
+Simulator o-up- LogFile
 
-ReplayController o-up- LogFile
+Replayer o-up- LogFile
 
 IMapObject <|-up- Wall
 IMapObject <|-- Robot
+IMapObject <|-- Task
 
 Event <|-down- AssignmentEvent
 Event <|-down- FinishedEvent
 
-RobotController <|-down- DFSController
+Controller <|-down- SimulationController
+Controller <|-down- ReplayController
+SimulationController <|-down- DFSController
 
-SimulationController -- RobotController
-ReplayController -- RobotController
+Simulator -- SimulationController
+Replayer -- SimulationController
+
+SimulationController -- Robot : > controls
+ReplayController -- Robot : > controls
 
 @enduml
