@@ -34,4 +34,10 @@ public class Robot : IMapObject
     }
 
     public Robot(int id) : this(id, 0, 0) { }
+
+    // TODO: change this to internal
+    public void Assign(int x, int y)
+    {
+        Task = new Task(x, y);
+    }
 }

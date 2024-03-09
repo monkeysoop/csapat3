@@ -1,13 +1,8 @@
 ﻿namespace Mekkdonalds.Simulation;
 
-internal class Wall : IMapObject
+public class Wall(Point x) : IMapObject
 {
-    private static Wall? _instnace;
+    public Point Position { get; } = x;
 
-    internal static Wall Instance
-    {
-        get => _instnace ??= new();
-    }
-
-    private Wall() { }
+    public Wall(int x, int y) : this(new(x, y)) { }
 }

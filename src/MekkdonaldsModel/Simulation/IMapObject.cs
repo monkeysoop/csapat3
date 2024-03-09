@@ -1,3 +1,6 @@
 ﻿namespace Mekkdonalds.Simulation;
 
-internal interface IMapObject { }
+internal interface IMapObject
+{
+    public Point Position { get; }
+}

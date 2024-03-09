@@ -1,12 +1,12 @@
 ﻿namespace Mekkdonalds.ViewModel;
 
-internal abstract class SimViewModel : ViewModelBase
+internal abstract class SimViewModel(List<Robot> r, List<Wall> w) : ViewModelBase
 {
-    private int _size;
-    public int Size
+    private (int W, int H) _size;
+    public (int W, int H) Size
     {
         get => _size;
-        set
+        protected set
         {
             if (_size != value)
             {
@@ -15,4 +15,7 @@ internal abstract class SimViewModel : ViewModelBase
             }
         }
     }
+
+    public IReadOnlyList<Robot> Robots = r.AsReadOnly();
+    public IReadOnlyList<Wall> Walls = w.AsReadOnly();
 }

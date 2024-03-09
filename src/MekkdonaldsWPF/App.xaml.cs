@@ -10,6 +10,8 @@ public partial class App : Application
 
     private double XLength;
     private double YLength;
+    private double XStep;
+    private double YStep;
 
     private MainWindow? _mainWindow;
     private SimViewModel? _viewModel;
@@ -29,6 +31,11 @@ public partial class App : Application
         _mainWindow.SizeChanged += (_, _) => Redraw(_mainWindow.MapCanvas);
 
         _viewModel = new MainWindowViewModel();
+
+        foreach (var r in _viewModel.Robots)
+        {
+            r.Assign(r.Position.X + 3, r.Position.Y + 4);
+        }
 
         _mainWindow.Show();
         Redraw(_mainWindow.MapCanvas); // calling redraw to calculate XLength and YLength
@@ -57,6 +64,9 @@ public partial class App : Application
             XLength = YLength = Math.Min(c.ActualHeight, c.ActualWidth) - 2 * MARGIN;
         }
 
+        XStep = (XLength - MARGIN) / _viewModel!.Size.W;
+        YStep = (YLength - MARGIN) / _viewModel!.Size.H;
+
         c.Children.Clear();
         Draw(c);
     }
@@ -67,8 +77,10 @@ public partial class App : Application
     /// <param name="c">The currently open window's canvas</param>
     private void Draw(Canvas c)
     {
-        DrawFrame(c);
+        //DrawFrame(c);
         DrawGrid(c);
+        DrawRobots(c);
+        DrawWalls(c);
     }
 
     /// <summary>
@@ -80,56 +92,48 @@ public partial class App : Application
         List<Line> l = [];
 
         // TOP
-        l.Add(
-            new Line()
-            {
-                Stroke = Brushes.Black,
-                StrokeThickness = BORDERTHICKNESS,
-                X1 = MARGIN - 2,
-                Y1 = MARGIN,
-                X2 = XLength + 2,
-                Y2 = MARGIN,
-            }
-        );
+        l.Add(new Line()
+        {
+            Stroke = Brushes.Black,
+            StrokeThickness = BORDERTHICKNESS,
+            X1 = MARGIN - 2,
+            Y1 = MARGIN,
+            X2 = XLength + 2,
+            Y2 = MARGIN,
+        });
 
         // BOTTOM
-        l.Add(
-            new Line()
-            {
-                Stroke = Brushes.Black,
-                StrokeThickness = BORDERTHICKNESS,
-                X1 = MARGIN - 2,
-                Y1 = YLength,
-                X2 = XLength + 2,
-                Y2 = YLength,
-            }
-         );
+        l.Add(new Line()
+        {
+            Stroke = Brushes.Black,
+            StrokeThickness = BORDERTHICKNESS,
+            X1 = MARGIN - 2,
+            Y1 = YLength,
+            X2 = XLength + 2,
+            Y2 = YLength,
+        });
 
         // LEFT
-        l.Add(
-            new Line()
-            {
-                Stroke = Brushes.Black,
-                StrokeThickness = BORDERTHICKNESS,
-                X1 = MARGIN,
-                Y1 = MARGIN,
-                X2 = MARGIN,
-                Y2 = YLength,
-            }
-        );
+        l.Add(new Line()
+        {
+            Stroke = Brushes.Black,
+            StrokeThickness = BORDERTHICKNESS,
+            X1 = MARGIN,
+            Y1 = MARGIN,
+            X2 = MARGIN,
+            Y2 = YLength,
+        });
 
         // RIGHT
-        l.Add(
-            new Line()
-            {
-                Stroke = Brushes.Black,
-                StrokeThickness = BORDERTHICKNESS,
-                X1 = XLength,
-                Y1 = MARGIN,
-                X2 = XLength,
-                Y2 = YLength,
-            }
-        );
+        l.Add(new Line()
+        {
+            Stroke = Brushes.Black,
+            StrokeThickness = BORDERTHICKNESS,
+            X1 = XLength,
+            Y1 = MARGIN,
+            X2 = XLength,
+            Y2 = YLength,
+        });
 
         l.ForEach(x => c.Children.Add(x));
     }
@@ -137,43 +141,87 @@ public partial class App : Application
 
     private void DrawGrid(Canvas c)
     {
-        var xStep = (XLength - MARGIN) / _viewModel!.Size.W;
-        var ystep = (YLength - MARGIN) / _viewModel!.Size.H;
-
-        for (var i = 1; i < _viewModel!.Size.W; i++)
+        for (var i = 0; i <= _viewModel!.Size.W; i++)
         {
-            c.Children.Add(
-                new Line()
-                {
-                    Stroke = Brushes.Black,
-                    StrokeThickness = 1,
-                    X1 = MARGIN + i * xStep,
-                    Y1 = MARGIN,
-                    X2 = MARGIN + i * xStep,
-                    Y2 = YLength,
-                }
-            );
+            c.Children.Add(new Line()
+            {
+                Stroke = Brushes.Black,
+                StrokeThickness = 1,
+                X1 = MARGIN + i * XStep,
+                Y1 = MARGIN,
+                X2 = MARGIN + i * XStep,
+                Y2 = YLength,
+            });
         }
 
-        for (var i = 1; i < _viewModel!.Size.H; i++)
+        for (var i = 0; i <= _viewModel!.Size.H; i++)
         {
-            c.Children.Add(
-                new Line()
-                {
-                    Stroke = Brushes.Black,
-                    StrokeThickness = 1,
-                    X1 = MARGIN,
-                    Y1 = MARGIN + i * ystep,
-                    X2 = XLength,
-                    Y2 = MARGIN + i * ystep,
-                }
-            );
+            c.Children.Add(new Line()
+            {
+                Stroke = Brushes.Black,
+                StrokeThickness = 1,
+                X1 = MARGIN,
+                Y1 = MARGIN + i * YStep,
+                X2 = XLength,
+                Y2 = MARGIN + i * YStep,
+            });
         }
     }
 
-    private void DrawRobots()
+    private void DrawRobots(Canvas c)
     {
-        _ = _viewModel!.Robots[0];
-        throw new NotImplementedException();
+        foreach (var r in _viewModel!.Robots)
+        {
+            Thickness t;
+
+            t.Left = MARGIN + 2 + r.Position.X * XStep;
+            t.Top = MARGIN + 2 + r.Position.Y * YStep;
+
+            c.Children.Add(new Ellipse()
+            {
+                Stroke = Brushes.Black,
+                StrokeThickness = 1,
+                Fill = Brushes.Blue,
+                Width = XStep - 4,
+                Height = YStep - 4,
+                Margin = t
+            });
+
+            if (r.Task is null) continue;
+
+            t.Left = MARGIN + r.Task.Position.X * XStep;
+            t.Top = MARGIN + r.Task.Position.Y * YStep;
+
+            c.Children.Add(new Rectangle()
+            {
+                Stroke = Brushes.Black,
+                StrokeThickness = 0,
+                Fill = Brushes.Orange,
+                Width = XStep,
+                Height = YStep,
+                Margin = t
+            });
+        }
+    }
+
+    private void DrawWalls(Canvas c)
+    {
+        foreach (var w in _viewModel!.Walls)
+        {
+            Thickness t;
+
+            t.Left = MARGIN + w.Position.X * XStep;
+            t.Top = MARGIN + w.Position.Y * YStep;
+
+            c.Children.Add(new Rectangle()
+            {
+                Stroke = Brushes.Black,
+                StrokeThickness = 1,
+                Fill = Brushes.Black,
+                Width = XStep,
+                Height = YStep,
+                Margin = t
+            });
+        }
     }
 }
