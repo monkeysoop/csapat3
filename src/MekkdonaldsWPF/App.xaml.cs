@@ -38,7 +38,7 @@ public partial class App : Application
         }
 
         _mainWindow.Show();
-        Redraw(_mainWindow.MapCanvas); // calling redraw to calculate XLength and YLength
+        Redraw(_mainWindow.MapCanvas);
     }
 
     /// <summary>
@@ -68,15 +68,7 @@ public partial class App : Application
         YStep = (YLength - MARGIN) / _viewModel!.Size.H;
 
         c.Children.Clear();
-        Draw(c);
-    }
 
-    /// <summary>
-    /// Handels drawing
-    /// </summary>
-    /// <param name="c">The currently open window's canvas</param>
-    private void Draw(Canvas c)
-    {
         //DrawFrame(c);
         DrawGrid(c);
         DrawRobots(c);
