@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.ViewModel;
 
-internal abstract class SimViewModel(List<Robot> r, List<Wall> w) : ViewModelBase
+internal abstract class ViewModel(List<Robot> r, List<Wall> w) : ViewModelBase
 {
     private (int W, int H) _size;
     public (int W, int H) Size
