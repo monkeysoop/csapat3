@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Simulation;
 
-public class Wall(Point x) : IMapObject
+public sealed class Wall(Point x) : IMapObject
 {
     public Point Position { get; } = x;
 
