@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Simulation;
 
-public class Package(Point p) : IMapObject
+public sealed class Package(Point p) : IMapObject
 {
     public Point Position { get; } = p;
 
