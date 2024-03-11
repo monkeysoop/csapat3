@@ -1,4 +1,5 @@
-﻿namespace Mekkdonalds;
+﻿
+namespace Mekkdonalds;
 
 /// <summary>
 /// Interaction logic for App.xaml
@@ -34,7 +35,7 @@ public partial class App : Application
 
         _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_simWindow.MapCanvas)); // UI elemts have to be updated with this call when it is called from another thread
 
-        _simWindow.SizeChanged += (_, _) => Redraw(_simWindow.MapCanvas);
+        _simWindow.SizeChanged += (_, _) => { Calculate(); Redraw(_simWindow.MapCanvas); };
 
         foreach (var r in _viewModel.Robots)
         {
@@ -42,16 +43,12 @@ public partial class App : Application
         }
 
         _simWindow.Show();
+        Calculate();
         Redraw(_simWindow.MapCanvas);
     }
 
-    /// <summary>
-    /// Clears the canvas and redraws every element
-    /// </summary>
-    /// <param name="c">The currently open window's canvas</param>
-    private void Redraw(Canvas c)
+    private void Calculate()
     {
-        // Recalculate these only when size changed
         var (w, h) = _viewModel!.Size;
 
         if (w > h)
@@ -71,7 +68,14 @@ public partial class App : Application
 
         XStep = (XLength - MARGIN) / _viewModel!.Size.W;
         YStep = (YLength - MARGIN) / _viewModel!.Size.H;
+    }
 
+    /// <summary>
+    /// Clears the canvas and redraws every element
+    /// </summary>
+    /// <param name="c">The currently open window's canvas</param>
+    private void Redraw(Canvas c)
+    {
         c.Children.Clear();
 
         //DrawFrame(c);
@@ -165,8 +169,7 @@ public partial class App : Application
     }
 
     private void DrawRobots(Canvas c)
-    {
-        // TODO: creating a local copy of the list might solve the locking problem (we might have to use a ReadWriteLock) problem
+    {        
         foreach (var r in _viewModel!.Robots)
         {
             Thickness t;
