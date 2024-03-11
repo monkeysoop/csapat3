@@ -16,7 +16,7 @@ public abstract class SimulationController : Controller
 
         Task.WaitAll([.. tasks]);
 
-        Timer.Change(TimeSpan.FromSeconds(1), new TimeSpan(0, 0, 1));
+        Timer.Change(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(interval));
     }
 
     protected abstract Task CalculatePath(Robot robot);
@@ -29,12 +29,12 @@ public abstract class SimulationController : Controller
         CallTick(this);
     }
 
-    protected static readonly Point[] nexts_offsets = {
-        new Point(0, -1),
-        new Point(1, 0),
-        new Point(0, 1),
-        new Point(-1, 0)
-    };
+    protected static readonly Point[] nexts_offsets = [
+        new(0, -1),
+        new(1, 0),
+        new(0, 1),
+        new(-1, 0)
+    ];
 
     protected static bool ComparePoints(Point first, Point second)
     {

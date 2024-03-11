@@ -8,7 +8,7 @@ using System.Numerics;
 namespace Mekkdonalds.Simulation.Controller;
 
 
-internal sealed class AstarController : SimulationController
+internal sealed class AstarController(double interval) : SimulationController(interval)
 {
     //private const int UP_DIR = 0;
     //private const int RIGHT_DIR = 1;
@@ -18,11 +18,8 @@ internal sealed class AstarController : SimulationController
 
     private const int COST_BIAS = 1;
     private const int HEURISTIC_BIAS = 1;
-    public AstarController(List<Robot> r) : this(r, 1) { }
 
-    public AstarController(List<Robot> r, double interval) : base(r, interval) { }
-
-
+    public AstarController() : this(1) { }
 
     private static void HeapInsert(Step[] heap, int length, Step item)
     {
@@ -37,10 +34,7 @@ internal sealed class AstarController : SimulationController
         while (index > 0 && heap[index].heuristic <= heap[root_index].heuristic)
         {
             // swap
-            Step t = heap[index];
-            heap[index] = heap[root_index];
-            heap[root_index] = t;
-
+            (heap[root_index], heap[index]) = (heap[index], heap[root_index]);
             index = root_index;
             root_index = (index - 1) / 2;
         }
@@ -49,7 +43,7 @@ internal sealed class AstarController : SimulationController
     private static Step HeapRemoveMin(Step[] heap, int length)
     {
         Step min_item = heap[0];
-        heap[0] = heap[heap.Length - 1];
+        heap[0] = heap[^1];
         length--; // this is only local!!!
 
         int index = 0;
@@ -65,10 +59,7 @@ internal sealed class AstarController : SimulationController
         while (left_child_index < length && heap[next_child_index].heuristic < heap[index].heuristic)
         {
             // swap
-            Step t = heap[index];
-            heap[index] = heap[next_child_index];
-            heap[next_child_index] = t;
-
+            (heap[next_child_index], heap[index]) = (heap[index], heap[next_child_index]);
             index = next_child_index;
             left_child_index = 2 * index + 1;
             right_child_index = 2 * index + 2;
@@ -120,11 +111,11 @@ internal sealed class AstarController : SimulationController
                 Point left_offset = nexts_offsets[left_direction];
                 Point right_offset = nexts_offsets[right_direction];
 
-                Point forward_next_position = new Point(current_step.position.X + forward_offset.X,
+                Point forward_next_position = new(current_step.position.X + forward_offset.X,
                                                         current_step.position.Y + forward_offset.Y);
-                Point left_next_position = new Point(current_step.position.X + left_offset.X,
+                Point left_next_position = new(current_step.position.X + left_offset.X,
                                                         current_step.position.Y + left_offset.Y);
-                Point right_next_position = new Point(current_step.position.X + right_offset.X,
+                Point right_next_position = new(current_step.position.X + right_offset.X,
                                                         current_step.position.Y + right_offset.Y);
 
                 int current_cost = costs[current_step.position.Y * board.Width + current_step.position.X];

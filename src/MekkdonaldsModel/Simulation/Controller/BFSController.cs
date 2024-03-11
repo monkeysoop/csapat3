@@ -1,19 +1,8 @@
-﻿using Mekkdonalds.Persistence;
-using MekkdonaldsModel.Persistence;
-using System.Drawing;
-using MekkdonaldsModel.Simulation;
-using System.Numerics;
+﻿namespace Mekkdonalds.Simulation.Controller;
 
-
-namespace Mekkdonalds.Simulation.Controller;
-
-
-internal sealed class BFSController : SimulationController
+internal sealed class BFSController(double interval) : SimulationController(interval)
 {
-    public BFSController(List<Robot> r) : this(r, 1) { }
-
-    public BFSController(List<Robot> r, double interval) : base(r, interval) { }
-
+    public BFSController() : this(1) { }
 
     static private bool BFSPathFinder(Board2 board, Point start, int start_direction, Point end)
     {
@@ -48,11 +37,11 @@ internal sealed class BFSController : SimulationController
                 Point left_offset = nexts_offsets[left_direction];
                 Point right_offset = nexts_offsets[right_direction];
 
-                Point forward_next_position = new Point(current_step.position.X + forward_offset.X,
+                Point forward_next_position = new(current_step.position.X + forward_offset.X,
                                                         current_step.position.Y + forward_offset.Y);
-                Point left_next_position = new Point(current_step.position.X + left_offset.X,
+                Point left_next_position = new(current_step.position.X + left_offset.X,
                                                         current_step.position.Y + left_offset.Y);
-                Point right_next_position = new Point(current_step.position.X + right_offset.X,
+                Point right_next_position = new(current_step.position.X + right_offset.X,
                                                         current_step.position.Y + right_offset.Y);
 
                 if (board.SetSearchedIfEmpty(forward_next_position))
