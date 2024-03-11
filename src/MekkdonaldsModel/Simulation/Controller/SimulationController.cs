@@ -21,12 +21,22 @@ public abstract class SimulationController : Controller
     }
 
     protected abstract Task CalculatePath(Robot robot);
-    
+
     protected override void OnTick(object? state)
     {
         Task.Run(() => { _robots.ForEach(r => r.Step(Paths[r].Next())); });
         Elapsed += new TimeSpan(0, 0, 1);
 
         CallTick(this);
+    }
+
+    protected static int ManhattenDistance(Point start, Point end)
+    {
+        return Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y);
+    }
+
+    protected static int DotProduct(Point first, Point second)
+    {
+        return first.X * second.X + first.Y * second.Y;
     }
 }

@@ -6,6 +6,7 @@ public sealed class DFSController : SimulationController
 
     public DFSController(double interval) : base(interval) { }
 
+
     protected override Task CalculatePath(Robot robot)
     {
         Paths[robot] = new Path();
