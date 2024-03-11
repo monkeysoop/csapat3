@@ -47,6 +47,7 @@ public partial class App : Application
     /// <param name="c">The currently open window's canvas</param>
     private void Redraw(Canvas c)
     {
+        // Recalculate these only when size changed
         var (w, h) = _viewModel!.Size;
 
         if (w > h)
@@ -130,7 +131,6 @@ public partial class App : Application
         l.ForEach(x => c.Children.Add(x));
     }
 
-
     private void DrawGrid(Canvas c)
     {
         for (var i = 0; i <= _viewModel!.Size.W; i++)
@@ -162,6 +162,7 @@ public partial class App : Application
 
     private void DrawRobots(Canvas c)
     {
+        // TODO: creating a local copy of the list might solve the locking problem (we might have to use a ReadWriteLock) problem
         foreach (var r in _viewModel!.Robots)
         {
             Thickness t;
