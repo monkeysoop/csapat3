@@ -1,4 +1,7 @@
-﻿namespace Mekkdonalds.Simulation.Controller;
+﻿using System.Drawing;
+using System.Numerics;
+
+namespace Mekkdonalds.Simulation.Controller;
 
 internal abstract class SimulationController : Controller
 {
@@ -15,5 +18,15 @@ internal abstract class SimulationController : Controller
     protected override void OnTick(object? state)
     {
         throw new NotImplementedException();
+    }
+
+    protected int ManhattenDistance(Point start, Point end)
+    {
+        return Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y);
+    }
+
+    protected int DotProduct(Point first, Point second)
+    {
+        return first.X * second.X + first.Y * second.Y;
     }
 }

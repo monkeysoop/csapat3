@@ -1,4 +1,6 @@
-﻿namespace Mekkdonalds.Simulation;
+﻿using System.Drawing;
+
+namespace Mekkdonalds.Simulation;
 
 public sealed class Wall(Point x) : IMapObject
 {
