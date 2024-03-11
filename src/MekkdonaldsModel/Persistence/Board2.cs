@@ -41,7 +41,21 @@ namespace MekkdonaldsModel.Persistence
             this.width = width;
         }
 
-        
+        public void SetSearched(Point position)
+        {
+#if NO_BORDER_CHECK
+            bool t = true;
+#else
+            bool t = position.X >= 0 &&
+                     position.X < width &&
+                     position.Y >= 0 &&
+                     position.Y < height;
+#endif
+            if (t)
+            {
+                data[position.Y * width + position.X] = SEARCHED;
+            }
+        }
         public bool SetOpenIfEmpty(Point position)
         {
 #if NO_BORDER_CHECK
