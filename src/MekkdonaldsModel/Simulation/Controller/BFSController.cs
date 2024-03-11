@@ -20,11 +20,13 @@ internal sealed class BFSController : SimulationController
         Step[] queue = new Step[5 * board.height * board.width];
 
 
-        int start_index = 0;
-
         queue[0] = new Step(start, start_direction, 0);
-        
+        int start_index = 0;
         int end_index = 1;
+
+
+        int[] parents = new int[board.height * board.width]; // all items are automatically set to 0
+
 
         bool found = false;
         while (start_index != end_index && !found)
@@ -57,16 +59,19 @@ internal sealed class BFSController : SimulationController
                 {
                     queue[end_index] = new Step(forward_next_position, forward_direction, 0);
                     end_index++;
+                    parents[forward_next_position.Y * board.width + forward_next_position.X] = forward_direction;
                 }
                 if (board.SetSearchedIfEmpty(left_next_position))
                 {
                     queue[end_index] = new Step(left_next_position, left_direction, 0);
                     end_index++;
+                    parents[left_next_position.Y * board.width + left_next_position.X] = left_direction;
                 }
                 if (board.SetSearchedIfEmpty(right_next_position))
                 {
                     queue[end_index] = new Step(right_next_position, right_direction, 0);
                     end_index++;
+                    parents[right_next_position.Y * board.width + right_next_position.X] = right_direction;
                 }
             }
         }

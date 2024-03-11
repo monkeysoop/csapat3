@@ -10,6 +10,14 @@ namespace Mekkdonalds.Simulation.Controller;
 
 internal sealed class AstarController : SimulationController
 {
+    //private const int UP_DIR = 0;
+    //private const int RIGHT_DIR = 1;
+    //private const int DOWN_DIR = 2;
+    //private const int LEFT_DIR = 3;
+    //private const int NO_PARENT = 4;
+
+    private const int COST_BIAS = 1;
+    private const int HEURISTIC_BIAS = 1;
     public AstarController(List<Robot> r) : this(r, 1) { }
 
     public AstarController(List<Robot> r, double interval) : base(r, interval) { }
@@ -76,8 +84,6 @@ internal sealed class AstarController : SimulationController
     }
     private static bool AstarPathFinder(Board2 board, Point start, int start_direction, Point end)
     {
-        const int COST_BIAS = 1;
-        const int HEURISTIC_BIAS = 1;
         Step[] heap = new Step[5 * board.height * board.width];
 
 
@@ -85,8 +91,13 @@ internal sealed class AstarController : SimulationController
         HeapInsert(heap, heap_length, new Step(start, start_direction, 0));
         heap_length++;
 
-        int[] costs = new int[board.height * board.width]; // all items are automatically set to 0
 
+        int[] costs = new int[board.height * board.width]; // all items are automatically set to 0
+        int[] parents = new int[board.height * board.width]; // all items are automatically set to 0
+        //for (int i = 0; i < board.height * board.width; i++)
+        //{
+        //    parents[i] = NO_PARENT;
+        //} 
 
 
         bool found = false;
@@ -138,33 +149,41 @@ internal sealed class AstarController : SimulationController
                 if (board.SetOpenIfEmpty(forward_next_position))
                 {
                     costs[forward_next_position.Y * board.width + forward_next_position.X] = forward_cost;
+                    parents[forward_next_position.Y * board.width + forward_next_position.X] = forward_direction;
                     HeapInsert(heap, heap_length, new Step(forward_next_position, forward_direction, forward_heuristic));
                     heap_length++;
                 } else if (forward_cost < costs[forward_next_position.Y * board.width + forward_next_position.X])
                 {
                     costs[forward_next_position.Y * board.width + forward_next_position.X] = forward_cost;
+                    parents[forward_next_position.Y * board.width + forward_next_position.X] = forward_direction;
                 }
+
 
                 if (board.SetOpenIfEmpty(left_next_position))
                 {
                     costs[left_next_position.Y * board.width + left_next_position.X] = left_cost;
+                    parents[left_next_position.Y * board.width + left_next_position.X] = left_direction;
                     HeapInsert(heap, heap_length, new Step(left_next_position, left_direction, left_heuristic));
                     heap_length++;
                 }
                 else if (left_cost < costs[left_next_position.Y * board.width + left_next_position.X])
                 {
                     costs[left_next_position.Y * board.width + left_next_position.X] = left_cost;
+                    parents[left_next_position.Y * board.width + left_next_position.X] = left_direction;
                 }
+
 
                 if (board.SetOpenIfEmpty(right_next_position))
                 {
                     costs[right_next_position.Y * board.width + right_next_position.X] = right_cost;
+                    parents[right_next_position.Y * board.width + right_next_position.X] = right_direction;
                     HeapInsert(heap, heap_length, new Step(right_next_position, right_direction, right_heuristic));
                     heap_length++;
                 }
                 else if (right_cost < costs[right_next_position.Y * board.width + right_next_position.X])
                 {
                     costs[right_next_position.Y * board.width + right_next_position.X] = right_cost;
+                    parents[right_next_position.Y * board.width + right_next_position.X] = right_direction;
                 }
             }
         }

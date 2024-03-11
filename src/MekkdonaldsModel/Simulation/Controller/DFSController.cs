@@ -17,11 +17,16 @@ internal sealed class DFSController : SimulationController
 
     static private bool DFSPathFinder(Board2 board, Point start, int start_direction, Point end)
     {
+        // this depth first search uses heuristics to hopefully find a correct path quicker
         Step[] stack = new Step[5 * board.height * board.width];
 
-        stack[0] = new Step(start, start_direction, 0);
 
+        stack[0] = new Step(start, start_direction, 0);
         int stack_index = 1;
+
+
+        int[] parents = new int[board.height * board.width]; // all items are automatically set to 0
+
 
         bool found = false;
         while(stack_index != 0 && !found)
@@ -30,6 +35,7 @@ internal sealed class DFSController : SimulationController
             Step current_step = stack[stack_index];
             if (board.SetSearchedIfEmpty(current_step.position))
             {
+                parents[current_step.position.Y * board.width + current_step.position.X] = current_step.direction;
                 if (ComparePoints(current_step.position, end))
                 {
                     found = true;
