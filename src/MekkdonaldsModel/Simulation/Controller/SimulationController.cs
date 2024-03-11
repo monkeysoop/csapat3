@@ -17,12 +17,12 @@ internal abstract class SimulationController : Controller
         throw new NotImplementedException();
     }
 
-    protected int ManhattenDistance(Point start, Point end)
+    protected static int ManhattenDistance(Point start, Point end)
     {
         return Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y);
     }
 
-    protected int DotProduct(Point first, Point second)
+    protected static int DotProduct(Point first, Point second)
     {
         return first.X * second.X + first.Y * second.Y;
     }
