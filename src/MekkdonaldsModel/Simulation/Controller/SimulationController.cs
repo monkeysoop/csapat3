@@ -1,4 +1,7 @@
-﻿namespace Mekkdonalds.Simulation.Controller;
+﻿using System.Drawing;
+using System.Numerics;
+
+namespace Mekkdonalds.Simulation.Controller;
 
 internal abstract class SimulationController : Controller
 {
@@ -15,5 +18,39 @@ internal abstract class SimulationController : Controller
     protected override void OnTick(object? state)
     {
         throw new NotImplementedException();
+    }
+
+    protected static readonly Point[] nexts_offsets = {
+        new Point(0, -1),
+        new Point(1, 0),
+        new Point(0, 1),
+        new Point(-1, 0)
+    };
+
+    protected static bool ComparePoints(Point first, Point second)
+    {
+        return first.X == second.X && first.Y == second.Y;
+    }
+
+    protected static int ManhattenDistance(Point start, Point end)
+    {
+        return Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y);
+    }
+
+    protected static int MaxTurnsRequired(Point position, Point direction, Point end)
+    {
+        int diff_x = end.X - position.X;
+        int diff_y = end.Y - position.Y;
+        int dot_product = diff_x * direction.X + diff_y * direction.Y;
+
+        if (dot_product < 0)
+        {
+            return 2;
+        } else if (dot_product * dot_product != diff_x * diff_x + diff_y * diff_y)
+        {
+            return 1;
+        } else { 
+            return 0; 
+        }
     }
 }
