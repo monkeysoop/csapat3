@@ -32,7 +32,7 @@ public partial class App : Application
             DataContext = _viewModel
         };
 
-        _viewModel.Tick += (_, _) => Redraw(_simWindow.MapCanvas);
+        _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_simWindow.MapCanvas)); // UI elemts have to be updated with this call when it is called from another thread
 
         _simWindow.SizeChanged += (_, _) => Redraw(_simWindow.MapCanvas);
 
