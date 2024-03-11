@@ -41,42 +41,7 @@ namespace MekkdonaldsModel.Persistence
             this.width = width;
         }
 
-        public bool IsPositionEmpty(Point position)
-        {
-#if NO_BORDER_CHECK
-            return data[position.Y * width + position.X] == EMPTY;
-#else
-            return position.X >= 0 &&
-                   position.X < width &&
-                   position.Y >= 0 &&
-                   position.Y < height &&
-                   data[position.Y * width + position.X] == EMPTY;      
-#endif
-        }
-
-        public bool IsPositionOpen(Point position)
-        {
-#if NO_BORDER_CHECK
-            return data[position.Y * width + position.X] == OPEN;
-#else
-            return position.X >= 0 &&
-                   position.X < width &&
-                   position.Y >= 0 &&
-                   position.Y < height &&
-                   data[position.Y * width + position.X] == OPEN;      
-#endif
-        }
-
-        public void SetPositionEmpty(Point position)
-        {
-            data[position.Y * width + position.X] = EMPTY;
-        }
-
-        public void SetPositionOpen(Point position)
-        {
-            data[position.Y * width + position.X] = OPEN;
-        }
-
+        
         public bool SetOpenIfEmpty(Point position)
         {
 #if NO_BORDER_CHECK

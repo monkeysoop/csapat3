@@ -1,6 +1,4 @@
-﻿#define NO_BORDER_CHECK
-
-using Mekkdonalds.Persistence;
+﻿using Mekkdonalds.Persistence;
 using MekkdonaldsModel.Persistence;
 using System.Drawing;
 using MekkdonaldsModel.Simulation;
@@ -51,6 +49,7 @@ internal sealed class DFSController : SimulationController
                                                             current_step.position.Y + left_offset.Y);
                     Point right_next_position = new Point(current_step.position.X + right_offset.X,
                                                             current_step.position.Y + right_offset.Y);
+
                     int heuristic1 = MaxTurnsRequired(forward_next_position, forward_offset, end) + ManhattenDistance(forward_next_position, end);
                     int heuristic2 = MaxTurnsRequired(left_next_position, left_offset, end) + ManhattenDistance(left_next_position, end) + 1;
                     int heuristic3 = MaxTurnsRequired(right_next_position, right_offset, end) + ManhattenDistance(right_next_position, end) + 1;
