@@ -1,13 +1,15 @@
 ﻿namespace Mekkdonalds.Simulation.Controller;
 
-internal sealed class DFSController : SimulationController
+public sealed class DFSController : SimulationController
 {
-    public DFSController(List<Robot> r) : this(r, 1) { }
+    public DFSController() : this(1) { }
 
-    public DFSController(List<Robot> r, double interval) : base(r, interval) { }
+    public DFSController(double interval) : base(interval) { }
 
     protected override Task CalculatePath(Robot robot)
     {
-        throw new NotImplementedException();
+        Paths[robot] = new Path();
+
+        return Task.CompletedTask;
     }
 }

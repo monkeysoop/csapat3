@@ -1,18 +1,32 @@
 ﻿namespace Mekkdonalds.Simulation.Controller;
 
-internal abstract class Controller
+public abstract class Controller
 {
-    protected Dictionary<Robot, Path> Paths;
-    protected List<Robot> Robots;
+    protected ConcurrentDictionary<Robot, Path> Paths;
+    protected List<Robot> _robots;
+    protected List<Wall> _walls;
     protected Timer Timer;
 
-    public Controller(List<Robot> r, double interval)
+
+    public IReadOnlyList<Robot> Robots => _robots.AsReadOnly();
+
+    public IReadOnlyList<Wall> Walls => _walls.AsReadOnly();
+
+    public event EventHandler? Tick;
+
+    public Controller()
     {
         Paths = [];
-        Robots = [];
-        Robots.AddRange(r);
-        Timer = new Timer(OnTick, null, TimeSpan.Zero, TimeSpan.FromSeconds(interval)); // this is probably better then System.Timers.Timer (it is already asynchronous)
+        _robots = [];
+        _walls = [];
+
+        Timer = new Timer(OnTick, null, Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan); // this is probably better then System.Timers.Timer (it is already asynchronous)
     }
 
     protected abstract void OnTick(object? state);
+
+    protected void CallTick(object? sender)
+    {
+        Tick?.Invoke(sender, EventArgs.Empty);
+    }
 }

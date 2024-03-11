@@ -13,7 +13,7 @@ public partial class App : Application
     private double XStep;
     private double YStep;
 
-    private SimulationWindow? _mainWindow;
+    private SimulationWindow? _simWindow;
     private ViewModel.ViewModel? _viewModel;
 
     public App()
@@ -23,22 +23,26 @@ public partial class App : Application
 
     private void OnStartup(object sender, StartupEventArgs e)
     {
-        _mainWindow = new SimulationWindow
+        _viewModel = new SimulationViewModel();
+
+
+        _simWindow = new SimulationWindow
         {
-            WindowState = WindowState.Maximized
+            WindowState = WindowState.Maximized,
+            DataContext = _viewModel
         };
 
-        _mainWindow.SizeChanged += (_, _) => Redraw(_mainWindow.MapCanvas);
+        _viewModel.Tick += (_, _) => Redraw(_simWindow.MapCanvas);
 
-        _viewModel = new SimulationViewModel();
+        _simWindow.SizeChanged += (_, _) => Redraw(_simWindow.MapCanvas);
 
         foreach (var r in _viewModel.Robots)
         {
             r.Assign(r.Position.X + 3, r.Position.Y + 4);
         }
 
-        _mainWindow.Show();
-        Redraw(_mainWindow.MapCanvas);
+        _simWindow.Show();
+        Redraw(_simWindow.MapCanvas);
     }
 
     /// <summary>

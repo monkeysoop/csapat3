@@ -1,7 +1,10 @@
 ﻿namespace Mekkdonalds.ViewModel;
 
-internal abstract class ViewModel(List<Robot> r, List<Wall> w) : ViewModelBase
+internal abstract class ViewModel() : ViewModelBase
 {
+    protected List<Robot> _robots = [];
+    protected List<Wall> _walls = [];
+
     private (int W, int H) _size;
     public (int W, int H) Size
     {
@@ -16,6 +19,13 @@ internal abstract class ViewModel(List<Robot> r, List<Wall> w) : ViewModelBase
         }
     }
 
-    public IReadOnlyList<Robot> Robots = r.AsReadOnly();
-    public IReadOnlyList<Wall> Walls = w.AsReadOnly();
+    public IReadOnlyList<Robot> Robots => _robots.AsReadOnly();
+    public IReadOnlyList<Wall> Walls => _walls.AsReadOnly();
+
+    public event EventHandler? Tick;
+
+    protected void OnTick(object? sender)
+    {
+        Tick?.Invoke(sender, EventArgs.Empty);
+    }
 }
