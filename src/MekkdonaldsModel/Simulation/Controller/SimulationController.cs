@@ -41,18 +41,6 @@ public abstract class SimulationController : Controller
         return first.X == second.X && first.Y == second.Y;
     }
 
-    protected static readonly Point[] nexts_offsets = {
-        new Point(0, -1),
-        new Point(1, 0),
-        new Point(0, 1),
-        new Point(-1, 0)
-    };
-
-    protected static bool ComparePoints(Point first, Point second)
-    {
-        return first.X == second.X && first.Y == second.Y;
-    }
-
     protected static int ManhattenDistance(Point start, Point end)
     {
         return Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y);
