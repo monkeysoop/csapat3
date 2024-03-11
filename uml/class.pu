@@ -89,7 +89,7 @@ package "Simulation" {
         +Scheduler : Timer
         +SimulationEnded : EventHandler
         +Simulator(path : string)
-        +ChangeTarget(r, t : int)
+        +ChangeTarget(r : Robot, t : Point)
         -OnTick(sender : object?, e : EventArgs)
     }
 

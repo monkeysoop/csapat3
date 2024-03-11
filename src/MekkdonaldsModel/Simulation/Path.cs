@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Simulation;
 
-internal class Path
+public class Path
 {
     private readonly List<Action> l;
 
@@ -13,7 +13,7 @@ internal class Path
 
     internal Action? Next()
     {
-        if (ind > l.Count) return null;
+        if (ind >= l.Count) return null;
 
         return l[ind++];
     }

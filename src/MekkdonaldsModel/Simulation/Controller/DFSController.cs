@@ -1,31 +1,20 @@
-﻿using Mekkdonalds.Persistence;
-using MekkdonaldsModel.Persistence;
-using System.Drawing;
-using MekkdonaldsModel.Simulation;
-using System.Numerics;
+﻿namespace Mekkdonalds.Simulation.Controller;
 
-
-namespace Mekkdonalds.Simulation.Controller;
-
-
-internal sealed class DFSController : SimulationController
+public sealed class DFSController(double interval) : SimulationController(interval)
 {
-    public DFSController(List<Robot> r) : this(r, 1) { }
-
-    public DFSController(List<Robot> r, double interval) : base(r, interval) { }
-
+    public DFSController() : this(1) { }
 
     static private bool DFSPathFinder(Board2 board, Point start, int start_direction, Point end)
     {
         // this depth first search uses heuristics to hopefully find a correct path quicker
-        Step[] stack = new Step[5 * board.height * board.width];
+        Step[] stack = new Step[5 * board.Height * board.Width];
 
 
         stack[0] = new Step(start, start_direction, 0);
         int stack_index = 1;
 
 
-        int[] parents = new int[board.height * board.width]; // all items are automatically set to 0
+        int[] parents = new int[board.Height * board.Width]; // all items are automatically set to 0
 
 
         bool found = false;
@@ -35,7 +24,7 @@ internal sealed class DFSController : SimulationController
             Step current_step = stack[stack_index];
             if (board.SetSearchedIfEmpty(current_step.position))
             {
-                parents[current_step.position.Y * board.width + current_step.position.X] = current_step.direction;
+                parents[current_step.position.Y * board.Width + current_step.position.X] = current_step.direction;
                 if (ComparePoints(current_step.position, end))
                 {
                     found = true;
@@ -49,11 +38,11 @@ internal sealed class DFSController : SimulationController
                     Point left_offset = nexts_offsets[left_direction];
                     Point right_offset = nexts_offsets[right_direction];
 
-                    Point forward_next_position = new Point(current_step.position.X + forward_offset.X,
+                    Point forward_next_position = new(current_step.position.X + forward_offset.X,
                                                             current_step.position.Y + forward_offset.Y);
-                    Point left_next_position = new Point(current_step.position.X + left_offset.X,
+                    Point left_next_position = new(current_step.position.X + left_offset.X,
                                                             current_step.position.Y + left_offset.Y);
-                    Point right_next_position = new Point(current_step.position.X + right_offset.X,
+                    Point right_next_position = new(current_step.position.X + right_offset.X,
                                                             current_step.position.Y + right_offset.Y);
 
                     int heuristic1 = MaxTurnsRequired(forward_next_position, forward_offset, end) + ManhattenDistance(forward_next_position, end);
@@ -103,6 +92,8 @@ internal sealed class DFSController : SimulationController
     }
     protected override Task CalculatePath(Robot robot)
     {
-        throw new NotImplementedException();
+        Paths[robot] = new Path();
+
+        return Task.CompletedTask;
     }
 }

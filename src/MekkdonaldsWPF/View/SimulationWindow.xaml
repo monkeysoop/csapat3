@@ -12,9 +12,6 @@
             <ColumnDefinition Width="70*"/>
             <ColumnDefinition Width="30*"/>
         </Grid.ColumnDefinitions>
-        <!--<ScrollViewer Grid.Column="1">
-            <Canvas x:Name="MapCanvas" Grid.Column="1"/>
-        </ScrollViewer>-->
         <Border Grid.Column="0">
             <Canvas x:Name="MapCanvas"/>
         </Border>
