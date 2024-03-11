@@ -1,5 +1,4 @@
-﻿
-namespace Mekkdonalds;
+﻿namespace Mekkdonalds;
 
 /// <summary>
 /// Interaction logic for App.xaml
@@ -35,7 +34,7 @@ public partial class App : Application
 
         _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_simWindow.MapCanvas)); // UI elemts have to be updated with this call when it is called from another thread
 
-        _simWindow.SizeChanged += (_, _) => { Calculate(); Redraw(_simWindow.MapCanvas); };
+        _simWindow.SizeChanged += (_, _) => { Calculate(_simWindow.MapCanvas.ActualWidth, _simWindow.MapCanvas.ActualHeight); Redraw(_simWindow.MapCanvas); };
 
         foreach (var r in _viewModel.Robots)
         {
@@ -43,27 +42,27 @@ public partial class App : Application
         }
 
         _simWindow.Show();
-        Calculate();
+        Calculate(_simWindow.MapCanvas.ActualWidth, _simWindow.MapCanvas.ActualHeight);
         Redraw(_simWindow.MapCanvas);
     }
 
-    private void Calculate()
+    private void Calculate(double width, double height)
     {
         var (w, h) = _viewModel!.Size;
 
         if (w > h)
         {
-            XLength = c.ActualWidth - 2 * MARGIN;
+            XLength = width - 2 * MARGIN;
             YLength = XLength * h / w;
         }
         else if (w < h)
         {
-            YLength = c.ActualHeight - 2 * MARGIN;
+            YLength = height - 2 * MARGIN;
             XLength = YLength * w / h;
         }
         else
         {
-            XLength = YLength = Math.Min(c.ActualHeight, c.ActualWidth) - 2 * MARGIN;
+            XLength = YLength = Math.Min(height, width) - 2 * MARGIN;
         }
 
         XStep = (XLength - MARGIN) / _viewModel!.Size.W;
