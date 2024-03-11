@@ -32,9 +32,9 @@ public partial class App : Application
             DataContext = _viewModel
         };
 
-        _viewModel.Tick += (_, _) => Redraw(_simWindow.MapCanvas);
+        _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_simWindow.MapCanvas)); // UI elemts have to be updated with this call when it is called from another thread
 
-        _simWindow.SizeChanged += (_, _) => Redraw(_simWindow.MapCanvas);
+        _simWindow.SizeChanged += (_, _) => { Calculate(_simWindow.MapCanvas.ActualWidth, _simWindow.MapCanvas.ActualHeight); Redraw(_simWindow.MapCanvas); };
 
         foreach (var r in _viewModel.Robots)
         {
@@ -42,7 +42,31 @@ public partial class App : Application
         }
 
         _simWindow.Show();
+        Calculate(_simWindow.MapCanvas.ActualWidth, _simWindow.MapCanvas.ActualHeight);
         Redraw(_simWindow.MapCanvas);
+    }
+
+    private void Calculate(double width, double height)
+    {
+        var (w, h) = _viewModel!.Size;
+
+        if (w > h)
+        {
+            XLength = width - 2 * MARGIN;
+            YLength = XLength * h / w;
+        }
+        else if (w < h)
+        {
+            YLength = height - 2 * MARGIN;
+            XLength = YLength * w / h;
+        }
+        else
+        {
+            XLength = YLength = Math.Min(height, width) - 2 * MARGIN;
+        }
+
+        XStep = (XLength - MARGIN) / _viewModel!.Size.W;
+        YStep = (YLength - MARGIN) / _viewModel!.Size.H;
     }
 
     /// <summary>
@@ -51,27 +75,6 @@ public partial class App : Application
     /// <param name="c">The currently open window's canvas</param>
     private void Redraw(Canvas c)
     {
-        // Recalculate these only when size changed
-        var (w, h) = _viewModel!.Size;
-
-        if (w > h)
-        {
-            XLength = c.ActualWidth - 2 * MARGIN;
-            YLength = XLength * h / w;
-        }
-        else if (w < h)
-        {
-            YLength = c.ActualHeight - 2 * MARGIN;
-            XLength = YLength * w / h;
-        }
-        else
-        {
-            XLength = YLength = Math.Min(c.ActualHeight, c.ActualWidth) - 2 * MARGIN;
-        }
-
-        XStep = (XLength - MARGIN) / _viewModel!.Size.W;
-        YStep = (YLength - MARGIN) / _viewModel!.Size.H;
-
         c.Children.Clear();
 
         //DrawFrame(c);
@@ -165,8 +168,7 @@ public partial class App : Application
     }
 
     private void DrawRobots(Canvas c)
-    {
-        // TODO: creating a local copy of the list might solve the locking problem (we might have to use a ReadWriteLock) problem
+    {        
         foreach (var r in _viewModel!.Robots)
         {
             Thickness t;
