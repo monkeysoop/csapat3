@@ -1,4 +1,4 @@
-﻿#define NO_BORDER_CHEC
+﻿#define BORDER_CHECK
 using System.Drawing;
 
 
@@ -10,10 +10,20 @@ namespace MekkdonaldsModel.Persistence
         public const int WALL = 1;
         public const int SEARCHED = 2;
         public const int OPEN = 3;
+
         private int[] data;
 
-        public int height { get; private set; }
-        public int width { get; private set; }
+        public int height { get; init; }
+        public int width { get; init; }
+
+
+
+        public Board2(int height, int width)
+        {
+            this.data = new int[height * width];
+            this.height = height;
+            this.width = width;
+        }
 
         public Board2(int[] data, int height, int width)
         {
@@ -41,6 +51,8 @@ namespace MekkdonaldsModel.Persistence
             this.width = width;
         }
 
+
+
         public void SetSearched(Point position)
         {
 #if NO_BORDER_CHECK
@@ -56,6 +68,9 @@ namespace MekkdonaldsModel.Persistence
                 data[position.Y * width + position.X] = SEARCHED;
             }
         }
+
+
+
         public bool SetOpenIfEmpty(Point position)
         {
 #if NO_BORDER_CHECK
@@ -75,6 +90,8 @@ namespace MekkdonaldsModel.Persistence
             return t;
         }
 
+
+
         public bool SetSearchedIfEmpty(Point position)
         {
 #if NO_BORDER_CHECK
@@ -93,6 +110,5 @@ namespace MekkdonaldsModel.Persistence
 
             return t;
         }
-
     }
 }
