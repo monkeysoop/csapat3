@@ -1,7 +1,4 @@
-﻿using System.Drawing;
-using System.Numerics;
-
-namespace Mekkdonalds.Simulation.Controller;
+﻿namespace Mekkdonalds.Simulation.Controller;
 
 internal abstract class SimulationController : Controller
 {
@@ -14,7 +11,7 @@ internal abstract class SimulationController : Controller
     }
 
     protected abstract Task CalculatePath(Robot robot);
-    
+
     protected override void OnTick(object? state)
     {
         throw new NotImplementedException();
