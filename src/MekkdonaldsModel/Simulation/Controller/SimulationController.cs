@@ -25,8 +25,20 @@ internal abstract class SimulationController : Controller
         return Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y);
     }
 
-    protected int DotProduct(Point first, Point second)
+    protected int MaxTurnsRequired(Point position, Point direction, Point end)
     {
-        return first.X * second.X + first.Y * second.Y;
+        int diff_x = end.X - position.X;
+        int diff_y = end.Y - position.Y;
+        int dot_product = diff_x * direction.X + diff_y * direction.Y;
+
+        if (dot_product < 0)
+        {
+            return 2;
+        } else if (dot_product * dot_product != diff_x * diff_x + diff_y * diff_y)
+        {
+            return 1;
+        } else { 
+            return 0; 
+        }
     }
 }
