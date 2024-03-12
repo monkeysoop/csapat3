@@ -6,11 +6,11 @@ internal class ReplayViewModel : ViewModel
 {
     private readonly ReplayController Controller;
 
-    public ReplayViewModel()
+    public ReplayViewModel(string logPath)
     {
         Size = (20, 40);
 
-        Controller = new ReplayController();
+        Controller = new ReplayController(logPath);
 
         _walls.AddRange(Controller.Walls);
         _robots.AddRange(Controller.Robots);

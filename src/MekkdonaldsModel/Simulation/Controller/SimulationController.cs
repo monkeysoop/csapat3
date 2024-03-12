@@ -8,12 +8,12 @@ public abstract class SimulationController : Controller
         new(0, 1),
         new(-1, 0)
     ];
-    private static readonly string[] turns = {"FR", "FRR", "FL", "F", "FR", "FRR", "FL"}; // RR could be replaced with LL (this is just turning 180)
+    private static readonly string[] turns = ["FR", "FRR", "FL", "F", "FR", "FRR", "FL"]; // RR could be replaced with LL (this is just turning 180)
 
     public int Cost { get; protected set; } // Apperently 32bit value types are atomic in c# by default
     private TimeSpan Elapsed;
 
-    protected SimulationController(double interval) : base()
+    protected SimulationController(double interval, string path) : base()
     {
         var tasks = new List<Task>();
 
