@@ -2,7 +2,8 @@
 
 namespace MekkdonaldsModel.Persistence;
 
-internal class Board2
+// Has to be public otherwise can't be used in Controller class
+public class Board2
 {
     #region Constants
     public const int EMPTY = 0;
