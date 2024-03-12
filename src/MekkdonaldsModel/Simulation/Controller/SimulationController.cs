@@ -71,30 +71,22 @@ public abstract class SimulationController : Controller
     protected static void TracePath(int[] parents_board, int board_width, Point start, int start_direction, Point end)
     {
         string path = "";
-
-
+        
         Point current_position = end;
-        int current_direction = (parents_board[current_position.Y * board_width + current_position.X] + 2) % 4;
-
+        int current_direction = (parents_board[end.Y * board_width + end.X] + 2) % 4;
         while (ComparePoints(current_position, start))
         {
-            Point next_offset = nexts_offsets[current_direction];
+            int next_direction = parents_board[current_position.Y * board_width + current_position.X];
+            int diff = next_direction - current_direction + 3;
 
-            Point next_position = new(current_position.X + next_offset.X,
-                                      current_position.Y + next_offset.Y);
-
-            int next_direction = (parents_board[next_position.Y * board_width + next_position.X] + 2) % 4;
-
-            int diff = current_direction - next_direction + 3;
             path += turns[diff];
 
-            current_position = next_position;
+            Point next_offset = nexts_offsets[next_direction];
+            current_position = new(current_position.X + next_offset.X,
+                                   current_position.Y + next_offset.Y);
+
             current_direction = next_direction;
         }
-
-
-        int diff_to_start = current_direction - start_direction + 3;
-        path += turns[diff_to_start];
 
     }
 }

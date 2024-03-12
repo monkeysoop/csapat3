@@ -1,4 +1,11 @@
-﻿namespace Mekkdonalds.Simulation.Controller;
+﻿using Mekkdonalds.Persistence;
+using MekkdonaldsModel.Persistence;
+using System.Drawing;
+using MekkdonaldsModel.Simulation;
+using System.Numerics;
+
+
+namespace Mekkdonalds.Simulation.Controller;
 
 
 internal sealed class AstarController(double interval) : SimulationController(interval)
@@ -95,8 +102,7 @@ internal sealed class AstarController(double interval) : SimulationController(in
             if (ComparePoints(current_step.position, end))
             {
                 found = true;
-            }
-            else
+            } else
             {
                 int forward_direction = current_step.direction;
                 int left_direction = (current_step.direction + 3) % 4;
