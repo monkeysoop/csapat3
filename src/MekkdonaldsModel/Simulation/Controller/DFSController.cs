@@ -39,11 +39,11 @@ public sealed class DFSController(double interval) : SimulationController(interv
                     Point right_offset = nexts_offsets[right_direction];
 
                     Point forward_next_position = new(current_step.position.X + forward_offset.X,
-                                                            current_step.position.Y + forward_offset.Y);
+                                                      current_step.position.Y + forward_offset.Y);
                     Point left_next_position = new(current_step.position.X + left_offset.X,
-                                                            current_step.position.Y + left_offset.Y);
+                                                   current_step.position.Y + left_offset.Y);
                     Point right_next_position = new(current_step.position.X + right_offset.X,
-                                                            current_step.position.Y + right_offset.Y);
+                                                    current_step.position.Y + right_offset.Y);
 
                     int heuristic1 = MaxTurnsRequired(forward_next_position, forward_offset, end) + ManhattenDistance(forward_next_position, end);
                     int heuristic2 = MaxTurnsRequired(left_next_position, left_offset, end) + ManhattenDistance(left_next_position, end) + 1;

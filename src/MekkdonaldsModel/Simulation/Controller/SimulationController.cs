@@ -2,6 +2,14 @@
 
 public abstract class SimulationController : Controller
 {
+    protected static readonly Point[] nexts_offsets = [
+        new(0, -1),
+        new(1, 0),
+        new(0, 1),
+        new(-1, 0)
+    ];
+    private static readonly string[] turns = {"FR", "FRR", "FL", "F", "FR", "FRR", "FL"}; // RR could be replaced with LL (this is just turning 180)
+
     public int Cost { get; protected set; } // Apperently 32bit value types are atomic in c# by default
     private TimeSpan Elapsed;
 
@@ -29,12 +37,6 @@ public abstract class SimulationController : Controller
         CallTick(this);
     }
 
-    protected static readonly Point[] nexts_offsets = [
-        new(0, -1),
-        new(1, 0),
-        new(0, 1),
-        new(-1, 0)
-    ];
 
     protected static bool ComparePoints(Point first, Point second)
     {
@@ -64,5 +66,27 @@ public abstract class SimulationController : Controller
         {
             return 0;
         }
+    }
+
+    protected static void TracePath(int[] parents_board, int board_width, Point start, int start_direction, Point end)
+    {
+        string path = "";
+        
+        Point current_position = end;
+        int current_direction = (parents_board[end.Y * board_width + end.X] + 2) % 4;
+        while (ComparePoints(current_position, start))
+        {
+            int next_direction = parents_board[current_position.Y * board_width + current_position.X];
+            int diff = next_direction - current_direction + 3;
+
+            path += turns[diff];
+
+            Point next_offset = nexts_offsets[next_direction];
+            current_position = new(current_position.X + next_offset.X,
+                                   current_position.Y + next_offset.Y);
+
+            current_direction = next_direction;
+        }
+
     }
 }
