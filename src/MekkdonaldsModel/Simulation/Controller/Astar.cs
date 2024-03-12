@@ -112,11 +112,11 @@ internal sealed class AstarController(double interval) : SimulationController(in
                 Point right_offset = nexts_offsets[right_direction];
 
                 Point forward_next_position = new(current_step.position.X + forward_offset.X,
-                                                        current_step.position.Y + forward_offset.Y);
+                                                  current_step.position.Y + forward_offset.Y);
                 Point left_next_position = new(current_step.position.X + left_offset.X,
-                                                        current_step.position.Y + left_offset.Y);
+                                               current_step.position.Y + left_offset.Y);
                 Point right_next_position = new(current_step.position.X + right_offset.X,
-                                                        current_step.position.Y + right_offset.Y);
+                                                current_step.position.Y + right_offset.Y);
 
                 int current_cost = costs[current_step.position.Y * board.Width + current_step.position.X];
 
