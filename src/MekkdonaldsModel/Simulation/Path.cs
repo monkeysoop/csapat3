@@ -18,7 +18,7 @@ public class Path
 
     public Action? this[int i]
     {
-        get { return i >= l.Count || i < 0 ? null : l[i]; }
+        get => i >= l.Count || i < 0 ? null : l[i];
     }
 
     internal Action? Next()
