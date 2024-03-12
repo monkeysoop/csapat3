@@ -1,4 +1,7 @@
-﻿namespace Mekkdonalds;
+﻿
+using Microsoft.Win32;
+
+namespace Mekkdonalds;
 
 /// <summary>
 /// Interaction logic for App.xaml
@@ -14,6 +17,8 @@ public partial class App : Application
     private double YStep;
 
     private SimulationWindow? _simWindow;
+    private StartWindow? _startWindow;
+    private ReplayWindow? _replayWindow;
     private ViewModel.ViewModel? _viewModel;
 
     public App()
@@ -23,8 +28,83 @@ public partial class App : Application
 
     private void OnStartup(object sender, StartupEventArgs e)
     {
-        _viewModel = new SimulationViewModel();
+        _startWindow = new StartWindow();
 
+        _startWindow.Show();
+
+        _startWindow.SimButton.Click += SimButton_Click;
+        _startWindow.ReplayButton.Click += ReplayButton_Click;
+    }
+
+    private void ReplayButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (!OpenReplay()) return;
+        Current.MainWindow = _replayWindow;
+        DisposeStartWindow();
+    }
+
+    private void SimButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (!OpenSim()) return;
+        Current.MainWindow = _simWindow;
+        DisposeStartWindow();
+    }
+
+    private void DisposeStartWindow()
+    {
+        _startWindow!.Close(); // can't be null
+        _startWindow.SimButton.Click -= SimButton_Click;
+        _startWindow.ReplayButton.Click -= ReplayButton_Click;
+        _startWindow = null;
+    }
+
+    private bool OpenReplay()
+    {
+        var fd = new OpenFileDialog()
+        {
+            Filter = "Json files (*.json)|*.json",
+            Title = "Log File"
+        };
+
+        if (fd.ShowDialog() is false)
+            return false;
+
+        _viewModel = new ReplayViewModel(fd.FileName);
+
+        _replayWindow = new ReplayWindow
+        {
+            WindowState = WindowState.Maximized,
+            DataContext = _viewModel
+        };
+
+        _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_replayWindow.MapCanvas)); // UI elemts have to be updated with this call when it is called from another thread
+
+        _replayWindow.SizeChanged += (_, _) => { Calculate(_replayWindow.MapCanvas.ActualWidth, _replayWindow.MapCanvas.ActualHeight); Redraw(_replayWindow.MapCanvas); };
+
+        foreach (var r in _viewModel.Robots)
+        {
+            r.Assign(r.Position.X + 3, r.Position.Y + 4);
+        }
+
+        _replayWindow.Show();
+
+        Calculate(_replayWindow.MapCanvas.ActualWidth, _replayWindow.MapCanvas.ActualHeight);
+        Redraw(_replayWindow.MapCanvas);
+
+        return true;
+    }
+
+    private bool OpenSim()
+    {
+        var fd = new OpenFileDialog()
+        {
+            Filter = "Json file (*.json)|(*.json)",
+            Title = "Config file"
+        };
+
+        if (fd.ShowDialog() is false) return false;       
+
+        _viewModel = new SimulationViewModel(fd.FileName);
 
         _simWindow = new SimulationWindow
         {
@@ -42,8 +122,11 @@ public partial class App : Application
         }
 
         _simWindow.Show();
+
         Calculate(_simWindow.MapCanvas.ActualWidth, _simWindow.MapCanvas.ActualHeight);
         Redraw(_simWindow.MapCanvas);
+
+        return true;
     }
 
     private void Calculate(double width, double height)

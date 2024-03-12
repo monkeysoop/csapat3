@@ -2,15 +2,15 @@
 
 namespace Mekkdonalds.ViewModel;
 
-internal class SimulationViewModel : ViewModel
+internal class ReplayViewModel : ViewModel
 {
-    private readonly SimulationController Controller;
+    private readonly ReplayController Controller;
 
-    public SimulationViewModel(string path) : base()
+    public ReplayViewModel(string logPath)
     {
         Size = (20, 40);
 
-        Controller = new DFSController(path);
+        Controller = new ReplayController(logPath);
 
         _walls.AddRange(Controller.Walls);
         _robots.AddRange(Controller.Robots);

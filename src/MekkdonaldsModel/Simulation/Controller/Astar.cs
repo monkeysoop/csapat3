@@ -1,14 +1,6 @@
-﻿using Mekkdonalds.Persistence;
-using MekkdonaldsModel.Persistence;
-using System.Drawing;
-using MekkdonaldsModel.Simulation;
-using System.Numerics;
+﻿namespace Mekkdonalds.Simulation.Controller;
 
-
-namespace Mekkdonalds.Simulation.Controller;
-
-
-internal sealed class AstarController(double interval) : SimulationController(interval)
+internal sealed class AstarController(double interval, string path) : SimulationController(interval, path)
 {
     //private const int UP_DIR = 0;
     //private const int RIGHT_DIR = 1;
@@ -19,7 +11,7 @@ internal sealed class AstarController(double interval) : SimulationController(in
     private const int COST_BIAS = 1;
     private const int HEURISTIC_BIAS = 1;
 
-    public AstarController() : this(1) { }
+    public AstarController(string path) : this(1, path) { }
 
     private static void HeapInsert(Step[] heap, int length, Step item)
     {

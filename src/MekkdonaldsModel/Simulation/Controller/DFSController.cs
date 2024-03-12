@@ -1,8 +1,8 @@
 ﻿namespace Mekkdonalds.Simulation.Controller;
 
-public sealed class DFSController(double interval) : SimulationController(interval)
+public sealed class DFSController(double interval, string path) : SimulationController(interval, path)
 {
-    public DFSController() : this(1) { }
+    public DFSController(string path) : this(1, path) { }
 
     private bool DFSPathFinder(Point start, int start_direction, Point end)
     {
