@@ -37,28 +37,16 @@ internal class Board2
     public Board2(int[,] data, int height, int width)
     {
         Data = new int[height * width];
-        for (int y = 0; y < height; y++)
+        for (int y = 0; y < height; y++) 
         {
             for (int x = 0; x < width; x++)
             {
-                this[x, y] = data[y, x];
+                Data[y * width + x] = data[y, x]; 
             }
         }
 
         Height = height;
         Width = width;
-    }
-
-    public int this[int x, int y]
-    {
-        get { return Data[y * Width + x]; }
-        set { Data[y * Width + x] = value; }
-    }
-
-    public int this[Point p]
-    {
-        get { return Data[p.Y * Width + p.X]; }
-        set { Data[p.Y * Width + p.X] = value; }
     }
 
     public void SetSearched(Point position)
@@ -73,24 +61,24 @@ internal class Board2
 #endif
         if (t)
         {
-            this[position] = SEARCHED;
+            Data[position.Y * Width + position.X] = SEARCHED;
         }
     }
 
     public bool SetOpenIfEmpty(Point position)
     {
 #if NO_BORDER_CHECK
-        bool t = this[position] == EMPTY;
+        bool t = data[position.Y * width + position.X] == EMPTY;
 #else
         bool t = position.X >= 0 &&
                  position.X < Width &&
                  position.Y >= 0 &&
                  position.Y < Height &&
-                 this[position] == EMPTY;
+                 Data[position.Y * Width + position.X] == EMPTY;
 #endif
         if (t)
         {
-            this[position] = OPEN;
+            Data[position.Y * Width + position.X] = OPEN;
         }
 
         return t;
@@ -99,17 +87,17 @@ internal class Board2
     public bool SetSearchedIfEmpty(Point position)
     {
 #if NO_BORDER_CHECK
-        bool t = this[position] == EMPTY;
+        bool t = data[position.Y * width + position.X] == EMPTY;
 #else
         bool t = position.X >= 0 &&
                  position.X < Width &&
                  position.Y >= 0 &&
                  position.Y < Height &&
-                 this[position] == EMPTY;
+                 Data[position.Y * Width + position.X] == EMPTY;
 #endif
         if (t)
         {
-            this[position] = SEARCHED;
+            Data[position.Y * Width + position.X] = SEARCHED;
         }
 
         return t;

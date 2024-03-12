@@ -1,4 +1,6 @@
-﻿namespace MekkdonaldsModel.Simulation
+﻿using System.Drawing;
+
+namespace MekkdonaldsModel.Simulation
 {
     internal readonly struct Step
     {
