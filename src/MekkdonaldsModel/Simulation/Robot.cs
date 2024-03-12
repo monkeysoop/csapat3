@@ -2,14 +2,6 @@
 
 public sealed class Robot : IMapObject
 {
-    private static readonly Dictionary<Direction, (int xd, int yd)> DirectionPoints = new()
-    {
-        { Direction.East, (1, 0) },
-        { Direction.West, (-1, 0) },
-        { Direction.North, (0, -1) },
-        { Direction.South, (0, 1) }
-    };
-
     private readonly List<Action> _history;
 
     public int ID { get; }
@@ -58,19 +50,12 @@ public sealed class Robot : IMapObject
         switch (t)
         {
             case Action.F:
-                var (xd, yd) = DirectionPoints[Direction];
-
-                var p = new Point(Position.X + xd, Position.Y + yd);
-
-                Position = p;
                 break;
             case Action.W:
                 break;
             case Action.R:
-                Direction = Direction.ClockWise();
                 break;
             case Action.C:
-                Direction = Direction.CounterClockWise();
                 break;
             case Action.T: // I don't quite understand when this is supposed to occur but sure...
                 break;
