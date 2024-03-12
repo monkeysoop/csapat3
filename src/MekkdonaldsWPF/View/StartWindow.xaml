@@ -11,7 +11,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="ReplayButton" Grid.Column="0" Width="250" Height="70" HorizontalAlignment="Center" VerticalAlignment="Center">Open Replay</Button>
-        <Button x:Name="SimButton"    Grid.Column="1" Width="250" Height="70" HorizontalAlignment="Center" VerticalAlignment="Center">Open Simulation</Button>
+        <Button x:Name="ReplayButton" Grid.Column="0" Width="250" Height="70" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16">Open Replay</Button>
+        <Button x:Name="SimButton"    Grid.Column="1" Width="250" Height="70" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16">Open Simulation</Button>
     </Grid>
 </Window>
