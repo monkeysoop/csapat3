@@ -41,7 +41,7 @@ internal class Board2
         {
             for (int x = 0; x < width; x++)
             {
-                Data[y * width + x] = data[y, x];
+                this[x, y] = data[y, x];
             }
         }
 
@@ -53,6 +53,12 @@ internal class Board2
     {
         get { return Data[y * Width + x]; }
         set { Data[y * Width + x] = value; }
+    }
+
+    public int this[Point p]
+    {
+        get { return Data[p.Y * Width + p.X]; }
+        set { Data[p.Y * Width + p.X] = value; }
     }
 
     public void SetSearched(Point position)
@@ -67,24 +73,24 @@ internal class Board2
 #endif
         if (t)
         {
-            Data[position.Y * Width + position.X] = SEARCHED;
+            this[position] = SEARCHED;
         }
     }
 
     public bool SetOpenIfEmpty(Point position)
     {
 #if NO_BORDER_CHECK
-        bool t = data[position.Y * width + position.X] == EMPTY;
+        bool t = this[position] == EMPTY;
 #else
         bool t = position.X >= 0 &&
                  position.X < Width &&
                  position.Y >= 0 &&
                  position.Y < Height &&
-                 Data[position.Y * Width + position.X] == EMPTY;
+                 this[position] == EMPTY;
 #endif
         if (t)
         {
-            Data[position.Y * Width + position.X] = OPEN;
+            this[position] = OPEN;
         }
 
         return t;
@@ -93,17 +99,17 @@ internal class Board2
     public bool SetSearchedIfEmpty(Point position)
     {
 #if NO_BORDER_CHECK
-        bool t = data[position.Y * width + position.X] == EMPTY;
+        bool t = this[position] == EMPTY;
 #else
         bool t = position.X >= 0 &&
                  position.X < Width &&
                  position.Y >= 0 &&
                  position.Y < Height &&
-                 Data[position.Y * Width + position.X] == EMPTY;
+                 this[position] == EMPTY;
 #endif
         if (t)
         {
-            Data[position.Y * Width + position.X] = SEARCHED;
+            this[position] = SEARCHED;
         }
 
         return t;
