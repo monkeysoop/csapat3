@@ -37,16 +37,22 @@ internal class Board2
     public Board2(int[,] data, int height, int width)
     {
         Data = new int[height * width];
-        for (int y = 0; y < height; y++) 
+        for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
-                Data[y * width + x] = data[y, x]; 
+                Data[y * width + x] = data[y, x];
             }
         }
 
         Height = height;
         Width = width;
+    }
+
+    public int this[int x, int y]
+    {
+        get { return Data[y * Width + x]; }
+        set { Data[y * Width + x] = value; }
     }
 
     public void SetSearched(Point position)
