@@ -67,8 +67,10 @@ public sealed class Robot : IMapObject
             case Action.W:
                 break;
             case Action.R:
+                Direction = Direction.ClockWise();
                 break;
             case Action.C:
+                Direction = Direction.CounterClockWise();
                 break;
             case Action.T: // I don't quite understand when this is supposed to occur but sure...
                 break;
