@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.Win32;
+
 namespace Mekkdonalds;
 
 /// <summary>
@@ -36,14 +38,14 @@ public partial class App : Application
 
     private void ReplayButton_Click(object sender, RoutedEventArgs e)
     {
-        OpenReplay();
+        if (!OpenReplay()) return;
         Current.MainWindow = _replayWindow;
         DisposeStartWindow();
     }
 
     private void SimButton_Click(object sender, RoutedEventArgs e)
     {
-        OpenSim();
+        if (!OpenSim()) return;
         Current.MainWindow = _simWindow;
         DisposeStartWindow();
     }
@@ -56,9 +58,18 @@ public partial class App : Application
         _startWindow = null;
     }
 
-    private void OpenReplay()
+    private bool OpenReplay()
     {
-        _viewModel = new ReplayViewModel();
+        var fd = new OpenFileDialog()
+        {
+            Filter = "Json files (*.json)|*.json",
+            Title = "Log File"
+        };
+
+        if (fd.ShowDialog() is false)
+            return false;
+
+        _viewModel = new ReplayViewModel(fd.FileName);
 
         _replayWindow = new ReplayWindow
         {
@@ -79,12 +90,21 @@ public partial class App : Application
 
         Calculate(_replayWindow.MapCanvas.ActualWidth, _replayWindow.MapCanvas.ActualHeight);
         Redraw(_replayWindow.MapCanvas);
+
+        return true;
     }
 
-    private void OpenSim()
+    private bool OpenSim()
     {
-        _viewModel = new SimulationViewModel();
+        var fd = new OpenFileDialog()
+        {
+            Filter = "Json file (*.json)|(*.json)",
+            Title = "Config file"
+        };
 
+        if (fd.ShowDialog() is false) return false;       
+
+        _viewModel = new SimulationViewModel(fd.FileName);
 
         _simWindow = new SimulationWindow
         {
@@ -105,6 +125,8 @@ public partial class App : Application
 
         Calculate(_simWindow.MapCanvas.ActualWidth, _simWindow.MapCanvas.ActualHeight);
         Redraw(_simWindow.MapCanvas);
+
+        return true;
     }
 
     private void Calculate(double width, double height)
