@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Mekkdonalds.Simulation;
+﻿namespace Mekkdonalds.Simulation;
 
 public sealed class Robot : IMapObject
 {
@@ -47,7 +45,7 @@ public sealed class Robot : IMapObject
         Task = new Package(x, y);
     }
 
-    internal void Step(Action t)
+    internal void Step(Action? t)
     {
         switch (t)
         {
@@ -61,10 +59,12 @@ public sealed class Robot : IMapObject
                 break;
             case Action.T: // I don't quite understand when this is supposed to occur but sure...
                 break;
+            case null:
+                break;
             default:
                 throw new Exception();
         }
 
-        _history.Add(t);
+        if (t is not null) _history.Add(t.Value);
     }
 }

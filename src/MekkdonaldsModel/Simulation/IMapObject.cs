@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Mekkdonalds.Simulation;
+﻿namespace Mekkdonalds.Simulation;
 
 internal interface IMapObject
 {

@@ -13,7 +13,7 @@ public partial class App : Application
     private double XStep;
     private double YStep;
 
-    private SimulationWindow? _mainWindow;
+    private SimulationWindow? _simWindow;
     private ViewModel.ViewModel? _viewModel;
 
     public App()
@@ -23,22 +23,50 @@ public partial class App : Application
 
     private void OnStartup(object sender, StartupEventArgs e)
     {
-        _mainWindow = new SimulationWindow
+        _viewModel = new SimulationViewModel();
+
+
+        _simWindow = new SimulationWindow
         {
-            WindowState = WindowState.Maximized
+            WindowState = WindowState.Maximized,
+            DataContext = _viewModel
         };
 
-        _mainWindow.SizeChanged += (_, _) => Redraw(_mainWindow.MapCanvas);
+        _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_simWindow.MapCanvas)); // UI elemts have to be updated with this call when it is called from another thread
 
-        _viewModel = new SimulationViewModel();
+        _simWindow.SizeChanged += (_, _) => { Calculate(_simWindow.MapCanvas.ActualWidth, _simWindow.MapCanvas.ActualHeight); Redraw(_simWindow.MapCanvas); };
 
         foreach (var r in _viewModel.Robots)
         {
             r.Assign(r.Position.X + 3, r.Position.Y + 4);
         }
 
-        _mainWindow.Show();
-        Redraw(_mainWindow.MapCanvas);
+        _simWindow.Show();
+        Calculate(_simWindow.MapCanvas.ActualWidth, _simWindow.MapCanvas.ActualHeight);
+        Redraw(_simWindow.MapCanvas);
+    }
+
+    private void Calculate(double width, double height)
+    {
+        var (w, h) = _viewModel!.Size;
+
+        if (w > h)
+        {
+            XLength = width - 2 * MARGIN;
+            YLength = XLength * h / w;
+        }
+        else if (w < h)
+        {
+            YLength = height - 2 * MARGIN;
+            XLength = YLength * w / h;
+        }
+        else
+        {
+            XLength = YLength = Math.Min(height, width) - 2 * MARGIN;
+        }
+
+        XStep = (XLength - MARGIN) / _viewModel!.Size.W;
+        YStep = (YLength - MARGIN) / _viewModel!.Size.H;
     }
 
     /// <summary>
@@ -47,26 +75,6 @@ public partial class App : Application
     /// <param name="c">The currently open window's canvas</param>
     private void Redraw(Canvas c)
     {
-        var (w, h) = _viewModel!.Size;
-
-        if (w > h)
-        {
-            XLength = c.ActualWidth - 2 * MARGIN;
-            YLength = XLength * h / w;
-        }
-        else if (w < h)
-        {
-            YLength = c.ActualHeight - 2 * MARGIN;
-            XLength = YLength * w / h;
-        }
-        else
-        {
-            XLength = YLength = Math.Min(c.ActualHeight, c.ActualWidth) - 2 * MARGIN;
-        }
-
-        XStep = (XLength - MARGIN) / _viewModel!.Size.W;
-        YStep = (YLength - MARGIN) / _viewModel!.Size.H;
-
         c.Children.Clear();
 
         //DrawFrame(c);
@@ -130,7 +138,6 @@ public partial class App : Application
         l.ForEach(x => c.Children.Add(x));
     }
 
-
     private void DrawGrid(Canvas c)
     {
         for (var i = 0; i <= _viewModel!.Size.W; i++)
@@ -161,7 +168,7 @@ public partial class App : Application
     }
 
     private void DrawRobots(Canvas c)
-    {
+    {        
         foreach (var r in _viewModel!.Robots)
         {
             Thickness t;
