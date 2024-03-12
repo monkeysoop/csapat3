@@ -1,11 +1,4 @@
-﻿using Mekkdonalds.Persistence;
-using MekkdonaldsModel.Persistence;
-using System.Drawing;
-using MekkdonaldsModel.Simulation;
-using System.Numerics;
-
-
-namespace Mekkdonalds.Simulation.Controller;
+﻿namespace Mekkdonalds.Simulation.Controller;
 
 
 internal sealed class AstarController(double interval) : SimulationController(interval)
@@ -101,7 +94,8 @@ internal sealed class AstarController(double interval) : SimulationController(in
             if (ComparePoints(current_step.position, end))
             {
                 found = true;
-            } else
+            }
+            else
             {
                 int forward_direction = current_step.direction;
                 int left_direction = (current_step.direction + 3) % 4;
@@ -143,7 +137,8 @@ internal sealed class AstarController(double interval) : SimulationController(in
                     parents[forward_next_position.Y * board.Width + forward_next_position.X] = forward_direction;
                     HeapInsert(heap, heap_length, new Step(forward_next_position, forward_direction, forward_heuristic));
                     heap_length++;
-                } else if (forward_cost < costs[forward_next_position.Y * board.Width + forward_next_position.X])
+                }
+                else if (forward_cost < costs[forward_next_position.Y * board.Width + forward_next_position.X])
                 {
                     costs[forward_next_position.Y * board.Width + forward_next_position.X] = forward_cost;
                     parents[forward_next_position.Y * board.Width + forward_next_position.X] = forward_direction;
