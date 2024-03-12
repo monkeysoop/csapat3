@@ -4,9 +4,9 @@ internal sealed class BFSController(double interval) : SimulationController(inte
 {
     public BFSController() : this(1) { }
 
-    static private bool BFSPathFinder(Board2 board, Point start, int start_direction, Point end)
+    private bool BFSPathFinder(Point start, int start_direction, Point end)
     {
-        Step[] queue = new Step[5 * board.Height * board.Width];
+        Step[] queue = new Step[5 * _board.Height * _board.Width];
 
 
         queue[0] = new Step(start, start_direction, 0);
@@ -14,7 +14,7 @@ internal sealed class BFSController(double interval) : SimulationController(inte
         int end_index = 1;
 
 
-        int[] parents = new int[board.Height * board.Width]; // all items are automatically set to 0
+        int[] parents = new int[_board.Height * _board.Width]; // all items are automatically set to 0
 
 
         bool found = false;
@@ -44,28 +44,29 @@ internal sealed class BFSController(double interval) : SimulationController(inte
                 Point right_next_position = new(current_step.position.X + right_offset.X,
                                                 current_step.position.Y + right_offset.Y);
 
-                if (board.SetSearchedIfEmpty(forward_next_position))
+                if (_board.SetSearchedIfEmpty(forward_next_position))
                 {
                     queue[end_index] = new Step(forward_next_position, forward_direction, 0);
                     end_index++;
-                    parents[forward_next_position.Y * board.Width + forward_next_position.X] = forward_direction;
+                    parents[forward_next_position.Y * _board.Width + forward_next_position.X] = forward_direction;
                 }
-                if (board.SetSearchedIfEmpty(left_next_position))
+                if (_board.SetSearchedIfEmpty(left_next_position))
                 {
                     queue[end_index] = new Step(left_next_position, left_direction, 0);
                     end_index++;
-                    parents[left_next_position.Y * board.Width + left_next_position.X] = left_direction;
+                    parents[left_next_position.Y * _board.Width + left_next_position.X] = left_direction;
                 }
-                if (board.SetSearchedIfEmpty(right_next_position))
+                if (_board.SetSearchedIfEmpty(right_next_position))
                 {
                     queue[end_index] = new Step(right_next_position, right_direction, 0);
                     end_index++;
-                    parents[right_next_position.Y * board.Width + right_next_position.X] = right_direction;
+                    parents[right_next_position.Y * _board.Width + right_next_position.X] = right_direction;
                 }
             }
         }
         return found;
     }
+    
     protected override Task CalculatePath(Robot robot)
     {
         throw new NotImplementedException();

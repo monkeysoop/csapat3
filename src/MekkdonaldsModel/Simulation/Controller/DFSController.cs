@@ -4,17 +4,17 @@ public sealed class DFSController(double interval) : SimulationController(interv
 {
     public DFSController() : this(1) { }
 
-    static private bool DFSPathFinder(Board2 board, Point start, int start_direction, Point end)
+    private bool DFSPathFinder(Point start, int start_direction, Point end)
     {
         // this depth first search uses heuristics to hopefully find a correct path quicker
-        Step[] stack = new Step[5 * board.Height * board.Width];
+        Step[] stack = new Step[5 * _board.Height * _board.Width];
 
 
         stack[0] = new Step(start, start_direction, 0);
         int stack_index = 1;
 
 
-        int[] parents = new int[board.Height * board.Width]; // all items are automatically set to 0
+        int[] parents = new int[_board.Height * _board.Width]; // all items are automatically set to 0
 
 
         bool found = false;
@@ -22,9 +22,9 @@ public sealed class DFSController(double interval) : SimulationController(interv
         {
             stack_index--;
             Step current_step = stack[stack_index];
-            if (board.SetSearchedIfEmpty(current_step.position))
+            if (_board.SetSearchedIfEmpty(current_step.position))
             {
-                parents[current_step.position.Y * board.Width + current_step.position.X] = current_step.direction;
+                parents[current_step.position.Y * _board.Width + current_step.position.X] = current_step.direction;
                 if (ComparePoints(current_step.position, end))
                 {
                     found = true;
@@ -90,6 +90,7 @@ public sealed class DFSController(double interval) : SimulationController(interv
         }
         return found;
     }
+
     protected override Task CalculatePath(Robot robot)
     {
         Paths[robot] = new Path();

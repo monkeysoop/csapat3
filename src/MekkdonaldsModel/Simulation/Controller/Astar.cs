@@ -66,9 +66,10 @@ internal sealed class AstarController(double interval) : SimulationController(in
 
         return min_item;
     }
-    private static bool AstarPathFinder(Board2 board, Point start, int start_direction, Point end)
+
+    private bool AstarPathFinder(Point start, int start_direction, Point end)
     {
-        Step[] heap = new Step[5 * board.Height * board.Width];
+        Step[] heap = new Step[5 * _board.Height * _board.Width];
 
 
         int heap_length = 0;
@@ -76,8 +77,8 @@ internal sealed class AstarController(double interval) : SimulationController(in
         heap_length++;
 
 
-        int[] costs = new int[board.Height * board.Width]; // all items are automatically set to 0
-        int[] parents = new int[board.Height * board.Width]; // all items are automatically set to 0
+        int[] costs = new int[_board.Height * _board.Width]; // all items are automatically set to 0
+        int[] parents = new int[_board.Height * _board.Width]; // all items are automatically set to 0
         //for (int i = 0; i < board.height * board.width; i++)
         //{
         //    parents[i] = NO_PARENT;
@@ -89,7 +90,7 @@ internal sealed class AstarController(double interval) : SimulationController(in
         {
             Step current_step = HeapRemoveMin(heap, heap_length);
             heap_length--;
-            board.SetSearched(current_step.position);
+            _board.SetSearched(current_step.position);
 
             if (ComparePoints(current_step.position, end))
             {
@@ -112,7 +113,7 @@ internal sealed class AstarController(double interval) : SimulationController(in
                 Point right_next_position = new(current_step.position.X + right_offset.X,
                                                 current_step.position.Y + right_offset.Y);
 
-                int current_cost = costs[current_step.position.Y * board.Width + current_step.position.X];
+                int current_cost = costs[current_step.position.Y * _board.Width + current_step.position.X];
 
                 int forward_cost = current_cost + 1;
                 int left_cost = current_cost + 2;
@@ -131,50 +132,51 @@ internal sealed class AstarController(double interval) : SimulationController(in
                                       HEURISTIC_BIAS * ManhattenDistance(right_next_position, end);
 
 
-                if (board.SetOpenIfEmpty(forward_next_position))
+                if (_board.SetOpenIfEmpty(forward_next_position))
                 {
-                    costs[forward_next_position.Y * board.Width + forward_next_position.X] = forward_cost;
-                    parents[forward_next_position.Y * board.Width + forward_next_position.X] = forward_direction;
+                    costs[forward_next_position.Y * _board.Width + forward_next_position.X] = forward_cost;
+                    parents[forward_next_position.Y * _board.Width + forward_next_position.X] = forward_direction;
                     HeapInsert(heap, heap_length, new Step(forward_next_position, forward_direction, forward_heuristic));
                     heap_length++;
                 }
-                else if (forward_cost < costs[forward_next_position.Y * board.Width + forward_next_position.X])
+                else if (forward_cost < costs[forward_next_position.Y * _board.Width + forward_next_position.X])
                 {
-                    costs[forward_next_position.Y * board.Width + forward_next_position.X] = forward_cost;
-                    parents[forward_next_position.Y * board.Width + forward_next_position.X] = forward_direction;
+                    costs[forward_next_position.Y * _board.Width + forward_next_position.X] = forward_cost;
+                    parents[forward_next_position.Y * _board.Width + forward_next_position.X] = forward_direction;
                 }
 
 
-                if (board.SetOpenIfEmpty(left_next_position))
+                if (_board.SetOpenIfEmpty(left_next_position))
                 {
-                    costs[left_next_position.Y * board.Width + left_next_position.X] = left_cost;
-                    parents[left_next_position.Y * board.Width + left_next_position.X] = left_direction;
+                    costs[left_next_position.Y * _board.Width + left_next_position.X] = left_cost;
+                    parents[left_next_position.Y * _board.Width + left_next_position.X] = left_direction;
                     HeapInsert(heap, heap_length, new Step(left_next_position, left_direction, left_heuristic));
                     heap_length++;
                 }
-                else if (left_cost < costs[left_next_position.Y * board.Width + left_next_position.X])
+                else if (left_cost < costs[left_next_position.Y * _board.Width + left_next_position.X])
                 {
-                    costs[left_next_position.Y * board.Width + left_next_position.X] = left_cost;
-                    parents[left_next_position.Y * board.Width + left_next_position.X] = left_direction;
+                    costs[left_next_position.Y * _board.Width + left_next_position.X] = left_cost;
+                    parents[left_next_position.Y * _board.Width + left_next_position.X] = left_direction;
                 }
 
 
-                if (board.SetOpenIfEmpty(right_next_position))
+                if (_board.SetOpenIfEmpty(right_next_position))
                 {
-                    costs[right_next_position.Y * board.Width + right_next_position.X] = right_cost;
-                    parents[right_next_position.Y * board.Width + right_next_position.X] = right_direction;
+                    costs[right_next_position.Y * _board.Width + right_next_position.X] = right_cost;
+                    parents[right_next_position.Y * _board.Width + right_next_position.X] = right_direction;
                     HeapInsert(heap, heap_length, new Step(right_next_position, right_direction, right_heuristic));
                     heap_length++;
                 }
-                else if (right_cost < costs[right_next_position.Y * board.Width + right_next_position.X])
+                else if (right_cost < costs[right_next_position.Y * _board.Width + right_next_position.X])
                 {
-                    costs[right_next_position.Y * board.Width + right_next_position.X] = right_cost;
-                    parents[right_next_position.Y * board.Width + right_next_position.X] = right_direction;
+                    costs[right_next_position.Y * _board.Width + right_next_position.X] = right_cost;
+                    parents[right_next_position.Y * _board.Width + right_next_position.X] = right_direction;
                 }
             }
         }
         return found;
     }
+    
     protected override Task CalculatePath(Robot robot)
     {
         throw new NotImplementedException();
