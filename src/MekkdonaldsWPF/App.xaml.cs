@@ -98,7 +98,7 @@ public partial class App : Application
     {
         var fd = new OpenFileDialog()
         {
-            Filter = "Json file (*.json)|(*.json)",
+            Filter = "Json file (*.json)|*.json",
             Title = "Config file"
         };
 
