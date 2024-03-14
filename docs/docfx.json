@@ -9,7 +9,9 @@
           ]
         }
       ],
-      "dest": "api"
+      "dest": "api",
+      "disableDefaultFilter": true,
+      "filter": "filter.yml"
     }
   ],
   "build": {
