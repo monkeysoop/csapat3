@@ -1,0 +1,5 @@
+### YamlMime:ManagedReference
+apiRules:
+- include:
+    uidRegex: ^System\.EventHandler
+    type: Type
