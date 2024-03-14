@@ -1,7 +1,4 @@
-﻿
-using Microsoft.Win32;
-
-namespace Mekkdonalds;
+﻿namespace Mekkdonalds;
 
 /// <summary>
 /// Interaction logic for App.xaml
@@ -50,6 +47,9 @@ public partial class App : Application
         DisposeStartWindow();
     }
 
+    /// <summary>
+    /// Closes the start window
+    /// </summary>
     private void DisposeStartWindow()
     {
         _startWindow!.Close(); // can't be null
@@ -58,6 +58,10 @@ public partial class App : Application
         _startWindow = null;
     }
 
+    /// <summary>
+    /// Opens a replay window
+    /// </summary>
+    /// <returns>Wether to user want's to proceed with opening the window</returns>
     private bool OpenReplay()
     {
         var fd = new OpenFileDialog()
@@ -94,6 +98,10 @@ public partial class App : Application
         return true;
     }
 
+    /// <summary>
+    /// Opens a simulation window
+    /// </summary>
+    /// <returns>Wether to user want's to proceed with opening the window</returns>
     private bool OpenSim()
     {
         var fd = new OpenFileDialog()
@@ -129,6 +137,11 @@ public partial class App : Application
         return true;
     }
 
+    /// <summary>
+    /// Calculates the dimensions required to draw the grid
+    /// </summary>
+    /// <param name="width">Width of the canvas</param>
+    /// <param name="height">Height of the canvas</param>
     private void Calculate(double width, double height)
     {
         var (w, h) = _viewModel!.Size;
@@ -221,6 +234,10 @@ public partial class App : Application
         l.ForEach(x => c.Children.Add(x));
     }
 
+    /// <summary>
+    /// Draws the grid
+    /// </summary>
+    /// <param name="c">The currently open window's canvas</param>
     private void DrawGrid(Canvas c)
     {
         for (var i = 0; i <= _viewModel!.Size.W; i++)
@@ -250,6 +267,10 @@ public partial class App : Application
         }
     }
 
+    /// <summary>
+    /// Draws the robots and their targets (if they have one) to the canvas
+    /// </summary>
+    /// <param name="c">The currently open window's canvas</param>
     private void DrawRobots(Canvas c)
     {        
         foreach (var r in _viewModel!.Robots)
@@ -286,6 +307,10 @@ public partial class App : Application
         }
     }
 
+    /// <summary>
+    /// Draws the walls to the canvas
+    /// </summary>
+    /// <param name="c">The currently open window's canvas</param>
     private void DrawWalls(Canvas c)
     {
         foreach (var w in _viewModel!.Walls)
