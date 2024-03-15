@@ -22,7 +22,9 @@
             </Border>
         </Grid>
         <Grid Grid.Row="1">
-            <Slider Margin="10,0,100,0" VerticalAlignment="Center" Value="{Binding CurrentTime}" Maximum="{Binding ReplayLength}"/>
+            <Button Width="20" Height="20" Margin="10,0,0,0" HorizontalAlignment="Left" Content="▶" Command="{Binding Play}"/>
+            <Button Width="20" Height="20" Margin="35,0,0,0" HorizontalAlignment="Left" Content="⏸︎" Command="{Binding Pause}"/>
+            <Slider Margin="60,0,100,0" VerticalAlignment="Center" Value="{Binding CurrentTime}" Maximum="{Binding ReplayLength}"/>
             <Label Content="{Binding TimeLabel}" VerticalAlignment="Center" HorizontalAlignment="Right" Width="80" HorizontalContentAlignment="Right" Margin="0,0,10,0"/>
         </Grid>
     </Grid>
