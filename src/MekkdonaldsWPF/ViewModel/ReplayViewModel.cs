@@ -56,5 +56,7 @@ internal class ReplayViewModel : ViewModel
         _robots.AddRange(Controller.Robots);
 
         Controller.Tick += (_, _) => OnTick(this);
+
+        ReplayLength = 180;
     }
 }
