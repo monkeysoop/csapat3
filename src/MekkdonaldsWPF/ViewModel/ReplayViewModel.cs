@@ -15,6 +15,7 @@ internal class ReplayViewModel : ViewModel
         {
             _currentTime = value;
             OnPropertyChanged(nameof(CurrentTime));
+            OnPropertyChanged(nameof(TimeLabel));
         }
     }
 
@@ -25,6 +26,21 @@ internal class ReplayViewModel : ViewModel
         {
             _replayLength = value;
             OnPropertyChanged(nameof(ReplayLength));
+            OnPropertyChanged(nameof(TimeLabel));
+        }
+    }
+
+    public string TimeLabel
+    {
+        get
+        {
+            var m = CurrentTime / 60;
+            var s = CurrentTime % 60;
+
+            var mm = ReplayLength / 60;
+            var ms = ReplayLength % 60;
+
+            return $"{(m < 10 ? "0" : "")}{m}:{(s < 10 ? "0" : "")}{s}/{(mm < 10 ? "0" : "")}{mm}:{(ms < 10 ? "0" : "")}{ms}";
         }
     }
 
