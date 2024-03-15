@@ -3,7 +3,8 @@
 internal class ReplayViewModel : ViewModel
 {
     private readonly ReplayController Controller;
-    private int _currentTime;    
+    private int _currentTime;
+    private int _replayLength;
 
     #region Properties
 
@@ -14,6 +15,16 @@ internal class ReplayViewModel : ViewModel
         {
             _currentTime = value;
             OnPropertyChanged(nameof(CurrentTime));
+        }
+    }
+
+    public int ReplayLength
+    {
+        get => _replayLength;
+        private set
+        {
+            _replayLength = value;
+            OnPropertyChanged(nameof(ReplayLength));
         }
     }
 
