@@ -46,6 +46,13 @@ internal class ReplayViewModel : ViewModel
 
     #endregion
 
+    #region Commands
+
+    public readonly ICommand Play;
+    public readonly ICommand Pause;
+
+    #endregion
+
     public ReplayViewModel(string logPath)
     {
         Size = (20, 40);
@@ -58,5 +65,8 @@ internal class ReplayViewModel : ViewModel
         Controller.Tick += (_, _) => OnTick(this);
 
         ReplayLength = 180;
+
+        Play = new DelegateCommand(_ => { });
+        Pause = new DelegateCommand(_ => { });
     }
 }
