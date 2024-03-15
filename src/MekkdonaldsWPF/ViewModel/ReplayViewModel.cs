@@ -1,10 +1,23 @@
-﻿using Mekkdonalds.Simulation.Controller;
-
-namespace Mekkdonalds.ViewModel;
+﻿namespace Mekkdonalds.ViewModel;
 
 internal class ReplayViewModel : ViewModel
 {
     private readonly ReplayController Controller;
+    private int _currentTime;    
+
+    #region Properties
+
+    public int CurrentTime
+    {
+        get => _currentTime;
+        set
+        {
+            _currentTime = value;
+            OnPropertyChanged(nameof(CurrentTime));
+        }
+    }
+
+    #endregion
 
     public ReplayViewModel(string logPath)
     {

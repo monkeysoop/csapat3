@@ -10,3 +10,4 @@ global using Mekkdonalds;
 global using Mekkdonalds.View;
 global using Mekkdonalds.ViewModel;
 global using Mekkdonalds.Simulation;
+global using Mekkdonalds.Simulation.Controller;
