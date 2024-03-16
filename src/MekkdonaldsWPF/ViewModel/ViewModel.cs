@@ -38,9 +38,12 @@ internal abstract class ViewModel : ViewModelBase
             {
                 _zoom = value;
                 OnPropertyChanged(nameof(Zoom));
+                OnPropertyChanged(nameof(ZoomLabel));
             }
         }
     }
+
+    public string ZoomLabel => $"{Zoom:0.##}x";
 
     /// <summary>
     /// Robots present on the grid
