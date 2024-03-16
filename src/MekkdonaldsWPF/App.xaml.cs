@@ -282,7 +282,7 @@ public partial class App : Application
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = 1,
-                Fill = Brushes.Blue,
+                Fill = new SolidColorBrush(Color.FromRgb(9, 194, 248)), // this is the color in the example
                 Width = Step - 4,
                 Height = Step - 4
             });
@@ -292,8 +292,7 @@ public partial class App : Application
                 Text = r.ID.ToString(),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                FontSize = 14,
-                //Foreground = Brushes.White
+                FontSize = 14
             });
 
             c.Children.Add(grid);
