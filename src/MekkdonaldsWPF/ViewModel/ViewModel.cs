@@ -9,7 +9,9 @@ internal abstract class ViewModel : ViewModelBase
     protected List<Wall> _walls = [];
 
     private (int W, int H) _size;
-    private int _zoom = 1;
+    private double _zoom = 1;
+
+    #region Properties
 
     /// <summary>
     /// Size of the grid (Collumns, Rows)
@@ -27,7 +29,7 @@ internal abstract class ViewModel : ViewModelBase
         }
     }
 
-    public int Zoom
+    public double Zoom
     {
         get => _zoom;
         set
@@ -48,6 +50,8 @@ internal abstract class ViewModel : ViewModelBase
     /// Walls present on the grid
     /// </summary>
     public IReadOnlyList<Wall> Walls => _walls.AsReadOnly();
+
+    #endregion
 
     /// <summary>
     /// Eventhandler thats called each time the grid gets updated
