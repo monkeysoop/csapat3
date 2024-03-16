@@ -123,6 +123,7 @@ public partial class App : Application
         };
 
         _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_simWindow.MapCanvas)); // UI elemts have to be updated with this call when it is called from another thread
+        _viewModel.PropertyChanged += OnPropertyChanged;
 
         _simWindow.SizeChanged += (_, _) => { Calculate(_simWindow.MapCanvas); Redraw(_simWindow.MapCanvas); };
 
@@ -244,7 +245,7 @@ public partial class App : Application
             });
         }
 
-        for (var i = 0; i <= _viewModel!.Size.H; i++)
+        for (var i = 0; i <= _viewModel.Size.H; i++)
         {
             c.Children.Add(new Line()
             {
@@ -264,11 +265,9 @@ public partial class App : Application
     /// <param name="c">The currently open window's canvas</param>
     private void DrawRobots(Canvas c)
     {
-        _viewModel!.Zoom = 3;
+        var fontSize = 14 * Math.Sqrt(_viewModel!.Zoom);
 
-        var fontSize = 14 * Math.Sqrt(_viewModel.Zoom);
-
-        foreach (var r in _viewModel!.Robots)
+        foreach (var r in _viewModel.Robots)
         {
             Thickness t;
 
@@ -371,8 +370,8 @@ public partial class App : Application
         switch (e.PropertyName)
         {
             case "Zoom":
-                Calculate(_replayWindow!.MapCanvas);
-                Redraw(_replayWindow.MapCanvas);
+                Calculate(_replayWindow?.MapCanvas ?? _simWindow?.MapCanvas ?? throw new Exception());
+                Redraw(_replayWindow?.MapCanvas ?? _simWindow!.MapCanvas);
                 break;
         }
     }
