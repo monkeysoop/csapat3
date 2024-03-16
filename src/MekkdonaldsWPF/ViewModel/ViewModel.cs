@@ -9,6 +9,7 @@ internal abstract class ViewModel : ViewModelBase
     protected List<Wall> _walls = [];
 
     private (int W, int H) _size;
+    private int _zoom = 1;
 
     /// <summary>
     /// Size of the grid (Collumns, Rows)
@@ -22,6 +23,19 @@ internal abstract class ViewModel : ViewModelBase
             {
                 _size = value;
                 OnPropertyChanged(nameof(Size));
+            }
+        }
+    }
+
+    public int Zoom
+    {
+        get => _zoom;
+        set
+        {
+            if (_zoom != value)
+            {
+                _zoom = value;
+                OnPropertyChanged(nameof(Zoom));
             }
         }
     }
