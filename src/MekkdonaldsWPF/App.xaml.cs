@@ -98,7 +98,7 @@ public partial class App : Application
         Redraw(_replayWindow.MapCanvas);
 
         return true;
-    }    
+    }
 
     /// <summary>
     /// Opens a simulation window
@@ -139,6 +139,8 @@ public partial class App : Application
         return true;
     }
 
+    #region Drawing
+
     /// <summary>
     /// Calculates the dimensions required to draw the grid
     /// </summary>
@@ -151,7 +153,7 @@ public partial class App : Application
         YLength = (h + 1) * Step - (_viewModel.Zoom - 1) * MARGIN;
 
         c.Width = XLength + 2 * MARGIN;
-        c.Height = YLength + 2 * MARGIN;        
+        c.Height = YLength + 2 * MARGIN;
     }
 
     /// <summary>
@@ -269,30 +271,62 @@ public partial class App : Application
             t.Left = MARGIN + 2 + r.Position.X * Step;
             t.Top = MARGIN + 2 + r.Position.Y * Step;
 
-            c.Children.Add(new Ellipse()
+            var grid = new Grid
+            {
+                Width = Step - 4,
+                Height = Step - 4,
+                Margin = t
+            };
+
+            grid.Children.Add(new Ellipse()
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = 1,
                 Fill = Brushes.Blue,
                 Width = Step - 4,
-                Height = Step - 4,
-                Margin = t
+                Height = Step - 4
             });
+
+            grid.Children.Add(new TextBlock()
+            {
+                Text = r.ID.ToString(),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontSize = 14,
+                //Foreground = Brushes.White
+            });
+
+            c.Children.Add(grid);
 
             if (r.Task is null) continue;
 
             t.Left = MARGIN + r.Task.Position.X * Step;
             t.Top = MARGIN + r.Task.Position.Y * Step;
 
-            c.Children.Add(new Rectangle()
+            grid = new Grid
+            {
+                Width = Step,
+                Height = Step,
+                Margin = t
+            };
+
+            grid.Children.Add(new Rectangle()
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = 0,
                 Fill = Brushes.Orange,
                 Width = Step,
-                Height = Step,
-                Margin = t
+                Height = Step
             });
+
+            grid.Children.Add(new TextBlock()
+            {
+                Text = r.ID.ToString(),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            });
+
+            c.Children.Add(grid);
         }
     }
 
@@ -320,6 +354,8 @@ public partial class App : Application
             });
         }
     }
+
+    #endregion
 
     /// <summary>
     /// Redraws the canvas when the zoom property changes
