@@ -12,6 +12,8 @@ public partial class App : Application
     private double XLength;
     private double YLength;
 
+    private double Step => SIDELENGTH * (_viewModel?.Zoom ?? 1);
+
     private SimulationWindow? _simWindow;
     private StartWindow? _startWindow;
     private ReplayWindow? _replayWindow;
@@ -80,6 +82,8 @@ public partial class App : Application
             DataContext = _viewModel
         };
 
+        _viewModel.Zoom = .5;
+
         _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_replayWindow.MapCanvas)); // UI elemts have to be updated with this call when it is called from another thread
 
         _replayWindow.SizeChanged += (_, _) => { Calculate(_replayWindow.MapCanvas); Redraw(_replayWindow.MapCanvas); };
@@ -144,8 +148,8 @@ public partial class App : Application
     {
         var (w, h) = _viewModel!.Size;
 
-        XLength = (w + 1) * SIDELENGTH;
-        YLength = (h + 1) * SIDELENGTH;
+        XLength = (w + 1) * Step;
+        YLength = (h + 1) * Step;
 
         c.Width = XLength + 2 * MARGIN;
         c.Height = YLength + 2 * MARGIN;        
@@ -232,9 +236,9 @@ public partial class App : Application
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = 1,
-                X1 = MARGIN + i * SIDELENGTH,
+                X1 = MARGIN + i * Step,
                 Y1 = MARGIN,
-                X2 = MARGIN + i * SIDELENGTH,
+                X2 = MARGIN + i * Step,
                 Y2 = YLength,
             });
         }
@@ -246,9 +250,9 @@ public partial class App : Application
                 Stroke = Brushes.Black,
                 StrokeThickness = 1,
                 X1 = MARGIN,
-                Y1 = MARGIN + i * SIDELENGTH,
+                Y1 = MARGIN + i * Step,
                 X2 = XLength,
-                Y2 = MARGIN + i * SIDELENGTH,
+                Y2 = MARGIN + i * Step,
             });
         }
     }
@@ -263,31 +267,31 @@ public partial class App : Application
         {
             Thickness t;
 
-            t.Left = MARGIN + 2 + r.Position.X * SIDELENGTH;
-            t.Top = MARGIN + 2 + r.Position.Y * SIDELENGTH;
+            t.Left = MARGIN + 2 + r.Position.X * Step;
+            t.Top = MARGIN + 2 + r.Position.Y * Step;
 
             c.Children.Add(new Ellipse()
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = 1,
                 Fill = Brushes.Blue,
-                Width = SIDELENGTH - 4,
-                Height = SIDELENGTH - 4,
+                Width = Step - 4,
+                Height = Step - 4,
                 Margin = t
             });
 
             if (r.Task is null) continue;
 
-            t.Left = MARGIN + r.Task.Position.X * SIDELENGTH;
-            t.Top = MARGIN + r.Task.Position.Y * SIDELENGTH;
+            t.Left = MARGIN + r.Task.Position.X * Step;
+            t.Top = MARGIN + r.Task.Position.Y * Step;
 
             c.Children.Add(new Rectangle()
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = 0,
                 Fill = Brushes.Orange,
-                Width = SIDELENGTH,
-                Height = SIDELENGTH,
+                Width = Step,
+                Height = Step,
                 Margin = t
             });
         }
@@ -303,16 +307,16 @@ public partial class App : Application
         {
             Thickness t;
 
-            t.Left = MARGIN + w.Position.X * SIDELENGTH;
-            t.Top = MARGIN + w.Position.Y * SIDELENGTH;
+            t.Left = MARGIN + w.Position.X * Step;
+            t.Top = MARGIN + w.Position.Y * Step;
 
             c.Children.Add(new Rectangle()
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = 1,
                 Fill = Brushes.Black,
-                Width = SIDELENGTH,
-                Height = SIDELENGTH,
+                Width = Step,
+                Height = Step,
                 Margin = t
             });
         }
