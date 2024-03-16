@@ -5,9 +5,9 @@
 /// </summary>
 public partial class App : Application
 {
-    private const int MARGIN = 20;
-    private const int BORDERTHICKNESS = 4;
-    private const int SIDELENGTH = 20;
+    private const double MARGIN = 20;
+    private const double BORDERTHICKNESS = 4;
+    private const double SIDELENGTH = 20;
 
     private double XLength;
     private double YLength;
@@ -82,8 +82,6 @@ public partial class App : Application
             DataContext = _viewModel
         };
 
-        _viewModel.Zoom = .5;
-
         _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_replayWindow.MapCanvas)); // UI elemts have to be updated with this call when it is called from another thread
 
         _replayWindow.SizeChanged += (_, _) => { Calculate(_replayWindow.MapCanvas); Redraw(_replayWindow.MapCanvas); };
@@ -148,8 +146,8 @@ public partial class App : Application
     {
         var (w, h) = _viewModel!.Size;
 
-        XLength = (w + 1) * Step;
-        YLength = (h + 1) * Step;
+        XLength = (w + 1) * Step - (_viewModel.Zoom - 1) * MARGIN;
+        YLength = (h + 1) * Step - (_viewModel.Zoom - 1) * MARGIN;
 
         c.Width = XLength + 2 * MARGIN;
         c.Height = YLength + 2 * MARGIN;        
