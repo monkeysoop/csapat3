@@ -48,8 +48,8 @@ internal class ReplayViewModel : ViewModel
 
     #region Commands
 
-    public readonly ICommand Play;
-    public readonly ICommand Pause;
+    public ICommand Play { get; }
+    public ICommand Pause { get; }
 
     #endregion
 
