@@ -139,8 +139,7 @@ public partial class App : Application
     /// <summary>
     /// Calculates the dimensions required to draw the grid
     /// </summary>
-    /// <param name="width">Width of the canvas</param>
-    /// <param name="height">Height of the canvas</param>
+    /// <param name="c">The currently open window's canvas</param>
     private void Calculate(Canvas c)
     {
         var (w, h) = _viewModel!.Size;
