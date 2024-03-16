@@ -83,6 +83,7 @@ public partial class App : Application
         };
 
         _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_replayWindow.MapCanvas)); // UI elemts have to be updated with this call when it is called from another thread
+        _viewModel.PropertyChanged += OnPropertyChanged;
 
         _replayWindow.SizeChanged += (_, _) => { Calculate(_replayWindow.MapCanvas); Redraw(_replayWindow.MapCanvas); };
 
@@ -97,7 +98,7 @@ public partial class App : Application
         Redraw(_replayWindow.MapCanvas);
 
         return true;
-    }
+    }    
 
     /// <summary>
     /// Opens a simulation window
@@ -317,6 +318,22 @@ public partial class App : Application
                 Height = Step,
                 Margin = t
             });
+        }
+    }
+
+    /// <summary>
+    /// Redraws the canvas when the zoom property changes
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        switch (e.PropertyName)
+        {
+            case "Zoom":
+                Calculate(_replayWindow!.MapCanvas);
+                Redraw(_replayWindow.MapCanvas);
+                break;
         }
     }
 }

@@ -61,7 +61,7 @@ internal class ReplayViewModel : ViewModel
 
     public ReplayViewModel(string logPath)
     {
-        Size = (20, 10);
+        Size = (30, 40);
 
         Controller = new ReplayController(logPath);
 
@@ -75,6 +75,6 @@ internal class ReplayViewModel : ViewModel
         Play = new DelegateCommand(_ => { });
         Pause = new DelegateCommand(_ => { });
 
-        Zoom = 5;
+        Zoom = 2;
     }
 }
