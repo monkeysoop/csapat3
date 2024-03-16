@@ -98,7 +98,7 @@ public partial class App : Application
         Redraw(_replayWindow.MapCanvas);
 
         return true;
-    }    
+    }
 
     /// <summary>
     /// Opens a simulation window
@@ -123,6 +123,7 @@ public partial class App : Application
         };
 
         _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_simWindow.MapCanvas)); // UI elemts have to be updated with this call when it is called from another thread
+        _viewModel.PropertyChanged += OnPropertyChanged;
 
         _simWindow.SizeChanged += (_, _) => { Calculate(_simWindow.MapCanvas); Redraw(_simWindow.MapCanvas); };
 
@@ -139,6 +140,8 @@ public partial class App : Application
         return true;
     }
 
+    #region Drawing
+
     /// <summary>
     /// Calculates the dimensions required to draw the grid
     /// </summary>
@@ -151,7 +154,7 @@ public partial class App : Application
         YLength = (h + 1) * Step - (_viewModel.Zoom - 1) * MARGIN;
 
         c.Width = XLength + 2 * MARGIN;
-        c.Height = YLength + 2 * MARGIN;        
+        c.Height = YLength + 2 * MARGIN;
     }
 
     /// <summary>
@@ -242,7 +245,7 @@ public partial class App : Application
             });
         }
 
-        for (var i = 0; i <= _viewModel!.Size.H; i++)
+        for (var i = 0; i <= _viewModel.Size.H; i++)
         {
             c.Children.Add(new Line()
             {
@@ -262,37 +265,71 @@ public partial class App : Application
     /// <param name="c">The currently open window's canvas</param>
     private void DrawRobots(Canvas c)
     {
-        foreach (var r in _viewModel!.Robots)
+        var fontSize = 14 * Math.Sqrt(_viewModel!.Zoom);
+
+        foreach (var r in _viewModel.Robots)
         {
             Thickness t;
 
-            t.Left = MARGIN + 2 + r.Position.X * Step;
-            t.Top = MARGIN + 2 + r.Position.Y * Step;
+            t.Left = MARGIN + 1 + r.Position.X * Step;
+            t.Top = MARGIN + 1 + r.Position.Y * Step;
 
-            c.Children.Add(new Ellipse()
+            var grid = new Grid
+            {
+                Width = Step - 2,
+                Height = Step - 2,
+                Margin = t
+            };
+
+            grid.Children.Add(new Ellipse()
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = 1,
-                Fill = Brushes.Blue,
-                Width = Step - 4,
-                Height = Step - 4,
-                Margin = t
+                Fill = new SolidColorBrush(Color.FromRgb(9, 194, 248)), // this is the color in the example
+                Width = Step - 2,
+                Height = Step - 2
             });
+
+            grid.Children.Add(new TextBlock()
+            {
+                Text = r.ID.ToString(),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontSize = fontSize
+            });
+
+            c.Children.Add(grid);
 
             if (r.Task is null) continue;
 
             t.Left = MARGIN + r.Task.Position.X * Step;
             t.Top = MARGIN + r.Task.Position.Y * Step;
 
-            c.Children.Add(new Rectangle()
+            grid = new Grid
+            {
+                Width = Step,
+                Height = Step,
+                Margin = t
+            };
+
+            grid.Children.Add(new Rectangle()
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = 0,
                 Fill = Brushes.Orange,
                 Width = Step,
-                Height = Step,
-                Margin = t
+                Height = Step
             });
+
+            grid.Children.Add(new TextBlock()
+            {
+                Text = r.ID.ToString(),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontSize = fontSize
+            });
+
+            c.Children.Add(grid);
         }
     }
 
@@ -321,6 +358,8 @@ public partial class App : Application
         }
     }
 
+    #endregion
+
     /// <summary>
     /// Redraws the canvas when the zoom property changes
     /// </summary>
@@ -331,8 +370,8 @@ public partial class App : Application
         switch (e.PropertyName)
         {
             case "Zoom":
-                Calculate(_replayWindow!.MapCanvas);
-                Redraw(_replayWindow.MapCanvas);
+                Calculate(_replayWindow?.MapCanvas ?? _simWindow?.MapCanvas ?? throw new Exception());
+                Redraw(_replayWindow?.MapCanvas ?? _simWindow!.MapCanvas);
                 break;
         }
     }
