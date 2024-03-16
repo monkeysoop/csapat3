@@ -55,7 +55,7 @@ internal class ReplayViewModel : ViewModel
 
     public ReplayViewModel(string logPath)
     {
-        Size = (20, 40);
+        Size = (100, 100);
 
         Controller = new ReplayController(logPath);
 
