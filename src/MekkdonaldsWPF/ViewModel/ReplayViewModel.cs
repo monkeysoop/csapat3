@@ -13,9 +13,12 @@ internal class ReplayViewModel : ViewModel
         get => _currentTime;
         set
         {
-            _currentTime = value;
-            OnPropertyChanged(nameof(CurrentTime));
-            OnPropertyChanged(nameof(TimeLabel));
+            if (_currentTime != value)
+            {
+                _currentTime = value;
+                OnPropertyChanged(nameof(CurrentTime));
+                OnPropertyChanged(nameof(TimeLabel)); 
+            }
         }
     }
 
@@ -24,9 +27,12 @@ internal class ReplayViewModel : ViewModel
         get => _replayLength;
         private set
         {
-            _replayLength = value;
-            OnPropertyChanged(nameof(ReplayLength));
-            OnPropertyChanged(nameof(TimeLabel));
+            if (_replayLength != value)
+            {
+                _replayLength = value;
+                OnPropertyChanged(nameof(ReplayLength));
+                OnPropertyChanged(nameof(TimeLabel));
+            }
         }
     }
 
