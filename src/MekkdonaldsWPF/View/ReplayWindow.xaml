@@ -4,15 +4,32 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mekkdonalds.View"
+        xmlns:viewmodel="clr-namespace:Mekkdonalds.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:ReplayViewModel}"
         mc:Ignorable="d"
         Title="ReplayWindow" Height="450" Width="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="70*"/>
-            <ColumnDefinition Width="30*"/>
-        </Grid.ColumnDefinitions>
-        <Border Grid.Column="0">
-            <Canvas x:Name="MapCanvas"/>
-        </Border>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80*"/>
+                <ColumnDefinition Width="20*"/>
+            </Grid.ColumnDefinitions>
+            <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <Canvas x:Name="MapCanvas"/>
+            </ScrollViewer>
+            <Grid Grid.Column="1">
+                <Slider Value="{Binding Zoom}" Minimum="0.1" Maximum="3" VerticalAlignment="Bottom" Margin="10,0,45,0"/>
+                <Label Content="{Binding ZoomLabel}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Button Width="20" Height="20" Margin="10,0,0,0" HorizontalAlignment="Left" Content="▶" Command="{Binding Play}"/>
+            <Button Width="20" Height="20" Margin="35,0,0,0" HorizontalAlignment="Left" Content="❚❚" Command="{Binding Pause}"/>
+            <Slider Margin="60,0,100,0" VerticalAlignment="Center" Value="{Binding CurrentTime}" Maximum="{Binding ReplayLength}"/>
+            <Label Content="{Binding TimeLabel}" VerticalAlignment="Center" HorizontalAlignment="Right" Width="80" HorizontalContentAlignment="Right" Margin="0,0,10,0"/>
+        </Grid>
     </Grid>
 </Window>

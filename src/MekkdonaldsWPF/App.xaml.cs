@@ -5,13 +5,14 @@
 /// </summary>
 public partial class App : Application
 {
-    private const int MARGIN = 20;
-    private const int BORDERTHICKNESS = 4;
+    private const double MARGIN = 20;
+    private const double BORDERTHICKNESS = 4;
+    private const double SIDELENGTH = 20;
 
     private double XLength;
     private double YLength;
-    private double XStep;
-    private double YStep;
+
+    private double Step => SIDELENGTH * (_viewModel?.Zoom ?? 1);
 
     private SimulationWindow? _simWindow;
     private StartWindow? _startWindow;
@@ -82,8 +83,9 @@ public partial class App : Application
         };
 
         _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_replayWindow.MapCanvas)); // UI elemts have to be updated with this call when it is called from another thread
+        _viewModel.PropertyChanged += OnPropertyChanged;
 
-        _replayWindow.SizeChanged += (_, _) => { Calculate(_replayWindow.MapCanvas.ActualWidth, _replayWindow.MapCanvas.ActualHeight); Redraw(_replayWindow.MapCanvas); };
+        _replayWindow.SizeChanged += (_, _) => { Calculate(_replayWindow.MapCanvas); Redraw(_replayWindow.MapCanvas); };
 
         foreach (var r in _viewModel.Robots)
         {
@@ -92,11 +94,11 @@ public partial class App : Application
 
         _replayWindow.Show();
 
-        Calculate(_replayWindow.MapCanvas.ActualWidth, _replayWindow.MapCanvas.ActualHeight);
+        Calculate(_replayWindow.MapCanvas);
         Redraw(_replayWindow.MapCanvas);
 
         return true;
-    }
+    }    
 
     /// <summary>
     /// Opens a simulation window
@@ -110,7 +112,7 @@ public partial class App : Application
             Title = "Config file"
         };
 
-        if (fd.ShowDialog() is false) return false;       
+        if (fd.ShowDialog() is false) return false;
 
         _viewModel = new SimulationViewModel(fd.FileName);
 
@@ -122,7 +124,7 @@ public partial class App : Application
 
         _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_simWindow.MapCanvas)); // UI elemts have to be updated with this call when it is called from another thread
 
-        _simWindow.SizeChanged += (_, _) => { Calculate(_simWindow.MapCanvas.ActualWidth, _simWindow.MapCanvas.ActualHeight); Redraw(_simWindow.MapCanvas); };
+        _simWindow.SizeChanged += (_, _) => { Calculate(_simWindow.MapCanvas); Redraw(_simWindow.MapCanvas); };
 
         foreach (var r in _viewModel.Robots)
         {
@@ -131,7 +133,7 @@ public partial class App : Application
 
         _simWindow.Show();
 
-        Calculate(_simWindow.MapCanvas.ActualWidth, _simWindow.MapCanvas.ActualHeight);
+        Calculate(_simWindow.MapCanvas);
         Redraw(_simWindow.MapCanvas);
 
         return true;
@@ -140,29 +142,16 @@ public partial class App : Application
     /// <summary>
     /// Calculates the dimensions required to draw the grid
     /// </summary>
-    /// <param name="width">Width of the canvas</param>
-    /// <param name="height">Height of the canvas</param>
-    private void Calculate(double width, double height)
+    /// <param name="c">The currently open window's canvas</param>
+    private void Calculate(Canvas c)
     {
         var (w, h) = _viewModel!.Size;
 
-        if (w > h)
-        {
-            XLength = width - 2 * MARGIN;
-            YLength = XLength * h / w;
-        }
-        else if (w < h)
-        {
-            YLength = height - 2 * MARGIN;
-            XLength = YLength * w / h;
-        }
-        else
-        {
-            XLength = YLength = Math.Min(height, width) - 2 * MARGIN;
-        }
+        XLength = (w + 1) * Step - (_viewModel.Zoom - 1) * MARGIN;
+        YLength = (h + 1) * Step - (_viewModel.Zoom - 1) * MARGIN;
 
-        XStep = (XLength - MARGIN) / _viewModel!.Size.W;
-        YStep = (YLength - MARGIN) / _viewModel!.Size.H;
+        c.Width = XLength + 2 * MARGIN;
+        c.Height = YLength + 2 * MARGIN;        
     }
 
     /// <summary>
@@ -246,9 +235,9 @@ public partial class App : Application
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = 1,
-                X1 = MARGIN + i * XStep,
+                X1 = MARGIN + i * Step,
                 Y1 = MARGIN,
-                X2 = MARGIN + i * XStep,
+                X2 = MARGIN + i * Step,
                 Y2 = YLength,
             });
         }
@@ -260,9 +249,9 @@ public partial class App : Application
                 Stroke = Brushes.Black,
                 StrokeThickness = 1,
                 X1 = MARGIN,
-                Y1 = MARGIN + i * YStep,
+                Y1 = MARGIN + i * Step,
                 X2 = XLength,
-                Y2 = MARGIN + i * YStep,
+                Y2 = MARGIN + i * Step,
             });
         }
     }
@@ -272,36 +261,36 @@ public partial class App : Application
     /// </summary>
     /// <param name="c">The currently open window's canvas</param>
     private void DrawRobots(Canvas c)
-    {        
+    {
         foreach (var r in _viewModel!.Robots)
         {
             Thickness t;
 
-            t.Left = MARGIN + 2 + r.Position.X * XStep;
-            t.Top = MARGIN + 2 + r.Position.Y * YStep;
+            t.Left = MARGIN + 2 + r.Position.X * Step;
+            t.Top = MARGIN + 2 + r.Position.Y * Step;
 
             c.Children.Add(new Ellipse()
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = 1,
                 Fill = Brushes.Blue,
-                Width = XStep - 4,
-                Height = YStep - 4,
+                Width = Step - 4,
+                Height = Step - 4,
                 Margin = t
             });
 
             if (r.Task is null) continue;
 
-            t.Left = MARGIN + r.Task.Position.X * XStep;
-            t.Top = MARGIN + r.Task.Position.Y * YStep;
+            t.Left = MARGIN + r.Task.Position.X * Step;
+            t.Top = MARGIN + r.Task.Position.Y * Step;
 
             c.Children.Add(new Rectangle()
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = 0,
                 Fill = Brushes.Orange,
-                Width = XStep,
-                Height = YStep,
+                Width = Step,
+                Height = Step,
                 Margin = t
             });
         }
@@ -317,18 +306,34 @@ public partial class App : Application
         {
             Thickness t;
 
-            t.Left = MARGIN + w.Position.X * XStep;
-            t.Top = MARGIN + w.Position.Y * YStep;
+            t.Left = MARGIN + w.Position.X * Step;
+            t.Top = MARGIN + w.Position.Y * Step;
 
             c.Children.Add(new Rectangle()
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = 1,
                 Fill = Brushes.Black,
-                Width = XStep,
-                Height = YStep,
+                Width = Step,
+                Height = Step,
                 Margin = t
             });
+        }
+    }
+
+    /// <summary>
+    /// Redraws the canvas when the zoom property changes
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        switch (e.PropertyName)
+        {
+            case "Zoom":
+                Calculate(_replayWindow!.MapCanvas);
+                Redraw(_replayWindow.MapCanvas);
+                break;
         }
     }
 }

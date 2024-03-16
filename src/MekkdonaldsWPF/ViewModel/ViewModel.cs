@@ -9,6 +9,9 @@ internal abstract class ViewModel : ViewModelBase
     protected List<Wall> _walls = [];
 
     private (int W, int H) _size;
+    private double _zoom = 1;
+
+    #region Properties
 
     /// <summary>
     /// Size of the grid (Collumns, Rows)
@@ -26,6 +29,22 @@ internal abstract class ViewModel : ViewModelBase
         }
     }
 
+    public double Zoom
+    {
+        get => _zoom;
+        set
+        {
+            if (_zoom != value)
+            {
+                _zoom = value;
+                OnPropertyChanged(nameof(Zoom));
+                OnPropertyChanged(nameof(ZoomLabel));
+            }
+        }
+    }
+
+    public string ZoomLabel => $"{Zoom:0.##}x";
+
     /// <summary>
     /// Robots present on the grid
     /// </summary>
@@ -34,6 +53,8 @@ internal abstract class ViewModel : ViewModelBase
     /// Walls present on the grid
     /// </summary>
     public IReadOnlyList<Wall> Walls => _walls.AsReadOnly();
+
+    #endregion
 
     /// <summary>
     /// Eventhandler thats called each time the grid gets updated

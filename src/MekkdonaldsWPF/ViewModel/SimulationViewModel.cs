@@ -1,6 +1,4 @@
-﻿using Mekkdonalds.Simulation.Controller;
-
-namespace Mekkdonalds.ViewModel;
+﻿namespace Mekkdonalds.ViewModel;
 
 internal class SimulationViewModel : ViewModel
 {
