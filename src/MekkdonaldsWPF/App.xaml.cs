@@ -264,17 +264,21 @@ public partial class App : Application
     /// <param name="c">The currently open window's canvas</param>
     private void DrawRobots(Canvas c)
     {
+        _viewModel!.Zoom = 3;
+
+        var fontSize = 14 * Math.Sqrt(_viewModel.Zoom);
+
         foreach (var r in _viewModel!.Robots)
         {
             Thickness t;
 
-            t.Left = MARGIN + 2 + r.Position.X * Step;
-            t.Top = MARGIN + 2 + r.Position.Y * Step;
+            t.Left = MARGIN + 1 + r.Position.X * Step;
+            t.Top = MARGIN + 1 + r.Position.Y * Step;
 
             var grid = new Grid
             {
-                Width = Step - 4,
-                Height = Step - 4,
+                Width = Step - 2,
+                Height = Step - 2,
                 Margin = t
             };
 
@@ -283,8 +287,8 @@ public partial class App : Application
                 Stroke = Brushes.Black,
                 StrokeThickness = 1,
                 Fill = new SolidColorBrush(Color.FromRgb(9, 194, 248)), // this is the color in the example
-                Width = Step - 4,
-                Height = Step - 4
+                Width = Step - 2,
+                Height = Step - 2
             });
 
             grid.Children.Add(new TextBlock()
@@ -292,7 +296,7 @@ public partial class App : Application
                 Text = r.ID.ToString(),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                FontSize = 14
+                FontSize = fontSize
             });
 
             c.Children.Add(grid);
@@ -322,7 +326,8 @@ public partial class App : Application
             {
                 Text = r.ID.ToString(),
                 HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
+                VerticalAlignment = VerticalAlignment.Center,
+                FontSize = fontSize
             });
 
             c.Children.Add(grid);
