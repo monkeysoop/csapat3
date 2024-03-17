@@ -151,7 +151,11 @@ public class Board2
 
                     for (Int32 w = 0; w < boardWidth; w++)
                     {
-                        //
+                        if (line[w].ToString() != "@")
+                        {
+                            board.SetValue(h, w, WALL);
+                        }
+                        else { board.SetValue(h, w, EMPTY); }
                     }
                 }
 
@@ -160,7 +164,7 @@ public class Board2
         }
         catch
         {
-            throw new SudokuDataException();
+            throw new Exception("Map loading error");
         }
     }
 }
