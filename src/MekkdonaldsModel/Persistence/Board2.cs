@@ -103,4 +103,51 @@ public class Board2
 
         return t;
     }
+
+
+    public async Task<Board2> LoadAsync(String path)
+    {
+        try
+        {
+            using (StreamReader reader = new StreamReader(path)) // file opening
+            {
+                Char[] blocks;
+
+                String line = await reader.ReadLineAsync() ?? String.Empty;
+                String type = line.Split(' ')[1]; // saving the type
+
+                line = await reader.ReadLineAsync() ?? String.Empty;
+                Int32 boardHeight = Int32.Parse(line.Split(' ')[1]); // read the height of the board
+
+                line = await reader.ReadLineAsync() ?? String.Empty;
+                Int32 boardWidth = Int32.Parse(line.Split(' ')[1]); // read the widht of the board
+                Board2 board = new Board2(boardHeight, boardWidth); // creating the board
+
+                line = await reader.ReadLineAsync() ?? String.Empty;
+
+                if (line != "map")
+                {
+                    throw new Exception("Incorrect map file");
+                }
+
+
+                for (Int32 h = 0; h < boardHeight; h++)
+                {
+                    line = await reader.ReadLineAsync() ?? String.Empty;
+                    blocks = line.ToCharArray();
+
+                    for (Int32 w = 0; w < boardWidth; w++)
+                    {
+                        //
+                    }
+                }
+
+                return board;
+            }
+        }
+        catch
+        {
+            throw new SudokuDataException();
+        }
+    }
 }
