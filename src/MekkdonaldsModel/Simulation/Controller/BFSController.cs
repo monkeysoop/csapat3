@@ -1,8 +1,8 @@
 ﻿namespace Mekkdonalds.Simulation.Controller;
 
-internal sealed class BFSController(double interval) : SimulationController(interval)
+internal sealed class BFSController(double interval, string path) : SimulationController(interval, path)
 {
-    public BFSController() : this(1) { }
+    public BFSController(string path) : this(1, path) { }
 
     private bool BFSPathFinder(Point start, int start_direction, Point end)
     {

@@ -17,8 +17,8 @@ items:
   source:
     remote:
       path: src/MekkdonaldsTest/BotTests.cs
-      branch: Adorka
-      repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
+      branch: develop
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: BotTests
     path: ../src/MekkdonaldsTest/BotTests.cs
     startLine: 2
@@ -52,8 +52,8 @@ items:
   source:
     remote:
       path: src/MekkdonaldsTest/BotTests.cs
-      branch: Adorka
-      repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
+      branch: develop
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Setup
     path: ../src/MekkdonaldsTest/BotTests.cs
     startLine: 5
@@ -88,8 +88,8 @@ items:
   source:
     remote:
       path: src/MekkdonaldsTest/BotTests.cs
-      branch: Adorka
-      repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
+      branch: develop
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Test1
     path: ../src/MekkdonaldsTest/BotTests.cs
     startLine: 10

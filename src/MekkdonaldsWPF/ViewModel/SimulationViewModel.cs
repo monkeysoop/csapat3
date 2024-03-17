@@ -1,16 +1,14 @@
-﻿using Mekkdonalds.Simulation.Controller;
-
-namespace Mekkdonalds.ViewModel;
+﻿namespace Mekkdonalds.ViewModel;
 
 internal class SimulationViewModel : ViewModel
 {
-    private SimulationController Controller;
+    private readonly SimulationController Controller;
 
-    public SimulationViewModel() : base()
+    public SimulationViewModel(string path) : base()
     {
         Size = (20, 40);
 
-        Controller = new DFSController();
+        Controller = new DFSController(path);
 
         _walls.AddRange(Controller.Walls);
         _robots.AddRange(Controller.Robots);

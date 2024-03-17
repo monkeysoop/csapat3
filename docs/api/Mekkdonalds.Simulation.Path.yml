@@ -1,33 +1,32 @@
 ### YamlMime:ManagedReference
 items:
-- uid: Mekkdonalds.Test.SimulationTests
-  commentId: T:Mekkdonalds.Test.SimulationTests
-  id: SimulationTests
-  parent: Mekkdonalds.Test
+- uid: Mekkdonalds.Simulation.Path
+  commentId: T:Mekkdonalds.Simulation.Path
+  id: Path
+  parent: Mekkdonalds.Simulation
   children:
-  - Mekkdonalds.Test.SimulationTests.Setup
-  - Mekkdonalds.Test.SimulationTests.Test1
+  - Mekkdonalds.Simulation.Path.#ctor
   langs:
   - csharp
   - vb
-  name: SimulationTests
-  nameWithType: SimulationTests
-  fullName: Mekkdonalds.Test.SimulationTests
+  name: Path
+  nameWithType: Path
+  fullName: Mekkdonalds.Simulation.Path
   type: Class
   source:
     remote:
-      path: src/MekkdonaldsTest/SimulationTests.cs
+      path: src/MekkdonaldsModel/Simulation/Path.cs
       branch: develop
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: SimulationTests
-    path: ../src/MekkdonaldsTest/SimulationTests.cs
+    id: Path
+    path: ../src/MekkdonaldsModel/Simulation/Path.cs
     startLine: 2
   assemblies:
-  - MekkdonaldsTest
-  namespace: Mekkdonalds.Test
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
   syntax:
-    content: public class SimulationTests
-    content.vb: Public Class SimulationTests
+    content: public class Path
+    content.vb: Public Class Path
   inheritance:
   - System.Object
   inheritedMembers:
@@ -38,101 +37,58 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
-- uid: Mekkdonalds.Test.SimulationTests.Setup
-  commentId: M:Mekkdonalds.Test.SimulationTests.Setup
-  id: Setup
-  parent: Mekkdonalds.Test.SimulationTests
+- uid: Mekkdonalds.Simulation.Path.#ctor
+  commentId: M:Mekkdonalds.Simulation.Path.#ctor
+  id: '#ctor'
+  parent: Mekkdonalds.Simulation.Path
   langs:
   - csharp
   - vb
-  name: Setup()
-  nameWithType: SimulationTests.Setup()
-  fullName: Mekkdonalds.Test.SimulationTests.Setup()
-  type: Method
+  name: Path()
+  nameWithType: Path.Path()
+  fullName: Mekkdonalds.Simulation.Path.Path()
+  type: Constructor
   source:
     remote:
-      path: src/MekkdonaldsTest/SimulationTests.cs
+      path: src/MekkdonaldsModel/Simulation/Path.cs
       branch: develop
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: Setup
-    path: ../src/MekkdonaldsTest/SimulationTests.cs
-    startLine: 4
+    id: .ctor
+    path: ../src/MekkdonaldsModel/Simulation/Path.cs
+    startLine: 8
   assemblies:
-  - MekkdonaldsTest
-  namespace: Mekkdonalds.Test
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
   syntax:
-    content: >-
-      [SetUp]
-
-      public void Setup()
-    content.vb: >-
-      <SetUp>
-
-      Public Sub Setup()
-  overload: Mekkdonalds.Test.SimulationTests.Setup*
-  attributes:
-  - type: NUnit.Framework.SetUpAttribute
-    ctor: NUnit.Framework.SetUpAttribute.#ctor
-    arguments: []
-- uid: Mekkdonalds.Test.SimulationTests.Test1
-  commentId: M:Mekkdonalds.Test.SimulationTests.Test1
-  id: Test1
-  parent: Mekkdonalds.Test.SimulationTests
-  langs:
-  - csharp
-  - vb
-  name: Test1()
-  nameWithType: SimulationTests.Test1()
-  fullName: Mekkdonalds.Test.SimulationTests.Test1()
-  type: Method
-  source:
-    remote:
-      path: src/MekkdonaldsTest/SimulationTests.cs
-      branch: develop
-      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: Test1
-    path: ../src/MekkdonaldsTest/SimulationTests.cs
-    startLine: 9
-  assemblies:
-  - MekkdonaldsTest
-  namespace: Mekkdonalds.Test
-  syntax:
-    content: >-
-      [Test]
-
-      public void Test1()
-    content.vb: >-
-      <Test>
-
-      Public Sub Test1()
-  overload: Mekkdonalds.Test.SimulationTests.Test1*
-  attributes:
-  - type: NUnit.Framework.TestAttribute
-    ctor: NUnit.Framework.TestAttribute.#ctor
-    arguments: []
+    content: public Path()
+    content.vb: Public Sub New()
+  overload: Mekkdonalds.Simulation.Path.#ctor*
+  nameWithType.vb: Path.New()
+  fullName.vb: Mekkdonalds.Simulation.Path.New()
+  name.vb: New()
 references:
-- uid: Mekkdonalds.Test
-  commentId: N:Mekkdonalds.Test
+- uid: Mekkdonalds.Simulation
+  commentId: N:Mekkdonalds.Simulation
   href: Mekkdonalds.html
-  name: Mekkdonalds.Test
-  nameWithType: Mekkdonalds.Test
-  fullName: Mekkdonalds.Test
+  name: Mekkdonalds.Simulation
+  nameWithType: Mekkdonalds.Simulation
+  fullName: Mekkdonalds.Simulation
   spec.csharp:
   - uid: Mekkdonalds
     name: Mekkdonalds
     href: Mekkdonalds.html
   - name: .
-  - uid: Mekkdonalds.Test
-    name: Test
-    href: Mekkdonalds.Test.html
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
   spec.vb:
   - uid: Mekkdonalds
     name: Mekkdonalds
     href: Mekkdonalds.html
   - name: .
-  - uid: Mekkdonalds.Test
-    name: Test
-    href: Mekkdonalds.Test.html
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
 - uid: System.Object
   commentId: T:System.Object
   parent: System
@@ -370,15 +326,12 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: Mekkdonalds.Test.SimulationTests.Setup*
-  commentId: Overload:Mekkdonalds.Test.SimulationTests.Setup
-  href: Mekkdonalds.Test.SimulationTests.html#Mekkdonalds_Test_SimulationTests_Setup
-  name: Setup
-  nameWithType: SimulationTests.Setup
-  fullName: Mekkdonalds.Test.SimulationTests.Setup
-- uid: Mekkdonalds.Test.SimulationTests.Test1*
-  commentId: Overload:Mekkdonalds.Test.SimulationTests.Test1
-  href: Mekkdonalds.Test.SimulationTests.html#Mekkdonalds_Test_SimulationTests_Test1
-  name: Test1
-  nameWithType: SimulationTests.Test1
-  fullName: Mekkdonalds.Test.SimulationTests.Test1
+- uid: Mekkdonalds.Simulation.Path.#ctor*
+  commentId: Overload:Mekkdonalds.Simulation.Path.#ctor
+  href: Mekkdonalds.Simulation.Path.html#Mekkdonalds_Simulation_Path__ctor
+  name: Path
+  nameWithType: Path.Path
+  fullName: Mekkdonalds.Simulation.Path.Path
+  nameWithType.vb: Path.New
+  fullName.vb: Mekkdonalds.Simulation.Path.New
+  name.vb: New
