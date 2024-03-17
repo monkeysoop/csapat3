@@ -124,8 +124,6 @@ public class Board2
         {
             using (StreamReader reader = new StreamReader(path)) // file opening
             {
-                Char[] blocks;
-
                 String line = await reader.ReadLineAsync() ?? String.Empty;
                 String type = line.Split(' ')[1]; // saving the type
 
@@ -143,11 +141,9 @@ public class Board2
                     throw new Exception("Incorrect map file");
                 }
 
-
                 for (Int32 h = 0; h < boardHeight; h++)
                 {
                     line = await reader.ReadLineAsync() ?? String.Empty;
-                    blocks = line.ToCharArray();
 
                     for (Int32 w = 0; w < boardWidth; w++)
                     {
