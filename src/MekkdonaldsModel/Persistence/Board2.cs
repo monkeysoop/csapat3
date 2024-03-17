@@ -151,7 +151,7 @@ public class Board2
 
                     for (Int32 w = 0; w < boardWidth; w++)
                     {
-                        if (line[w].ToString() != "@")
+                        if (line[w].ToString() != ".")
                         {
                             board.SetValue(h, w, WALL);
                         }
