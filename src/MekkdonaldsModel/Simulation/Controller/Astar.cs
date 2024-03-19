@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Simulation.Controller;
 
-internal sealed class AstarController(double interval, string path) : SimulationController(interval, path)
+internal sealed class AstarController(string path) : SimulationController(path)
 {
     //private const int UP_DIR = 0;
     //private const int RIGHT_DIR = 1;
@@ -10,8 +10,6 @@ internal sealed class AstarController(double interval, string path) : Simulation
 
     private const int COST_BIAS = 1;
     private const int HEURISTIC_BIAS = 1;
-
-    public AstarController(string path) : this(1, path) { }
 
     private static void HeapInsert(Step[] heap, int length, Step item)
     {
@@ -175,7 +173,7 @@ internal sealed class AstarController(double interval, string path) : Simulation
         }
         return found;
     }
-    
+
     protected override Task CalculatePath(Robot robot)
     {
         throw new NotImplementedException();

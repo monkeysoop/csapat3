@@ -1,9 +1,7 @@
 ﻿namespace Mekkdonalds.Simulation.Controller;
 
-public sealed class DFSController(double interval, string path) : SimulationController(interval, path)
+public sealed class DFSController(string path) : SimulationController(path)
 {
-    public DFSController(string path) : this(1, path) { }
-
     private bool DFSPathFinder(Point start, int start_direction, Point end)
     {
         // this depth first search uses heuristics to hopefully find a correct path quicker
@@ -18,7 +16,7 @@ public sealed class DFSController(double interval, string path) : SimulationCont
 
 
         bool found = false;
-        while(stack_index != 0 && !found)
+        while (stack_index != 0 && !found)
         {
             stack_index--;
             Step current_step = stack[stack_index];
@@ -28,7 +26,8 @@ public sealed class DFSController(double interval, string path) : SimulationCont
                 if (ComparePoints(current_step.position, end))
                 {
                     found = true;
-                } else
+                }
+                else
                 {
                     int forward_direction = current_step.direction;
                     int left_direction = (current_step.direction + 3) % 4;
@@ -80,9 +79,9 @@ public sealed class DFSController(double interval, string path) : SimulationCont
                         index_offset3 = t;
                     }
 
-                    stack[stack_index + index_offset1] = new Step (forward_next_position, forward_direction, heuristic1);
-                    stack[stack_index + index_offset2] = new Step (left_next_position, left_direction, heuristic2);
-                    stack[stack_index + index_offset3] = new Step (right_next_position, right_direction, heuristic3);
+                    stack[stack_index + index_offset1] = new Step(forward_next_position, forward_direction, heuristic1);
+                    stack[stack_index + index_offset2] = new Step(left_next_position, left_direction, heuristic2);
+                    stack[stack_index + index_offset3] = new Step(right_next_position, right_direction, heuristic3);
 
                     stack_index += 3;
                 }
