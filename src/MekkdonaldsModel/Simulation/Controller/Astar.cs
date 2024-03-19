@@ -94,7 +94,8 @@ internal sealed class AstarController(double interval, string path) : Simulation
             if (ComparePoints(current_step.position, end))
             {
                 found = true;
-            } else
+            }
+            else
             {
                 int forward_direction = current_step.direction;
                 int left_direction = (current_step.direction + 3) % 4;
