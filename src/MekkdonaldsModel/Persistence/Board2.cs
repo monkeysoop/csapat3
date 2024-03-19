@@ -25,14 +25,30 @@ public class Board2
     #region Properties
     public int this[int y, int x]
     {
-        get { return Data[y * Width + x]; }
-        set { Data[y * Width + x] = value; }
+        get
+        {
+            if (y < 0 || x < 0 || y >= Height || x >= Width) { throw new BoardDataException(); }
+            return Data[y * Width + x];
+        }
+        set
+        {
+            if (y < 0 || x < 0 || y >= Height || x >= Width) { throw new BoardDataException(); }
+            Data[y * Width + x] = value;
+        }
     }
 
     public int this[Point p]
     {
-        get { return Data[p.Y * Width + p.X]; }
-        set { Data[p.Y * Width + p.X] = value; }
+        get
+        {
+            if (p.Y < 0 || p.X < 0 || p.Y >= Height || p.X >= Width) { throw new BoardDataException(); }
+            return Data[p.Y * Width + p.X];
+        }
+        set
+        {
+            if (p.Y < 0 || p.X < 0 || p.Y >= Height || p.X >= Width) { throw new BoardDataException(); }
+            Data[p.Y * Width + p.X] = value;
+        }
     }
     #endregion
 
@@ -190,7 +206,7 @@ public class Board2
         }
     }
 
-#endregion
+    #endregion
 }
 
 
