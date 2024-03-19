@@ -6,6 +6,7 @@ public abstract class Controller
     protected List<Robot> _robots;
     protected List<Wall> _walls;
     protected Timer Timer;
+    protected TimeSpan _interval { get; init; }
 
     protected Board2 _board;
 
@@ -31,5 +32,14 @@ public abstract class Controller
     protected void CallTick(object? sender)
     {
         Tick?.Invoke(sender, EventArgs.Empty);
+    }
+
+    public void ChangeSpeed(double speed)
+    {
+        if (speed <= 0)
+        {
+            throw new ArgumentException();
+        }
+        Timer.Change(TimeSpan.FromSeconds(1), _interval / speed);
     }
 }

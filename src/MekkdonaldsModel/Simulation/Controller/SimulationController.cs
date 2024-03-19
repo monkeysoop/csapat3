@@ -23,8 +23,8 @@ public abstract class SimulationController : Controller
         _robots.ForEach(x => tasks.Add(CalculatePath(x)));
 
         Task.WaitAll([.. tasks]);
-
-        Timer.Change(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(interval));
+        _interval = TimeSpan.FromSeconds(interval);
+        Timer.Change(TimeSpan.FromSeconds(1), _interval);
     }
 
     protected abstract Task CalculatePath(Robot robot);
