@@ -6,7 +6,8 @@ public abstract class Controller
     protected List<Robot> _robots;
     protected List<Wall> _walls;
     protected Timer Timer;
-    protected TimeSpan _interval { get; init; }
+    private readonly TimeSpan _interval;
+
 
     protected Board2 _board;
 
@@ -23,8 +24,8 @@ public abstract class Controller
         _walls = [];
 
         _board = new(0, 0);
-
-        Timer = new Timer(OnTick, null, Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan); // this is probably better then System.Timers.Timer (it is already asynchronous)
+        _interval = TimeSpan.FromSeconds(1);
+        Timer = new Timer(OnTick, null, _interval, _interval); // this is probably better then System.Timers.Timer (it is already asynchronous)
     }
 
     protected abstract void OnTick(object? state);
