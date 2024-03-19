@@ -13,7 +13,7 @@ public abstract class SimulationController : Controller
     public int Cost { get; protected set; } // Apperently 32bit value types are atomic in c# by default
     private TimeSpan Elapsed;
 
-    protected SimulationController(double interval, string path) : base()
+    protected SimulationController(string path) : base()
     {
         var tasks = new List<Task>();
 
@@ -23,8 +23,6 @@ public abstract class SimulationController : Controller
         _robots.ForEach(x => tasks.Add(CalculatePath(x)));
 
         Task.WaitAll([.. tasks]);
-
-        Timer.Change(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(interval));
     }
 
     protected abstract Task CalculatePath(Robot robot);
