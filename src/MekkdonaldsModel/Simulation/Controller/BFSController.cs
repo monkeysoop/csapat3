@@ -1,8 +1,7 @@
 ﻿namespace Mekkdonalds.Simulation.Controller;
 
-internal sealed class BFSController(double interval, string path) : SimulationController(interval, path)
+internal sealed class BFSController(string path) : SimulationController(path)
 {
-    public BFSController(string path) : this(1, path) { }
 
     private bool BFSPathFinder(Point start, int start_direction, Point end)
     {
@@ -22,7 +21,7 @@ internal sealed class BFSController(double interval, string path) : SimulationCo
         {
             Step current_step = queue[start_index];
             start_index++;
-            
+
             if (ComparePoints(current_step.position, end))
             {
                 found = true;
@@ -66,7 +65,7 @@ internal sealed class BFSController(double interval, string path) : SimulationCo
         }
         return found;
     }
-    
+
     protected override Task CalculatePath(Robot robot)
     {
         throw new NotImplementedException();
