@@ -29,14 +29,14 @@ public abstract class SimulationController : Controller
 
     protected override void OnTick(object? state)
     {
-        Task.Run(() => { _robots.ForEach(r => r.Step(Paths[r].Next())); });
+        Task.Run(() => { _robots.ForEach(r => r.Step(Paths[r].Next())); }); // should ech robot have it's own thread?
         Elapsed += new TimeSpan(0, 0, 1);
 
         CallTick(this);
     }
 
 
-    protected static bool ComparePoints(Point first, Point second)
+    protected static bool ComparePoints(Point first, Point second) // == is overloaded
     {
         return first.X == second.X && first.Y == second.Y;
     }
