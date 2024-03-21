@@ -1,4 +1,6 @@
-﻿namespace Mekkdonalds.Simulation.Controller;
+﻿using System.Diagnostics;
+
+namespace Mekkdonalds.Simulation.Controller;
 
 public abstract class SimulationController : Controller
 {
@@ -74,7 +76,7 @@ public abstract class SimulationController : Controller
         Point current_position = end;
         int current_direction = (parents_board[current_position.Y * board_width + current_position.X] + 2) % 4;
 
-        while (ComparePoints(current_position, start))
+        while (!ComparePoints(current_position, start))
         {
             Point next_offset = nexts_offsets[current_direction];
 
@@ -90,9 +92,6 @@ public abstract class SimulationController : Controller
             current_direction = next_direction;
         }
 
-
-        int diff_to_start = current_direction - start_direction + 3;
-        path += turns[diff_to_start];
-
+        System.Diagnostics.Debug.WriteLine("path in reverse: " + path);
     }
 }

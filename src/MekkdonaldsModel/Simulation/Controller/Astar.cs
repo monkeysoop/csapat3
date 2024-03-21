@@ -81,6 +81,7 @@ internal sealed class AstarController(string path) : SimulationController(path)
         //    parents[i] = NO_PARENT;
         //} 
 
+        parents[start.Y * _board.Width + start.X] = start_direction;
 
         bool found = false;
         while (heap_length != 0 && !found)
