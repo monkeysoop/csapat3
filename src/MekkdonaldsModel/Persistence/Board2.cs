@@ -130,20 +130,6 @@ public class Board2
         return t;
     }
 
-
-    public void SetValue(Int32 X, Int32 Y, Int32 value)
-    {
-        if (X < 0 || X >= this.Height)
-            throw new ArgumentOutOfRangeException(nameof(X), "The X coordinate is out of range.");
-        if (Y < 0 || Y >= this.Width)
-            throw new ArgumentOutOfRangeException(nameof(Y), "The Y coordinate is out of range.");
-        if (value < 0 || value > 3)
-            throw new ArgumentOutOfRangeException(nameof(value), "The value is out of range.");
-
-        Data[Y * Width + X] = value;
-    }
-
-
     public async Task<Board2> LoadAsync(String path)
     {
         try
