@@ -14,6 +14,7 @@ public sealed class DFSController(string path) : SimulationController(path)
 
         int[] parents = new int[_board.Height * _board.Width]; // all items are automatically set to 0
 
+        parents[start.Y * _board.Width + start.X] = start_direction;
 
         bool found = false;
         while (stack_index != 0 && !found)
