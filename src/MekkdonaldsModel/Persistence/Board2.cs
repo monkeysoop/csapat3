@@ -130,34 +130,34 @@ public class Board2
         return t;
     }
 
-    public async Task<Board2> LoadAsync(String path)
+    public async Task<Board2> LoadAsync(string path)
     {
         try
         {
             using (StreamReader reader = new StreamReader(path)) // file opening
             {
-                String line = await reader.ReadLineAsync() ?? String.Empty;
-                String type = line.Split(' ')[1]; // saving the type
+                string line = await reader.ReadLineAsync() ?? string.Empty;
+                string type = line.Split(' ')[1]; // saving the type
 
-                line = await reader.ReadLineAsync() ?? String.Empty;
-                Int32 boardHeight = Int32.Parse(line.Split(' ')[1]); // read the height of the board
+                line = await reader.ReadLineAsync() ?? string.Empty;
+                int boardHeight = int.Parse(line.Split(' ')[1]); // read the height of the board
 
-                line = await reader.ReadLineAsync() ?? String.Empty;
-                Int32 boardWidth = Int32.Parse(line.Split(' ')[1]); // read the widht of the board
+                line = await reader.ReadLineAsync() ?? string.Empty;
+                int boardWidth = int.Parse(line.Split(' ')[1]); // read the widht of the board
                 Board2 board = new Board2(boardHeight, boardWidth); // creating the board
 
-                line = await reader.ReadLineAsync() ?? String.Empty;
+                line = await reader.ReadLineAsync() ?? string.Empty;
 
                 if (line != "map")
                 {
                     throw new Exception("Incorrect map file");
                 }
 
-                for (Int32 h = 0; h < boardHeight; h++)
+                for (int h = 0; h < boardHeight; h++)
                 {
-                    line = await reader.ReadLineAsync() ?? String.Empty;
+                    line = await reader.ReadLineAsync() ?? string.Empty;
 
-                    for (Int32 w = 0; w < boardWidth; w++)
+                    for (int w = 0; w < boardWidth; w++)
                     {
                         if (line[w].ToString() != ".")
                         {
