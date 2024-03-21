@@ -1,4 +1,5 @@
 ﻿using Mekkdonalds.Simulation;
+using Mekkdonalds.Simulation.Controller;
 using MekkdonaldsModel.Persistence;
 using System;
 using System.Collections;
@@ -14,9 +15,12 @@ namespace MekkdonaldsModel.Simulation.Controller
         private IBoardDataAccess _boardDataAccess;
         private IRobotsDataAccess _packagesDataAccess;
         private IPackagesDataAccess _robotsDataAccess;
+
         private Board2 _board;
         private List<Robot> _robots;
         private List<Package> _packages;
+
+        SimulationController _simulationController;
         
 
         public Model(IBoardDataAccess boardDataAccess, IRobotsDataAccess packagesDataAccess, IPackagesDataAccess robotsDataAccess) 
@@ -28,6 +32,8 @@ namespace MekkdonaldsModel.Simulation.Controller
             _board = new Board2(10, 10);
             _robots = new List<Robot>();
             _packages = new List<Package>();
+
+            _simulationController = new DFSController();
         }
 
         public void NewSimulation(int height, int width)
@@ -35,6 +41,10 @@ namespace MekkdonaldsModel.Simulation.Controller
             _board = new Board2(height, width);
             _robots = new List<Robot>();
             _packages = new List<Package>();
+        }
+
+        public void CalculatePaths()
+        {
         }
     }
 }
