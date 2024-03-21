@@ -144,7 +144,7 @@ public class Board2
 
                 line = await reader.ReadLineAsync() ?? string.Empty;
                 int boardWidth = int.Parse(line.Split(' ')[1]); // read the widht of the board
-                Board2 board = new Board2(boardHeight, boardWidth); // creating the board
+                Board2 board = new(boardHeight, boardWidth); // creating the board
 
                 line = await reader.ReadLineAsync() ?? string.Empty;
 
