@@ -33,7 +33,6 @@ namespace MekkdonaldsModel.Simulation.Controller
             _robots = new List<Robot>();
             _packages = new List<Package>();
 
-            _simulationController = new DFSController();
         }
 
         public void NewSimulation(int height, int width)

@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Simulation.Controller;
 
-internal sealed class DFSController : SimulationController
+public sealed class DFSController : SimulationController
 {
     protected override (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position)
     {
