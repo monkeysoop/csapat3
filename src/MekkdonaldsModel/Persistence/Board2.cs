@@ -175,9 +175,9 @@ public class Board2
                     {
                         if (line[w].ToString() != ".")
                         {
-                            board.SetValue(h, w, WALL);
+                            this[h, w] = WALL;
                         }
-                        else { board.SetValue(h, w, EMPTY); }
+                        else { this[h, w] = EMPTY; }
                     }
                 }
 
