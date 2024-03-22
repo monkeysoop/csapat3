@@ -51,7 +51,7 @@ public class Board2
         {
             for (int x = 0; x < width; x++)
             {
-                Data[y * width + x] = data[y, x];
+                SetValue(x, y, data[y, x]); // this checks the input from data[,]
             }
         }
 
@@ -71,11 +71,11 @@ public class Board2
                  position.X < Width &&
                  position.Y >= 0 &&
                  position.Y < Height &&
-                 Data[position.Y * Width + Height] == EMPTY;
+                 Data[position.Y * Width + position.X] == EMPTY;
 #endif
         if (t)
         {
-            SearchMask[position.Y * Width + Height] = SEARCHED;
+            SearchMask[position.Y * Width + position.X] = SEARCHED;
         }
 
         return t;
