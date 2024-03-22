@@ -29,6 +29,12 @@ public abstract class SimulationController
         }
     }
 
+    public void FindAllPaths(Board2 board, List<Robot> robots, List<Package> packages)
+    {
+        
+    }
+
+
     
     protected static bool ComparePoints(Point first, Point second) // == is overloaded
     {
