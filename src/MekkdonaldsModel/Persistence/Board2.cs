@@ -130,7 +130,7 @@ public class Board2
         return t;
     }
 
-    public async Task<Board2> LoadAsync(string path)
+    public static async Task<Board2> LoadAsync(string path)
     {
         try
         {
@@ -161,9 +161,9 @@ public class Board2
                     {
                         if (line[w].ToString() != ".")
                         {
-                            this[h, w] = WALL;
+                            board[h, w] = WALL;
                         }
-                        else { this[h, w] = EMPTY; }
+                        else { board[h, w] = EMPTY; }
                     }
                 }
 
