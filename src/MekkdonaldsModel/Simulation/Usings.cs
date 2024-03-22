@@ -1,4 +1,4 @@
 global using System.Drawing;
 
-global using Mekkdonalds.Persistence;
-global using Mekkdonalds.Simulation;
+global using MekkdonaldsModel.Persistence;
+global using MekkdonaldsModel.Simulation;

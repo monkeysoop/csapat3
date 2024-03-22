@@ -4,9 +4,7 @@ items:
   commentId: N:Mekkdonalds.View
   id: Mekkdonalds.View
   children:
-  - Mekkdonalds.View.ReplayWindow
-  - Mekkdonalds.View.SimulationWindow
-  - Mekkdonalds.View.StartWindow
+  - Mekkdonalds.View.MainWindow
   langs:
   - csharp
   - vb
@@ -17,21 +15,9 @@ items:
   assemblies:
   - MekkdonaldsWPF
 references:
-- uid: Mekkdonalds.View.ReplayWindow
-  commentId: T:Mekkdonalds.View.ReplayWindow
-  href: Mekkdonalds.View.ReplayWindow.html
-  name: ReplayWindow
-  nameWithType: ReplayWindow
-  fullName: Mekkdonalds.View.ReplayWindow
-- uid: Mekkdonalds.View.SimulationWindow
-  commentId: T:Mekkdonalds.View.SimulationWindow
-  href: Mekkdonalds.View.SimulationWindow.html
-  name: SimulationWindow
-  nameWithType: SimulationWindow
-  fullName: Mekkdonalds.View.SimulationWindow
-- uid: Mekkdonalds.View.StartWindow
-  commentId: T:Mekkdonalds.View.StartWindow
-  href: Mekkdonalds.View.StartWindow.html
-  name: StartWindow
-  nameWithType: StartWindow
-  fullName: Mekkdonalds.View.StartWindow
+- uid: Mekkdonalds.View.MainWindow
+  commentId: T:Mekkdonalds.View.MainWindow
+  href: Mekkdonalds.View.MainWindow.html
+  name: MainWindow
+  nameWithType: MainWindow
+  fullName: Mekkdonalds.View.MainWindow

@@ -6,8 +6,6 @@ public abstract class Controller
     protected List<Robot> _robots;
     protected List<Wall> _walls;
     protected Timer Timer;
-    private readonly TimeSpan _interval;
-
 
     protected Board2 _board;
 
@@ -24,8 +22,8 @@ public abstract class Controller
         _walls = [];
 
         _board = new(0, 0);
-        _interval = TimeSpan.FromSeconds(1);
-        Timer = new Timer(OnTick, null, _interval, _interval); // this is probably better then System.Timers.Timer (it is already asynchronous)
+
+        Timer = new Timer(OnTick, null, Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan); // this is probably better then System.Timers.Timer (it is already asynchronous)
     }
 
     protected abstract void OnTick(object? state);
@@ -33,14 +31,5 @@ public abstract class Controller
     protected void CallTick(object? sender)
     {
         Tick?.Invoke(sender, EventArgs.Empty);
-    }
-
-    public void ChangeSpeed(double speed)
-    {
-        if (speed <= 0)
-        {
-            throw new ArgumentException();
-        }
-        Timer.Change(TimeSpan.FromSeconds(1), _interval / speed);
     }
 }

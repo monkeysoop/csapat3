@@ -11,16 +11,6 @@ public class Path
         l = [];
     }
 
-    public Path(List<Action> lista)
-    {
-        l = [.. lista];
-    }
-
-    public Action? this[int i]
-    {
-        get => i >= l.Count || i < 0 ? null : l[i];
-    }
-
     internal Action? Next()
     {
         if (ind >= l.Count) return null;
