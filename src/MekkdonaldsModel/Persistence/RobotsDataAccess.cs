@@ -6,15 +6,15 @@ internal class RobotsDataAccess : IRobotsDataAccess
     {
         var robots = new List<Robot>();
 
-        using StreamReader reader = new(path);
+        using StreamReader sr = new(path);
 
-        _ = reader.ReadLine(); // skip header
+        _ = sr.ReadLine(); // skip header
 
         int id = 1;
 
-        while (!reader.EndOfStream)
+        while (!sr.EndOfStream)
         {
-            var line = await reader.ReadLineAsync() ?? throw new RobotsDataException();
+            var line = await sr.ReadLineAsync() ?? throw new RobotsDataException();
 
             if (!int.TryParse(line, out var pos) || pos < 0 || pos >= height * width)
             {
