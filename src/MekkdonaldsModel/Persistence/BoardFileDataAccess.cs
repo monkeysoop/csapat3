@@ -1,4 +1,4 @@
-﻿namespace MekkdonaldsModel.Persistence;
+﻿namespace Mekkdonalds.Persistence;
 
 internal class BoardFileDataAccess : IBoardDataAccess
 {

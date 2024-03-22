@@ -1,6 +1,6 @@
 ﻿#define BORDER_CHECK
 
-namespace MekkdonaldsModel.Persistence;
+namespace Mekkdonalds.Persistence;
 
 // Has to be public otherwise can't be used in Controller class
 public class Board2
