@@ -21,7 +21,7 @@ internal class RobotsDataAccess : IRobotsDataAccess
                 throw new RobotsDataException();
             }
 
-            robots.Add(new Robot(id++, pos / height, pos % width));
+            robots.Add(new Robot(id++, pos % width, pos / height));
         }
 
         return robots;
