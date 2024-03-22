@@ -120,52 +120,6 @@ public class Board2
 
         return Data[y * Width + x];
     }
-
-    public async Task<Board2> LoadAsync(String path)
-    {
-        try
-        {
-            using (StreamReader reader = new StreamReader(path)) // file opening
-            {
-                string line = await reader.ReadLineAsync() ?? string.Empty;
-                string type = line.Split(' ')[1]; // saving the type
-
-                line = await reader.ReadLineAsync() ?? string.Empty;
-                int boardHeight = int.Parse(line.Split(' ')[1]); // read the height of the board
-
-                line = await reader.ReadLineAsync() ?? string.Empty;
-                int boardWidth = int.Parse(line.Split(' ')[1]); // read the widht of the board
-                Board2 board = new(boardHeight, boardWidth); // creating the board
-
-                line = await reader.ReadLineAsync() ?? string.Empty;
-
-                if (line != "map")
-                {
-                    throw new Exception("Incorrect map file");
-                }
-
-                for (int h = 0; h < boardHeight; h++)
-                {
-                    line = await reader.ReadLineAsync() ?? string.Empty;
-
-                    for (int w = 0; w < boardWidth; w++)
-                    {
-                        if (line[w].ToString() != ".")
-                        {
-                            board.SetValue(h, w, WALL);
-                        }
-                        else { board.SetValue(h, w, EMPTY); }
-                    }
-                }
-
-                return board;
-            }
-        }
-        catch
-        {
-            throw new Exception("Map loading error");
-        }
-    }
     #endregion
 }
 
