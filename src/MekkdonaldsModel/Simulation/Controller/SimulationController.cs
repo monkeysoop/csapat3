@@ -1,44 +1,66 @@
 ﻿namespace Mekkdonalds.Simulation.Controller;
 
-public abstract class SimulationController : Controller
+public abstract class SimulationController
 {
+    private static readonly string[] turns = ["FR", "FRR", "FL", "F", "FR", "FRR", "FL"]; // RR could be replaced with LL (this is just turning 180)
+    
     protected static readonly Point[] nexts_offsets = [
         new(0, -1),
         new(1, 0),
         new(0, 1),
         new(-1, 0)
     ];
-    private static readonly string[] turns = {"FR", "FRR", "FL", "F", "FR", "FRR", "FL"}; // RR could be replaced with LL (this is just turning 180)
 
-    public int Cost { get; protected set; } // Apperently 32bit value types are atomic in c# by default
-    private TimeSpan Elapsed;
+    protected abstract (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position);
 
-    protected SimulationController(double interval) : base()
+    public (bool, string) CalculatePath(Board2 board, Point start_position, int start_direction, Point end_position)
     {
-        var tasks = new List<Task>();
-
-        _robots.AddRange([new(1, 0, 0), new(2, 10, 25), new(3, 2, 2)]);
-        _walls.AddRange([new(1, 1), new(1, 3)]);
-
-        _robots.ForEach(x => tasks.Add(CalculatePath(x)));
-
-        Task.WaitAll([.. tasks]);
-
-        Timer.Change(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(interval));
+        bool found;
+        int[] parents_data;
+        (found, parents_data) = FindPath(board, start_position, start_direction, end_position);
+        if (found)
+        {
+            return (true, TracePath(parents_data, board.Width, start_position, start_direction, end_position));
+        } else
+        {
+            return (false, "");
+        }
     }
 
-    protected abstract Task CalculatePath(Robot robot);
-
-    protected override void OnTick(object? state)
+    public void FindAllPaths(Board2 board, List<Robot> robots, List<Package> packages)
     {
-        Task.Run(() => { _robots.ForEach(r => r.Step(Paths[r].Next())); });
-        Elapsed += new TimeSpan(0, 0, 1);
-
-        CallTick(this);
+        
     }
 
+    public static List<Action> Convert(string path)
+    {
+        var l = new List<Action>();
 
-    protected static bool ComparePoints(Point first, Point second)
+        foreach (char c in path)
+        {
+            switch (c)
+            {
+                case 'F':
+                    l.Add(Action.F);
+                    break;
+                case 'R':
+                    l.Add(Action.R);
+                    break;
+                case 'L':
+                    l.Add(Action.C);
+                    break;
+                case 'W':
+                    l.Add(Action.W);
+                    break;
+                default: // can be removed
+                    throw new PathException($"Invalid charachter {c}");
+            }
+        }
+
+        return l;
+    }
+    
+    protected static bool ComparePoints(Point first, Point second) // == is overloaded
     {
         return first.X == second.X && first.Y == second.Y;
     }
@@ -68,25 +90,32 @@ public abstract class SimulationController : Controller
         }
     }
 
-    protected static void TracePath(int[] parents_board, int board_width, Point start, int start_direction, Point end)
+    private static string TracePath(int[] parents_board, int board_width, Point start, int start_direction, Point end)
     {
         string path = "";
-        
-        Point current_position = end;
-        int current_direction = (parents_board[end.Y * board_width + end.X] + 2) % 4;
-        while (ComparePoints(current_position, start))
-        {
-            int next_direction = parents_board[current_position.Y * board_width + current_position.X];
-            int diff = next_direction - current_direction + 3;
 
+
+        Point current_position = end;
+        int current_direction = (parents_board[current_position.Y * board_width + current_position.X] + 2) % 4;
+
+        while (!ComparePoints(current_position, start))
+        {
+            Point next_offset = nexts_offsets[current_direction];
+
+            Point next_position = new(current_position.X + next_offset.X,
+                                      current_position.Y + next_offset.Y);
+
+            int next_direction = (parents_board[next_position.Y * board_width + next_position.X] + 2) % 4;
+
+            int diff = current_direction - next_direction + 3;
             path += turns[diff];
 
-            Point next_offset = nexts_offsets[next_direction];
-            current_position = new(current_position.X + next_offset.X,
-                                   current_position.Y + next_offset.Y);
-
+            current_position = next_position;
             current_direction = next_direction;
         }
 
+        System.Diagnostics.Debug.WriteLine("path in reverse: " + path);
+        return path;
     }
+
 }

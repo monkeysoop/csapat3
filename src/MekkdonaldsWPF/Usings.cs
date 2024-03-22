@@ -6,7 +6,12 @@ global using System.Windows.Media;
 
 global using System.Collections.ObjectModel;
 
+global using System.ComponentModel;
+
 global using Mekkdonalds;
 global using Mekkdonalds.View;
 global using Mekkdonalds.ViewModel;
 global using Mekkdonalds.Simulation;
+global using Mekkdonalds.Simulation.Controller;
+
+global using Microsoft.Win32;

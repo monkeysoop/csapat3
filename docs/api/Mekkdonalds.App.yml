@@ -16,11 +16,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/App.xaml.cs
-      branch: Adorka
-      repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
+      branch: develop
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: App
     path: ../src/MekkdonaldsWPF/App.xaml.cs
-    startLine: 5
+    startLine: 8
   assemblies:
   - MekkdonaldsWPF
   namespace: Mekkdonalds
@@ -82,6 +82,8 @@ items:
   - System.Windows.Application.NavigationStopped
   - System.Windows.Application.SessionEnding
   - System.Windows.Application.Startup
+  - System.Windows.Threading.DispatcherObject.CheckAccess
+  - System.Windows.Threading.DispatcherObject.VerifyAccess
   - System.Windows.Threading.DispatcherObject.Dispatcher
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
@@ -104,11 +106,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/App.xaml.cs
-      branch: Adorka
-      repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
+      branch: develop
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: .ctor
     path: ../src/MekkdonaldsWPF/App.xaml.cs
-    startLine: 8
+    startLine: 23
   assemblies:
   - MekkdonaldsWPF
   namespace: Mekkdonalds
@@ -1102,6 +1104,50 @@ references:
   name: Startup
   nameWithType: Application.Startup
   fullName: System.Windows.Application.Startup
+- uid: System.Windows.Threading.DispatcherObject.CheckAccess
+  commentId: M:System.Windows.Threading.DispatcherObject.CheckAccess
+  parent: System.Windows.Threading.DispatcherObject
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.windows.threading.dispatcherobject.checkaccess
+  name: CheckAccess()
+  nameWithType: DispatcherObject.CheckAccess()
+  fullName: System.Windows.Threading.DispatcherObject.CheckAccess()
+  spec.csharp:
+  - uid: System.Windows.Threading.DispatcherObject.CheckAccess
+    name: CheckAccess
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.windows.threading.dispatcherobject.checkaccess
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Windows.Threading.DispatcherObject.CheckAccess
+    name: CheckAccess
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.windows.threading.dispatcherobject.checkaccess
+  - name: (
+  - name: )
+- uid: System.Windows.Threading.DispatcherObject.VerifyAccess
+  commentId: M:System.Windows.Threading.DispatcherObject.VerifyAccess
+  parent: System.Windows.Threading.DispatcherObject
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.windows.threading.dispatcherobject.verifyaccess
+  name: VerifyAccess()
+  nameWithType: DispatcherObject.VerifyAccess()
+  fullName: System.Windows.Threading.DispatcherObject.VerifyAccess()
+  spec.csharp:
+  - uid: System.Windows.Threading.DispatcherObject.VerifyAccess
+    name: VerifyAccess
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.windows.threading.dispatcherobject.verifyaccess
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Windows.Threading.DispatcherObject.VerifyAccess
+    name: VerifyAccess
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.windows.threading.dispatcherobject.verifyaccess
+  - name: (
+  - name: )
 - uid: System.Windows.Threading.DispatcherObject.Dispatcher
   commentId: P:System.Windows.Threading.DispatcherObject.Dispatcher
   parent: System.Windows.Threading.DispatcherObject
