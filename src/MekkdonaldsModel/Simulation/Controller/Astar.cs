@@ -29,7 +29,6 @@ public sealed class AstarController: SimulationController
         {
             Step current_step = HeapRemoveMin(heap, heap_length);
             heap_length--;
-            board.SetSearched(current_step.position);
 
             if (ComparePoints(current_step.position, end_position))
             {
@@ -71,7 +70,7 @@ public sealed class AstarController: SimulationController
                                       HEURISTIC_BIAS * ManhattenDistance(right_next_position, end_position);
 
 
-                if (board.SetOpenIfEmpty(forward_next_position))
+                if (board.SetSearchedIfEmpty(forward_next_position))
                 {
                     costs[forward_next_position.Y * board.Width + forward_next_position.X] = forward_cost;
                     parents[forward_next_position.Y * board.Width + forward_next_position.X] = forward_direction;
@@ -85,7 +84,7 @@ public sealed class AstarController: SimulationController
                 }
 
 
-                if (board.SetOpenIfEmpty(left_next_position))
+                if (board.SetSearchedIfEmpty(left_next_position))
                 {
                     costs[left_next_position.Y * board.Width + left_next_position.X] = left_cost;
                     parents[left_next_position.Y * board.Width + left_next_position.X] = left_direction;
@@ -99,7 +98,7 @@ public sealed class AstarController: SimulationController
                 }
 
 
-                if (board.SetOpenIfEmpty(right_next_position))
+                if (board.SetSearchedIfEmpty(right_next_position))
                 {
                     costs[right_next_position.Y * board.Width + right_next_position.X] = right_cost;
                     parents[right_next_position.Y * board.Width + right_next_position.X] = right_direction;
