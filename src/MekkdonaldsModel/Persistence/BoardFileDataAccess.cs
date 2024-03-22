@@ -72,6 +72,8 @@ namespace MekkdonaldsModel.Persistence
 
         public async Task SaveAsync(string path, Board2 board)
         {
+            await Task.Delay(0);
+
             throw new NotImplementedException();
         }
     }

@@ -77,7 +77,7 @@ public sealed class Robot : IMapObject
             case null:
                 break;
             default:
-                throw new Exception();
+                throw new System.Exception();
         }
 
         if (t is not null) _history.Add(t.Value);
