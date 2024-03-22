@@ -29,7 +29,7 @@ public abstract class SimulationController
         }
     }
 
-
+    
     protected static bool ComparePoints(Point first, Point second) // == is overloaded
     {
         return first.X == second.X && first.Y == second.Y;

@@ -23,11 +23,13 @@ namespace MekkdonaldsModel.Simulation.Controller
         SimulationController _simulationController;
         
 
-        public Model(IBoardDataAccess boardDataAccess, IRobotsDataAccess packagesDataAccess, IPackagesDataAccess robotsDataAccess) 
+        public Model(IBoardDataAccess boardDataAccess, IRobotsDataAccess packagesDataAccess, IPackagesDataAccess robotsDataAccess, SimulationController simulationController) 
         {
             _boardDataAccess = boardDataAccess;
             _packagesDataAccess = packagesDataAccess;
             _robotsDataAccess = robotsDataAccess;
+
+            _simulationController = simulationController;
 
             _board = new Board2(10, 10);
             _robots = new List<Robot>();
