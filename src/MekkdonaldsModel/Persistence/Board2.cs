@@ -8,129 +8,120 @@ public class Board2
     #region Constants
     public const int EMPTY = 0;
     public const int WALL = 1;
-    public const int SEARCHED = 2;
-    public const int OPEN = 3;
+    public const int SEARCHED = 1;
+    //public const int OPEN = 3;
     #endregion
 
 
 
     #region Fields
     private readonly int[] Data;
+    private readonly int[] SearchMask;
     public int Height { get; init; }
     public int Width { get; init; }
     #endregion
 
 
 
-    #region Properties
-    public int this[int y, int x]
-    {
-        get { return Data[y * Width + x]; }
-        set { Data[y * Width + x] = value; }
-    }
-
-    public int this[Point p]
-    {
-        get { return Data[p.Y * Width + p.X]; }
-        set { Data[p.Y * Width + p.X] = value; }
-    }
-    #endregion
+    //#region Properties
+    //public int this[int y, int x] { get {return GetValue(x, y);} set {SetValue(x, y, value);} }
+    //public int this[Point p] { get {return GetValue(p.X, p.Y);} set {SetValue(p.X, p.Y, value);} }
+    //#endregion
 
 
 
     #region Constructors
     public Board2(int height, int width)
     {
-        Data = new int[height * width];
         Height = height;
         Width = width;
-    }
 
-    public Board2(int[] data, int height, int width)
-    {
         Data = new int[height * width];
-        for (int i = 0; i < height * width; i++)
-        {
-            Data[i] = data[i];
-        }
-        Height = height;
-        Width = width;
+
+        SearchMask = new int[height * width];
     }
 
     public Board2(int[,] data, int height, int width)
     {
+        Height = height;
+        Width = width;
+        
         Data = new int[height * width];
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
-                this[y, x] = data[y, x];
+                SetValue(x, y, data[y, x]); // this checks the input from data[,]
             }
         }
 
-        Height = height;
-        Width = width;
+        SearchMask = new int[height * width];
     }
     #endregion
 
 
 
     #region Public methods
-    public void SetSearched(Point position)
-    {
-#if NO_BORDER_CHECK
-        bool t = true;
-#else
-        bool t = position.X >= 0 &&
-                 position.X < Width &&
-                 position.Y >= 0 &&
-                 position.Y < Height;
-#endif
-        if (t)
-        {
-            this[position] = SEARCHED;
-        }
-    }
-
-    public bool SetOpenIfEmpty(Point position)
-    {
-#if NO_BORDER_CHECK
-        bool t = this[position] == EMPTY;
-#else
-        bool t = position.X >= 0 &&
-                 position.X < Width &&
-                 position.Y >= 0 &&
-                 position.Y < Height &&
-                 this[position] == EMPTY;
-#endif
-        if (t)
-        {
-            this[position] = OPEN;
-        }
-
-        return t;
-    }
-
     public bool SetSearchedIfEmpty(Point position)
     {
 #if NO_BORDER_CHECK
-        bool t = this[position] == EMPTY;
+        bool t = (Data[position.Y * Width + Height] == EMPTY);
 #else
         bool t = position.X >= 0 &&
                  position.X < Width &&
                  position.Y >= 0 &&
                  position.Y < Height &&
-                 this[position] == EMPTY;
+                 Data[position.Y * Width + position.X] == EMPTY;
 #endif
         if (t)
         {
-            this[position] = SEARCHED;
+            SearchMask[position.Y * Width + position.X] = SEARCHED;
         }
 
         return t;
     }
 
-    public static async Task<Board2> LoadAsync(string path)
+    public void ClearMask()
+    {
+        for (int i = 0; i < Height * Width; i++)
+        {
+            SearchMask[i] = 0;
+        }
+    }
+
+    public void SetValue(int x, int y, int value)
+    {
+        if (x < 0 || x >= this.Height)
+        {
+            throw new ArgumentOutOfRangeException(nameof(x), "The X coordinate is out of range.");
+        }
+        if (y < 0 || y >= this.Width)
+        {
+            throw new ArgumentOutOfRangeException(nameof(y), "The Y coordinate is out of range.");
+        }
+        if (value < 0 || value > 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(value), "The value is out of range.");
+        }
+
+        Data[y * Width + x] = value;
+    }
+
+    public int GetValue(int x, int y)
+    {
+        if (x < 0 || x >= this.Height)
+        {
+            throw new ArgumentOutOfRangeException(nameof(x), "The X coordinate is out of range.");
+        }
+        if (y < 0 || y >= this.Width)
+        {
+            throw new ArgumentOutOfRangeException(nameof(y), "The Y coordinate is out of range.");
+        }
+
+        return Data[y * Width + x];
+    }
+
+    public async Task<Board2> LoadAsync(String path)
     {
         try
         {
@@ -161,9 +152,9 @@ public class Board2
                     {
                         if (line[w].ToString() != ".")
                         {
-                            board[h, w] = WALL;
+                            board.SetValue(h, w, WALL);
                         }
-                        else { board[h, w] = EMPTY; }
+                        else { board.SetValue(h, w, EMPTY); }
                     }
                 }
 
@@ -175,8 +166,7 @@ public class Board2
             throw new Exception("Map loading error");
         }
     }
-
-#endregion
+    #endregion
 }
 
 

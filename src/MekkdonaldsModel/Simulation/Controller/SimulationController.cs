@@ -1,44 +1,36 @@
-﻿namespace Mekkdonalds.Simulation.Controller;
+﻿using System.Diagnostics;
 
-public abstract class SimulationController : Controller
+namespace Mekkdonalds.Simulation.Controller;
+
+public abstract class SimulationController
 {
+    private static readonly string[] turns = ["FR", "FRR", "FL", "F", "FR", "FRR", "FL"]; // RR could be replaced with LL (this is just turning 180)
+    
     protected static readonly Point[] nexts_offsets = [
         new(0, -1),
         new(1, 0),
         new(0, 1),
         new(-1, 0)
     ];
-    private static readonly string[] turns = ["FR", "FRR", "FL", "F", "FR", "FRR", "FL"]; // RR could be replaced with LL (this is just turning 180)
 
-    public int Cost { get; protected set; } // Apperently 32bit value types are atomic in c# by default
-    private TimeSpan Elapsed;
+    protected abstract (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position);
 
-    protected SimulationController(double interval, string path) : base()
+    public (bool, string) CalculatePath(Board2 board, Point start_position, int start_direction, Point end_position)
     {
-        var tasks = new List<Task>();
-
-        _robots.AddRange([new(1, 0, 0), new(2, 10, 25), new(3, 2, 2)]);
-        _walls.AddRange([new(1, 1), new(1, 3)]);
-
-        _robots.ForEach(x => tasks.Add(CalculatePath(x)));
-
-        Task.WaitAll([.. tasks]);
-
-        Timer.Change(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(interval));
+        bool found;
+        int[] parents_data;
+        (found, parents_data) = FindPath(board, start_position, start_direction, end_position);
+        if (found)
+        {
+            return (true, TracePath(parents_data, board.Width, start_position, start_direction, end_position));
+        } else
+        {
+            return (false, "");
+        }
     }
 
-    protected abstract Task CalculatePath(Robot robot);
-
-    protected override void OnTick(object? state)
-    {
-        Task.Run(() => { _robots.ForEach(r => r.Step(Paths[r].Next())); });
-        Elapsed += new TimeSpan(0, 0, 1);
-
-        CallTick(this);
-    }
-
-
-    protected static bool ComparePoints(Point first, Point second)
+    
+    protected static bool ComparePoints(Point first, Point second) // == is overloaded
     {
         return first.X == second.X && first.Y == second.Y;
     }
@@ -68,7 +60,7 @@ public abstract class SimulationController : Controller
         }
     }
 
-    protected static void TracePath(int[] parents_board, int board_width, Point start, int start_direction, Point end)
+    private static string TracePath(int[] parents_board, int board_width, Point start, int start_direction, Point end)
     {
         string path = "";
 
@@ -76,7 +68,7 @@ public abstract class SimulationController : Controller
         Point current_position = end;
         int current_direction = (parents_board[current_position.Y * board_width + current_position.X] + 2) % 4;
 
-        while (ComparePoints(current_position, start))
+        while (!ComparePoints(current_position, start))
         {
             Point next_offset = nexts_offsets[current_direction];
 
@@ -92,9 +84,8 @@ public abstract class SimulationController : Controller
             current_direction = next_direction;
         }
 
-
-        int diff_to_start = current_direction - start_direction + 3;
-        path += turns[diff_to_start];
-
+        System.Diagnostics.Debug.WriteLine("path in reverse: " + path);
+        return path;
     }
+
 }
