@@ -1,4 +1,4 @@
-﻿namespace MekkdonaldsModel.Persistence;
+﻿namespace Mekkdonalds.Persistence;
 
 internal class BoardFileDataAccess : IBoardDataAccess
 {
@@ -58,9 +58,9 @@ internal class BoardFileDataAccess : IBoardDataAccess
 
             return new Board2(data, boardHeight, boardWidth);
         }
-        catch
+        catch (System.Exception e)
         {
-            throw new Exception("Map loading error");
+            throw new BoardDataException("Map loading error", e);
         }
     }
 

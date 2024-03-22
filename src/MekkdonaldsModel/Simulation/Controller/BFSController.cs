@@ -21,26 +21,26 @@ public sealed class BFSController : SimulationController
             Step current_step = queue[start_index];
             start_index++;
 
-            if (ComparePoints(current_step.position, end_position))
+            if (ComparePoints(current_step.Position, end_position))
             {
                 found = true;
             }
             else
             {
-                int forward_direction = current_step.direction;
-                int left_direction = (current_step.direction + 3) % 4;
-                int right_direction = (current_step.direction + 1) % 4;
+                int forward_direction = current_step.Direction;
+                int left_direction = (current_step.Direction + 3) % 4;
+                int right_direction = (current_step.Direction + 1) % 4;
 
                 Point forward_offset = nexts_offsets[forward_direction];
                 Point left_offset = nexts_offsets[left_direction];
                 Point right_offset = nexts_offsets[right_direction];
 
-                Point forward_next_position = new(current_step.position.X + forward_offset.X,
-                                                  current_step.position.Y + forward_offset.Y);
-                Point left_next_position = new(current_step.position.X + left_offset.X,
-                                               current_step.position.Y + left_offset.Y);
-                Point right_next_position = new(current_step.position.X + right_offset.X,
-                                                current_step.position.Y + right_offset.Y);
+                Point forward_next_position = new(current_step.Position.X + forward_offset.X,
+                                                  current_step.Position.Y + forward_offset.Y);
+                Point left_next_position = new(current_step.Position.X + left_offset.X,
+                                               current_step.Position.Y + left_offset.Y);
+                Point right_next_position = new(current_step.Position.X + right_offset.X,
+                                                current_step.Position.Y + right_offset.Y);
 
                 if (board.SetSearchedIfEmpty(forward_next_position))
                 {
