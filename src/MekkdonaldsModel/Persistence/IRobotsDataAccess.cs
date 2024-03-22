@@ -1,11 +1,8 @@
-﻿using Mekkdonalds.Simulation;
+﻿namespace Mekkdonalds.Persistence;
 
-namespace MekkdonaldsModel.Persistence
+internal interface IRobotsDataAccess
 {
-    internal interface IRobotsDataAccess
-    {
-        internal Task<List<Robot>> LoadAsync(string path);
-        internal Task SaveAsync(string path, List<Robot> packages);
-    }
+    internal Task<List<Robot>> LoadAsync(string path, int width, int height);
+    // internal Task SaveAsync(string path, List<Robot> packages); - do we need this?
 }
 
