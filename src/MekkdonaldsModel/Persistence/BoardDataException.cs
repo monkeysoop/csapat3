@@ -9,5 +9,6 @@ namespace MekkdonaldsModel.Persistence
     internal class BoardDataException : Exception
     {
         internal BoardDataException() { }
+        internal BoardDataException(string message) : base(message) { }
     }
 }
