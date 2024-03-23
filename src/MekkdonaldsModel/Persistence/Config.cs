@@ -1,9 +1,22 @@
-﻿namespace Mekkdonalds.Persistence;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
-internal class Config
+namespace Mekkdonalds.Persistence;
+
+public class Config
 {
-    internal static Config Load()
-    {
-        throw new NotImplementedException();
-    }
+    public required string MapFile { get; set; }
+    public required string AgentFile { get; set; }
+    public required string TaskFile { get; set; }
+
+    public int TeamSize { get; set; }
+    public int NumTasksReveal { get; set; }
+
+    [JsonConverter(typeof(StrategyConverter))]
+    public Strategy TaskAssignmentStrategy { get; set; }
+
+    [JsonConstructor]
+    public Config() { }
+
+    public static async Task<Config> Load(string path) => JsonSerializer.Deserialize<Config>(await File.ReadAllTextAsync(path), new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }) ?? throw new ConfigLoadException();
 }
