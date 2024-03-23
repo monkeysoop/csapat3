@@ -370,7 +370,7 @@ public partial class App : Application
         switch (e.PropertyName)
         {
             case "Zoom":
-                Calculate(_replayWindow?.MapCanvas ?? _simWindow?.MapCanvas ?? throw new Exception());
+                Calculate(_replayWindow?.MapCanvas ?? _simWindow?.MapCanvas ?? throw new System.Exception());
                 Redraw(_replayWindow?.MapCanvas ?? _simWindow!.MapCanvas);
                 break;
         }

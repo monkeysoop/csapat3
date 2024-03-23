@@ -30,28 +30,28 @@ public sealed class AstarController: SimulationController
             Step current_step = HeapRemoveMin(heap, heap_length);
             heap_length--;
 
-            if (ComparePoints(current_step.position, end_position))
+            if (ComparePoints(current_step.Position, end_position))
             {
                 found = true;
             }
             else
             {
-                int forward_direction = current_step.direction;
-                int left_direction = (current_step.direction + 3) % 4;
-                int right_direction = (current_step.direction + 1) % 4;
+                int forward_direction = current_step.Direction;
+                int left_direction = (current_step.Direction + 3) % 4;
+                int right_direction = (current_step.Direction + 1) % 4;
 
                 Point forward_offset = nexts_offsets[forward_direction];
                 Point left_offset = nexts_offsets[left_direction];
                 Point right_offset = nexts_offsets[right_direction];
 
-                Point forward_next_position = new(current_step.position.X + forward_offset.X,
-                                                  current_step.position.Y + forward_offset.Y);
-                Point left_next_position = new(current_step.position.X + left_offset.X,
-                                               current_step.position.Y + left_offset.Y);
-                Point right_next_position = new(current_step.position.X + right_offset.X,
-                                                current_step.position.Y + right_offset.Y);
+                Point forward_next_position = new(current_step.Position.X + forward_offset.X,
+                                                  current_step.Position.Y + forward_offset.Y);
+                Point left_next_position = new(current_step.Position.X + left_offset.X,
+                                               current_step.Position.Y + left_offset.Y);
+                Point right_next_position = new(current_step.Position.X + right_offset.X,
+                                                current_step.Position.Y + right_offset.Y);
 
-                int current_cost = costs[current_step.position.Y * board.Width + current_step.position.X];
+                int current_cost = costs[current_step.Position.Y * board.Width + current_step.Position.X];
 
                 int forward_cost = current_cost + 1;
                 int left_cost = current_cost + 2;
@@ -125,7 +125,7 @@ public sealed class AstarController: SimulationController
 
         // <= is used (instead of <), because it makes the newer Step with same value prefered, 
         // which usually leads to finding the solution quicker.
-        while (index > 0 && heap[index].heuristic <= heap[root_index].heuristic)
+        while (index > 0 && heap[index].Heuristic <= heap[root_index].Heuristic)
         {
             // swap
             (heap[root_index], heap[index]) = (heap[index], heap[root_index]);
@@ -145,12 +145,12 @@ public sealed class AstarController: SimulationController
         int right_child_index = 1;
 
         int next_child_index = left_child_index;
-        if (right_child_index < length && heap[right_child_index].heuristic < heap[left_child_index].heuristic)
+        if (right_child_index < length && heap[right_child_index].Heuristic < heap[left_child_index].Heuristic)
         {
             next_child_index = right_child_index;
         }
 
-        while (left_child_index < length && heap[next_child_index].heuristic < heap[index].heuristic)
+        while (left_child_index < length && heap[next_child_index].Heuristic < heap[index].Heuristic)
         {
             // swap
             (heap[next_child_index], heap[index]) = (heap[index], heap[next_child_index]);
@@ -159,7 +159,7 @@ public sealed class AstarController: SimulationController
             right_child_index = 2 * index + 2;
 
             next_child_index = left_child_index;
-            if (right_child_index < length && heap[right_child_index].heuristic < heap[left_child_index].heuristic)
+            if (right_child_index < length && heap[right_child_index].Heuristic < heap[left_child_index].Heuristic)
             {
                 next_child_index = right_child_index;
             }

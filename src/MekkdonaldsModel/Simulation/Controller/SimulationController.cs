@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace Mekkdonalds.Simulation.Controller;
+﻿namespace Mekkdonalds.Simulation.Controller;
 
 public abstract class SimulationController
 {
@@ -43,7 +41,33 @@ public abstract class SimulationController
         }
     }
 
+    public static List<Action> Convert(string path)
+    {
+        var l = new List<Action>();
 
+        foreach (char c in path)
+        {
+            switch (c)
+            {
+                case 'F':
+                    l.Add(Action.F);
+                    break;
+                case 'R':
+                    l.Add(Action.R);
+                    break;
+                case 'L':
+                    l.Add(Action.C);
+                    break;
+                case 'W':
+                    l.Add(Action.W);
+                    break;
+                default: // can be removed
+                    throw new PathException($"Invalid charachter {c}");
+            }
+        }
+
+        return l;
+    }
     
     protected static bool ComparePoints(Point first, Point second) // == is overloaded
     {
