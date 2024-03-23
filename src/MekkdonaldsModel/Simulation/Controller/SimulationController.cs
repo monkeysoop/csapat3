@@ -2,8 +2,6 @@
 
 public abstract class SimulationController
 {
-    private static readonly string[] turns = ["FR", "FRR", "FL", "F", "FR", "FRR", "FL"]; // RR could be replaced with LL (this is just turning 180)
-    
     protected static readonly Point[] nexts_offsets = [
         new(0, -1),
         new(1, 0),
@@ -13,7 +11,7 @@ public abstract class SimulationController
 
     protected abstract (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position);
 
-    public (bool, string) CalculatePath(Board2 board, Point start_position, int start_direction, Point end_position)
+    public (bool, List<Action>) CalculatePath(Board2 board, Point start_position, int start_direction, Point end_position)
     {
         bool found;
         int[] parents_data;
@@ -26,7 +24,7 @@ public abstract class SimulationController
             return (true, TracePath(parents_data, board.Width, start_position, start_direction, end_position));
         } else
         {
-            return (false, "");
+            return (false, new List<Action>());
         }
     }
 
@@ -99,9 +97,9 @@ public abstract class SimulationController
         }
     }
 
-    private static string TracePath(int[] parents_board, int board_width, Point start, int start_direction, Point end)
+    private static List<Action> TracePath(int[] parents_board, int board_width, Point start, int start_direction, Point end)
     {
-        string path = "";
+        List<Action> path = new List<Action>();
 
 
         Point current_position = end;
@@ -117,7 +115,19 @@ public abstract class SimulationController
             int next_direction = (parents_board[next_position.Y * board_width + next_position.X] + 2) % 4;
 
             int diff = current_direction - next_direction + 3;
-            path += turns[diff];
+
+
+            path.Add(Action.F);
+            switch (diff)
+            {
+                case -3: path.Add(Action.R); break;
+                case -2: path.Add(Action.R); path.Add(Action.R); break;
+                case -1: path.Add(Action.C); break;
+                case  0: break;
+                case  1: path.Add(Action.R); break;
+                case  2: path.Add(Action.R); path.Add(Action.R); break;
+                case  3: path.Add(Action.C); break;
+            }
 
             current_position = next_position;
             current_direction = next_direction;

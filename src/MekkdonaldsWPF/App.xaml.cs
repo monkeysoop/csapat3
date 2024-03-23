@@ -87,11 +87,6 @@ public partial class App : Application
 
         _replayWindow.SizeChanged += (_, _) => { Calculate(_replayWindow.MapCanvas); Redraw(_replayWindow.MapCanvas); };
 
-        foreach (var r in _viewModel.Robots)
-        {
-            r.Assign(r.Position.X + 3, r.Position.Y + 4);
-        }
-
         _replayWindow.Show();
 
         Calculate(_replayWindow.MapCanvas);
@@ -126,11 +121,6 @@ public partial class App : Application
         _viewModel.PropertyChanged += OnPropertyChanged;
 
         _simWindow.SizeChanged += (_, _) => { Calculate(_simWindow.MapCanvas); Redraw(_simWindow.MapCanvas); };
-
-        foreach (var r in _viewModel.Robots)
-        {
-            r.Assign(r.Position.X + 3, r.Position.Y + 4);
-        }
 
         _simWindow.Show();
 

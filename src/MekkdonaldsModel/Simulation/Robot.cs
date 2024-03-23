@@ -70,12 +70,6 @@ public sealed class Robot : IMapObject
         }
     }
 
-    // TODO: change this to internal
-    public void Assign(int x, int y)
-    {
-        Task = new Package(x, y);
-    }
-
     private void MakeStep(Action a)
     {
         switch (a)
