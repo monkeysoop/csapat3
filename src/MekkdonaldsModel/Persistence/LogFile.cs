@@ -1,4 +1,6 @@
-﻿namespace Mekkdonalds.Persistence;
+﻿using System.Text.Json.Serialization;
+
+namespace Mekkdonalds.Persistence;
 
 internal class LogFile
 {
@@ -11,4 +13,7 @@ internal class LogFile
     {
         throw new NotImplementedException();
     }
+
+    [JsonConstructor]
+    public Config() { }
 }
