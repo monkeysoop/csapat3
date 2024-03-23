@@ -80,33 +80,9 @@ public sealed class Robot : IMapObject
     {
         switch (a)
         {
-<<<<<<< HEAD
             case Action.F: Position.Offset(position_offsets[(int)Direction]); break;
             case Action.R: Direction.ClockWise(); break;
             case Action.C: Direction.CounterClockWise(); break;
-=======
-            case Action.F:
-                var (xd, yd) = DirectionPoints[Direction];
-
-                var p = new Point(Position.X + xd, Position.Y + yd);
-
-                Position = p;
-                break;
-            case Action.W:
-                break;
-            case Action.R:
-                Direction = Direction.ClockWise();
-                break;
-            case Action.C:
-                Direction = Direction.CounterClockWise();
-                break;
-            case Action.T: // I don't quite understand when this is supposed to occur but sure...
-                break;
-            case null:
-                break;
-            default:
-                throw new System.Exception();
->>>>>>> b9ccf8edbe215f20aa9b26753292dc334b88900a
         }
     }
 }
