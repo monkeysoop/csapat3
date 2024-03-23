@@ -2,18 +2,21 @@
 
 public sealed class Robot : IMapObject
 {
-    private static readonly Dictionary<Direction, (int xd, int yd)> DirectionPoints = new()
-    {
-        { Direction.East, (1, 0) },
-        { Direction.West, (-1, 0) },
-        { Direction.North, (0, -1) },
-        { Direction.South, (0, 1) }
-    };
+    private static readonly Point[] position_offsets = [
+        new(0, -1),
+        new(1, 0),
+        new(0, 1),
+        new(-1, 0)
+    ];
+    private static int IDCounter = 1;
 
-    private readonly List<Action> _history;
+
+
+    private readonly List<Action> _traversedRoute= new List<Action>();
+    private readonly Action[] _plannedRoute;
+    private int _routeIndex;
 
     public int ID { get; }
-    public Point Start { get; }
 
     /// <summary>
     /// Current position of the robot
@@ -35,17 +38,37 @@ public sealed class Robot : IMapObject
     /// </summary>
     public IReadOnlyList<Action> History
     {
-        get => _history.AsReadOnly();
+        get => _traversedRoute.AsReadOnly();
     }
 
-    public Robot(int id, int x, int y)
+    public Robot(Point position, Direction direction)
     {
-        ID = id;
-        Start = Position = new Point(x, y);
-        _history = [];
+        Position = position;
+        Direction = direction;
+
+        ID = Robot.IDCounter;
+        Robot.IDCounter++;
+
+        _plannedRoute = new Action[0];
+        _routeIndex = 0;
     }
 
-    public Robot(int id) : this(id, 0, 0) { }
+    public void Wait()
+    {
+        _traversedRoute.Add(Action.W);
+    }
+
+    public void Step()
+    {
+        if (_routeIndex < _plannedRoute.Length && _plannedRoute.Length > 0)
+        {
+            Action a = _plannedRoute[0];
+            _routeIndex++;
+
+            MakeStep(a);
+            _traversedRoute.Add(a);
+        }
+    }
 
     // TODO: change this to internal
     public void Assign(int x, int y)
@@ -53,33 +76,13 @@ public sealed class Robot : IMapObject
         Task = new Package(x, y);
     }
 
-    internal void Step(Action? t)
+    private void MakeStep(Action a)
     {
-        switch (t)
+        switch (a)
         {
-            case Action.F:
-                var (xd, yd) = DirectionPoints[Direction];
-
-                var p = new Point(Position.X + xd, Position.Y + yd);
-
-                Position = p;
-                break;
-            case Action.W:
-                break;
-            case Action.R:
-                Direction = Direction.ClockWise();
-                break;
-            case Action.C:
-                Direction = Direction.CounterClockWise();
-                break;
-            case Action.T: // I don't quite understand when this is supposed to occur but sure...
-                break;
-            case null:
-                break;
-            default:
-                throw new System.Exception();
+            case Action.F: Position.Offset(position_offsets[(int)Direction]); break;
+            case Action.R: Direction.ClockWise(); break;
+            case Action.C: Direction.CounterClockWise(); break;
         }
-
-        if (t is not null) _history.Add(t.Value);
     }
 }
