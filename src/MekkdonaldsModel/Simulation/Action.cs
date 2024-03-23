@@ -2,9 +2,9 @@
 
 public enum Action
 {
-    F,
-    R,
-    C,
-    W,
-    T
+    F, // forward
+    R, // clockwise
+    C, // counter-clockwise
+    W, // wait
+    T  // timeout
 }

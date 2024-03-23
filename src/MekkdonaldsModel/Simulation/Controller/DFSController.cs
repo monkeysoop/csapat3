@@ -21,29 +21,29 @@ public sealed class DFSController : SimulationController
         {
             stack_index--;
             Step current_step = stack[stack_index];
-            if (board.SetSearchedIfEmpty(current_step.position))
+            if (board.SetSearchedIfEmpty(current_step.Position))
             {
-                parents[current_step.position.Y * board.Width + current_step.position.X] = current_step.direction;
-                if (ComparePoints(current_step.position, end_position))
+                parents[current_step.Position.Y * board.Width + current_step.Position.X] = current_step.Direction;
+                if (ComparePoints(current_step.Position, end_position))
                 {
                     found = true;
                 }
                 else
                 {
-                    int forward_direction = current_step.direction;
-                    int left_direction = (current_step.direction + 3) % 4;
-                    int right_direction = (current_step.direction + 1) % 4;
+                    int forward_direction = current_step.Direction;
+                    int left_direction = (current_step.Direction + 3) % 4;
+                    int right_direction = (current_step.Direction + 1) % 4;
 
                     Point forward_offset = nexts_offsets[forward_direction];
                     Point left_offset = nexts_offsets[left_direction];
                     Point right_offset = nexts_offsets[right_direction];
 
-                    Point forward_next_position = new(current_step.position.X + forward_offset.X,
-                                                      current_step.position.Y + forward_offset.Y);
-                    Point left_next_position = new(current_step.position.X + left_offset.X,
-                                                   current_step.position.Y + left_offset.Y);
-                    Point right_next_position = new(current_step.position.X + right_offset.X,
-                                                    current_step.position.Y + right_offset.Y);
+                    Point forward_next_position = new(current_step.Position.X + forward_offset.X,
+                                                      current_step.Position.Y + forward_offset.Y);
+                    Point left_next_position = new(current_step.Position.X + left_offset.X,
+                                                   current_step.Position.Y + left_offset.Y);
+                    Point right_next_position = new(current_step.Position.X + right_offset.X,
+                                                    current_step.Position.Y + right_offset.Y);
 
                     int heuristic1 = MaxTurnsRequired(forward_next_position, forward_offset, end_position) + ManhattenDistance(forward_next_position, end_position);
                     int heuristic2 = MaxTurnsRequired(left_next_position, left_offset, end_position) + ManhattenDistance(left_next_position, end_position) + 1;
