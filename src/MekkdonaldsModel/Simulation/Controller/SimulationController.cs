@@ -19,7 +19,10 @@ public abstract class SimulationController
     {
         bool found;
         int[] parents_data;
+
         (found, parents_data) = FindPath(board, start_position, start_direction, end_position);
+        board.ClearMask();
+
         if (found)
         {
             return (true, TracePath(parents_data, board.Width, start_position, start_direction, end_position));
@@ -31,7 +34,13 @@ public abstract class SimulationController
 
     public void FindAllPaths(Board2 board, List<Robot> robots, List<Package> packages)
     {
-        
+        while (packages.Count > 0)
+        {
+            foreach(Robot r  in robots)
+            {
+                
+            }
+        }
     }
 
 
