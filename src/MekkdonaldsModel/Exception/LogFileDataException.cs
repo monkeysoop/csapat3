@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MekkdonaldsModel.Exception
+namespace Mekkdonalds.Exception
 {
     internal class LogFileDataException : System.Exception
     {

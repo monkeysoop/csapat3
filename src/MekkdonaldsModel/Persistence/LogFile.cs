@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Mekkdonalds.Persistence;
 
-internal class LogFile
+public class LogFile
 {
     public required string ActionModel { get; set; }
 

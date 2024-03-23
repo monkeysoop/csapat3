@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MekkdonaldsModel.Persistence
+namespace Mekkdonalds.Persistence
 {
-    internal class ILogFileDataAccess
+    internal interface ILogFileDataAccess
     {
+        public Task<LogFile> Load(string path);
+
     }
 }
