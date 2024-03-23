@@ -5,6 +5,8 @@ namespace Mekkdonalds.Persistence;
 
 public class Config
 {
+    public static readonly JsonSerializerOptions SerializerOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+
     public required string MapFile { get; set; }
     public required string AgentFile { get; set; }
     public required string TaskFile { get; set; }
@@ -18,5 +20,5 @@ public class Config
     [JsonConstructor]
     public Config() { }
 
-    public static async Task<Config> Load(string path) => JsonSerializer.Deserialize<Config>(await File.ReadAllTextAsync(path), new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }) ?? throw new ConfigLoadException();
+    public static async Task<Config> Load(string path) => JsonSerializer.Deserialize<Config>(await File.ReadAllTextAsync(path), SerializerOptions) ?? throw new ConfigLoadException();
 }
