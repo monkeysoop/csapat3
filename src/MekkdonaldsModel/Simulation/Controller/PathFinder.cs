@@ -11,7 +11,7 @@ public abstract class PathFinder
 
     protected abstract (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position);
 
-    public (bool, List<Action>) CalculatePath(Board2 board, Point start_position, int start_direction, Point end_position)
+    private  (bool, List<Action>) CalculatePath(Board2 board, Point start_position, int start_direction, Point end_position)
     {
         bool found;
         int[] parents_data;
@@ -33,12 +33,12 @@ public abstract class PathFinder
         int package_index = 0;
         while (package_index < packages.Count)
         {
-            foreach(Robot r  in robots)
+            foreach(Robot r in robots)
             {
                 if (!r.Available())
                 {
                     r.Step();
-                } else
+                } else if (package_index < packages.Count)
                 {
                     bool found;
                     List<Action> path;
@@ -48,13 +48,25 @@ public abstract class PathFinder
                     {
                         r.AddPlannedRoute(path);
                         package_index++;
+                        
+                        r.Step();
                     } else
                     {
                         throw new PathException("no path found!");
                     }
-                    r.Step();
                 }
             }
+        }
+        foreach (Robot r in robots)
+        {
+            while (!r.Available())
+            {
+                r.Step();
+            }
+        }
+        foreach (Robot r in robots)
+        {
+            Debug.WriteLine(string.Join(",", r.History.ToArray()));
         }
     }
     
@@ -105,7 +117,7 @@ public abstract class PathFinder
 
             int next_direction = (parents_board[next_position.Y * board_width + next_position.X] + 2) % 4;
 
-            int diff = current_direction - next_direction + 3;
+            int diff = current_direction - next_direction;
 
 
             path.Add(Action.F);
@@ -124,7 +136,8 @@ public abstract class PathFinder
             current_direction = next_direction;
         }
 
-        System.Diagnostics.Debug.WriteLine("path in reverse: " + path);
+        path.Reverse();
+
         return path;
     }
 

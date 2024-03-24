@@ -26,6 +26,9 @@ public sealed class SimulationController : Controller
         _packages.AddRange(await pa.LoadAsync(config.TaskFile, _board.Width, _board.Height));
 
         OnLoaded(this);
+
+        BFSController controller = new BFSController();
+        controller.FindAllPaths(_board, _robots, _packages);
     }
 
     protected override void OnTick(object? state)
