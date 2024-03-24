@@ -117,17 +117,24 @@ public partial class App : Application
             DataContext = _viewModel
         };
 
-        _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_simWindow.MapCanvas)); // UI elemts have to be updated with this call when it is called from another thread
+        var canvas = _simWindow.MapCanvas;
+
+        _viewModel.Loaded += (_, _) => Dispatcher.Invoke(() => { Calculate(canvas); Redraw(canvas); }); // UI elemts have to be updated with this call when it is called from another thread
+        _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(canvas)); // UI elemts have to be updated with this call when it is called from another thread
         _viewModel.PropertyChanged += OnPropertyChanged;
 
-        _simWindow.SizeChanged += (_, _) => { Calculate(_simWindow.MapCanvas); Redraw(_simWindow.MapCanvas); };
+        _simWindow.SizeChanged += (_, _) => { Calculate(canvas); Redraw(canvas); };
 
         _simWindow.Show();
 
-        Calculate(_simWindow.MapCanvas);
-        Redraw(_simWindow.MapCanvas);
+        DisplayLoading();
 
         return true;
+    }
+
+    private void DisplayLoading()
+    {
+
     }
 
     #region Drawing
@@ -138,7 +145,8 @@ public partial class App : Application
     /// <param name="c">The currently open window's canvas</param>
     private void Calculate(Canvas c)
     {
-        var (w, h) = _viewModel!.Size;
+        var w = _viewModel!.Width;
+        var h = _viewModel.Height;
 
         XLength = (w + 1) * Step - (_viewModel.Zoom - 1) * MARGIN;
         YLength = (h + 1) * Step - (_viewModel.Zoom - 1) * MARGIN;
@@ -222,7 +230,7 @@ public partial class App : Application
     /// <param name="c">The currently open window's canvas</param>
     private void DrawGrid(Canvas c)
     {
-        for (var i = 0; i <= _viewModel!.Size.W; i++)
+        for (var i = 0; i <= _viewModel!.Width; i++)
         {
             c.Children.Add(new Line()
             {
@@ -235,7 +243,7 @@ public partial class App : Application
             });
         }
 
-        for (var i = 0; i <= _viewModel.Size.H; i++)
+        for (var i = 0; i <= _viewModel.Height; i++)
         {
             c.Children.Add(new Line()
             {
