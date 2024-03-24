@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Persistence;
 
-internal class BoardFileDataAccess : IBoardDataAccess
+public class BoardFileDataAccess : IBoardDataAccess
 {
     #region Constants
     public const int EMPTY = 0;
