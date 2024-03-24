@@ -109,11 +109,11 @@ public class Board2
 
     public int GetValue(int x, int y)
     {
-        if (x < 0 || x >= this.Height)
+        if (x < 0 || x >= this.Width)
         {
             throw new ArgumentOutOfRangeException(nameof(x), "The X coordinate is out of range.");
         }
-        if (y < 0 || y >= this.Width)
+        if (y < 0 || y >= this.Height)
         {
             throw new ArgumentOutOfRangeException(nameof(y), "The Y coordinate is out of range.");
         }

@@ -25,10 +25,26 @@ public sealed class SimulationController : Controller
         _robots.AddRange(await ra.LoadAsync(config.AgentFile, _board.Width, _board.Height));
         _packages.AddRange(await pa.LoadAsync(config.TaskFile, _board.Width, _board.Height));
 
+        LoadWalls();
+
         OnLoaded(this);
 
         BFSController controller = new BFSController();
         controller.FindAllPaths(_board, _robots, _packages);
+    }
+
+    private void LoadWalls()
+    {
+        for (int y = 0; y < _board.Height; y++)
+        {
+            for (int x = 0; x < _board.Width; x++)
+            {
+                if (_board.GetValue(x, y) == Board2.WALL)
+                {
+                    _walls.Add(new(x, y));
+                }
+            }
+        }
     }
 
     protected override void OnTick(object? state)
