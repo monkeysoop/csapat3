@@ -12,8 +12,8 @@ public sealed class Robot : IMapObject
 
 
 
-    private readonly List<Action> _traversedRoute= new List<Action>();
-    private readonly Action[] _plannedRoute;
+    private readonly List<Action> _traversedRoute;
+    private List<Action> _plannedRoute;
     private int _routeIndex;
 
     public int ID { get; }
@@ -49,7 +49,19 @@ public sealed class Robot : IMapObject
         ID = Robot.IDCounter;
         Robot.IDCounter++;
 
-        _plannedRoute = new Action[0];
+        _traversedRoute = new List<Action>();
+        _plannedRoute = new List<Action>();
+        _routeIndex = 0;
+    }
+
+    public bool Available()
+    {
+        return _routeIndex == _plannedRoute.Count;
+    }
+
+    public void AddPlannedRoute(List<Action> plannedRoute)
+    {
+        _plannedRoute = plannedRoute;
         _routeIndex = 0;
     }
 
@@ -60,7 +72,7 @@ public sealed class Robot : IMapObject
 
     public void Step()
     {
-        if (_routeIndex < _plannedRoute.Length && _plannedRoute.Length > 0)
+        if (_routeIndex < _plannedRoute.Count && _plannedRoute.Count > 0)
         {
             Action a = _plannedRoute[0];
             _routeIndex++;
