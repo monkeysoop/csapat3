@@ -102,7 +102,7 @@ public abstract class PathFinder
 
     private static List<Action> TracePath(int[] parents_board, int board_width, Point start, int start_direction, Point end)
     {
-        List<Action> path = new List<Action>();
+        List<Action> path = [];
 
 
         Point current_position = end;
