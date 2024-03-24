@@ -2,6 +2,8 @@
 
 public sealed class SimulationController : Controller
 {
+    private readonly PathFinder _pathFinder;
+
     /// <summary>
     /// 
     /// </summary>
@@ -12,6 +14,7 @@ public sealed class SimulationController : Controller
     /// <param name="pa"></param>
     public SimulationController(string path, IConfigDataAccess ca, IBoardDataAccess ba, IRobotsDataAccess ra, IPackagesDataAccess pa)
     {
+        _pathFinder = new DFSController();
         Load(path, ca, ba, ra, pa);
     }
 
@@ -27,10 +30,9 @@ public sealed class SimulationController : Controller
 
         LoadWalls();
 
+        _pathFinder.FindAllPaths(_board, _robots, _packages);
+        
         OnLoaded(this);
-
-        BFSController controller = new BFSController();
-        controller.FindAllPaths(_board, _robots, _packages);
     }
 
     private void LoadWalls()
