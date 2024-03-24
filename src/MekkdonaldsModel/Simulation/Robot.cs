@@ -87,8 +87,8 @@ public sealed class Robot : IMapObject
         switch (a)
         {
             case Action.F: Position.Offset(position_offsets[(int)Direction]); break;
-            case Action.R: Direction.ClockWise(); break;
-            case Action.C: Direction.CounterClockWise(); break;
+            case Action.R: Direction = Direction.ClockWise(); break;
+            case Action.C: Direction = Direction.CounterClockWise(); break;
         }
     }
 }
