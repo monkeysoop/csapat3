@@ -28,6 +28,9 @@ public sealed class SimulationController : Controller
         LoadWalls();
 
         OnLoaded(this);
+
+        BFSController controller = new BFSController();
+        controller.FindAllPaths(_board, _robots, _packages);
     }
 
     private void LoadWalls()

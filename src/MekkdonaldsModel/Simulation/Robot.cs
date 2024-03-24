@@ -72,9 +72,9 @@ public sealed class Robot : IMapObject
 
     public void Step()
     {
-        if (_routeIndex < _plannedRoute.Count && _plannedRoute.Count > 0)
+        if (_routeIndex < _plannedRoute.Count)
         {
-            Action a = _plannedRoute[0];
+            Action a = _plannedRoute[_routeIndex];
             _routeIndex++;
 
             MakeStep(a);
