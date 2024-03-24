@@ -30,11 +30,30 @@ public abstract class PathFinder
 
     public void FindAllPaths(Board2 board, List<Robot> robots, List<Package> packages)
     {
-        while (packages.Count > 0)
+        int package_index = 0;
+        while (package_index < packages.Count)
         {
             foreach(Robot r  in robots)
             {
-                
+                if (!r.Available())
+                {
+                    r.Step();
+                } else
+                {
+                    bool found;
+                    List<Action> path;
+                    (found, path) = CalculatePath(board, r.Position, (int)r.Direction, packages[package_index].Position);
+                    
+                    if (found)
+                    {
+                        r.AddPlannedRoute(path);
+                        package_index++;
+                    } else
+                    {
+                        throw new PathException("no path found!");
+                    }
+                    r.Step();
+                }
             }
         }
     }
