@@ -49,8 +49,8 @@ public sealed class Robot : IMapObject
         ID = Robot.IDCounter;
         Robot.IDCounter++;
 
-        _traversedRoute = new List<Action>();
-        _plannedRoute = new List<Action>();
+        _traversedRoute = [];
+        _plannedRoute = [];
         _routeIndex = 0;
     }
 
