@@ -8,25 +8,18 @@ public class Board2
     #region Constants
     public const int EMPTY = 0;
     public const int WALL = 1;
+    public const int NOT_SEARCHED = 0;
     public const int SEARCHED = 1;
-    //public const int OPEN = 3;
     #endregion
 
 
 
     #region Fields
-    private readonly int[] Data;
+    public readonly int[] Data;
     private readonly int[] SearchMask;
     public int Height { get; init; }
     public int Width { get; init; }
     #endregion
-
-
-
-    //#region Properties
-    //public int this[int y, int x] { get {return GetValue(x, y);} set {SetValue(x, y, value);} }
-    //public int this[Point p] { get {return GetValue(p.X, p.Y);} set {SetValue(p.X, p.Y, value);} }
-    //#endregion
 
 
 
@@ -37,8 +30,13 @@ public class Board2
         Width = width;
 
         Data = new int[height * width];
-
         SearchMask = new int[height * width];
+
+        for (int i = 0; i < height * width; i++)
+        {
+            Data[i] = EMPTY;
+            SearchMask[i] = NOT_SEARCHED; 
+        }
     }
 
     public Board2(int[,] data, int height, int width)
@@ -47,15 +45,16 @@ public class Board2
         Width = width;
         
         Data = new int[height * width];
+        SearchMask = new int[height * width];
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
                 SetValue(x, y, data[y, x]); // this checks the input from data[,]
+                SearchMask[y * width + x] = NOT_SEARCHED;
             }
         }
 
-        SearchMask = new int[height * width];
     }
     #endregion
 
@@ -71,7 +70,8 @@ public class Board2
                  position.X < Width &&
                  position.Y >= 0 &&
                  position.Y < Height &&
-                 Data[position.Y * Width + position.X] == EMPTY;
+                 Data[position.Y * Width + position.X] == EMPTY &&
+                 SearchMask[position.Y * Width + position.X] == NOT_SEARCHED;
 #endif
         if (t)
         {
@@ -85,7 +85,7 @@ public class Board2
     {
         for (int i = 0; i < Height * Width; i++)
         {
-            SearchMask[i] = 0;
+            SearchMask[i] = NOT_SEARCHED;
         }
     }
 
@@ -99,7 +99,7 @@ public class Board2
         {
             throw new ArgumentOutOfRangeException(nameof(y), "The Y coordinate is out of range.");
         }
-        if (value < 0 || value > 1)
+        if (value != EMPTY && value != WALL)
         {
             throw new ArgumentOutOfRangeException(nameof(value), "The value is out of range.");
         }
