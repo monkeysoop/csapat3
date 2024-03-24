@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Persistence;
 
-internal class RobotsDataAccess : IRobotsDataAccess
+public class RobotsDataAccess : IRobotsDataAccess
 {
     public async Task<List<Robot>> LoadAsync(string path, int width, int height)
     {

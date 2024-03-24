@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Simulation.Controller;
 
-public sealed class AstarController: SimulationController
+public sealed class AstarController: PathFinder
 {
     protected override (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position)
     {

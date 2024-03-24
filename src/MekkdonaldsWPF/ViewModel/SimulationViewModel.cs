@@ -1,14 +1,15 @@
-﻿namespace Mekkdonalds.ViewModel;
+﻿using Mekkdonalds.Persistence;
+
+namespace Mekkdonalds.ViewModel;
 
 internal class SimulationViewModel : ViewModel
 {
-    private readonly SimulationController Controller;
+    private readonly SimulationController SimController;
 
     public SimulationViewModel(string path) : base()
     {
-        Size = (20, 40);
+        Controller = SimController = new(path, new ConfigDataAccess(), new BoardFileDataAccess(), new RobotsDataAccess(), new PackagesDataAccess());
 
-        Controller = new DFSController();
-
+        SimController.Loaded += (_, _) => OnLoaded(this);
     }
 }

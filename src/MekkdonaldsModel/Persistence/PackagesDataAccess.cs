@@ -1,6 +1,6 @@
-﻿namespace Mekkdonald.Persistence;
+﻿namespace Mekkdonalds.Persistence;
 
-internal class PackagesDataAccess : IPackagesDataAccess
+public class PackagesDataAccess : IPackagesDataAccess
 {
     public async Task<List<Package>> LoadAsync(string path, int width, int height)
     {

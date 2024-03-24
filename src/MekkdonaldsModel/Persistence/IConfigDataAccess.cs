@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Persistence;
 
-internal interface IConfigDataAccess
+public interface IConfigDataAccess
 {
     public Task<Config> Load(string path);
 }

@@ -10,10 +10,10 @@ internal class Model
     private List<Robot> _robots;
     private List<Package> _packages;
 
-    SimulationController _simulationController;
+    PathFinder _simulationController;
     
 
-    public Model(IBoardDataAccess boardDataAccess, IRobotsDataAccess packagesDataAccess, IPackagesDataAccess robotsDataAccess, SimulationController simulationController) 
+    public Model(IBoardDataAccess boardDataAccess, IRobotsDataAccess packagesDataAccess, IPackagesDataAccess robotsDataAccess, PathFinder simulationController) 
     {
         _boardDataAccess = boardDataAccess;
         _packagesDataAccess = packagesDataAccess;
