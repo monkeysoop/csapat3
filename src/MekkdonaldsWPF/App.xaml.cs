@@ -1,4 +1,7 @@
-﻿namespace Mekkdonalds;
+﻿
+using System.Diagnostics;
+
+namespace Mekkdonalds;
 
 /// <summary>
 /// Interaction logic for App.xaml
@@ -19,6 +22,7 @@ public partial class App : Application
     private ReplayWindow? _replayWindow;
     private ViewModel.ViewModel? _viewModel;
     private bool _ctrlDown;
+    private Point _mousePos;
 
     public App()
     {
@@ -132,6 +136,7 @@ public partial class App : Application
                 _ctrlDown = true;
             }
         };
+
         _simWindow.KeyUp += (_, e) =>
         {
             if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
@@ -139,15 +144,34 @@ public partial class App : Application
                 _ctrlDown = false;
             }
         };
+
         _simWindow.ScrollViewer.PreviewMouseWheel += (_, e) =>
         {
             if (_ctrlDown)
             {
-                _viewModel.Zoom += e.Delta > 0 ? 0.1 : -0.1;
+                if (e.Delta > 0)
+                    _viewModel.Zoom *= 1.1;
+                else
+                    _viewModel.Zoom /= 1.1;
             }
 
             e.Handled = true;
         };
+
+        _simWindow.ScrollViewer.MouseMove += (x, e) =>
+        {
+            var p = e.GetPosition(x as IInputElement);
+
+            if (e.LeftButton is MouseButtonState.Pressed)
+            {
+                _simWindow.ScrollViewer.ScrollToHorizontalOffset(_simWindow.ScrollViewer.HorizontalOffset + (_mousePos.X - p.X));
+                _simWindow.ScrollViewer.ScrollToVerticalOffset(_simWindow.ScrollViewer.VerticalOffset + (_mousePos.Y - p.Y));
+            }
+
+            _mousePos = p;
+        };
+
+        _simWindow.ScrollViewer.Cursor = Cursors.Hand;
 
         _simWindow.Show();
 
