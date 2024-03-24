@@ -18,10 +18,12 @@ public sealed class Robot : IMapObject
 
     public int ID { get; }
 
+    private Point _position;
+
     /// <summary>
     /// Current position of the robot
     /// </summary>
-    public Point Position { get; private set; }
+    public Point Position => _position;
 
     /// <summary>
     /// The direction the robot is currently facing
@@ -43,7 +45,7 @@ public sealed class Robot : IMapObject
 
     public Robot(Point position, Direction direction)
     {
-        Position = position;
+        _position = position;
         Direction = direction;
 
         ID = Robot.IDCounter;
@@ -86,7 +88,7 @@ public sealed class Robot : IMapObject
     {
         switch (a)
         {
-            case Action.F: Position.Offset(position_offsets[(int)Direction]); break;
+            case Action.F: _position.Offset(position_offsets[(int)Direction]); break;
             case Action.R: Direction = Direction.ClockWise(); break;
             case Action.C: Direction = Direction.CounterClockWise(); break;
         }
