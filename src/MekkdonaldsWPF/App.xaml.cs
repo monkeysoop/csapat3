@@ -18,6 +18,7 @@ public partial class App : Application
     private StartWindow? _startWindow;
     private ReplayWindow? _replayWindow;
     private ViewModel.ViewModel? _viewModel;
+    private bool _ctrlDown;
 
     public App()
     {
@@ -119,22 +120,45 @@ public partial class App : Application
 
         var canvas = _simWindow.MapCanvas;
 
-        _viewModel.Loaded += (_, _) => Dispatcher.Invoke(() => { Calculate(canvas); Redraw(canvas); }); // UI elemts have to be updated with this call when it is called from another thread
-        _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(canvas)); // UI elemts have to be updated with this call when it is called from another thread
+        _viewModel.Loaded += (_, _) => Dispatcher.Invoke(() => { Calculate(canvas); Redraw(canvas); _simWindow.Cursor = Cursors.Arrow; }); // UI elemts have to be updated with this call when it is called from another thread
+        _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(canvas));
         _viewModel.PropertyChanged += OnPropertyChanged;
 
         _simWindow.SizeChanged += (_, _) => { Calculate(canvas); Redraw(canvas); };
+        _simWindow.KeyDown += (_, e) =>
+        {
+            if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
+            {
+                _ctrlDown = true;
+            }
+        };
+        _simWindow.KeyUp += (_, e) =>
+        {
+            if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
+            {
+                _ctrlDown = false;
+            }
+        };
+        _simWindow.ScrollViewer.PreviewMouseWheel += (_, e) =>
+        {
+            if (_ctrlDown)
+            {
+                _viewModel.Zoom += e.Delta > 0 ? 0.1 : -0.1;
+            }
+
+            e.Handled = true;
+        };
 
         _simWindow.Show();
 
-        DisplayLoading();
+        DisplayLoading(_simWindow);
 
         return true;
     }
 
-    private void DisplayLoading()
+    private static void DisplayLoading(Window w)
     {
-
+        w.Cursor = Cursors.Wait;
     }
 
     #region Drawing
