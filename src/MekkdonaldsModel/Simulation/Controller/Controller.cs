@@ -5,7 +5,7 @@ public abstract class Controller
     protected ConcurrentDictionary<Robot, List<Path>> Paths;
     protected List<Robot> _robots;
     protected List<Wall> _walls;
-    protected List<Package> _packages;
+    protected ConcurrentQueue<Package> _packages;
     protected Timer Timer;
     private readonly TimeSpan _interval;
 

@@ -28,6 +28,11 @@ public sealed class SimulationController : Controller
         _robots.AddRange(await ra.LoadAsync(config.AgentFile, _board.Width, _board.Height));
         _packages.AddRange(await pa.LoadAsync(config.TaskFile, _board.Width, _board.Height));
 
+        foreach (var p in await pa.LoadAsync(config.TaskFile, _board.Width, _board.Height))
+        {
+            _packages.Enqueue(p);
+        }
+
         LoadWalls();
 
         // _pathFinder.FindAllPaths(_board, _robots, _packages);
