@@ -14,7 +14,7 @@ public sealed class SimulationController : Controller
     /// <param name="pa"></param>
     public SimulationController(string path, IConfigDataAccess ca, IBoardDataAccess ba, IRobotsDataAccess ra, IPackagesDataAccess pa)
     {
-        _pathFinder = new DFSController();
+        _pathFinder = new BFSController();
         Load(path, ca, ba, ra, pa);
     }
 
@@ -26,7 +26,6 @@ public sealed class SimulationController : Controller
         _board = b; // for some reason it only sets board this way ????????
 
         _robots.AddRange(await ra.LoadAsync(config.AgentFile, _board.Width, _board.Height));
-        _packages.AddRange(await pa.LoadAsync(config.TaskFile, _board.Width, _board.Height));
 
         foreach (var p in await pa.LoadAsync(config.TaskFile, _board.Width, _board.Height))
         {
@@ -58,29 +57,54 @@ public sealed class SimulationController : Controller
 
     private void InitPaths()
     {
-        var q = new Queue<Package>(_packages);
-
-        var i = 0;
-
-        while (q.Count > 0)
+        foreach (var r in _robots)
         {
-            var r = _robots[i];
+            var p = _packages.TryDequeue(out var pack) ? pack.Position : default;
 
-            var p = q.Peek().Position;
+            if (p.X == -1)
+        {
+                break;
+            }
 
             var (found, path) = _pathFinder.CalculatePath(_board, r.Position, (int)r.Direction, p);
 
             if (found)
             {
-                Paths.AddOrUpdate(r, (_) => [new(path, p)], (_, ls) => { ls.Add(new(path, p)); return ls; });
+                Paths.AddOrUpdate(r, (_) => new(path, p), (_, ls) => new(path, p));
+                r.AddTask(p);
             }
             else
             {
                 throw new PathException("No path found!");
             }
-
-            i = (i + 1) % _robots.Count;
         }
+
+        //var q = new Queue<Package>(_packages);
+
+        //var i = 0;
+
+        //while (q.Count > 0)
+        //{
+        //    var r = _robots[i];
+
+        //    var p = q.Peek().Position;
+
+        //    var (found, path) = _pathFinder.CalculatePath(_board, r.Position, (int)r.Direction, p);
+
+        //    if (found)
+        //    {
+        //        Paths.AddOrUpdate(r, (_) => [new Path(path, p)], (_, ls) => { ls.Add(new(path, p)); return ls; });
+        //        q.Dequeue();
+        //    }
+        //    else
+        //    {
+        //        throw new PathException("No path found!");
+        //    }
+
+        //    i = (i + 1) % _robots.Count;
+        //}
+
+        StartTimer();
     }
 
     protected override void OnTick(object? state)
