@@ -1,28 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace MekkdonaldsModel.Persistence
 {
-    public class StartPosConverter : JsonConverter<(Point, Direction)>
+    public class StartPosConverter : JsonConverter<List<(Point, Direction)>>
     {
-        public override (Point, Direction) Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override List<(Point, Direction)> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var value = reader.GetString() ?? throw new NullReferenceException();
             value = value.Replace("\n", "");
+            value = value.Replace("\t", "");
+            value = value.Replace(" ", "");
             value = value.Replace("[", "");
             value = value.Replace("]", "");
             var values = value.Split(",");
-            return (new Point(int.Parse(values[0]), int.Parse(values[1])), DirectionMethods.StringToDirection(values[2]));
+            var listagenyo = new List<(Point, Direction)>();
+            for (int i = 0; i < values.Length; i += 3)
+            {
+                var tuplegenyo = (new Point(int.Parse(values[i]), int.Parse(values[i + 1])), DirectionMethods.StringToDirection(values[i + 2]));
+                listagenyo.Add(tuplegenyo);
+            }
+            return listagenyo;
         }
 
-        public override void Write(Utf8JsonWriter writer, (Point, Direction) value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, List<(Point, Direction)> value, JsonSerializerOptions options)
         {
-            writer.WriteStringValue($"[{value.Item1.X},{value.Item1.Y},{DirectionMethods.DirectionToString(value.Item2)}");
+            for (int i = 0; i < value.Count; i++)
+            {
+                writer.WriteStringValue($"[{value[i].Item1.X},{value[i].Item1.Y},{DirectionMethods.DirectionToString(value[i].Item2)}");
+
+            }
         }
     }
 }
