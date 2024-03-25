@@ -1,33 +1,34 @@
 ### YamlMime:ManagedReference
 items:
-- uid: Mekkdonalds.Test.SimulationTests
-  commentId: T:Mekkdonalds.Test.SimulationTests
-  id: SimulationTests
-  parent: Mekkdonalds.Test
+- uid: Mekkdonalds.Simulation.Package
+  commentId: T:Mekkdonalds.Simulation.Package
+  id: Package
+  parent: Mekkdonalds.Simulation
   children:
-  - Mekkdonalds.Test.SimulationTests.Setup
-  - Mekkdonalds.Test.SimulationTests.Test1
+  - Mekkdonalds.Simulation.Package.#ctor(System.Drawing.Point)
+  - Mekkdonalds.Simulation.Package.#ctor(System.Int32,System.Int32)
+  - Mekkdonalds.Simulation.Package.Position
   langs:
   - csharp
   - vb
-  name: SimulationTests
-  nameWithType: SimulationTests
-  fullName: Mekkdonalds.Test.SimulationTests
+  name: Package
+  nameWithType: Package
+  fullName: Mekkdonalds.Simulation.Package
   type: Class
   source:
     remote:
-      path: src/MekkdonaldsTest/SimulationTests.cs
+      path: src/MekkdonaldsModel/Simulation/Package.cs
       branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: SimulationTests
-    path: ../src/MekkdonaldsTest/SimulationTests.cs
+    id: Package
+    path: ../src/MekkdonaldsModel/Simulation/Package.cs
     startLine: 2
   assemblies:
-  - MekkdonaldsTest
-  namespace: Mekkdonalds.Test
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
   syntax:
-    content: public class SimulationTests
-    content.vb: Public Class SimulationTests
+    content: public sealed class Package
+    content.vb: Public NotInheritable Class Package
   inheritance:
   - System.Object
   inheritedMembers:
@@ -35,104 +36,127 @@ items:
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
   - System.Object.GetType
-  - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
-- uid: Mekkdonalds.Test.SimulationTests.Setup
-  commentId: M:Mekkdonalds.Test.SimulationTests.Setup
-  id: Setup
-  parent: Mekkdonalds.Test.SimulationTests
+- uid: Mekkdonalds.Simulation.Package.#ctor(System.Drawing.Point)
+  commentId: M:Mekkdonalds.Simulation.Package.#ctor(System.Drawing.Point)
+  id: '#ctor(System.Drawing.Point)'
+  parent: Mekkdonalds.Simulation.Package
   langs:
   - csharp
   - vb
-  name: Setup()
-  nameWithType: SimulationTests.Setup()
-  fullName: Mekkdonalds.Test.SimulationTests.Setup()
-  type: Method
+  name: Package(Point)
+  nameWithType: Package.Package(Point)
+  fullName: Mekkdonalds.Simulation.Package.Package(System.Drawing.Point)
+  type: Constructor
   source:
     remote:
-      path: src/MekkdonaldsTest/SimulationTests.cs
+      path: src/MekkdonaldsModel/Simulation/Package.cs
       branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: Setup
-    path: ../src/MekkdonaldsTest/SimulationTests.cs
+    id: .ctor
+    path: ../src/MekkdonaldsModel/Simulation/Package.cs
+    startLine: 2
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
+  syntax:
+    content: public Package(Point p)
+    parameters:
+    - id: p
+      type: System.Drawing.Point
+    content.vb: Public Sub New(p As Point)
+  overload: Mekkdonalds.Simulation.Package.#ctor*
+  nameWithType.vb: Package.New(Point)
+  fullName.vb: Mekkdonalds.Simulation.Package.New(System.Drawing.Point)
+  name.vb: New(Point)
+- uid: Mekkdonalds.Simulation.Package.Position
+  commentId: P:Mekkdonalds.Simulation.Package.Position
+  id: Position
+  parent: Mekkdonalds.Simulation.Package
+  langs:
+  - csharp
+  - vb
+  name: Position
+  nameWithType: Package.Position
+  fullName: Mekkdonalds.Simulation.Package.Position
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Package.cs
+      branch: master
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Position
+    path: ../src/MekkdonaldsModel/Simulation/Package.cs
     startLine: 4
   assemblies:
-  - MekkdonaldsTest
-  namespace: Mekkdonalds.Test
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
+  example: []
   syntax:
-    content: >-
-      [SetUp]
-
-      public void Setup()
-    content.vb: >-
-      <SetUp>
-
-      Public Sub Setup()
-  overload: Mekkdonalds.Test.SimulationTests.Setup*
-  attributes:
-  - type: NUnit.Framework.SetUpAttribute
-    ctor: NUnit.Framework.SetUpAttribute.#ctor
-    arguments: []
-- uid: Mekkdonalds.Test.SimulationTests.Test1
-  commentId: M:Mekkdonalds.Test.SimulationTests.Test1
-  id: Test1
-  parent: Mekkdonalds.Test.SimulationTests
+    content: public Point Position { get; }
+    parameters: []
+    return:
+      type: System.Drawing.Point
+    content.vb: Public ReadOnly Property Position As Point
+  overload: Mekkdonalds.Simulation.Package.Position*
+- uid: Mekkdonalds.Simulation.Package.#ctor(System.Int32,System.Int32)
+  commentId: M:Mekkdonalds.Simulation.Package.#ctor(System.Int32,System.Int32)
+  id: '#ctor(System.Int32,System.Int32)'
+  parent: Mekkdonalds.Simulation.Package
   langs:
   - csharp
   - vb
-  name: Test1()
-  nameWithType: SimulationTests.Test1()
-  fullName: Mekkdonalds.Test.SimulationTests.Test1()
-  type: Method
+  name: Package(int, int)
+  nameWithType: Package.Package(int, int)
+  fullName: Mekkdonalds.Simulation.Package.Package(int, int)
+  type: Constructor
   source:
     remote:
-      path: src/MekkdonaldsTest/SimulationTests.cs
+      path: src/MekkdonaldsModel/Simulation/Package.cs
       branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: Test1
-    path: ../src/MekkdonaldsTest/SimulationTests.cs
-    startLine: 9
+    id: .ctor
+    path: ../src/MekkdonaldsModel/Simulation/Package.cs
+    startLine: 6
   assemblies:
-  - MekkdonaldsTest
-  namespace: Mekkdonalds.Test
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
   syntax:
-    content: >-
-      [Test]
-
-      public void Test1()
-    content.vb: >-
-      <Test>
-
-      Public Sub Test1()
-  overload: Mekkdonalds.Test.SimulationTests.Test1*
-  attributes:
-  - type: NUnit.Framework.TestAttribute
-    ctor: NUnit.Framework.TestAttribute.#ctor
-    arguments: []
+    content: public Package(int x, int y)
+    parameters:
+    - id: x
+      type: System.Int32
+    - id: y
+      type: System.Int32
+    content.vb: Public Sub New(x As Integer, y As Integer)
+  overload: Mekkdonalds.Simulation.Package.#ctor*
+  nameWithType.vb: Package.New(Integer, Integer)
+  fullName.vb: Mekkdonalds.Simulation.Package.New(Integer, Integer)
+  name.vb: New(Integer, Integer)
 references:
-- uid: Mekkdonalds.Test
-  commentId: N:Mekkdonalds.Test
+- uid: Mekkdonalds.Simulation
+  commentId: N:Mekkdonalds.Simulation
   href: Mekkdonalds.html
-  name: Mekkdonalds.Test
-  nameWithType: Mekkdonalds.Test
-  fullName: Mekkdonalds.Test
+  name: Mekkdonalds.Simulation
+  nameWithType: Mekkdonalds.Simulation
+  fullName: Mekkdonalds.Simulation
   spec.csharp:
   - uid: Mekkdonalds
     name: Mekkdonalds
     href: Mekkdonalds.html
   - name: .
-  - uid: Mekkdonalds.Test
-    name: Test
-    href: Mekkdonalds.Test.html
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
   spec.vb:
   - uid: Mekkdonalds
     name: Mekkdonalds
     href: Mekkdonalds.html
   - name: .
-  - uid: Mekkdonalds.Test
-    name: Test
-    href: Mekkdonalds.Test.html
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
 - uid: System.Object
   commentId: T:System.Object
   parent: System
@@ -270,30 +294,6 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.object.gettype
   - name: (
   - name: )
-- uid: System.Object.MemberwiseClone
-  commentId: M:System.Object.MemberwiseClone
-  parent: System.Object
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
-  name: MemberwiseClone()
-  nameWithType: object.MemberwiseClone()
-  fullName: object.MemberwiseClone()
-  nameWithType.vb: Object.MemberwiseClone()
-  fullName.vb: Object.MemberwiseClone()
-  spec.csharp:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
-  - name: (
-  - name: )
 - uid: System.Object.ReferenceEquals(System.Object,System.Object)
   commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
   parent: System.Object
@@ -370,15 +370,64 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: Mekkdonalds.Test.SimulationTests.Setup*
-  commentId: Overload:Mekkdonalds.Test.SimulationTests.Setup
-  href: Mekkdonalds.Test.SimulationTests.html#Mekkdonalds_Test_SimulationTests_Setup
-  name: Setup
-  nameWithType: SimulationTests.Setup
-  fullName: Mekkdonalds.Test.SimulationTests.Setup
-- uid: Mekkdonalds.Test.SimulationTests.Test1*
-  commentId: Overload:Mekkdonalds.Test.SimulationTests.Test1
-  href: Mekkdonalds.Test.SimulationTests.html#Mekkdonalds_Test_SimulationTests_Test1
-  name: Test1
-  nameWithType: SimulationTests.Test1
-  fullName: Mekkdonalds.Test.SimulationTests.Test1
+- uid: Mekkdonalds.Simulation.Package.#ctor*
+  commentId: Overload:Mekkdonalds.Simulation.Package.#ctor
+  href: Mekkdonalds.Simulation.Package.html#Mekkdonalds_Simulation_Package__ctor_System_Drawing_Point_
+  name: Package
+  nameWithType: Package.Package
+  fullName: Mekkdonalds.Simulation.Package.Package
+  nameWithType.vb: Package.New
+  fullName.vb: Mekkdonalds.Simulation.Package.New
+  name.vb: New
+- uid: System.Drawing.Point
+  commentId: T:System.Drawing.Point
+  parent: System.Drawing
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.drawing.point
+  name: Point
+  nameWithType: Point
+  fullName: System.Drawing.Point
+- uid: System.Drawing
+  commentId: N:System.Drawing
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Drawing
+  nameWithType: System.Drawing
+  fullName: System.Drawing
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Drawing
+    name: Drawing
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.drawing
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Drawing
+    name: Drawing
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.drawing
+- uid: Mekkdonalds.Simulation.Package.Position*
+  commentId: Overload:Mekkdonalds.Simulation.Package.Position
+  href: Mekkdonalds.Simulation.Package.html#Mekkdonalds_Simulation_Package_Position
+  name: Position
+  nameWithType: Package.Position
+  fullName: Mekkdonalds.Simulation.Package.Position
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
