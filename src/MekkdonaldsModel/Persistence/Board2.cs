@@ -1,10 +1,11 @@
 ﻿#define BORDER_CHECK
 
-namespace MekkdonaldsModel.Persistence;
+namespace Mekkdonalds.Persistence;
 
 // Has to be public otherwise can't be used in Controller class
 public class Board2
 {
+    #region Constants
     public const int EMPTY = 0;
     public const int WALL = 1;
     public const int NOT_SEARCHED = 0;
@@ -18,31 +19,31 @@ public class Board2
     private readonly int[] SearchMask;
     public int Height { get; init; }
     public int Width { get; init; }
+    #endregion
 
 
 
     #region Constructors
     public Board2(int height, int width)
     {
-        Data = new int[height * width];
         Height = height;
         Width = width;
-    }
 
-    public Board2(int[] data, int height, int width)
-    {
         Data = new int[height * width];
         SearchMask = new int[height * width];
 
         for (int i = 0; i < height * width; i++)
         {
             Data[i] = EMPTY;
-            SearchMask[i] = NOT_SEARCHED; 
+            SearchMask[i] = NOT_SEARCHED;
         }
     }
 
     public Board2(int[,] data, int height, int width)
     {
+        Height = height;
+        Width = width;
+
         Data = new int[height * width];
         SearchMask = new int[height * width];
         for (int y = 0; y < height; y++)
@@ -55,11 +56,15 @@ public class Board2
         }
 
     }
+    #endregion
 
-    public void SetSearched(Point position)
+
+
+    #region Public methods
+    public bool SetSearchedIfEmpty(Point position)
     {
 #if NO_BORDER_CHECK
-        bool t = true;
+        bool t = (Data[position.Y * Width + Height] == EMPTY);
 #else
         bool t = position.X >= 0 &&
                  position.X < Width &&
@@ -84,7 +89,7 @@ public class Board2
         }
     }
 
-    public bool SetOpenIfEmpty(Point position)
+    public void SetValue(int x, int y, int value)
     {
         if (x < 0 || x >= this.Width)
         {
@@ -92,17 +97,17 @@ public class Board2
         }
         if (y < 0 || y >= this.Height)
         {
-            Data[position.Y * Width + position.X] = OPEN;
+            throw new ArgumentOutOfRangeException(nameof(y), "The Y coordinate is out of range.");
         }
         if (value != EMPTY && value != WALL)
         {
             throw new ArgumentOutOfRangeException(nameof(value), "The value is out of range.");
         }
 
-        return t;
+        Data[y * Width + x] = value;
     }
 
-    public bool SetSearchedIfEmpty(Point position)
+    public int GetValue(int x, int y)
     {
         if (x < 0 || x >= this.Width)
         {
@@ -110,9 +115,12 @@ public class Board2
         }
         if (y < 0 || y >= this.Height)
         {
-            Data[position.Y * Width + position.X] = SEARCHED;
+            throw new ArgumentOutOfRangeException(nameof(y), "The Y coordinate is out of range.");
         }
 
-        return t;
+        return Data[y * Width + x];
     }
+    #endregion
 }
+
+

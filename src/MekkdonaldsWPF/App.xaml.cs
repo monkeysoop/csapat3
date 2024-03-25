@@ -1,4 +1,7 @@
-﻿namespace Mekkdonalds;
+﻿using Microsoft.Win32;
+using System.ComponentModel;
+
+namespace Mekkdonalds;
 
 /// <summary>
 /// Interaction logic for App.xaml
