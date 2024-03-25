@@ -11,7 +11,7 @@ public abstract class PathFinder
 
     protected abstract (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position);
 
-    public (bool, List<Action>) CalculatePath(Board2 board, Point start_position, int start_direction, Point end_position)
+    internal (bool, List<Action>) CalculatePath(Board2 board, Point start_position, int start_direction, Point end_position)
     {
         bool found;
         int[] parents_data;
@@ -22,7 +22,8 @@ public abstract class PathFinder
         if (found)
         {
             return (true, TracePath(parents_data, board.Width, start_position, start_direction, end_position));
-        } else
+        }
+        else
         {
             return (false, new List<Action>());
         }
@@ -33,31 +34,45 @@ public abstract class PathFinder
         int package_index = 0;
         while (package_index < packages.Count)
         {
-            foreach(Robot r  in robots)
+            foreach (Robot r in robots)
             {
                 if (!r.Available())
                 {
                     r.Step();
-                } else
+                }
+                else if (package_index < packages.Count)
                 {
                     bool found;
                     List<Action> path;
                     (found, path) = CalculatePath(board, r.Position, (int)r.Direction, packages[package_index].Position);
-                    
+
                     if (found)
                     {
                         r.AddPlannedRoute(path);
                         package_index++;
-                    } else
+
+                        r.Step();
+                    }
+                    else
                     {
                         throw new PathException("no path found!");
                     }
-                    r.Step();
                 }
             }
         }
+        foreach (Robot r in robots)
+        {
+            while (!r.Available())
+            {
+                r.Step();
+            }
+        }
+        foreach (Robot r in robots)
+        {
+            Debug.WriteLine(string.Join(",", r.History.ToArray()));
+        }
     }
-    
+
     protected static bool ComparePoints(Point first, Point second) // == is overloaded
     {
         return first.X == second.X && first.Y == second.Y;
@@ -90,7 +105,7 @@ public abstract class PathFinder
 
     private static List<Action> TracePath(int[] parents_board, int board_width, Point start, int start_direction, Point end)
     {
-        List<Action> path = new List<Action>();
+        List<Action> path = [];
 
 
         Point current_position = end;
@@ -105,7 +120,7 @@ public abstract class PathFinder
 
             int next_direction = (parents_board[next_position.Y * board_width + next_position.X] + 2) % 4;
 
-            int diff = current_direction - next_direction + 3;
+            int diff = current_direction - next_direction;
 
 
             path.Add(Action.F);
@@ -114,17 +129,18 @@ public abstract class PathFinder
                 case -3: path.Add(Action.R); break;
                 case -2: path.Add(Action.R); path.Add(Action.R); break;
                 case -1: path.Add(Action.C); break;
-                case  0: break;
-                case  1: path.Add(Action.R); break;
-                case  2: path.Add(Action.R); path.Add(Action.R); break;
-                case  3: path.Add(Action.C); break;
+                case 0: break;
+                case 1: path.Add(Action.R); break;
+                case 2: path.Add(Action.R); path.Add(Action.R); break;
+                case 3: path.Add(Action.C); break;
             }
 
             current_position = next_position;
             current_direction = next_direction;
         }
 
-        System.Diagnostics.Debug.WriteLine("path in reverse: " + path);
+        path.Reverse();
+
         return path;
     }
 

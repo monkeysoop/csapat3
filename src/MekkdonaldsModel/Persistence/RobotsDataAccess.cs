@@ -10,8 +10,6 @@ public class RobotsDataAccess : IRobotsDataAccess
 
         _ = sr.ReadLine(); // skip header
 
-        int id = 1;
-
         while (!sr.EndOfStream)
         {
             var line = await sr.ReadLineAsync() ?? throw new RobotsDataException();
