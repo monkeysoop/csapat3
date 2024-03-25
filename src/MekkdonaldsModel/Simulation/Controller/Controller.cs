@@ -2,7 +2,7 @@
 
 public abstract class Controller
 {
-    protected ConcurrentDictionary<Robot, List<Path>> Paths;
+    protected ConcurrentDictionary<Robot, Path> Paths;
     protected List<Robot> _robots;
     protected List<Wall> _walls;
     protected ConcurrentQueue<Package> _packages;
