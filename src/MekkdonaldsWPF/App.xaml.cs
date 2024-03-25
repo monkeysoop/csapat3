@@ -256,10 +256,6 @@ public partial class App : Application
         }
     }
 
-    /// <summary>
-    /// Draws the robots and their targets (if they have one) to the canvas
-    /// </summary>
-    /// <param name="c">The currently open window's canvas</param>
     private void DrawRobots(Canvas c)
     {
         var fontSize = 12 * Math.Sqrt(_viewModel!.Zoom);

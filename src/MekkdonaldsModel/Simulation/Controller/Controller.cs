@@ -9,6 +9,7 @@ public abstract class Controller
     protected Timer Timer;
     private readonly TimeSpan _interval;
 
+
     protected Board2 _board;
 
     public int Width => _board.Width;

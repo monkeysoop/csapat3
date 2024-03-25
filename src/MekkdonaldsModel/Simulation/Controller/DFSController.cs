@@ -23,6 +23,7 @@ public sealed class DFSController : PathFinder
         stack[1] = new Step(start_position, start_direction, 0);
         stack_index++;
 
+        parents[start_position.Y * board.Width + start_position.X] = start_direction;
 
         bool found = false;
         while (stack_index != 0 && !found)

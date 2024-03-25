@@ -21,8 +21,8 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
-      branch: develop
-      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+      branch: Adorka
+      repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
     id: DelegateCommand
     path: ../src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
     startLine: 2
@@ -44,40 +44,6 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
-- uid: Mekkdonalds.ViewModel.DelegateCommand.#ctor(System.Action{System.Object},System.Predicate{System.Object})
-  commentId: M:Mekkdonalds.ViewModel.DelegateCommand.#ctor(System.Action{System.Object},System.Predicate{System.Object})
-  id: '#ctor(System.Action{System.Object},System.Predicate{System.Object})'
-  parent: Mekkdonalds.ViewModel.DelegateCommand
-  langs:
-  - csharp
-  - vb
-  name: DelegateCommand(Action<object?>, Predicate<object?>?)
-  nameWithType: DelegateCommand.DelegateCommand(Action<object?>, Predicate<object?>?)
-  fullName: Mekkdonalds.ViewModel.DelegateCommand.DelegateCommand(System.Action<object?>, System.Predicate<object?>?)
-  type: Constructor
-  source:
-    remote:
-      path: src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
-      branch: develop
-      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: .ctor
-    path: ../src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
-    startLine: 2
-  assemblies:
-  - MekkdonaldsWPF
-  namespace: Mekkdonalds.ViewModel
-  syntax:
-    content: public DelegateCommand(Action<object?> execute, Predicate<object?>? canExecute = null)
-    parameters:
-    - id: execute
-      type: System.Action{System.Object}
-    - id: canExecute
-      type: System.Predicate{System.Object}
-    content.vb: Public Sub New(execute As Action(Of Object), canExecute As Predicate(Of Object) = Nothing)
-  overload: Mekkdonalds.ViewModel.DelegateCommand.#ctor*
-  nameWithType.vb: DelegateCommand.New(Action(Of Object), Predicate(Of Object))
-  fullName.vb: Mekkdonalds.ViewModel.DelegateCommand.New(System.Action(Of Object), System.Predicate(Of Object))
-  name.vb: New(Action(Of Object), Predicate(Of Object))
 - uid: Mekkdonalds.ViewModel.DelegateCommand.CanExecuteChanged
   commentId: E:Mekkdonalds.ViewModel.DelegateCommand.CanExecuteChanged
   id: CanExecuteChanged
@@ -92,8 +58,8 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
-      branch: develop
-      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+      branch: Adorka
+      repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
     id: CanExecuteChanged
     path: ../src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
     startLine: 6
@@ -123,8 +89,8 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
-      branch: develop
-      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+      branch: Adorka
+      repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
     id: Predicate
     path: ../src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
     startLine: 8
@@ -138,6 +104,40 @@ items:
       type: System.Predicate{System.Object}
     content.vb: Public Property Predicate As Predicate(Of Object)
   overload: Mekkdonalds.ViewModel.DelegateCommand.Predicate*
+- uid: Mekkdonalds.ViewModel.DelegateCommand.#ctor(System.Action{System.Object},System.Predicate{System.Object})
+  commentId: M:Mekkdonalds.ViewModel.DelegateCommand.#ctor(System.Action{System.Object},System.Predicate{System.Object})
+  id: '#ctor(System.Action{System.Object},System.Predicate{System.Object})'
+  parent: Mekkdonalds.ViewModel.DelegateCommand
+  langs:
+  - csharp
+  - vb
+  name: DelegateCommand(Action<object?>, Predicate<object?>?)
+  nameWithType: DelegateCommand.DelegateCommand(Action<object?>, Predicate<object?>?)
+  fullName: Mekkdonalds.ViewModel.DelegateCommand.DelegateCommand(System.Action<object?>, System.Predicate<object?>?)
+  type: Constructor
+  source:
+    remote:
+      path: src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
+      branch: Adorka
+      repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
+    id: .ctor
+    path: ../src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
+    startLine: 21
+  assemblies:
+  - MekkdonaldsWPF
+  namespace: Mekkdonalds.ViewModel
+  syntax:
+    content: public DelegateCommand(Action<object?> execute, Predicate<object?>? canExecute = null)
+    parameters:
+    - id: execute
+      type: System.Action{System.Object}
+    - id: canExecute
+      type: System.Predicate{System.Object}
+    content.vb: Public Sub New(execute As Action(Of Object), canExecute As Predicate(Of Object) = Nothing)
+  overload: Mekkdonalds.ViewModel.DelegateCommand.#ctor*
+  nameWithType.vb: DelegateCommand.New(Action(Of Object), Predicate(Of Object))
+  fullName.vb: Mekkdonalds.ViewModel.DelegateCommand.New(System.Action(Of Object), System.Predicate(Of Object))
+  name.vb: New(Action(Of Object), Predicate(Of Object))
 - uid: Mekkdonalds.ViewModel.DelegateCommand.CanExecute(System.Object)
   commentId: M:Mekkdonalds.ViewModel.DelegateCommand.CanExecute(System.Object)
   id: CanExecute(System.Object)
@@ -152,11 +152,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
-      branch: develop
-      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+      branch: Adorka
+      repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
     id: CanExecute
     path: ../src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
-    startLine: 21
+    startLine: 27
   assemblies:
   - MekkdonaldsWPF
   namespace: Mekkdonalds.ViewModel
@@ -192,11 +192,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
-      branch: develop
-      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+      branch: Adorka
+      repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
     id: Execute
     path: ../src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
-    startLine: 23
+    startLine: 29
   assemblies:
   - MekkdonaldsWPF
   namespace: Mekkdonalds.ViewModel
@@ -229,11 +229,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
-      branch: develop
-      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+      branch: Adorka
+      repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
     id: RaiseCanExecuteChanged
     path: ../src/MekkdonaldsWPF/ViewModel/DelegateCommand.cs
-    startLine: 31
+    startLine: 37
   assemblies:
   - MekkdonaldsWPF
   namespace: Mekkdonalds.ViewModel
@@ -546,6 +546,91 @@ references:
     name: Input
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.windows.input
+- uid: System.Windows.Input.ICommand.CanExecuteChanged
+  commentId: E:System.Windows.Input.ICommand.CanExecuteChanged
+  parent: System.Windows.Input.ICommand
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.windows.input.icommand.canexecutechanged
+  name: CanExecuteChanged
+  nameWithType: ICommand.CanExecuteChanged
+  fullName: System.Windows.Input.ICommand.CanExecuteChanged
+- uid: System.EventHandler
+  commentId: T:System.EventHandler
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.eventhandler
+  name: EventHandler
+  nameWithType: EventHandler
+  fullName: System.EventHandler
+- uid: Mekkdonalds.ViewModel.DelegateCommand.Predicate*
+  commentId: Overload:Mekkdonalds.ViewModel.DelegateCommand.Predicate
+  href: Mekkdonalds.ViewModel.DelegateCommand.html#Mekkdonalds_ViewModel_DelegateCommand_Predicate
+  name: Predicate
+  nameWithType: DelegateCommand.Predicate
+  fullName: Mekkdonalds.ViewModel.DelegateCommand.Predicate
+- uid: System.Predicate{System.Object}
+  commentId: T:System.Predicate{System.Object}
+  parent: System
+  definition: System.Predicate`1
+  href: https://learn.microsoft.com/dotnet/api/system.predicate-1
+  name: Predicate<object>
+  nameWithType: Predicate<object>
+  fullName: System.Predicate<object>
+  nameWithType.vb: Predicate(Of Object)
+  fullName.vb: System.Predicate(Of Object)
+  name.vb: Predicate(Of Object)
+  spec.csharp:
+  - uid: System.Predicate`1
+    name: Predicate
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.predicate-1
+  - name: <
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '>'
+  spec.vb:
+  - uid: System.Predicate`1
+    name: Predicate
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.predicate-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Predicate`1
+  commentId: T:System.Predicate`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.predicate-1
+  name: Predicate<T>
+  nameWithType: Predicate<T>
+  fullName: System.Predicate<T>
+  nameWithType.vb: Predicate(Of T)
+  fullName.vb: System.Predicate(Of T)
+  name.vb: Predicate(Of T)
+  spec.csharp:
+  - uid: System.Predicate`1
+    name: Predicate
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.predicate-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Predicate`1
+    name: Predicate
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.predicate-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
 - uid: Mekkdonalds.ViewModel.DelegateCommand.#ctor*
   commentId: Overload:Mekkdonalds.ViewModel.DelegateCommand.#ctor
   href: Mekkdonalds.ViewModel.DelegateCommand.html#Mekkdonalds_ViewModel_DelegateCommand__ctor_System_Action_System_Object__System_Predicate_System_Object__
@@ -590,41 +675,6 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.object
   - name: )
-- uid: System.Predicate{System.Object}
-  commentId: T:System.Predicate{System.Object}
-  parent: System
-  definition: System.Predicate`1
-  href: https://learn.microsoft.com/dotnet/api/system.predicate-1
-  name: Predicate<object>
-  nameWithType: Predicate<object>
-  fullName: System.Predicate<object>
-  nameWithType.vb: Predicate(Of Object)
-  fullName.vb: System.Predicate(Of Object)
-  name.vb: Predicate(Of Object)
-  spec.csharp:
-  - uid: System.Predicate`1
-    name: Predicate
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.predicate-1
-  - name: <
-  - uid: System.Object
-    name: object
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.object
-  - name: '>'
-  spec.vb:
-  - uid: System.Predicate`1
-    name: Predicate
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.predicate-1
-  - name: (
-  - name: Of
-  - name: " "
-  - uid: System.Object
-    name: Object
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.object
-  - name: )
 - uid: System.Action`1
   commentId: T:System.Action`1
   isExternal: true
@@ -653,56 +703,6 @@ references:
   - name: " "
   - name: T
   - name: )
-- uid: System.Predicate`1
-  commentId: T:System.Predicate`1
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.predicate-1
-  name: Predicate<T>
-  nameWithType: Predicate<T>
-  fullName: System.Predicate<T>
-  nameWithType.vb: Predicate(Of T)
-  fullName.vb: System.Predicate(Of T)
-  name.vb: Predicate(Of T)
-  spec.csharp:
-  - uid: System.Predicate`1
-    name: Predicate
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.predicate-1
-  - name: <
-  - name: T
-  - name: '>'
-  spec.vb:
-  - uid: System.Predicate`1
-    name: Predicate
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.predicate-1
-  - name: (
-  - name: Of
-  - name: " "
-  - name: T
-  - name: )
-- uid: System.Windows.Input.ICommand.CanExecuteChanged
-  commentId: E:System.Windows.Input.ICommand.CanExecuteChanged
-  parent: System.Windows.Input.ICommand
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.windows.input.icommand.canexecutechanged
-  name: CanExecuteChanged
-  nameWithType: ICommand.CanExecuteChanged
-  fullName: System.Windows.Input.ICommand.CanExecuteChanged
-- uid: System.EventHandler
-  commentId: T:System.EventHandler
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.eventhandler
-  name: EventHandler
-  nameWithType: EventHandler
-  fullName: System.EventHandler
-- uid: Mekkdonalds.ViewModel.DelegateCommand.Predicate*
-  commentId: Overload:Mekkdonalds.ViewModel.DelegateCommand.Predicate
-  href: Mekkdonalds.ViewModel.DelegateCommand.html#Mekkdonalds_ViewModel_DelegateCommand_Predicate
-  name: Predicate
-  nameWithType: DelegateCommand.Predicate
-  fullName: Mekkdonalds.ViewModel.DelegateCommand.Predicate
 - uid: Mekkdonalds.ViewModel.DelegateCommand.CanExecute*
   commentId: Overload:Mekkdonalds.ViewModel.DelegateCommand.CanExecute
   href: Mekkdonalds.ViewModel.DelegateCommand.html#Mekkdonalds_ViewModel_DelegateCommand_CanExecute_System_Object_

@@ -1,9 +1,6 @@
 ﻿namespace Mekkdonalds.ViewModel;
 
-/// <summary>
-/// Abstract base class for viewmodels
-/// </summary>
-internal abstract class ViewModel : ViewModelBase
+internal abstract class ViewModel() : ViewModelBase
 {
 #pragma warning disable CS8618 // :)
     protected Controller Controller;

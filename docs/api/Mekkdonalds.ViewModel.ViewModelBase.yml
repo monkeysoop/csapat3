@@ -17,8 +17,8 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
-      branch: develop
-      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+      branch: Adorka
+      repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
     id: ViewModelBase
     path: ../src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
     startLine: 5
@@ -54,8 +54,8 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
-      branch: develop
-      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+      branch: Adorka
+      repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
     id: PropertyChanged
     path: ../src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
     startLine: 7
@@ -85,8 +85,8 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
-      branch: develop
-      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+      branch: Adorka
+      repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
     id: OnPropertyChanged
     path: ../src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
     startLine: 9
@@ -98,10 +98,6 @@ items:
     parameters:
     - id: propertyName
       type: System.String
-      attributes:
-      - type: System.Runtime.CompilerServices.CallerMemberNameAttribute
-        ctor: System.Runtime.CompilerServices.CallerMemberNameAttribute.#ctor
-        arguments: []
     content.vb: Protected Overridable Sub OnPropertyChanged(propertyName As String = Nothing)
   overload: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged*
   nameWithType.vb: ViewModelBase.OnPropertyChanged(String)
