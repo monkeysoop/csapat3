@@ -30,8 +30,10 @@ public sealed class SimulationController : Controller
 
         LoadWalls();
 
-        _pathFinder.FindAllPaths(_board, _robots, _packages);
-        
+        // _pathFinder.FindAllPaths(_board, _robots, _packages);
+
+        InitPaths();
+
         OnLoaded(this);
     }
 
@@ -46,6 +48,33 @@ public sealed class SimulationController : Controller
                     _walls.Add(new(x, y));
                 }
             }
+        }
+    }
+
+    private void InitPaths()
+    {
+        var q = new Queue<Package>(_packages);
+
+        var i = 0;
+
+        while (q.Count > 0)
+        {
+            var r = _robots[i];
+
+            var p = q.Peek().Position;
+
+            var (found, path) = _pathFinder.CalculatePath(_board, r.Position, (int)r.Direction, p);
+
+            if (found)
+            {
+                Paths.AddOrUpdate(r, (_) => [new(path, p)], (_, ls) => { ls.Add(new(path, p)); return ls; });
+            }
+            else
+            {
+                throw new PathException("No path found!");
+            }
+
+            i = (i + 1) % _robots.Count;
         }
     }
 
