@@ -11,7 +11,7 @@ public abstract class PathFinder
 
     protected abstract (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position);
 
-    private  (bool, List<Action>) CalculatePath(Board2 board, Point start_position, int start_direction, Point end_position)
+    internal (bool, List<Action>) CalculatePath(Board2 board, Point start_position, int start_direction, Point end_position)
     {
         bool found;
         int[] parents_data;
@@ -22,7 +22,8 @@ public abstract class PathFinder
         if (found)
         {
             return (true, TracePath(parents_data, board.Width, start_position, start_direction, end_position));
-        } else
+        }
+        else
         {
             return (false, new List<Action>());
         }
@@ -33,24 +34,26 @@ public abstract class PathFinder
         int package_index = 0;
         while (package_index < packages.Count)
         {
-            foreach(Robot r in robots)
+            foreach (Robot r in robots)
             {
                 if (!r.Available())
                 {
                     r.Step();
-                } else if (package_index < packages.Count)
+                }
+                else if (package_index < packages.Count)
                 {
                     bool found;
                     List<Action> path;
                     (found, path) = CalculatePath(board, r.Position, (int)r.Direction, packages[package_index].Position);
-                    
+
                     if (found)
                     {
                         r.AddPlannedRoute(path);
                         package_index++;
-                        
+
                         r.Step();
-                    } else
+                    }
+                    else
                     {
                         throw new PathException("no path found!");
                     }
@@ -69,7 +72,7 @@ public abstract class PathFinder
             Debug.WriteLine(string.Join(",", r.History.ToArray()));
         }
     }
-    
+
     protected static bool ComparePoints(Point first, Point second) // == is overloaded
     {
         return first.X == second.X && first.Y == second.Y;
@@ -126,10 +129,10 @@ public abstract class PathFinder
                 case -3: path.Add(Action.R); break;
                 case -2: path.Add(Action.R); path.Add(Action.R); break;
                 case -1: path.Add(Action.C); break;
-                case  0: break;
-                case  1: path.Add(Action.R); break;
-                case  2: path.Add(Action.R); path.Add(Action.R); break;
-                case  3: path.Add(Action.C); break;
+                case 0: break;
+                case 1: path.Add(Action.R); break;
+                case 2: path.Add(Action.R); path.Add(Action.R); break;
+                case 3: path.Add(Action.C); break;
             }
 
             current_position = next_position;

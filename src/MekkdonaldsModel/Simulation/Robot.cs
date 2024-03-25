@@ -79,12 +79,17 @@ public sealed class Robot : IMapObject
             Action a = _plannedRoute[_routeIndex];
             _routeIndex++;
 
-            MakeStep(a);
+            Step(a);
             _traversedRoute.Add(a);
         }
     }
 
-    private void MakeStep(Action a)
+    public void AddTask(Point p)
+    {
+        Task = new Package(p);
+    }
+
+    internal void Step(Action a)
     {
         switch (a)
         {

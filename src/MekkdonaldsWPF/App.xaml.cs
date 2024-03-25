@@ -165,8 +165,8 @@ public partial class App : Application
 
         //DrawFrame(c);
         DrawGrid(c);
-        DrawRobots(c);
         DrawWalls(c);
+        DrawRobots(c);
     }
 
     /// <summary>
@@ -368,8 +368,8 @@ public partial class App : Application
         switch (e.PropertyName)
         {
             case "Zoom":
-                Calculate(_replayWindow?.MapCanvas ?? _simWindow?.MapCanvas ?? throw new System.Exception());
-                Redraw(_replayWindow?.MapCanvas ?? _simWindow!.MapCanvas);
+                    Calculate(_replayWindow?.MapCanvas ?? _simWindow?.MapCanvas ?? throw new System.Exception());
+                    Redraw(_replayWindow?.MapCanvas ?? _simWindow!.MapCanvas);                
                 break;
         }
     }
