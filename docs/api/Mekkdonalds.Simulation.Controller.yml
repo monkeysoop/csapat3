@@ -6,7 +6,6 @@ items:
   children:
   - Mekkdonalds.Simulation.Controller.Controller
   - Mekkdonalds.Simulation.Controller.DFSController
-  - Mekkdonalds.Simulation.Controller.ReplayController
   - Mekkdonalds.Simulation.Controller.SimulationController
   langs:
   - csharp
@@ -31,12 +30,6 @@ references:
   name: DFSController
   nameWithType: DFSController
   fullName: Mekkdonalds.Simulation.Controller.DFSController
-- uid: Mekkdonalds.Simulation.Controller.ReplayController
-  commentId: T:Mekkdonalds.Simulation.Controller.ReplayController
-  href: Mekkdonalds.Simulation.Controller.ReplayController.html
-  name: ReplayController
-  nameWithType: ReplayController
-  fullName: Mekkdonalds.Simulation.Controller.ReplayController
 - uid: Mekkdonalds.Simulation.Controller.SimulationController
   commentId: T:Mekkdonalds.Simulation.Controller.SimulationController
   parent: Mekkdonalds.Simulation.Controller

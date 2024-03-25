@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Direction.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Direction
     path: ../src/MekkdonaldsModel/Simulation/Direction.cs
@@ -47,7 +47,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Direction.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: North
     path: ../src/MekkdonaldsModel/Simulation/Direction.cs
@@ -73,7 +73,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Direction.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: East
     path: ../src/MekkdonaldsModel/Simulation/Direction.cs
@@ -99,7 +99,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Direction.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: South
     path: ../src/MekkdonaldsModel/Simulation/Direction.cs
@@ -125,7 +125,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Direction.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: West
     path: ../src/MekkdonaldsModel/Simulation/Direction.cs

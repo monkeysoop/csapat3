@@ -5,7 +5,7 @@ items:
   id: SimulationController
   parent: Mekkdonalds.Simulation.Controller
   children:
-  - Mekkdonalds.Simulation.Controller.SimulationController.#ctor(System.Double,System.String)
+  - Mekkdonalds.Simulation.Controller.SimulationController.#ctor(System.Double)
   - Mekkdonalds.Simulation.Controller.SimulationController.CalculatePath(Mekkdonalds.Simulation.Robot)
   - Mekkdonalds.Simulation.Controller.SimulationController.ComparePoints(System.Drawing.Point,System.Drawing.Point)
   - Mekkdonalds.Simulation.Controller.SimulationController.Cost
@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: SimulationController
     path: ../src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
@@ -71,7 +71,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: nexts_offsets
     path: ../src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
@@ -98,7 +98,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Cost
     path: ../src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
@@ -113,21 +113,21 @@ items:
       type: System.Int32
     content.vb: Public Property Cost As Integer
   overload: Mekkdonalds.Simulation.Controller.SimulationController.Cost*
-- uid: Mekkdonalds.Simulation.Controller.SimulationController.#ctor(System.Double,System.String)
-  commentId: M:Mekkdonalds.Simulation.Controller.SimulationController.#ctor(System.Double,System.String)
-  id: '#ctor(System.Double,System.String)'
+- uid: Mekkdonalds.Simulation.Controller.SimulationController.#ctor(System.Double)
+  commentId: M:Mekkdonalds.Simulation.Controller.SimulationController.#ctor(System.Double)
+  id: '#ctor(System.Double)'
   parent: Mekkdonalds.Simulation.Controller.SimulationController
   langs:
   - csharp
   - vb
-  name: SimulationController(double, string)
-  nameWithType: SimulationController.SimulationController(double, string)
-  fullName: Mekkdonalds.Simulation.Controller.SimulationController.SimulationController(double, string)
+  name: SimulationController(double)
+  nameWithType: SimulationController.SimulationController(double)
+  fullName: Mekkdonalds.Simulation.Controller.SimulationController.SimulationController(double)
   type: Constructor
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: .ctor
     path: ../src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
@@ -136,17 +136,15 @@ items:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation.Controller
   syntax:
-    content: protected SimulationController(double interval, string path)
+    content: protected SimulationController(double interval)
     parameters:
     - id: interval
       type: System.Double
-    - id: path
-      type: System.String
-    content.vb: Protected Sub New(interval As Double, path As String)
+    content.vb: Protected Sub New(interval As Double)
   overload: Mekkdonalds.Simulation.Controller.SimulationController.#ctor*
-  nameWithType.vb: SimulationController.New(Double, String)
-  fullName.vb: Mekkdonalds.Simulation.Controller.SimulationController.New(Double, String)
-  name.vb: New(Double, String)
+  nameWithType.vb: SimulationController.New(Double)
+  fullName.vb: Mekkdonalds.Simulation.Controller.SimulationController.New(Double)
+  name.vb: New(Double)
 - uid: Mekkdonalds.Simulation.Controller.SimulationController.CalculatePath(Mekkdonalds.Simulation.Robot)
   commentId: M:Mekkdonalds.Simulation.Controller.SimulationController.CalculatePath(Mekkdonalds.Simulation.Robot)
   id: CalculatePath(Mekkdonalds.Simulation.Robot)
@@ -161,7 +159,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: CalculatePath
     path: ../src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
@@ -192,7 +190,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: OnTick
     path: ../src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
@@ -226,7 +224,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: ComparePoints
     path: ../src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
@@ -259,7 +257,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: ManhattenDistance
     path: ../src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
@@ -292,7 +290,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: MaxTurnsRequired
     path: ../src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
@@ -327,7 +325,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: TracePath
     path: ../src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
@@ -757,7 +755,7 @@ references:
   name.vb: Integer
 - uid: Mekkdonalds.Simulation.Controller.SimulationController.#ctor*
   commentId: Overload:Mekkdonalds.Simulation.Controller.SimulationController.#ctor
-  href: Mekkdonalds.Simulation.Controller.SimulationController.html#Mekkdonalds_Simulation_Controller_SimulationController__ctor_System_Double_System_String_
+  href: Mekkdonalds.Simulation.Controller.SimulationController.html#Mekkdonalds_Simulation_Controller_SimulationController__ctor_System_Double_
   name: SimulationController
   nameWithType: SimulationController.SimulationController
   fullName: Mekkdonalds.Simulation.Controller.SimulationController.SimulationController
@@ -775,17 +773,6 @@ references:
   nameWithType.vb: Double
   fullName.vb: Double
   name.vb: Double
-- uid: System.String
-  commentId: T:System.String
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.string
-  name: string
-  nameWithType: string
-  fullName: string
-  nameWithType.vb: String
-  fullName.vb: String
-  name.vb: String
 - uid: Mekkdonalds.Simulation.Controller.SimulationController.CalculatePath*
   commentId: Overload:Mekkdonalds.Simulation.Controller.SimulationController.CalculatePath
   href: Mekkdonalds.Simulation.Controller.SimulationController.html#Mekkdonalds_Simulation_Controller_SimulationController_CalculatePath_Mekkdonalds_Simulation_Robot_

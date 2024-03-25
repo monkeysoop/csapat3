@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Mekkdonalds.View"
         xmlns:viewmodel="clr-namespace:Mekkdonalds.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:SimulationViewModel}"
         mc:Ignorable="d"
-        Title="MainWindow" Width="796" Height="600">
+        Title="Mekkdonalds" Width="1540" Height="800">
     <Grid Grid.Row="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="80*"/>

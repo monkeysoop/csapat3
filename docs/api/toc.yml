@@ -29,8 +29,6 @@ items:
     name: Controller
   - uid: Mekkdonalds.Simulation.Controller.DFSController
     name: DFSController
-  - uid: Mekkdonalds.Simulation.Controller.ReplayController
-    name: ReplayController
   - uid: Mekkdonalds.Simulation.Controller.SimulationController
     name: SimulationController
 - uid: Mekkdonalds.Test
@@ -45,12 +43,8 @@ items:
 - uid: Mekkdonalds.View
   name: Mekkdonalds.View
   items:
-  - uid: Mekkdonalds.View.ReplayWindow
-    name: ReplayWindow
   - uid: Mekkdonalds.View.SimulationWindow
     name: SimulationWindow
-  - uid: Mekkdonalds.View.StartWindow
-    name: StartWindow
 - uid: Mekkdonalds.ViewModel
   name: Mekkdonalds.ViewModel
   items:

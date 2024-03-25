@@ -5,8 +5,8 @@ items:
   id: DFSController
   parent: Mekkdonalds.Simulation.Controller
   children:
-  - Mekkdonalds.Simulation.Controller.DFSController.#ctor(System.Double,System.String)
-  - Mekkdonalds.Simulation.Controller.DFSController.#ctor(System.String)
+  - Mekkdonalds.Simulation.Controller.DFSController.#ctor
+  - Mekkdonalds.Simulation.Controller.DFSController.#ctor(System.Double)
   - Mekkdonalds.Simulation.Controller.DFSController.CalculatePath(Mekkdonalds.Simulation.Robot)
   langs:
   - csharp
@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/DFSController.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: DFSController
     path: ../src/MekkdonaldsModel/Simulation/Controller/DFSController.cs
@@ -44,21 +44,21 @@ items:
   - System.Object.GetType
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
-- uid: Mekkdonalds.Simulation.Controller.DFSController.#ctor(System.Double,System.String)
-  commentId: M:Mekkdonalds.Simulation.Controller.DFSController.#ctor(System.Double,System.String)
-  id: '#ctor(System.Double,System.String)'
+- uid: Mekkdonalds.Simulation.Controller.DFSController.#ctor(System.Double)
+  commentId: M:Mekkdonalds.Simulation.Controller.DFSController.#ctor(System.Double)
+  id: '#ctor(System.Double)'
   parent: Mekkdonalds.Simulation.Controller.DFSController
   langs:
   - csharp
   - vb
-  name: DFSController(double, string)
-  nameWithType: DFSController.DFSController(double, string)
-  fullName: Mekkdonalds.Simulation.Controller.DFSController.DFSController(double, string)
+  name: DFSController(double)
+  nameWithType: DFSController.DFSController(double)
+  fullName: Mekkdonalds.Simulation.Controller.DFSController.DFSController(double)
   type: Constructor
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/DFSController.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: .ctor
     path: ../src/MekkdonaldsModel/Simulation/Controller/DFSController.cs
@@ -67,32 +67,30 @@ items:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation.Controller
   syntax:
-    content: public DFSController(double interval, string path)
+    content: public DFSController(double interval)
     parameters:
     - id: interval
       type: System.Double
-    - id: path
-      type: System.String
-    content.vb: Public Sub New(interval As Double, path As String)
+    content.vb: Public Sub New(interval As Double)
   overload: Mekkdonalds.Simulation.Controller.DFSController.#ctor*
-  nameWithType.vb: DFSController.New(Double, String)
-  fullName.vb: Mekkdonalds.Simulation.Controller.DFSController.New(Double, String)
-  name.vb: New(Double, String)
-- uid: Mekkdonalds.Simulation.Controller.DFSController.#ctor(System.String)
-  commentId: M:Mekkdonalds.Simulation.Controller.DFSController.#ctor(System.String)
-  id: '#ctor(System.String)'
+  nameWithType.vb: DFSController.New(Double)
+  fullName.vb: Mekkdonalds.Simulation.Controller.DFSController.New(Double)
+  name.vb: New(Double)
+- uid: Mekkdonalds.Simulation.Controller.DFSController.#ctor
+  commentId: M:Mekkdonalds.Simulation.Controller.DFSController.#ctor
+  id: '#ctor'
   parent: Mekkdonalds.Simulation.Controller.DFSController
   langs:
   - csharp
   - vb
-  name: DFSController(string)
-  nameWithType: DFSController.DFSController(string)
-  fullName: Mekkdonalds.Simulation.Controller.DFSController.DFSController(string)
+  name: DFSController()
+  nameWithType: DFSController.DFSController()
+  fullName: Mekkdonalds.Simulation.Controller.DFSController.DFSController()
   type: Constructor
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/DFSController.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: .ctor
     path: ../src/MekkdonaldsModel/Simulation/Controller/DFSController.cs
@@ -101,15 +99,12 @@ items:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation.Controller
   syntax:
-    content: public DFSController(string path)
-    parameters:
-    - id: path
-      type: System.String
-    content.vb: Public Sub New(path As String)
+    content: public DFSController()
+    content.vb: Public Sub New()
   overload: Mekkdonalds.Simulation.Controller.DFSController.#ctor*
-  nameWithType.vb: DFSController.New(String)
-  fullName.vb: Mekkdonalds.Simulation.Controller.DFSController.New(String)
-  name.vb: New(String)
+  nameWithType.vb: DFSController.New()
+  fullName.vb: Mekkdonalds.Simulation.Controller.DFSController.New()
+  name.vb: New()
 - uid: Mekkdonalds.Simulation.Controller.DFSController.CalculatePath(Mekkdonalds.Simulation.Robot)
   commentId: M:Mekkdonalds.Simulation.Controller.DFSController.CalculatePath(Mekkdonalds.Simulation.Robot)
   id: CalculatePath(Mekkdonalds.Simulation.Robot)
@@ -124,7 +119,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/DFSController.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: CalculatePath
     path: ../src/MekkdonaldsModel/Simulation/Controller/DFSController.cs
@@ -431,7 +426,7 @@ references:
   fullName: System
 - uid: Mekkdonalds.Simulation.Controller.DFSController.#ctor*
   commentId: Overload:Mekkdonalds.Simulation.Controller.DFSController.#ctor
-  href: Mekkdonalds.Simulation.Controller.DFSController.html#Mekkdonalds_Simulation_Controller_DFSController__ctor_System_Double_System_String_
+  href: Mekkdonalds.Simulation.Controller.DFSController.html#Mekkdonalds_Simulation_Controller_DFSController__ctor_System_Double_
   name: DFSController
   nameWithType: DFSController.DFSController
   fullName: Mekkdonalds.Simulation.Controller.DFSController.DFSController
@@ -449,17 +444,6 @@ references:
   nameWithType.vb: Double
   fullName.vb: Double
   name.vb: Double
-- uid: System.String
-  commentId: T:System.String
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.string
-  name: string
-  nameWithType: string
-  fullName: string
-  nameWithType.vb: String
-  fullName.vb: String
-  name.vb: String
 - uid: Mekkdonalds.Simulation.Controller.SimulationController.CalculatePath(Mekkdonalds.Simulation.Robot)
   commentId: M:Mekkdonalds.Simulation.Controller.SimulationController.CalculatePath(Mekkdonalds.Simulation.Robot)
   parent: Mekkdonalds.Simulation.Controller.SimulationController

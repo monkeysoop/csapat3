@@ -1,4 +1,6 @@
-﻿namespace Mekkdonalds.ViewModel;
+﻿using Mekkdonalds.Simulation.Controller;
+
+namespace Mekkdonalds.ViewModel;
 
 internal class ReplayViewModel : ViewModel
 {

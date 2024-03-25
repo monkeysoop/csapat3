@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Simulation.Controller;
 
-public sealed class AstarController: PathFinder
+public sealed class AstarController : PathFinder
 {
     protected override (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position)
     {
@@ -11,9 +11,9 @@ public sealed class AstarController: PathFinder
         int heap_length = 0;
         int[] costs = new int[board.Height * board.Width]; // all items are automatically set to 0
         int[] parents = new int[board.Height * board.Width]; // all items are automatically set to 0
-        
 
-        
+
+
         HeapInsert(heap, heap_length, new Step(start_position, start_direction, 0));
         heap_length++;
 
@@ -183,6 +183,6 @@ public sealed class AstarController: PathFinder
         return min_item;
     }
 
-    
+
 }
 

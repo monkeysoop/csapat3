@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/View/SimulationWindow.xaml.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: SimulationWindow
     path: ../src/MekkdonaldsWPF/View/SimulationWindow.xaml.cs
@@ -124,7 +124,6 @@ items:
   - System.Windows.Controls.ContentControl.OnContentStringFormatChanged(System.String,System.String)
   - System.Windows.Controls.ContentControl.OnContentTemplateChanged(System.Windows.DataTemplate,System.Windows.DataTemplate)
   - System.Windows.Controls.ContentControl.OnContentTemplateSelectorChanged(System.Windows.Controls.DataTemplateSelector,System.Windows.Controls.DataTemplateSelector)
-  - System.Windows.Controls.ContentControl.ShouldSerializeContent
   - System.Windows.Controls.ContentControl.Content
   - System.Windows.Controls.ContentControl.ContentStringFormat
   - System.Windows.Controls.ContentControl.ContentTemplate
@@ -243,9 +242,6 @@ items:
   - System.Windows.FrameworkElement.SetBinding(System.Windows.DependencyProperty,System.Windows.Data.BindingBase)
   - System.Windows.FrameworkElement.SetFlowDirection(System.Windows.DependencyObject,System.Windows.FlowDirection)
   - System.Windows.FrameworkElement.SetResourceReference(System.Windows.DependencyProperty,System.Object)
-  - System.Windows.FrameworkElement.ShouldSerializeResources
-  - System.Windows.FrameworkElement.ShouldSerializeStyle
-  - System.Windows.FrameworkElement.ShouldSerializeTriggers
   - System.Windows.FrameworkElement.TryFindResource(System.Object)
   - System.Windows.FrameworkElement.UnregisterName(System.String)
   - System.Windows.FrameworkElement.UpdateDefaultStyle
@@ -532,8 +528,6 @@ items:
   - System.Windows.UIElement.ReleaseStylusCapture
   - System.Windows.UIElement.ReleaseTouchCapture(System.Windows.Input.TouchDevice)
   - System.Windows.UIElement.RemoveHandler(System.Windows.RoutedEvent,System.Delegate)
-  - System.Windows.UIElement.ShouldSerializeCommandBindings
-  - System.Windows.UIElement.ShouldSerializeInputBindings
   - System.Windows.UIElement.TranslatePoint(System.Windows.Point,System.Windows.UIElement)
   - System.Windows.UIElement.UpdateLayout
   - System.Windows.UIElement.AllowDrop
@@ -726,8 +720,6 @@ items:
   - System.Windows.DependencyObject.ShouldSerializeProperty(System.Windows.DependencyProperty)
   - System.Windows.DependencyObject.DependencyObjectType
   - System.Windows.DependencyObject.IsSealed
-  - System.Windows.Threading.DispatcherObject.CheckAccess
-  - System.Windows.Threading.DispatcherObject.VerifyAccess
   - System.Windows.Threading.DispatcherObject.Dispatcher
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetType
@@ -747,7 +739,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/View/SimulationWindow.xaml.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: .ctor
     path: ../src/MekkdonaldsWPF/View/SimulationWindow.xaml.cs
@@ -2167,28 +2159,6 @@ references:
     name: DataTemplateSelector
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.windows.controls.datatemplateselector
-  - name: )
-- uid: System.Windows.Controls.ContentControl.ShouldSerializeContent
-  commentId: M:System.Windows.Controls.ContentControl.ShouldSerializeContent
-  parent: System.Windows.Controls.ContentControl
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.windows.controls.contentcontrol.shouldserializecontent
-  name: ShouldSerializeContent()
-  nameWithType: ContentControl.ShouldSerializeContent()
-  fullName: System.Windows.Controls.ContentControl.ShouldSerializeContent()
-  spec.csharp:
-  - uid: System.Windows.Controls.ContentControl.ShouldSerializeContent
-    name: ShouldSerializeContent
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.windows.controls.contentcontrol.shouldserializecontent
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: System.Windows.Controls.ContentControl.ShouldSerializeContent
-    name: ShouldSerializeContent
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.windows.controls.contentcontrol.shouldserializecontent
-  - name: (
   - name: )
 - uid: System.Windows.Controls.ContentControl.Content
   commentId: P:System.Windows.Controls.ContentControl.Content
@@ -4151,72 +4121,6 @@ references:
     name: Object
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.object
-  - name: )
-- uid: System.Windows.FrameworkElement.ShouldSerializeResources
-  commentId: M:System.Windows.FrameworkElement.ShouldSerializeResources
-  parent: System.Windows.FrameworkElement
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.windows.frameworkelement.shouldserializeresources
-  name: ShouldSerializeResources()
-  nameWithType: FrameworkElement.ShouldSerializeResources()
-  fullName: System.Windows.FrameworkElement.ShouldSerializeResources()
-  spec.csharp:
-  - uid: System.Windows.FrameworkElement.ShouldSerializeResources
-    name: ShouldSerializeResources
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.windows.frameworkelement.shouldserializeresources
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: System.Windows.FrameworkElement.ShouldSerializeResources
-    name: ShouldSerializeResources
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.windows.frameworkelement.shouldserializeresources
-  - name: (
-  - name: )
-- uid: System.Windows.FrameworkElement.ShouldSerializeStyle
-  commentId: M:System.Windows.FrameworkElement.ShouldSerializeStyle
-  parent: System.Windows.FrameworkElement
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.windows.frameworkelement.shouldserializestyle
-  name: ShouldSerializeStyle()
-  nameWithType: FrameworkElement.ShouldSerializeStyle()
-  fullName: System.Windows.FrameworkElement.ShouldSerializeStyle()
-  spec.csharp:
-  - uid: System.Windows.FrameworkElement.ShouldSerializeStyle
-    name: ShouldSerializeStyle
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.windows.frameworkelement.shouldserializestyle
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: System.Windows.FrameworkElement.ShouldSerializeStyle
-    name: ShouldSerializeStyle
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.windows.frameworkelement.shouldserializestyle
-  - name: (
-  - name: )
-- uid: System.Windows.FrameworkElement.ShouldSerializeTriggers
-  commentId: M:System.Windows.FrameworkElement.ShouldSerializeTriggers
-  parent: System.Windows.FrameworkElement
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.windows.frameworkelement.shouldserializetriggers
-  name: ShouldSerializeTriggers()
-  nameWithType: FrameworkElement.ShouldSerializeTriggers()
-  fullName: System.Windows.FrameworkElement.ShouldSerializeTriggers()
-  spec.csharp:
-  - uid: System.Windows.FrameworkElement.ShouldSerializeTriggers
-    name: ShouldSerializeTriggers
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.windows.frameworkelement.shouldserializetriggers
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: System.Windows.FrameworkElement.ShouldSerializeTriggers
-    name: ShouldSerializeTriggers
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.windows.frameworkelement.shouldserializetriggers
-  - name: (
   - name: )
 - uid: System.Windows.FrameworkElement.TryFindResource(System.Object)
   commentId: M:System.Windows.FrameworkElement.TryFindResource(System.Object)
@@ -9229,50 +9133,6 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.delegate
   - name: )
-- uid: System.Windows.UIElement.ShouldSerializeCommandBindings
-  commentId: M:System.Windows.UIElement.ShouldSerializeCommandBindings
-  parent: System.Windows.UIElement
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.windows.uielement.shouldserializecommandbindings
-  name: ShouldSerializeCommandBindings()
-  nameWithType: UIElement.ShouldSerializeCommandBindings()
-  fullName: System.Windows.UIElement.ShouldSerializeCommandBindings()
-  spec.csharp:
-  - uid: System.Windows.UIElement.ShouldSerializeCommandBindings
-    name: ShouldSerializeCommandBindings
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.windows.uielement.shouldserializecommandbindings
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: System.Windows.UIElement.ShouldSerializeCommandBindings
-    name: ShouldSerializeCommandBindings
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.windows.uielement.shouldserializecommandbindings
-  - name: (
-  - name: )
-- uid: System.Windows.UIElement.ShouldSerializeInputBindings
-  commentId: M:System.Windows.UIElement.ShouldSerializeInputBindings
-  parent: System.Windows.UIElement
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.windows.uielement.shouldserializeinputbindings
-  name: ShouldSerializeInputBindings()
-  nameWithType: UIElement.ShouldSerializeInputBindings()
-  fullName: System.Windows.UIElement.ShouldSerializeInputBindings()
-  spec.csharp:
-  - uid: System.Windows.UIElement.ShouldSerializeInputBindings
-    name: ShouldSerializeInputBindings
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.windows.uielement.shouldserializeinputbindings
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: System.Windows.UIElement.ShouldSerializeInputBindings
-    name: ShouldSerializeInputBindings
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.windows.uielement.shouldserializeinputbindings
-  - name: (
-  - name: )
 - uid: System.Windows.UIElement.TranslatePoint(System.Windows.Point,System.Windows.UIElement)
   commentId: M:System.Windows.UIElement.TranslatePoint(System.Windows.Point,System.Windows.UIElement)
   parent: System.Windows.UIElement
@@ -11417,50 +11277,6 @@ references:
   name: IsSealed
   nameWithType: DependencyObject.IsSealed
   fullName: System.Windows.DependencyObject.IsSealed
-- uid: System.Windows.Threading.DispatcherObject.CheckAccess
-  commentId: M:System.Windows.Threading.DispatcherObject.CheckAccess
-  parent: System.Windows.Threading.DispatcherObject
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.windows.threading.dispatcherobject.checkaccess
-  name: CheckAccess()
-  nameWithType: DispatcherObject.CheckAccess()
-  fullName: System.Windows.Threading.DispatcherObject.CheckAccess()
-  spec.csharp:
-  - uid: System.Windows.Threading.DispatcherObject.CheckAccess
-    name: CheckAccess
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.windows.threading.dispatcherobject.checkaccess
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: System.Windows.Threading.DispatcherObject.CheckAccess
-    name: CheckAccess
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.windows.threading.dispatcherobject.checkaccess
-  - name: (
-  - name: )
-- uid: System.Windows.Threading.DispatcherObject.VerifyAccess
-  commentId: M:System.Windows.Threading.DispatcherObject.VerifyAccess
-  parent: System.Windows.Threading.DispatcherObject
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.windows.threading.dispatcherobject.verifyaccess
-  name: VerifyAccess()
-  nameWithType: DispatcherObject.VerifyAccess()
-  fullName: System.Windows.Threading.DispatcherObject.VerifyAccess()
-  spec.csharp:
-  - uid: System.Windows.Threading.DispatcherObject.VerifyAccess
-    name: VerifyAccess
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.windows.threading.dispatcherobject.verifyaccess
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: System.Windows.Threading.DispatcherObject.VerifyAccess
-    name: VerifyAccess
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.windows.threading.dispatcherobject.verifyaccess
-  - name: (
-  - name: )
 - uid: System.Windows.Threading.DispatcherObject.Dispatcher
   commentId: P:System.Windows.Threading.DispatcherObject.Dispatcher
   parent: System.Windows.Threading.DispatcherObject

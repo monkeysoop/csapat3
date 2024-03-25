@@ -9,6 +9,7 @@ public abstract class Controller
     protected Timer Timer;
     private readonly TimeSpan _interval;
 
+
     protected Board2 _board;
 
     public int Width => _board.Width;
@@ -56,6 +57,6 @@ public abstract class Controller
 
     protected void StartTimer()
     {
-        Timer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(1000));
+        Timer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(80));
     }
 }

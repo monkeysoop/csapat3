@@ -35,7 +35,7 @@ public class Board2
         for (int i = 0; i < height * width; i++)
         {
             Data[i] = EMPTY;
-            SearchMask[i] = NOT_SEARCHED; 
+            SearchMask[i] = NOT_SEARCHED;
         }
     }
 
@@ -43,7 +43,7 @@ public class Board2
     {
         Height = height;
         Width = width;
-        
+
         Data = new int[height * width];
         SearchMask = new int[height * width];
         for (int y = 0; y < height; y++)
