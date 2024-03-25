@@ -62,7 +62,7 @@ public sealed class SimulationController : Controller
             var p = _packages.TryDequeue(out var pack) ? pack.Position : default;
 
             if (p.X == -1)
-        {
+            {
                 break;
             }
 
@@ -109,6 +109,25 @@ public sealed class SimulationController : Controller
 
     protected override void OnTick(object? state)
     {
-        Debug.WriteLine("Tick");
+        foreach (var r in _robots)
+        {
+            if (Paths.TryGetValue(r, out var path) && path is not null)
+            {
+                var a = path.Next();
+                if (a is null)
+                {
+                    var task = _packages.TryDequeue(out var pack) ? pack.Position : default;
+                    var (found, p) = _pathFinder.CalculatePath(_board, r.Position, (int)r.Direction, task);
+                    Paths.AddOrUpdate(r, _ => new([], new(-1, -1)), (_, _) => new(p, task));
+                    r.AddTask(task);
+                }
+                else
+                {
+                    r.Step(a.Value);
+                }
+            }
+        } 
+
+        CallTick(this);
     }
 }
