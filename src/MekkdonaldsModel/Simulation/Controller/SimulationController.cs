@@ -1,92 +1,133 @@
 ﻿namespace Mekkdonalds.Simulation.Controller;
 
-public abstract class SimulationController : Controller
+public sealed class SimulationController : Controller
 {
-    protected static readonly Point[] nexts_offsets = [
-        new(0, -1),
-        new(1, 0),
-        new(0, 1),
-        new(-1, 0)
-    ];
-    private static readonly string[] turns = {"FR", "FRR", "FL", "F", "FR", "FRR", "FL"}; // RR could be replaced with LL (this is just turning 180)
+    private readonly PathFinder _pathFinder;
 
-    public int Cost { get; protected set; } // Apperently 32bit value types are atomic in c# by default
-    private TimeSpan Elapsed;
-
-    protected SimulationController(double interval) : base()
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="path">Path of the config file</param>
+    /// <param name="ca"></param>
+    /// <param name="ba"></param>
+    /// <param name="ra"></param>
+    /// <param name="pa"></param>
+    public SimulationController(string path, IConfigDataAccess ca, IBoardDataAccess ba, IRobotsDataAccess ra, IPackagesDataAccess pa)
     {
-        var tasks = new List<Task>();
-
-        _robots.AddRange([new(1, 0, 0), new(2, 10, 25), new(3, 2, 2)]);
-        _walls.AddRange([new(1, 1), new(1, 3)]);
-
-        _robots.ForEach(x => tasks.Add(CalculatePath(x)));
-
-        Task.WaitAll([.. tasks]);
-
-        Timer.Change(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(interval));
+        _pathFinder = new BFSController();
+        Load(path, ca, ba, ra, pa);
     }
 
-    protected abstract Task CalculatePath(Robot robot);
+    private async void Load(string path, IConfigDataAccess da, IBoardDataAccess ba, IRobotsDataAccess ra, IPackagesDataAccess pa)
+    {
+        var config = await da.Load(path);
+
+        var b = await ba.LoadAsync(config.MapFile);
+        _board = b; // for some reason it only sets board this way ????????
+
+        _robots.AddRange(await ra.LoadAsync(config.AgentFile, _board.Width, _board.Height));
+
+        foreach (var p in await pa.LoadAsync(config.TaskFile, _board.Width, _board.Height))
+        {
+            _packages.Enqueue(p);
+        }
+
+        LoadWalls();
+
+        // _pathFinder.FindAllPaths(_board, _robots, _packages);
+
+        InitPaths();
+
+        OnLoaded(this);
+    }
+
+    private void LoadWalls()
+    {
+        for (int y = 0; y < _board.Height; y++)
+        {
+            for (int x = 0; x < _board.Width; x++)
+            {
+                if (_board.GetValue(x, y) == Board2.WALL)
+                {
+                    _walls.Add(new(x, y));
+                }
+            }
+        }
+    }
+
+    private void InitPaths()
+    {
+        foreach (var r in _robots)
+        {
+            var p = _packages.TryDequeue(out var pack) ? pack.Position : default;
+
+            if (p.X == -1)
+            {
+                break;
+            }
+
+            var (found, path) = _pathFinder.CalculatePath(_board, r.Position, (int)r.Direction, p);
+
+            if (found)
+            {
+                Paths.AddOrUpdate(r, (_) => new(path, p), (_, ls) => new(path, p));
+                r.AddTask(p);
+            }
+            else
+            {
+                throw new PathException("No path found!");
+            }
+        }
+
+        //var q = new Queue<Package>(_packages);
+
+        //var i = 0;
+
+        //while (q.Count > 0)
+        //{
+        //    var r = _robots[i];
+
+        //    var p = q.Peek().Position;
+
+        //    var (found, path) = _pathFinder.CalculatePath(_board, r.Position, (int)r.Direction, p);
+
+        //    if (found)
+        //    {
+        //        Paths.AddOrUpdate(r, (_) => [new Path(path, p)], (_, ls) => { ls.Add(new(path, p)); return ls; });
+        //        q.Dequeue();
+        //    }
+        //    else
+        //    {
+        //        throw new PathException("No path found!");
+        //    }
+
+        //    i = (i + 1) % _robots.Count;
+        //}
+
+        StartTimer();
+    }
 
     protected override void OnTick(object? state)
     {
-        Task.Run(() => { _robots.ForEach(r => r.Step(Paths[r].Next())); });
-        Elapsed += new TimeSpan(0, 0, 1);
+        foreach (var r in _robots)
+        {
+            if (Paths.TryGetValue(r, out var path) && path is not null)
+            {
+                var a = path.Next();
+                if (a is null)
+                {
+                    var task = _packages.TryDequeue(out var pack) ? pack.Position : default;
+                    var (found, p) = _pathFinder.CalculatePath(_board, r.Position, (int)r.Direction, task);
+                    Paths.AddOrUpdate(r, _ => new([], new(-1, -1)), (_, _) => new(p, task));
+                    r.AddTask(task);
+                }
+                else
+                {
+                    r.Step(a.Value);
+                }
+            }
+        } 
 
         CallTick(this);
-    }
-
-
-    protected static bool ComparePoints(Point first, Point second)
-    {
-        return first.X == second.X && first.Y == second.Y;
-    }
-
-    protected static int ManhattenDistance(Point start, Point end)
-    {
-        return Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y);
-    }
-
-    protected static int MaxTurnsRequired(Point position, Point direction, Point end)
-    {
-        int diff_x = end.X - position.X;
-        int diff_y = end.Y - position.Y;
-        int dot_product = diff_x * direction.X + diff_y * direction.Y;
-
-        if (dot_product < 0)
-        {
-            return 2;
-        }
-        else if (dot_product * dot_product != diff_x * diff_x + diff_y * diff_y)
-        {
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-
-    protected static void TracePath(int[] parents_board, int board_width, Point start, int start_direction, Point end)
-    {
-        string path = "";
-        
-        Point current_position = end;
-        int current_direction = (parents_board[end.Y * board_width + end.X] + 2) % 4;
-        while (ComparePoints(current_position, start))
-        {
-            int next_direction = parents_board[current_position.Y * board_width + current_position.X];
-            int diff = next_direction - current_direction + 3;
-
-            path += turns[diff];
-
-            Point next_offset = nexts_offsets[next_direction];
-            current_position = new(current_position.X + next_offset.X,
-                                   current_position.Y + next_offset.Y);
-
-            current_direction = next_direction;
-        }
-
     }
 }

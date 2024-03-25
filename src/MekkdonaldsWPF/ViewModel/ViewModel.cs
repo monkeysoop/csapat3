@@ -1,29 +1,62 @@
-﻿namespace Mekkdonalds.ViewModel;
+﻿using Mekkdonalds.Simulation.Controller;
 
-internal abstract class ViewModel() : ViewModelBase
+namespace Mekkdonalds.ViewModel;
+
+internal abstract class ViewModel : ViewModelBase
 {
-    protected List<Robot> _robots = [];
-    protected List<Wall> _walls = [];
+#pragma warning disable CS8618 // :)
+    protected Controller Controller;
+#pragma warning restore CS8618
 
-    private (int W, int H) _size;
-    public (int W, int H) Size
+    private double _zoom = 1;
+
+    #region Properties
+
+    public int Width => Controller.Width;
+    public int Height => Controller.Height;
+
+    public double Zoom
     {
-        get => _size;
-        protected set
+        get => _zoom;
+        set
         {
-            if (_size != value)
+            if (_zoom != value)
             {
-                _size = value;
-                OnPropertyChanged(nameof(Size));
+                _zoom = value;
+                OnPropertyChanged(nameof(Zoom));
+                OnPropertyChanged(nameof(ZoomLabel));
             }
         }
     }
 
-    public IReadOnlyList<Robot> Robots => _robots.AsReadOnly();
-    public IReadOnlyList<Wall> Walls => _walls.AsReadOnly();
+    public string ZoomLabel => $"{Zoom:0.##}x";
 
+    /// <summary>
+    /// Robots present on the grid
+    /// </summary>
+    public IReadOnlyList<Robot> Robots => Controller.Robots;
+    /// <summary>
+    /// Walls present on the grid
+    /// </summary>
+    public IReadOnlyList<Wall> Walls => Controller.Walls;
+
+    #endregion
+
+    /// <summary>
+    /// Eventhandler thats called each time the grid gets updated
+    /// </summary>
     public event EventHandler? Tick;
+    public event EventHandler? Loaded;
 
+    protected void OnLoaded(object? sender)
+    {
+        Loaded?.Invoke(sender, EventArgs.Empty);
+    }
+
+    /// <summary>
+    /// Calls the tick event based on the models evnt handler
+    /// </summary>
+    /// <param name="sender"></param>
     protected void OnTick(object? sender)
     {
         Tick?.Invoke(sender, EventArgs.Empty);

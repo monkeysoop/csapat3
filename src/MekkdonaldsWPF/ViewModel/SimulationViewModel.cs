@@ -1,20 +1,17 @@
-﻿using Mekkdonalds.Simulation.Controller;
+﻿using Mekkdonalds.Persistence;
+using Mekkdonalds.Simulation.Controller;
 
 namespace Mekkdonalds.ViewModel;
 
 internal class SimulationViewModel : ViewModel
 {
-    private SimulationController Controller;
+    private readonly SimulationController SimController;
 
-    public SimulationViewModel() : base()
+    public SimulationViewModel(string path) : base()
     {
-        Size = (20, 40);
+        Controller = SimController = new(path, new ConfigDataAccess(), new BoardFileDataAccess(), new RobotsDataAccess(), new PackagesDataAccess());
 
-        Controller = new DFSController();
-
-        _walls.AddRange(Controller.Walls);
-        _robots.AddRange(Controller.Robots);
-
-        Controller.Tick += (_, _) => OnTick(this);
+        SimController.Loaded += (_, _) => OnLoaded(this);
+        SimController.Tick += (_, _) => OnTick(this);
     }
 }

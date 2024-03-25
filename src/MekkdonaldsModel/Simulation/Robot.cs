@@ -2,15 +2,28 @@
 
 public sealed class Robot : IMapObject
 {
-    private readonly List<Action> _history;
+    private static readonly Point[] position_offsets = [
+        new(0, -1),
+        new(1, 0),
+        new(0, 1),
+        new(-1, 0)
+    ];
+    private static int IDCounter = 1;
+
+
+
+    private readonly List<Action> _traversedRoute;
+    private List<Action> _plannedRoute;
+    private int _routeIndex;
 
     public int ID { get; }
-    public Point Start { get; }
+
+    private Point _position;
 
     /// <summary>
     /// Current position of the robot
     /// </summary>
-    public Point Position { get; private set; }
+    public Point Position => _position;
 
     /// <summary>
     /// The direction the robot is currently facing
@@ -27,44 +40,62 @@ public sealed class Robot : IMapObject
     /// </summary>
     public IReadOnlyList<Action> History
     {
-        get => _history.AsReadOnly();
+        get => _traversedRoute.AsReadOnly();
     }
 
-    public Robot(int id, int x, int y)
+    public Robot(Point position, Direction direction)
     {
-        ID = id;
-        Start = Position = new Point(x, y);
-        _history = [];
+        _position = position;
+        Direction = direction;
+
+        ID = Robot.IDCounter;
+        Robot.IDCounter++;
+
+        _traversedRoute = [];
+        _plannedRoute = [];
+        _routeIndex = 0;
     }
 
-    public Robot(int id) : this(id, 0, 0) { }
-
-    // TODO: change this to internal
-    public void Assign(int x, int y)
+    public bool Available()
     {
-        Task = new Package(x, y);
+        return _routeIndex == _plannedRoute.Count;
     }
 
-    internal void Step(Action? t)
+    public void AddPlannedRoute(List<Action> plannedRoute)
     {
-        switch (t)
+        _plannedRoute = plannedRoute;
+        _routeIndex = 0;
+    }
+
+    public void Wait()
+    {
+        _traversedRoute.Add(Action.W);
+    }
+
+    public void Step()
+    {
+        if (_routeIndex < _plannedRoute.Count)
         {
-            case Action.F:
-                break;
-            case Action.W:
-                break;
-            case Action.R:
-                break;
-            case Action.C:
-                break;
-            case Action.T: // I don't quite understand when this is supposed to occur but sure...
-                break;
-            case null:
-                break;
-            default:
-                throw new Exception();
-        }
+            Action a = _plannedRoute[_routeIndex];
+            _routeIndex++;
 
-        if (t is not null) _history.Add(t.Value);
+            Step(a);
+            _traversedRoute.Add(a);
+        }
+    }
+
+    public void AddTask(Point p)
+    {
+        Task = new Package(p);
+    }
+
+    internal void Step(Action a)
+    {
+        switch (a)
+        {
+            case Action.F: _position.Offset(position_offsets[(int)Direction]); break;
+            case Action.R: Direction = Direction.ClockWise(); break;
+            case Action.C: Direction = Direction.CounterClockWise(); break;
+        }
     }
 }

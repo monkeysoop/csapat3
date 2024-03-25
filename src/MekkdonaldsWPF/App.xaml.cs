@@ -1,19 +1,25 @@
-﻿namespace Mekkdonalds;
+﻿using Microsoft.Win32;
+using System.ComponentModel;
+
+namespace Mekkdonalds;
 
 /// <summary>
 /// Interaction logic for App.xaml
 /// </summary>
 public partial class App : Application
 {
-    private const int MARGIN = 20;
-    private const int BORDERTHICKNESS = 4;
+    private const double MARGIN = 20;
+    private const double BORDERTHICKNESS = 4;
+    private const double SIDELENGTH = 20;
 
     private double XLength;
     private double YLength;
-    private double XStep;
-    private double YStep;
+
+    private double Step => SIDELENGTH * (_viewModel?.Zoom ?? 1);
 
     private SimulationWindow? _simWindow;
+    private StartWindow? _startWindow;
+    private ReplayWindow? _replayWindow;
     private ViewModel.ViewModel? _viewModel;
 
     public App()
@@ -23,50 +29,132 @@ public partial class App : Application
 
     private void OnStartup(object sender, StartupEventArgs e)
     {
-        _viewModel = new SimulationViewModel();
+        _startWindow = new StartWindow();
 
+        _startWindow.Show();
 
-        _simWindow = new SimulationWindow
+        _startWindow.SimButton.Click += SimButton_Click;
+        _startWindow.ReplayButton.Click += ReplayButton_Click;
+    }
+
+    private void ReplayButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (!OpenReplay()) return;
+        Current.MainWindow = _replayWindow;
+        DisposeStartWindow();
+    }
+
+    private void SimButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (!OpenSim()) return;
+        Current.MainWindow = _simWindow;
+        DisposeStartWindow();
+    }
+
+    /// <summary>
+    /// Closes the start window
+    /// </summary>
+    private void DisposeStartWindow()
+    {
+        _startWindow!.Close(); // can't be null
+        _startWindow.SimButton.Click -= SimButton_Click;
+        _startWindow.ReplayButton.Click -= ReplayButton_Click;
+        _startWindow = null;
+    }
+
+    /// <summary>
+    /// Opens a replay window
+    /// </summary>
+    /// <returns>Wether to user want's to proceed with opening the window</returns>
+    private bool OpenReplay()
+    {
+        var fd = new OpenFileDialog()
+        {
+            Filter = "Json files (*.json)|*.json",
+            Title = "Log File"
+        };
+
+        if (fd.ShowDialog() is false)
+            return false;
+
+        _viewModel = new ReplayViewModel(fd.FileName);
+
+        _replayWindow = new ReplayWindow
         {
             WindowState = WindowState.Maximized,
             DataContext = _viewModel
         };
 
-        _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_simWindow.MapCanvas)); // UI elemts have to be updated with this call when it is called from another thread
+        _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_replayWindow.MapCanvas)); // UI elemts have to be updated with this call when it is called from another thread
+        _viewModel.PropertyChanged += OnPropertyChanged;
 
-        _simWindow.SizeChanged += (_, _) => { Calculate(_simWindow.MapCanvas.ActualWidth, _simWindow.MapCanvas.ActualHeight); Redraw(_simWindow.MapCanvas); };
+        _replayWindow.SizeChanged += (_, _) => { Calculate(_replayWindow.MapCanvas); Redraw(_replayWindow.MapCanvas); };
 
-        foreach (var r in _viewModel.Robots)
-        {
-            r.Assign(r.Position.X + 3, r.Position.Y + 4);
-        }
+        _replayWindow.Show();
 
-        _simWindow.Show();
-        Calculate(_simWindow.MapCanvas.ActualWidth, _simWindow.MapCanvas.ActualHeight);
-        Redraw(_simWindow.MapCanvas);
+        Calculate(_replayWindow.MapCanvas);
+        Redraw(_replayWindow.MapCanvas);
+
+        return true;
     }
 
-    private void Calculate(double width, double height)
+    /// <summary>
+    /// Opens a simulation window
+    /// </summary>
+    /// <returns>Wether to user want's to proceed with opening the window</returns>
+    private bool OpenSim()
     {
-        var (w, h) = _viewModel!.Size;
+        var fd = new OpenFileDialog()
+        {
+            Filter = "Json file (*.json)|*.json",
+            Title = "Config file"
+        };
 
-        if (w > h)
-        {
-            XLength = width - 2 * MARGIN;
-            YLength = XLength * h / w;
-        }
-        else if (w < h)
-        {
-            YLength = height - 2 * MARGIN;
-            XLength = YLength * w / h;
-        }
-        else
-        {
-            XLength = YLength = Math.Min(height, width) - 2 * MARGIN;
-        }
+        if (fd.ShowDialog() is false) return false;
 
-        XStep = (XLength - MARGIN) / _viewModel!.Size.W;
-        YStep = (YLength - MARGIN) / _viewModel!.Size.H;
+        _viewModel = new SimulationViewModel(fd.FileName);
+
+        _simWindow = new SimulationWindow
+        {
+            DataContext = _viewModel
+        };
+
+        var canvas = _simWindow.MapCanvas;
+
+        _viewModel.Loaded += (_, _) => Dispatcher.Invoke(() => { Calculate(canvas); Redraw(canvas); }); // UI elemts have to be updated with this call when it is called from another thread
+        _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(canvas)); // UI elemts have to be updated with this call when it is called from another thread
+        _viewModel.PropertyChanged += OnPropertyChanged;
+
+        _simWindow.SizeChanged += (_, _) => { Calculate(canvas); Redraw(canvas); };
+
+        _simWindow.Show();
+
+        DisplayLoading();
+
+        return true;
+    }
+
+    private void DisplayLoading()
+    {
+        //_simWindow ?? 
+    }
+
+    #region Drawing
+
+    /// <summary>
+    /// Calculates the dimensions required to draw the grid
+    /// </summary>
+    /// <param name="c">The currently open window's canvas</param>
+    private void Calculate(Canvas c)
+    {
+        var w = _viewModel!.Width;
+        var h = _viewModel.Height;
+
+        XLength = (w + 1) * Step - (_viewModel.Zoom - 1) * MARGIN;
+        YLength = (h + 1) * Step - (_viewModel.Zoom - 1) * MARGIN;
+
+        c.Width = XLength + 2 * MARGIN;
+        c.Height = YLength + 2 * MARGIN;
     }
 
     /// <summary>
@@ -79,8 +167,8 @@ public partial class App : Application
 
         //DrawFrame(c);
         DrawGrid(c);
-        DrawRobots(c);
         DrawWalls(c);
+        DrawRobots(c);
     }
 
     /// <summary>
@@ -138,89 +226,199 @@ public partial class App : Application
         l.ForEach(x => c.Children.Add(x));
     }
 
+    /// <summary>
+    /// Draws the grid
+    /// </summary>
+    /// <param name="c">The currently open window's canvas</param>
     private void DrawGrid(Canvas c)
     {
-        for (var i = 0; i <= _viewModel!.Size.W; i++)
+        for (var i = 0; i <= _viewModel!.Width; i++)
         {
             c.Children.Add(new Line()
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = 1,
-                X1 = MARGIN + i * XStep,
+                X1 = MARGIN + i * Step,
                 Y1 = MARGIN,
-                X2 = MARGIN + i * XStep,
+                X2 = MARGIN + i * Step,
                 Y2 = YLength,
             });
         }
 
-        for (var i = 0; i <= _viewModel!.Size.H; i++)
+        for (var i = 0; i <= _viewModel.Height; i++)
         {
             c.Children.Add(new Line()
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = 1,
                 X1 = MARGIN,
-                Y1 = MARGIN + i * YStep,
+                Y1 = MARGIN + i * Step,
                 X2 = XLength,
-                Y2 = MARGIN + i * YStep,
+                Y2 = MARGIN + i * Step,
             });
         }
     }
 
     private void DrawRobots(Canvas c)
-    {        
-        foreach (var r in _viewModel!.Robots)
+    {
+        var fontSize = 12 * Math.Sqrt(_viewModel!.Zoom);
+
+        foreach (var r in _viewModel.Robots)
         {
             Thickness t;
 
-            t.Left = MARGIN + 2 + r.Position.X * XStep;
-            t.Top = MARGIN + 2 + r.Position.Y * YStep;
+            t.Left = MARGIN + 1 + r.Position.X * Step;
+            t.Top = MARGIN + 1 + r.Position.Y * Step;
 
-            c.Children.Add(new Ellipse()
+            var grid = new Grid
+            {
+                Width = Step - 2,
+                Height = Step - 2,
+                Margin = t
+            };
+
+            grid.Children.Add(new Ellipse()
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = 1,
-                Fill = Brushes.Blue,
-                Width = XStep - 4,
-                Height = YStep - 4,
-                Margin = t
+                Fill = new SolidColorBrush(Color.FromRgb(9, 194, 248)), // this is the color in the example
+                Width = Step - 2,
+                Height = Step - 2
             });
+
+            grid.Children.Add(new TextBlock()
+            {
+                Text = r.ID.ToString(),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontSize = fontSize
+            });
+
+            c.Children.Add(grid);
+
+            switch (r.Direction)
+            {
+                case Direction.North:
+                    c.Children.Add(new Line()
+                    {
+                        Stroke = Brushes.Red,
+                        StrokeThickness = 3,
+                        X1 = MARGIN + r.Position.X * Step + Step / 2,
+                        Y1 = MARGIN + r.Position.Y * Step + 1,
+                        X2 = MARGIN + r.Position.X * Step + Step / 2,
+                        Y2 = MARGIN + r.Position.Y * Step + 1 + 7 * _viewModel.Zoom
+                    });
+                    break;
+                case Direction.East:
+                    c.Children.Add(new Line()
+                    {
+                        Stroke = Brushes.Red,
+                        StrokeThickness = 3,
+                        X1 = MARGIN + (r.Position.X + 1) * Step - 1 - 7 * _viewModel.Zoom,
+                        Y1 = MARGIN + r.Position.Y * Step + Step / 2,
+                        X2 = MARGIN + (r.Position.X + 1) * Step - 1,
+                        Y2 = MARGIN + r.Position.Y * Step + Step / 2
+                    });
+                    break;
+                case Direction.South:
+                    c.Children.Add(new Line()
+                    {
+                        Stroke = Brushes.Red,
+                        StrokeThickness = 3,
+                        X1 = MARGIN + r.Position.X * Step + Step / 2,
+                        Y1 = MARGIN + (r.Position.Y + 1) * Step - 1 - 7 * _viewModel.Zoom,
+                        X2 = MARGIN + r.Position.X * Step + Step / 2,
+                        Y2 = MARGIN + (r.Position.Y + 1) * Step - 1
+                    });
+                    break;
+                case Direction.West:
+                    c.Children.Add(new Line()
+                    {
+                        Stroke = Brushes.Red,
+                        StrokeThickness = 3,
+                        X1 = MARGIN + r.Position.X * Step + 1 + 7 * _viewModel.Zoom,
+                        Y1 = MARGIN + r.Position.Y * Step + Step / 2,
+                        X2 = MARGIN + r.Position.X * Step + 1,
+                        Y2 = MARGIN + r.Position.Y * Step + Step / 2
+                    });
+                    break;
+                default:
+                    throw new System.Exception();
+            }
 
             if (r.Task is null) continue;
 
-            t.Left = MARGIN + r.Task.Position.X * XStep;
-            t.Top = MARGIN + r.Task.Position.Y * YStep;
+            t.Left = MARGIN + r.Task.Position.X * Step;
+            t.Top = MARGIN + r.Task.Position.Y * Step;
 
-            c.Children.Add(new Rectangle()
+            grid = new Grid
+            {
+                Width = Step,
+                Height = Step,
+                Margin = t
+            };
+
+            grid.Children.Add(new Rectangle()
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = 0,
                 Fill = Brushes.Orange,
-                Width = XStep,
-                Height = YStep,
-                Margin = t
+                Width = Step,
+                Height = Step
             });
+
+            grid.Children.Add(new TextBlock()
+            {
+                Text = r.ID.ToString(),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontSize = fontSize
+            });
+
+            c.Children.Add(grid);
         }
     }
 
+    /// <summary>
+    /// Draws the walls to the canvas
+    /// </summary>
+    /// <param name="c">The currently open window's canvas</param>
     private void DrawWalls(Canvas c)
     {
         foreach (var w in _viewModel!.Walls)
         {
             Thickness t;
 
-            t.Left = MARGIN + w.Position.X * XStep;
-            t.Top = MARGIN + w.Position.Y * YStep;
+            t.Left = MARGIN + w.Position.X * Step;
+            t.Top = MARGIN + w.Position.Y * Step;
 
             c.Children.Add(new Rectangle()
             {
                 Stroke = Brushes.Black,
                 StrokeThickness = 1,
                 Fill = Brushes.Black,
-                Width = XStep,
-                Height = YStep,
+                Width = Step,
+                Height = Step,
                 Margin = t
             });
+        }
+    }
+
+    #endregion
+
+    /// <summary>
+    /// Redraws the canvas when the zoom property changes
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        switch (e.PropertyName)
+        {
+            case "Zoom":
+                    Calculate(_replayWindow?.MapCanvas ?? _simWindow?.MapCanvas ?? throw new System.Exception());
+                    Redraw(_replayWindow?.MapCanvas ?? _simWindow!.MapCanvas);                
+                break;
         }
     }
 }
