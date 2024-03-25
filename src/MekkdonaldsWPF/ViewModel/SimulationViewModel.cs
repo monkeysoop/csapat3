@@ -11,5 +11,6 @@ internal class SimulationViewModel : ViewModel
         Controller = SimController = new(path, new ConfigDataAccess(), new BoardFileDataAccess(), new RobotsDataAccess(), new PackagesDataAccess());
 
         SimController.Loaded += (_, _) => OnLoaded(this);
+        SimController.Tick += (_, _) => OnTick(this);
     }
 }
