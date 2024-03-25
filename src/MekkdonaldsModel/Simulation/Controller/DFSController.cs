@@ -6,15 +6,23 @@ public sealed class DFSController : PathFinder
     {
         // this depth first search uses heuristics to hopefully find a correct path quicker
         Step[] stack = new Step[5 * board.Height * board.Width];
-
-
-        stack[0] = new Step(start_position, start_direction, 0);
-        int stack_index = 1;
-
-
+        int stack_index = 0;
         int[] parents = new int[board.Height * board.Width]; // all items are automatically set to 0
 
-        parents[start_position.Y * board.Width + start_position.X] = start_direction;
+
+
+        int backward_direction = (start_direction + 2) % 4;
+        Point backward_offset = nexts_offsets[backward_direction];
+        Point backward_next_position = new(start_position.X + backward_offset.X,
+                                           start_position.Y + backward_offset.Y);
+        
+        stack[0] = new Step(backward_next_position, backward_direction, 0);
+        stack_index++;
+
+
+        stack[1] = new Step(start_position, start_direction, 0);
+        stack_index++;
+
 
         bool found = false;
         while (stack_index != 0 && !found)

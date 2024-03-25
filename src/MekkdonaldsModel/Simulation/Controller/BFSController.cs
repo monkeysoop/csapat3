@@ -5,14 +5,29 @@ public sealed class BFSController : PathFinder
     protected override (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position)
     {
         Step[] queue = new Step[5 * board.Height * board.Width];
+        int start_index = 0;
+        int end_index = 0;
+        int[] parents = new int[board.Height * board.Width]; // all items are automatically set to 0
+
 
 
         queue[0] = new Step(start_position, start_direction, 0);
-        int start_index = 0;
-        int end_index = 1;
+        end_index++;
+
+        parents[start_position.Y * board.Width + start_position.X] = start_direction;
 
 
-        int[] parents = new int[board.Height * board.Width]; // all items are automatically set to 0
+        int backward_direction = (start_direction + 2) % 4;
+        Point backward_offset = nexts_offsets[backward_direction];
+        Point backward_next_position = new(start_position.X + backward_offset.X,
+                                           start_position.Y + backward_offset.Y);
+
+        if (board.SetSearchedIfEmpty(backward_next_position))
+        {
+            queue[1] = new Step(backward_next_position, backward_direction, 0);
+            end_index++;
+            parents[backward_next_position.Y * board.Width + backward_next_position.X] = backward_direction;
+        }
 
 
         bool found = false;
