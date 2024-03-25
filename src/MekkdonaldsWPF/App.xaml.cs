@@ -113,7 +113,6 @@ public partial class App : Application
 
         _simWindow = new SimulationWindow
         {
-            WindowState = WindowState.Maximized,
             DataContext = _viewModel
         };
 
@@ -134,7 +133,7 @@ public partial class App : Application
 
     private void DisplayLoading()
     {
-
+        //_simWindow ?? 
     }
 
     #region Drawing
@@ -263,7 +262,7 @@ public partial class App : Application
     /// <param name="c">The currently open window's canvas</param>
     private void DrawRobots(Canvas c)
     {
-        var fontSize = 14 * Math.Sqrt(_viewModel!.Zoom);
+        var fontSize = 12 * Math.Sqrt(_viewModel!.Zoom);
 
         foreach (var r in _viewModel.Robots)
         {
@@ -297,6 +296,56 @@ public partial class App : Application
             });
 
             c.Children.Add(grid);
+
+            switch (r.Direction)
+            {
+                case Direction.North:
+                    c.Children.Add(new Line()
+                    {
+                        Stroke = Brushes.Red,
+                        StrokeThickness = 3,
+                        X1 = MARGIN + r.Position.X * Step + Step / 2,
+                        Y1 = MARGIN + r.Position.Y * Step + 1,
+                        X2 = MARGIN + r.Position.X * Step + Step / 2,
+                        Y2 = MARGIN + r.Position.Y * Step + 1 + 7 * _viewModel.Zoom
+                    });
+                    break;
+                case Direction.East:
+                    c.Children.Add(new Line()
+                    {
+                        Stroke = Brushes.Red,
+                        StrokeThickness = 3,
+                        X1 = MARGIN + (r.Position.X + 1) * Step - 1 - 7 * _viewModel.Zoom,
+                        Y1 = MARGIN + r.Position.Y * Step + Step / 2,
+                        X2 = MARGIN + (r.Position.X + 1) * Step - 1,
+                        Y2 = MARGIN + r.Position.Y * Step + Step / 2
+                    });
+                    break;
+                case Direction.South:
+                    c.Children.Add(new Line()
+                    {
+                        Stroke = Brushes.Red,
+                        StrokeThickness = 3,
+                        X1 = MARGIN + r.Position.X * Step + Step / 2,
+                        Y1 = MARGIN + (r.Position.Y + 1) * Step - 1 - 7 * _viewModel.Zoom,
+                        X2 = MARGIN + r.Position.X * Step + Step / 2,
+                        Y2 = MARGIN + (r.Position.Y + 1) * Step - 1
+                    });
+                    break;
+                case Direction.West:
+                    c.Children.Add(new Line()
+                    {
+                        Stroke = Brushes.Red,
+                        StrokeThickness = 3,
+                        X1 = MARGIN + r.Position.X * Step + 1 + 7 * _viewModel.Zoom,
+                        Y1 = MARGIN + r.Position.Y * Step + Step / 2,
+                        X2 = MARGIN + r.Position.X * Step + 1,
+                        Y2 = MARGIN + r.Position.Y * Step + Step / 2
+                    });
+                    break;
+                default:
+                    throw new System.Exception();
+            }
 
             if (r.Task is null) continue;
 

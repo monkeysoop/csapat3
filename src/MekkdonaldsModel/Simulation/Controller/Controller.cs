@@ -56,6 +56,6 @@ public abstract class Controller
 
     protected void StartTimer()
     {
-        Timer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(1000));
+        Timer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(80));
     }
 }
