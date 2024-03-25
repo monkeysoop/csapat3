@@ -14,13 +14,13 @@ namespace MekkdonaldsModel.Persistence
             value = value.Replace("[", "");
             value = value.Replace("]", "");
             var values = value.Split(",");
-            var listagenyo = new List<(Point, Direction)>();
+            var lista = new List<(Point, Direction)>();
             for (int i = 0; i < values.Length; i += 3)
             {
-                var tuplegenyo = (new Point(int.Parse(values[i]), int.Parse(values[i + 1])), DirectionMethods.StringToDirection(values[i + 2]));
-                listagenyo.Add(tuplegenyo);
+                var tuple = (new Point(int.Parse(values[i]), int.Parse(values[i + 1])), DirectionMethods.StringToDirection(values[i + 2]));
+                lista.Add(tuple);
             }
-            return listagenyo;
+            return lista;
         }
 
         public override void Write(Utf8JsonWriter writer, List<(Point, Direction)> value, JsonSerializerOptions options)
