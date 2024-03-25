@@ -30,7 +30,7 @@ public abstract class Controller
 
         _board = new(0, 0);
         _interval = TimeSpan.FromSeconds(1);
-        Timer = new Timer(OnTick, null, _interval, _interval); // this is probably better then System.Timers.Timer (it is already asynchronous)
+        Timer = new Timer(OnTick, null, new(int.MaxValue), _interval); // this is probably better then System.Timers.Timer (it is already asynchronous)
     }
 
     protected abstract void OnTick(object? state);
@@ -52,5 +52,10 @@ public abstract class Controller
             throw new ArgumentException("Speed must be positive", nameof(speed));
         }
         Timer.Change(TimeSpan.FromSeconds(1), _interval / speed);
+    }
+
+    protected void StartTimer()
+    {
+        Timer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(1000));
     }
 }
