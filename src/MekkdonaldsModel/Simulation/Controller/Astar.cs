@@ -152,7 +152,7 @@ public sealed class AstarController : PathFinder
     private static Step HeapRemoveMin(Step[] heap, int length)
     {
         Step min_item = heap[0];
-        heap[0] = heap[^1];
+        heap[0] = heap[length - 1];
         length--; // this is only local!!!
 
         int index = 0;
