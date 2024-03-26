@@ -25,9 +25,9 @@ public sealed class SimulationController : Controller
         var b = await ba.LoadAsync(config.MapFile);
         _board = b; // for some reason it only sets board this way ????????
 
-        _robots.AddRange(await ra.LoadAsync(config.AgentFile, _board.Width, _board.Height));
+        _robots.AddRange(await ra.LoadAsync(config.AgentFile, _board.Width - 2, _board.Height - 2));
 
-        foreach (var p in await pa.LoadAsync(config.TaskFile, _board.Width, _board.Height))
+        foreach (var p in await pa.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2))
         {
             _packages.Enqueue(p);
         }
@@ -75,6 +75,12 @@ public sealed class SimulationController : Controller
             }
             else
             {
+                Debug.WriteLine(r.Position);
+                Debug.WriteLine(r.Direction);
+                Debug.WriteLine(p);
+                Debug.WriteLine(_board.GetValue(r.Position.X, r.Position.Y) == Board2.WALL);
+                Debug.WriteLine(_board.GetValue(p.X, p.Y) == Board2.WALL);
+
                 throw new PathException("No path found!");
             }
         }

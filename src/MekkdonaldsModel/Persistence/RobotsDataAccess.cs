@@ -19,7 +19,7 @@ public class RobotsDataAccess : IRobotsDataAccess
                 throw new RobotsDataException();
             }
 
-            robots.Add(new Robot(new Point(pos % width, pos / width), Direction.North));
+            robots.Add(new Robot(new Point(((pos % width) + 1), ((pos / width) + 1)), Direction.North));
         }
 
         return robots;
