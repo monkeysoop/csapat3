@@ -1,4 +1,4 @@
-﻿#define BORDER_CHECK
+﻿#define NO_BORDER_CHECK
 
 namespace Mekkdonalds.Persistence;
 
@@ -26,35 +26,36 @@ public class Board2
     #region Constructors
     public Board2(int height, int width)
     {
-        Height = height;
-        Width = width;
+        Height = height + 2;
+        Width = width + 2;
 
-        Data = new int[height * width];
-        SearchMask = new int[height * width];
+        Data = new int[Height * Width];
+        SearchMask = new int[Height * Width];
 
-        for (int i = 0; i < height * width; i++)
+        for (int i = 0; i < Height * Width; i++)
         {
             Data[i] = EMPTY;
             SearchMask[i] = NOT_SEARCHED;
         }
+        AddBorder();
     }
 
     public Board2(int[,] data, int height, int width)
     {
-        Height = height;
-        Width = width;
+        Height = height + 2;
+        Width = width + 2;
 
-        Data = new int[height * width];
-        SearchMask = new int[height * width];
+        Data = new int[Height * Width];
+        SearchMask = new int[Height * Width];
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
-                SetValue(x, y, data[y, x]); // this checks the input from data[,]
-                SearchMask[y * width + x] = NOT_SEARCHED;
+                SetValue((x + 1), (y + 1), data[y, x]); // this checks the input from data[,]
             }
         }
-
+        ClearMask();
+        AddBorder();
     }
     #endregion
 
@@ -64,7 +65,7 @@ public class Board2
     public bool SetSearchedIfEmpty(Point position)
     {
 #if NO_BORDER_CHECK
-        bool t = (Data[position.Y * Width + Height] == EMPTY);
+        bool t = (Data[position.Y * Width + position.X] == EMPTY) && SearchMask[position.Y * Width + position.X] == NOT_SEARCHED;
 #else
         bool t = position.X >= 0 &&
                  position.X < Width &&
@@ -119,6 +120,24 @@ public class Board2
         }
 
         return Data[y * Width + x];
+    }
+    #endregion
+
+
+
+    #region Private methods
+    private void AddBorder()
+    {
+        for (int y = 0; y < Height; y++)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                Data[x] = WALL;
+                Data[(Height - 1) * Width + x] = WALL;
+                Data[y * Width] = WALL;
+                Data[y * Width + Width - 1] = WALL;
+            }
+        }
     }
     #endregion
 }

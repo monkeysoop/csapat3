@@ -19,7 +19,7 @@ public class PackagesDataAccess : IPackagesDataAccess
                 throw new PackagesDataException();
             }
 
-            packages.Add(new Package(pos % width, pos / width));
+            packages.Add(new Package(((pos % width) + 1), ((pos / width) + 1)));
         }
 
         return packages;
