@@ -1,6 +1,6 @@
-﻿namespace Mekkdonalds.Simulation.Controller;
+﻿namespace Mekkdonalds.Simulation.PathFinding;
 
-public sealed class AstarController : PathFinder
+public sealed class Astar : PathFinder
 {
     protected override (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position)
     {
@@ -29,7 +29,7 @@ public sealed class AstarController : PathFinder
         int backward_heuristic = COST_BIAS * backward_cost +
                                  HEURISTIC_BIAS * MaxTurnsRequired(backward_next_position, backward_offset, end_position) +
                                  HEURISTIC_BIAS * ManhattenDistance(backward_next_position, end_position);
-        
+
         if (board.SetSearchedIfEmpty(backward_next_position))
         {
             costs[backward_next_position.Y * board.Width + backward_next_position.X] = backward_cost;
@@ -182,7 +182,4 @@ public sealed class AstarController : PathFinder
 
         return min_item;
     }
-
-
 }
-
