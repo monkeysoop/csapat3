@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Simulation;
 
-public sealed class Robot : IMapObject
+public sealed class Robot(Point position, Direction direction) : IMapObject
 {
     private static readonly Point[] position_offsets = [
         new(0, -1),
@@ -12,13 +12,10 @@ public sealed class Robot : IMapObject
 
 
 
-    private readonly List<Action> _traversedRoute;
-    private List<Action> _plannedRoute;
-    private int _routeIndex;
+    private readonly List<Action> _history = [];
+    public int ID { get; } = IDCounter++;
 
-    public int ID { get; }
-
-    private Point _position;
+    private Point _position = position;
 
     /// <summary>
     /// Current position of the robot
@@ -28,7 +25,7 @@ public sealed class Robot : IMapObject
     /// <summary>
     /// The direction the robot is currently facing
     /// </summary>
-    public Direction Direction { get; private set; }
+    public Direction Direction { get; private set; } = direction;
 
     /// <summary>
     /// Task currently assigned to the robot
@@ -38,58 +35,20 @@ public sealed class Robot : IMapObject
     /// <summary>
     /// History of actions the robot executed
     /// </summary>
-    public IReadOnlyList<Action> History
+    public IReadOnlyList<Action> History => _history.AsReadOnly();
+
+    public void AddTask(Point? p)
     {
-        get => _traversedRoute.AsReadOnly();
-    }
-
-    public Robot(Point position, Direction direction)
-    {
-        _position = position;
-        Direction = direction;
-
-        ID = Robot.IDCounter;
-        Robot.IDCounter++;
-
-        _traversedRoute = [];
-        _plannedRoute = [];
-        _routeIndex = 0;
-    }
-
-    public bool Available()
-    {
-        return _routeIndex == _plannedRoute.Count;
-    }
-
-    public void AddPlannedRoute(List<Action> plannedRoute)
-    {
-        _plannedRoute = plannedRoute;
-        _routeIndex = 0;
-    }
-
-    public void Wait()
-    {
-        _traversedRoute.Add(Action.W);
-    }
-
-    public void Step()
-    {
-        if (_routeIndex < _plannedRoute.Count)
+        if (p is null)
         {
-            Action a = _plannedRoute[_routeIndex];
-            _routeIndex++;
-
-            Step(a);
-            _traversedRoute.Add(a);
+            Task = null;
+            return;
         }
+
+        Task = new Package(p.Value);
     }
 
-    public void AddTask(Point p)
-    {
-        Task = new Package(p);
-    }
-
-    internal void Step(Action a)
+    public void Step(Action a)
     {
         switch (a)
         {
@@ -97,5 +56,7 @@ public sealed class Robot : IMapObject
             case Action.R: Direction = Direction.ClockWise(); break;
             case Action.C: Direction = Direction.CounterClockWise(); break;
         }
+
+        _history.Add(a);
     }
 }
