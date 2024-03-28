@@ -7,13 +7,16 @@
         xmlns:viewmodel="clr-namespace:Mekkdonalds.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:SimulationViewModel}"
         mc:Ignorable="d"
         Title="Mekkdonalds" Width="1540" Height="800">
-    <Grid Grid.Row="0">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="80*"/>
             <ColumnDefinition Width="20*"/>
         </Grid.ColumnDefinitions>
         <ScrollViewer x:Name="ScrollViewer" Grid.Column="0" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
-            <Canvas x:Name="MapCanvas"/>
+            <Grid>
+                <Canvas x:Name="GridCanvas"/>
+                <Canvas x:Name="MapCanvas"/>
+            </Grid>
         </ScrollViewer>
         <Grid Grid.Column="1">
             <Slider Value="{Binding Zoom}" Minimum="0.1" Maximum="3" VerticalAlignment="Bottom" Margin="10,0,45,5"/>
