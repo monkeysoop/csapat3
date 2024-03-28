@@ -219,61 +219,6 @@ public partial class App : Application
     }
 
     /// <summary>
-    /// Draws the frame of the map
-    /// </summary>
-    /// <param name="c">The currently open window's canvas</param>
-    private void DrawFrame(Canvas c)
-    {
-        List<Line> l = [];
-
-        // TOP
-        l.Add(new Line()
-        {
-            Stroke = Brushes.Black,
-            StrokeThickness = BORDERTHICKNESS,
-            X1 = MARGIN - 2,
-            Y1 = MARGIN,
-            X2 = XLength + 2,
-            Y2 = MARGIN,
-        });
-
-        // BOTTOM
-        l.Add(new Line()
-        {
-            Stroke = Brushes.Black,
-            StrokeThickness = BORDERTHICKNESS,
-            X1 = MARGIN - 2,
-            Y1 = YLength,
-            X2 = XLength + 2,
-            Y2 = YLength,
-        });
-
-        // LEFT
-        l.Add(new Line()
-        {
-            Stroke = Brushes.Black,
-            StrokeThickness = BORDERTHICKNESS,
-            X1 = MARGIN,
-            Y1 = MARGIN,
-            X2 = MARGIN,
-            Y2 = YLength,
-        });
-
-        // RIGHT
-        l.Add(new Line()
-        {
-            Stroke = Brushes.Black,
-            StrokeThickness = BORDERTHICKNESS,
-            X1 = XLength,
-            Y1 = MARGIN,
-            X2 = XLength,
-            Y2 = YLength,
-        });
-
-        l.ForEach(x => c.Children.Add(x));
-    }
-
-    /// <summary>
     /// Draws the grid
     /// </summary>
     /// <param name="c">The currently open window's canvas</param>
