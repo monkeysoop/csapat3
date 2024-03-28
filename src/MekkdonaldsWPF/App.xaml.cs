@@ -1,7 +1,15 @@
 ﻿using Microsoft.Win32;
+
 using System.ComponentModel;
-﻿
+
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Windows.Media.Imaging;
+
+using Brushes = System.Drawing.Brushes;
+using Point = System.Windows.Point;
 
 namespace Mekkdonalds;
 
@@ -26,9 +34,17 @@ public partial class App : Application
     private bool _ctrlDown;
     private Point _mousePos;
 
+    private ImageBrush _rectangel;
+    private ImageBrush _ellipse;
+
     public App()
     {
         Startup += OnStartup;
+
+        DrawElements();
+
+        if (_rectangel is null || _ellipse is null)
+            throw new System.Exception("Failed to load images");
     }
 
     private void OnStartup(object sender, StartupEventArgs e)
@@ -123,13 +139,11 @@ public partial class App : Application
             DataContext = _viewModel
         };
 
-        var canvas = _simWindow.MapCanvas;
-
-        _viewModel.Loaded += (_, _) => Dispatcher.Invoke(() => { Calculate(canvas); Redraw(canvas); _simWindow.Cursor = Cursors.Arrow; }); // UI elemts have to be updated with this call when it is called from another thread
-        _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(canvas));
+        _viewModel.Loaded += (_, _) => Dispatcher.Invoke(() => { Calculate(_simWindow.GridCanvas); Redraw(_simWindow.MapCanvas); _simWindow.Cursor = Cursors.Arrow; }); // UI elemts have to be updated with this call when it is called from another thread
+        _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_simWindow.MapCanvas));
         _viewModel.PropertyChanged += OnPropertyChanged;
 
-        _simWindow.SizeChanged += (_, _) => { Calculate(canvas); Redraw(canvas); };
+        _simWindow.SizeChanged += (_, _) => { Calculate(_simWindow.GridCanvas); Redraw(_simWindow.MapCanvas); };
         _simWindow.KeyDown += (_, e) =>
         {
             if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
@@ -194,6 +208,8 @@ public partial class App : Application
     /// <param name="c">The currently open window's canvas</param>
     private void Calculate(Canvas c)
     {
+        c.Children.Clear();
+
         var w = _viewModel!.Width;
         var h = _viewModel.Height;
 
@@ -202,6 +218,9 @@ public partial class App : Application
 
         c.Width = XLength + 2 * MARGIN;
         c.Height = YLength + 2 * MARGIN;
+
+        DrawGrid(c);
+        DrawWalls(c);
     }
 
     /// <summary>
@@ -212,9 +231,9 @@ public partial class App : Application
     {
         c.Children.Clear();
 
-        //DrawFrame(c);
-        DrawGrid(c);
-        DrawWalls(c);
+        c.Width = XLength + 2 * MARGIN;
+        c.Height = YLength + 2 * MARGIN;
+
         DrawRobots(c);
     }
 
@@ -228,7 +247,7 @@ public partial class App : Application
         {
             c.Children.Add(new Line()
             {
-                Stroke = Brushes.Black,
+                Stroke = System.Windows.Media.Brushes.Black,
                 StrokeThickness = 1,
                 X1 = MARGIN + i * Step,
                 Y1 = MARGIN,
@@ -241,7 +260,7 @@ public partial class App : Application
         {
             c.Children.Add(new Line()
             {
-                Stroke = Brushes.Black,
+                Stroke = System.Windows.Media.Brushes.Black,
                 StrokeThickness = 1,
                 X1 = MARGIN,
                 Y1 = MARGIN + i * Step,
@@ -270,17 +289,9 @@ public partial class App : Application
             {
                 Width = Step - 2,
                 Height = Step - 2,
-                Margin = t
+                Margin = t,
+                Background = _ellipse
             };
-
-            grid.Children.Add(new Ellipse()
-            {
-                Stroke = Brushes.Black,
-                StrokeThickness = 1,
-                Fill = new SolidColorBrush(Color.FromRgb(9, 194, 248)), // this is the color in the example
-                Width = Step - 2,
-                Height = Step - 2
-            });
 
             grid.Children.Add(new TextBlock()
             {
@@ -297,7 +308,7 @@ public partial class App : Application
                 case Direction.North:
                     c.Children.Add(new Line()
                     {
-                        Stroke = Brushes.Red,
+                        Stroke = System.Windows.Media.Brushes.Red,
                         StrokeThickness = 3,
                         X1 = MARGIN + r.Position.X * Step + Step / 2,
                         Y1 = MARGIN + r.Position.Y * Step + 1,
@@ -308,7 +319,7 @@ public partial class App : Application
                 case Direction.East:
                     c.Children.Add(new Line()
                     {
-                        Stroke = Brushes.Red,
+                        Stroke = System.Windows.Media.Brushes.Red,
                         StrokeThickness = 3,
                         X1 = MARGIN + (r.Position.X + 1) * Step - 1 - 7 * _viewModel.Zoom,
                         Y1 = MARGIN + r.Position.Y * Step + Step / 2,
@@ -319,7 +330,7 @@ public partial class App : Application
                 case Direction.South:
                     c.Children.Add(new Line()
                     {
-                        Stroke = Brushes.Red,
+                        Stroke = System.Windows.Media.Brushes.Red,
                         StrokeThickness = 3,
                         X1 = MARGIN + r.Position.X * Step + Step / 2,
                         Y1 = MARGIN + (r.Position.Y + 1) * Step - 1 - 7 * _viewModel.Zoom,
@@ -330,7 +341,7 @@ public partial class App : Application
                 case Direction.West:
                     c.Children.Add(new Line()
                     {
-                        Stroke = Brushes.Red,
+                        Stroke = System.Windows.Media.Brushes.Red,
                         StrokeThickness = 3,
                         X1 = MARGIN + r.Position.X * Step + 1 + 7 * _viewModel.Zoom,
                         Y1 = MARGIN + r.Position.Y * Step + Step / 2,
@@ -351,17 +362,9 @@ public partial class App : Application
             {
                 Width = Step,
                 Height = Step,
-                Margin = t
+                Margin = t,
+                Background = _rectangel
             };
-
-            grid.Children.Add(new Rectangle()
-            {
-                Stroke = Brushes.Black,
-                StrokeThickness = 0,
-                Fill = Brushes.Orange,
-                Width = Step,
-                Height = Step
-            });
 
             grid.Children.Add(new TextBlock()
             {
@@ -388,15 +391,55 @@ public partial class App : Application
             t.Left = MARGIN + w.Position.X * Step;
             t.Top = MARGIN + w.Position.Y * Step;
 
-            c.Children.Add(new Rectangle()
+            c.Children.Add(new System.Windows.Shapes.Rectangle()
             {
-                Stroke = Brushes.Black,
+                Stroke = System.Windows.Media.Brushes.Black,
                 StrokeThickness = 1,
-                Fill = Brushes.Black,
+                Fill = System.Windows.Media.Brushes.Black,
                 Width = Step,
                 Height = Step,
                 Margin = t
             });
+        }
+    }
+
+    private void DrawElements()
+    {
+        {
+            using var bm = new Bitmap(500, 500);
+            using var g = Graphics.FromImage(bm);
+
+            g.FillRectangle(Brushes.Orange, 0, 0, 500, 500);
+
+            using var memory = new MemoryStream();
+            bm.Save(memory, ImageFormat.Png);
+            memory.Position = 0;
+            var r = new BitmapImage();
+            r.BeginInit();
+            r.StreamSource = memory;
+            r.CacheOption = BitmapCacheOption.OnLoad;
+            r.EndInit();
+
+            _rectangel = new ImageBrush(r);
+        }
+
+        {
+            using var bm = new Bitmap(500, 500);
+            using var g = Graphics.FromImage(bm);
+
+            g.FillEllipse(new SolidBrush(System.Drawing.Color.FromArgb(9, 194, 248)), 0, 0, 500, 500);
+
+            using var memory = new MemoryStream();
+            bm.Save(memory, ImageFormat.Png);
+            memory.Position = 0;
+            var r = new BitmapImage();
+            r = new BitmapImage();
+            r.BeginInit();
+            r.StreamSource = memory;
+            r.CacheOption = BitmapCacheOption.OnLoad;
+            r.EndInit();
+
+            _ellipse = new ImageBrush(r);
         }
     }
 
@@ -412,9 +455,12 @@ public partial class App : Application
         switch (e.PropertyName)
         {
             case "Zoom":
-                    Calculate(_replayWindow?.MapCanvas ?? _simWindow?.MapCanvas ?? throw new System.Exception());
-                    Redraw(_replayWindow?.MapCanvas ?? _simWindow!.MapCanvas);                
+                Calculate(_replayWindow?.MapCanvas ?? _simWindow?.GridCanvas ?? throw new System.Exception());
+                Redraw(_replayWindow?.MapCanvas ?? _simWindow!.MapCanvas);
                 break;
         }
+
+        Debug.WriteLine(_simWindow!.MapCanvas.Width);
+        Debug.WriteLine(_simWindow!.MapCanvas.Height);
     }
 }
