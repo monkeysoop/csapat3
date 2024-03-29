@@ -22,6 +22,10 @@ internal abstract class ViewModel : ViewModelBase
         {
             if (_zoom != value)
             {
+                if (value < 0.1)
+                    value = 0.1;
+                else if (value > 8)
+                    value = 8;
                 _zoom = value;
                 OnPropertyChanged(nameof(Zoom));
                 OnPropertyChanged(nameof(ZoomLabel));

@@ -4,7 +4,7 @@ items:
   commentId: N:Mekkdonalds.View
   id: Mekkdonalds.View
   children:
-  - Mekkdonalds.View.MainWindow
+  - Mekkdonalds.View.SimulationWindow
   langs:
   - csharp
   - vb
@@ -15,9 +15,9 @@ items:
   assemblies:
   - MekkdonaldsWPF
 references:
-- uid: Mekkdonalds.View.MainWindow
-  commentId: T:Mekkdonalds.View.MainWindow
-  href: Mekkdonalds.View.MainWindow.html
-  name: MainWindow
-  nameWithType: MainWindow
-  fullName: Mekkdonalds.View.MainWindow
+- uid: Mekkdonalds.View.SimulationWindow
+  commentId: T:Mekkdonalds.View.SimulationWindow
+  href: Mekkdonalds.View.SimulationWindow.html
+  name: SimulationWindow
+  nameWithType: SimulationWindow
+  fullName: Mekkdonalds.View.SimulationWindow

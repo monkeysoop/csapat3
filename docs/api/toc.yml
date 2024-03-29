@@ -5,6 +5,32 @@ items:
   items:
   - uid: Mekkdonalds.App
     name: App
+- uid: Mekkdonalds.Simulation
+  name: Mekkdonalds.Simulation
+  items:
+  - uid: Mekkdonalds.Simulation.Action
+    name: Action
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+  - uid: Mekkdonalds.Simulation.DirectionMethods
+    name: DirectionMethods
+  - uid: Mekkdonalds.Simulation.Package
+    name: Package
+  - uid: Mekkdonalds.Simulation.Path
+    name: Path
+  - uid: Mekkdonalds.Simulation.Robot
+    name: Robot
+  - uid: Mekkdonalds.Simulation.Wall
+    name: Wall
+- uid: Mekkdonalds.Simulation.Controller
+  name: Mekkdonalds.Simulation.Controller
+  items:
+  - uid: Mekkdonalds.Simulation.Controller.Controller
+    name: Controller
+  - uid: Mekkdonalds.Simulation.Controller.DFSController
+    name: DFSController
+  - uid: Mekkdonalds.Simulation.Controller.SimulationController
+    name: SimulationController
 - uid: Mekkdonalds.Test
   name: Mekkdonalds.Test
   items:
@@ -17,8 +43,8 @@ items:
 - uid: Mekkdonalds.View
   name: Mekkdonalds.View
   items:
-  - uid: Mekkdonalds.View.MainWindow
-    name: MainWindow
+  - uid: Mekkdonalds.View.SimulationWindow
+    name: SimulationWindow
 - uid: Mekkdonalds.ViewModel
   name: Mekkdonalds.ViewModel
   items:
@@ -26,4 +52,9 @@ items:
     name: DelegateCommand
   - uid: Mekkdonalds.ViewModel.ViewModelBase
     name: ViewModelBase
+- uid: MekkdonaldsModel.Persistence
+  name: MekkdonaldsModel.Persistence
+  items:
+  - uid: MekkdonaldsModel.Persistence.Board2
+    name: Board2
 memberLayout: SamePage

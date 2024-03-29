@@ -16,8 +16,8 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/App.xaml.cs
-      branch: Adorka
-      repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
+      branch: master
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: App
     path: ../src/MekkdonaldsWPF/App.xaml.cs
     startLine: 5
@@ -104,11 +104,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/App.xaml.cs
-      branch: Adorka
-      repo: https://szofttech.inf.elte.hu/szofttech-ab-2024/group-07/csapat3.git
+      branch: master
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: .ctor
     path: ../src/MekkdonaldsWPF/App.xaml.cs
-    startLine: 8
+    startLine: 18
   assemblies:
   - MekkdonaldsWPF
   namespace: Mekkdonalds

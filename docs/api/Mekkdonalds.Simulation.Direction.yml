@@ -1,0 +1,276 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mekkdonalds.Simulation.Direction
+  commentId: T:Mekkdonalds.Simulation.Direction
+  id: Direction
+  parent: Mekkdonalds.Simulation
+  children:
+  - Mekkdonalds.Simulation.Direction.East
+  - Mekkdonalds.Simulation.Direction.North
+  - Mekkdonalds.Simulation.Direction.South
+  - Mekkdonalds.Simulation.Direction.West
+  langs:
+  - csharp
+  - vb
+  name: Direction
+  nameWithType: Direction
+  fullName: Mekkdonalds.Simulation.Direction
+  type: Enum
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Direction.cs
+      branch: master
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Direction
+    path: ../src/MekkdonaldsModel/Simulation/Direction.cs
+    startLine: 2
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
+  syntax:
+    content: public enum Direction
+    content.vb: Public Enum Direction
+  extensionMethods:
+  - Mekkdonalds.Simulation.Direction.Mekkdonalds.Simulation.DirectionMethods.ClockWise
+  - Mekkdonalds.Simulation.Direction.Mekkdonalds.Simulation.DirectionMethods.CounterClockWise
+- uid: Mekkdonalds.Simulation.Direction.North
+  commentId: F:Mekkdonalds.Simulation.Direction.North
+  id: North
+  parent: Mekkdonalds.Simulation.Direction
+  langs:
+  - csharp
+  - vb
+  name: North
+  nameWithType: Direction.North
+  fullName: Mekkdonalds.Simulation.Direction.North
+  type: Field
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Direction.cs
+      branch: master
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: North
+    path: ../src/MekkdonaldsModel/Simulation/Direction.cs
+    startLine: 4
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
+  syntax:
+    content: North = 0
+    return:
+      type: Mekkdonalds.Simulation.Direction
+- uid: Mekkdonalds.Simulation.Direction.East
+  commentId: F:Mekkdonalds.Simulation.Direction.East
+  id: East
+  parent: Mekkdonalds.Simulation.Direction
+  langs:
+  - csharp
+  - vb
+  name: East
+  nameWithType: Direction.East
+  fullName: Mekkdonalds.Simulation.Direction.East
+  type: Field
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Direction.cs
+      branch: master
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: East
+    path: ../src/MekkdonaldsModel/Simulation/Direction.cs
+    startLine: 5
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
+  syntax:
+    content: East = 1
+    return:
+      type: Mekkdonalds.Simulation.Direction
+- uid: Mekkdonalds.Simulation.Direction.South
+  commentId: F:Mekkdonalds.Simulation.Direction.South
+  id: South
+  parent: Mekkdonalds.Simulation.Direction
+  langs:
+  - csharp
+  - vb
+  name: South
+  nameWithType: Direction.South
+  fullName: Mekkdonalds.Simulation.Direction.South
+  type: Field
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Direction.cs
+      branch: master
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: South
+    path: ../src/MekkdonaldsModel/Simulation/Direction.cs
+    startLine: 6
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
+  syntax:
+    content: South = 2
+    return:
+      type: Mekkdonalds.Simulation.Direction
+- uid: Mekkdonalds.Simulation.Direction.West
+  commentId: F:Mekkdonalds.Simulation.Direction.West
+  id: West
+  parent: Mekkdonalds.Simulation.Direction
+  langs:
+  - csharp
+  - vb
+  name: West
+  nameWithType: Direction.West
+  fullName: Mekkdonalds.Simulation.Direction.West
+  type: Field
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Direction.cs
+      branch: master
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: West
+    path: ../src/MekkdonaldsModel/Simulation/Direction.cs
+    startLine: 7
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
+  syntax:
+    content: West = 3
+    return:
+      type: Mekkdonalds.Simulation.Direction
+references:
+- uid: Mekkdonalds.Simulation
+  commentId: N:Mekkdonalds.Simulation
+  href: Mekkdonalds.html
+  name: Mekkdonalds.Simulation
+  nameWithType: Mekkdonalds.Simulation
+  fullName: Mekkdonalds.Simulation
+  spec.csharp:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
+  spec.vb:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
+- uid: Mekkdonalds.Simulation.Direction.Mekkdonalds.Simulation.DirectionMethods.ClockWise
+  commentId: M:Mekkdonalds.Simulation.DirectionMethods.ClockWise(Mekkdonalds.Simulation.Direction)
+  parent: Mekkdonalds.Simulation.DirectionMethods
+  definition: Mekkdonalds.Simulation.DirectionMethods.ClockWise(Mekkdonalds.Simulation.Direction)
+  href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_ClockWise_Mekkdonalds_Simulation_Direction_
+  name: ClockWise(Direction)
+  nameWithType: DirectionMethods.ClockWise(Direction)
+  fullName: Mekkdonalds.Simulation.DirectionMethods.ClockWise(Mekkdonalds.Simulation.Direction)
+  spec.csharp:
+  - uid: Mekkdonalds.Simulation.DirectionMethods.ClockWise(Mekkdonalds.Simulation.Direction)
+    name: ClockWise
+    href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_ClockWise_Mekkdonalds_Simulation_Direction_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+    href: Mekkdonalds.Simulation.Direction.html
+  - name: )
+  spec.vb:
+  - uid: Mekkdonalds.Simulation.DirectionMethods.ClockWise(Mekkdonalds.Simulation.Direction)
+    name: ClockWise
+    href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_ClockWise_Mekkdonalds_Simulation_Direction_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+    href: Mekkdonalds.Simulation.Direction.html
+  - name: )
+- uid: Mekkdonalds.Simulation.Direction.Mekkdonalds.Simulation.DirectionMethods.CounterClockWise
+  commentId: M:Mekkdonalds.Simulation.DirectionMethods.CounterClockWise(Mekkdonalds.Simulation.Direction)
+  parent: Mekkdonalds.Simulation.DirectionMethods
+  definition: Mekkdonalds.Simulation.DirectionMethods.CounterClockWise(Mekkdonalds.Simulation.Direction)
+  href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_CounterClockWise_Mekkdonalds_Simulation_Direction_
+  name: CounterClockWise(Direction)
+  nameWithType: DirectionMethods.CounterClockWise(Direction)
+  fullName: Mekkdonalds.Simulation.DirectionMethods.CounterClockWise(Mekkdonalds.Simulation.Direction)
+  spec.csharp:
+  - uid: Mekkdonalds.Simulation.DirectionMethods.CounterClockWise(Mekkdonalds.Simulation.Direction)
+    name: CounterClockWise
+    href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_CounterClockWise_Mekkdonalds_Simulation_Direction_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+    href: Mekkdonalds.Simulation.Direction.html
+  - name: )
+  spec.vb:
+  - uid: Mekkdonalds.Simulation.DirectionMethods.CounterClockWise(Mekkdonalds.Simulation.Direction)
+    name: CounterClockWise
+    href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_CounterClockWise_Mekkdonalds_Simulation_Direction_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+    href: Mekkdonalds.Simulation.Direction.html
+  - name: )
+- uid: Mekkdonalds.Simulation.DirectionMethods.ClockWise(Mekkdonalds.Simulation.Direction)
+  commentId: M:Mekkdonalds.Simulation.DirectionMethods.ClockWise(Mekkdonalds.Simulation.Direction)
+  href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_ClockWise_Mekkdonalds_Simulation_Direction_
+  name: ClockWise(Direction)
+  nameWithType: DirectionMethods.ClockWise(Direction)
+  fullName: Mekkdonalds.Simulation.DirectionMethods.ClockWise(Mekkdonalds.Simulation.Direction)
+  spec.csharp:
+  - uid: Mekkdonalds.Simulation.DirectionMethods.ClockWise(Mekkdonalds.Simulation.Direction)
+    name: ClockWise
+    href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_ClockWise_Mekkdonalds_Simulation_Direction_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+    href: Mekkdonalds.Simulation.Direction.html
+  - name: )
+  spec.vb:
+  - uid: Mekkdonalds.Simulation.DirectionMethods.ClockWise(Mekkdonalds.Simulation.Direction)
+    name: ClockWise
+    href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_ClockWise_Mekkdonalds_Simulation_Direction_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+    href: Mekkdonalds.Simulation.Direction.html
+  - name: )
+- uid: Mekkdonalds.Simulation.DirectionMethods
+  commentId: T:Mekkdonalds.Simulation.DirectionMethods
+  parent: Mekkdonalds.Simulation
+  href: Mekkdonalds.Simulation.DirectionMethods.html
+  name: DirectionMethods
+  nameWithType: DirectionMethods
+  fullName: Mekkdonalds.Simulation.DirectionMethods
+- uid: Mekkdonalds.Simulation.DirectionMethods.CounterClockWise(Mekkdonalds.Simulation.Direction)
+  commentId: M:Mekkdonalds.Simulation.DirectionMethods.CounterClockWise(Mekkdonalds.Simulation.Direction)
+  href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_CounterClockWise_Mekkdonalds_Simulation_Direction_
+  name: CounterClockWise(Direction)
+  nameWithType: DirectionMethods.CounterClockWise(Direction)
+  fullName: Mekkdonalds.Simulation.DirectionMethods.CounterClockWise(Mekkdonalds.Simulation.Direction)
+  spec.csharp:
+  - uid: Mekkdonalds.Simulation.DirectionMethods.CounterClockWise(Mekkdonalds.Simulation.Direction)
+    name: CounterClockWise
+    href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_CounterClockWise_Mekkdonalds_Simulation_Direction_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+    href: Mekkdonalds.Simulation.Direction.html
+  - name: )
+  spec.vb:
+  - uid: Mekkdonalds.Simulation.DirectionMethods.CounterClockWise(Mekkdonalds.Simulation.Direction)
+    name: CounterClockWise
+    href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_CounterClockWise_Mekkdonalds_Simulation_Direction_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+    href: Mekkdonalds.Simulation.Direction.html
+  - name: )
+- uid: Mekkdonalds.Simulation.Direction
+  commentId: T:Mekkdonalds.Simulation.Direction
+  parent: Mekkdonalds.Simulation
+  href: Mekkdonalds.Simulation.Direction.html
+  name: Direction
+  nameWithType: Direction
+  fullName: Mekkdonalds.Simulation.Direction

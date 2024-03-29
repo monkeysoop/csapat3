@@ -1,0 +1,69 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mekkdonalds.Simulation.Controller
+  commentId: N:Mekkdonalds.Simulation.Controller
+  id: Mekkdonalds.Simulation.Controller
+  children:
+  - Mekkdonalds.Simulation.Controller.Controller
+  - Mekkdonalds.Simulation.Controller.DFSController
+  - Mekkdonalds.Simulation.Controller.SimulationController
+  langs:
+  - csharp
+  - vb
+  name: Mekkdonalds.Simulation.Controller
+  nameWithType: Mekkdonalds.Simulation.Controller
+  fullName: Mekkdonalds.Simulation.Controller
+  type: Namespace
+  assemblies:
+  - MekkdonaldsModel
+references:
+- uid: Mekkdonalds.Simulation.Controller.Controller
+  commentId: T:Mekkdonalds.Simulation.Controller.Controller
+  parent: Mekkdonalds.Simulation.Controller
+  href: Mekkdonalds.Simulation.Controller.Controller.html
+  name: Controller
+  nameWithType: Controller
+  fullName: Mekkdonalds.Simulation.Controller.Controller
+- uid: Mekkdonalds.Simulation.Controller.DFSController
+  commentId: T:Mekkdonalds.Simulation.Controller.DFSController
+  href: Mekkdonalds.Simulation.Controller.DFSController.html
+  name: DFSController
+  nameWithType: DFSController
+  fullName: Mekkdonalds.Simulation.Controller.DFSController
+- uid: Mekkdonalds.Simulation.Controller.SimulationController
+  commentId: T:Mekkdonalds.Simulation.Controller.SimulationController
+  parent: Mekkdonalds.Simulation.Controller
+  href: Mekkdonalds.Simulation.Controller.SimulationController.html
+  name: SimulationController
+  nameWithType: SimulationController
+  fullName: Mekkdonalds.Simulation.Controller.SimulationController
+- uid: Mekkdonalds.Simulation.Controller
+  commentId: N:Mekkdonalds.Simulation.Controller
+  href: Mekkdonalds.html
+  name: Mekkdonalds.Simulation.Controller
+  nameWithType: Mekkdonalds.Simulation.Controller
+  fullName: Mekkdonalds.Simulation.Controller
+  spec.csharp:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
+  - name: .
+  - uid: Mekkdonalds.Simulation.Controller
+    name: Controller
+    href: Mekkdonalds.Simulation.Controller.html
+  spec.vb:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
+  - name: .
+  - uid: Mekkdonalds.Simulation.Controller
+    name: Controller
+    href: Mekkdonalds.Simulation.Controller.html
