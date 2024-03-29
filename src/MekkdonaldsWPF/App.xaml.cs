@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 
+using System.Collections;
 using System.ComponentModel;
 
 using System.Diagnostics;
@@ -18,14 +19,13 @@ namespace Mekkdonalds;
 /// </summary>
 public partial class App : Application
 {
-    private const double MARGIN = 20;
-    private const double BORDERTHICKNESS = 4;
+    private const double MARGIN = 0;
     private const double SIDELENGTH = 20;
 
-    private double XLength;
-    private double YLength;
+    private int XLength;
+    private int YLength;
 
-    private double Step => SIDELENGTH * (_viewModel?.Zoom ?? 1);
+    private int Step => (int)Math.Round(SIDELENGTH * (_viewModel?.Zoom ?? 1));
 
     private SimulationWindow? _simWindow;
     private StartWindow? _startWindow;
@@ -139,11 +139,19 @@ public partial class App : Application
             DataContext = _viewModel
         };
 
-        _viewModel.Loaded += (_, _) => Dispatcher.Invoke(() => { Calculate(_simWindow.GridCanvas); Redraw(_simWindow.MapCanvas); _simWindow.Cursor = Cursors.Arrow; }); // UI elemts have to be updated with this call when it is called from another thread
+        _viewModel.Loaded += (_, _) => Dispatcher.Invoke(() =>
+        {
+            Calculate(_simWindow.MapCanvas);
+            DrawGrid(_simWindow.MapCanvas);
+            Redraw(_simWindow.MapCanvas);
+            _simWindow.Cursor = Cursors.Arrow;
+        });
+
         _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_simWindow.MapCanvas));
         _viewModel.PropertyChanged += OnPropertyChanged;
 
-        _simWindow.SizeChanged += (_, _) => { Calculate(_simWindow.GridCanvas); Redraw(_simWindow.MapCanvas); };
+        _simWindow.SizeChanged += (_, _) => { Calculate(_simWindow.MapCanvas); Redraw(_simWindow.MapCanvas); };
+
         _simWindow.KeyDown += (_, e) =>
         {
             if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
@@ -213,14 +221,8 @@ public partial class App : Application
         var w = _viewModel!.Width;
         var h = _viewModel.Height;
 
-        XLength = (w + 1) * Step - (_viewModel.Zoom - 1) * MARGIN;
-        YLength = (h + 1) * Step - (_viewModel.Zoom - 1) * MARGIN;
-
-        c.Width = XLength + 2 * MARGIN;
-        c.Height = YLength + 2 * MARGIN;
-
-        DrawGrid(c);
-        DrawWalls(c);
+        c.Width = XLength = w * Step;
+        c.Height = YLength = h * Step;
     }
 
     /// <summary>
@@ -231,9 +233,6 @@ public partial class App : Application
     {
         c.Children.Clear();
 
-        c.Width = XLength + 2 * MARGIN;
-        c.Height = YLength + 2 * MARGIN;
-
         DrawRobots(c);
     }
 
@@ -243,31 +242,34 @@ public partial class App : Application
     /// <param name="c">The currently open window's canvas</param>
     private void DrawGrid(Canvas c)
     {
-        for (var i = 0; i <= _viewModel!.Width; i++)
+        using var bm = new Bitmap(Step * _viewModel!.Width * 2, Step * _viewModel.Height * 2);
+        using var g = Graphics.FromImage(bm);
+
+        for (var i = 0; i <= _viewModel.Width; i++)
         {
-            c.Children.Add(new Line()
-            {
-                Stroke = System.Windows.Media.Brushes.Black,
-                StrokeThickness = 1,
-                X1 = MARGIN + i * Step,
-                Y1 = MARGIN,
-                X2 = MARGIN + i * Step,
-                Y2 = YLength,
-            });
+            g.DrawLine(Pens.Black, i * Step * 2, 0, i * Step * 2, YLength * 2);
         }
 
         for (var i = 0; i <= _viewModel.Height; i++)
         {
-            c.Children.Add(new Line()
-            {
-                Stroke = System.Windows.Media.Brushes.Black,
-                StrokeThickness = 1,
-                X1 = MARGIN,
-                Y1 = MARGIN + i * Step,
-                X2 = XLength,
-                Y2 = MARGIN + i * Step,
-            });
+            g.DrawLine(Pens.Black, 0, i * Step * 2, XLength * 2, i * Step * 2);
         }
+
+        foreach (var w in _viewModel!.Walls)
+        {
+            g.FillRectangle(Brushes.Black, w.Position.X * Step * 2, w.Position.Y * Step * 2, Step * 2, Step * 2);
+        }
+
+        using var memory = new MemoryStream();
+        bm.Save(memory, ImageFormat.Png);
+        memory.Position = 0;
+        var r = new BitmapImage();
+        r.BeginInit();
+        r.StreamSource = memory;
+        r.CacheOption = BitmapCacheOption.OnLoad;
+        r.EndInit();
+
+        c.Background = new ImageBrush(r);
     }
 
     /// <summary>
@@ -378,31 +380,6 @@ public partial class App : Application
         }
     }
 
-    /// <summary>
-    /// Draws the walls to the canvas
-    /// </summary>
-    /// <param name="c">The currently open window's canvas</param>
-    private void DrawWalls(Canvas c)
-    {
-        foreach (var w in _viewModel!.Walls)
-        {
-            Thickness t;
-
-            t.Left = MARGIN + w.Position.X * Step;
-            t.Top = MARGIN + w.Position.Y * Step;
-
-            c.Children.Add(new System.Windows.Shapes.Rectangle()
-            {
-                Stroke = System.Windows.Media.Brushes.Black,
-                StrokeThickness = 1,
-                Fill = System.Windows.Media.Brushes.Black,
-                Width = Step,
-                Height = Step,
-                Margin = t
-            });
-        }
-    }
-
     private void DrawElements()
     {
         {
@@ -455,12 +432,9 @@ public partial class App : Application
         switch (e.PropertyName)
         {
             case "Zoom":
-                Calculate(_replayWindow?.MapCanvas ?? _simWindow?.GridCanvas ?? throw new System.Exception());
+                Calculate(_replayWindow?.MapCanvas ?? _simWindow?.MapCanvas ?? throw new System.Exception());
                 Redraw(_replayWindow?.MapCanvas ?? _simWindow!.MapCanvas);
                 break;
         }
-
-        Debug.WriteLine(_simWindow!.MapCanvas.Width);
-        Debug.WriteLine(_simWindow!.MapCanvas.Height);
     }
 }
