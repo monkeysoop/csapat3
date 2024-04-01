@@ -85,7 +85,9 @@ public class Board2
     public bool SetSearchedIfEmpty(Point position)
     {
 #if NO_BORDER_CHECK
-        bool t = (Data[position.Y * Width + position.X] == EMPTY) && SearchMask[position.Y * Width + position.X] == NOT_SEARCHED;
+        bool t = Data[position.Y * Width + position.X] == EMPTY && 
+                 SearchMask[position.Y * Width + position.X] == NOT_SEARCHED &&
+                 RobotMask[position.Y * Width + position.X] == EMPTY;
 #else
         bool t = position.X >= 0 &&
                  position.X < Width &&
