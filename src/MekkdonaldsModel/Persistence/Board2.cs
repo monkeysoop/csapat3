@@ -8,6 +8,7 @@ public class Board2
     #region Constants
     public const int EMPTY = 0;
     public const int WALL = 1;
+    public const int OCCUPIED = 1;
     public const int NOT_SEARCHED = 0;
     public const int SEARCHED = 1;
     #endregion
@@ -17,6 +18,7 @@ public class Board2
     #region Fields
     public readonly int[] Data;
     private readonly int[] SearchMask;
+    private readonly int[] RobotMask;
     public int Height { get; init; }
     public int Width { get; init; }
     #endregion
@@ -31,11 +33,13 @@ public class Board2
 
         Data = new int[Height * Width];
         SearchMask = new int[Height * Width];
+        RobotMask = new int[Height * Width];
 
         for (int i = 0; i < Height * Width; i++)
         {
             Data[i] = EMPTY;
             SearchMask[i] = NOT_SEARCHED;
+            RobotMask[i] = EMPTY;
         }
         AddBorder();
     }
@@ -47,6 +51,13 @@ public class Board2
 
         Data = new int[Height * Width];
         SearchMask = new int[Height * Width];
+        RobotMask = new int[Height * Width];
+
+        for (int i = 0; i < Height * Width; i++)
+        {
+            SearchMask[i] = NOT_SEARCHED;
+            RobotMask[i] = EMPTY;
+        }
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
@@ -54,7 +65,6 @@ public class Board2
                 SetValue((x + 1), (y + 1), data[y, x]); // this checks the input from data[,]
             }
         }
-        ClearMask();
         AddBorder();
     }
     #endregion
@@ -62,6 +72,16 @@ public class Board2
 
 
     #region Public methods
+    public bool TryMoveRobot(Point position, Point next_position)
+    {
+        if (RobotMask[next_position.Y * Width + next_position.X] == EMPTY) {
+            RobotMask[position.Y * Width + position.X] = EMPTY;
+            RobotMask[next_position.Y * Width + next_position.X] = OCCUPIED;
+            return true;
+        }
+        return false;
+    }
+
     public bool SetSearchedIfEmpty(Point position)
     {
 #if NO_BORDER_CHECK
