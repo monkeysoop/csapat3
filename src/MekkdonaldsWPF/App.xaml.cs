@@ -31,11 +31,14 @@ public partial class App : Application
     private StartWindow? _startWindow;
     private ReplayWindow? _replayWindow;
     private ViewModel.ViewModel? _viewModel;
+
     private bool _ctrlDown;
     private Point _mousePos;
 
     private ImageBrush _rectangel;
-    private ImageBrush _ellipse;
+    private readonly ImageBrush[] _ellipses = new ImageBrush[4];
+    private readonly Dictionary<Robot, Grid> _robots = [];
+    private readonly Dictionary<Robot, Grid> _targets = [];
 
     public App()
     {
@@ -43,7 +46,7 @@ public partial class App : Application
 
         DrawElements();
 
-        if (_rectangel is null || _ellipse is null)
+        if (_rectangel is null || _ellipses.Any(x => x is null))
             throw new System.Exception("Failed to load images");
     }
 
@@ -97,25 +100,7 @@ public partial class App : Application
         if (fd.ShowDialog() is false)
             return false;
 
-        _viewModel = new ReplayViewModel(fd.FileName);
-
-        _replayWindow = new ReplayWindow
-        {
-            WindowState = WindowState.Maximized,
-            DataContext = _viewModel
-        };
-
-        _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_replayWindow.MapCanvas)); // UI elemts have to be updated with this call when it is called from another thread
-        _viewModel.PropertyChanged += OnPropertyChanged;
-
-        _replayWindow.SizeChanged += (_, _) => { Calculate(_replayWindow.MapCanvas); Redraw(_replayWindow.MapCanvas); };
-
-        _replayWindow.Show();
-
-        Calculate(_replayWindow.MapCanvas);
-        Redraw(_replayWindow.MapCanvas);
-
-        return true;
+        throw new NotImplementedException("Replay is not implemented yet");
     }
 
     /// <summary>
@@ -143,14 +128,15 @@ public partial class App : Application
         {
             Calculate(_simWindow.MapCanvas);
             DrawGrid(_simWindow.MapCanvas);
-            Redraw(_simWindow.MapCanvas);
+            InitRobots(_simWindow.MapCanvas);
+            Redraw();
             _simWindow.Cursor = Cursors.Arrow;
         });
 
-        _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_simWindow.MapCanvas));
+        _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw());
         _viewModel.PropertyChanged += OnPropertyChanged;
 
-        _simWindow.SizeChanged += (_, _) => { Calculate(_simWindow.MapCanvas); Redraw(_simWindow.MapCanvas); };
+        _simWindow.SizeChanged += (_, _) => { Calculate(_simWindow.MapCanvas); Redraw(); };
 
         _simWindow.KeyDown += (_, e) =>
         {
@@ -216,24 +202,51 @@ public partial class App : Application
     /// <param name="c">The currently open window's canvas</param>
     private void Calculate(Canvas c)
     {
-        c.Children.Clear();
-
         var w = _viewModel!.Width;
         var h = _viewModel.Height;
 
         c.Width = XLength = w * Step;
         c.Height = YLength = h * Step;
+
+        var fontSize = 12 * Math.Sqrt(_viewModel.Zoom);
+
+        TextBlock? t;
+
+        foreach (var g in _robots.Values)
+        {
+            g.Width = g.Height = Step - 2;
+            t = g.Children[0] as TextBlock ?? throw new System.Exception();
+            t.FontSize = fontSize;
+        }
+
+        foreach (var g in _targets.Values)
+        {
+            g.Width = g.Height = Step;
+            t = g.Children[0] as TextBlock ?? throw new System.Exception();
+            t.FontSize = fontSize;
+        }
     }
 
     /// <summary>
     /// Clears the canvas and redraws every element
     /// </summary>
     /// <param name="c">The currently open window's canvas</param>
-    private void Redraw(Canvas c)
+    private void Redraw()
     {
-        c.Children.Clear();
+        foreach (var r in _viewModel!.Robots)
+        {
+            _robots[r].Margin = new Thickness(MARGIN + 1 + r.Position.X * Step, MARGIN + 1 + r.Position.Y * Step, 0, 0);
+            _robots[r].Background = _ellipses[(int)r.Direction];
 
-        DrawRobots(c);
+            if (r.Task is not null)
+            {
+                _targets[r].Margin = new Thickness(MARGIN + r.Task.Position.X * Step, MARGIN + r.Task.Position.Y * Step, 0, 0);
+            }
+            else
+            {
+                _targets[r].Visibility = Visibility.Hidden;
+            }
+        }
     }
 
     /// <summary>
@@ -272,27 +285,126 @@ public partial class App : Application
         c.Background = new ImageBrush(r);
     }
 
-    /// <summary>
-    /// Draws the robots and their targets (if they have one) to the canvas
-    /// </summary>
-    /// <param name="c">The currently open window's canvas</param>
-    private void DrawRobots(Canvas c)
+    ///// <summary>
+    ///// Draws the robots and their targets (if they have one) to the canvas
+    ///// </summary>
+    ///// <param name="c">The currently open window's canvas</param>
+    //private void DrawRobots(Canvas c)
+    //{
+    //    var fontSize = 12 * Math.Sqrt(_viewModel!.Zoom);
+
+    //    foreach (var r in _viewModel.Robots)
+    //    {
+    //        Thickness t;
+
+    //        t.Left = MARGIN + 1 + r.Position.X * Step;
+    //        t.Top = MARGIN + 1 + r.Position.Y * Step;
+
+    //        var grid = new Grid
+    //        {
+    //            Width = Step - 2,
+    //            Height = Step - 2,
+    //            Margin = t,
+    //            Background = _ellipse
+    //        };
+
+    //        grid.Children.Add(new TextBlock()
+    //        {
+    //            Text = r.ID.ToString(),
+    //            HorizontalAlignment = HorizontalAlignment.Center,
+    //            VerticalAlignment = VerticalAlignment.Center,
+    //            FontSize = fontSize
+    //        });
+
+    //        c.Children.Add(grid);
+
+    //        switch (r.Direction)
+    //        {
+    //            case Direction.North:
+    //                c.Children.Add(new Line()
+    //                {
+    //                    Stroke = System.Windows.Media.Brushes.Red,
+    //                    StrokeThickness = 3,
+    //                    X1 = MARGIN + r.Position.X * Step + Step / 2,
+    //                    Y1 = MARGIN + r.Position.Y * Step + 1,
+    //                    X2 = MARGIN + r.Position.X * Step + Step / 2,
+    //                    Y2 = MARGIN + r.Position.Y * Step + 1 + 7 * _viewModel.Zoom
+    //                });
+    //                break;
+    //            case Direction.East:
+    //                c.Children.Add(new Line()
+    //                {
+    //                    Stroke = System.Windows.Media.Brushes.Red,
+    //                    StrokeThickness = 3,
+    //                    X1 = MARGIN + (r.Position.X + 1) * Step - 1 - 7 * _viewModel.Zoom,
+    //                    Y1 = MARGIN + r.Position.Y * Step + Step / 2,
+    //                    X2 = MARGIN + (r.Position.X + 1) * Step - 1,
+    //                    Y2 = MARGIN + r.Position.Y * Step + Step / 2
+    //                });
+    //                break;
+    //            case Direction.South:
+    //                c.Children.Add(new Line()
+    //                {
+    //                    Stroke = System.Windows.Media.Brushes.Red,
+    //                    StrokeThickness = 3,
+    //                    X1 = MARGIN + r.Position.X * Step + Step / 2,
+    //                    Y1 = MARGIN + (r.Position.Y + 1) * Step - 1 - 7 * _viewModel.Zoom,
+    //                    X2 = MARGIN + r.Position.X * Step + Step / 2,
+    //                    Y2 = MARGIN + (r.Position.Y + 1) * Step - 1
+    //                });
+    //                break;
+    //            case Direction.West:
+    //                c.Children.Add(new Line()
+    //                {
+    //                    Stroke = System.Windows.Media.Brushes.Red,
+    //                    StrokeThickness = 3,
+    //                    X1 = MARGIN + r.Position.X * Step + 1 + 7 * _viewModel.Zoom,
+    //                    Y1 = MARGIN + r.Position.Y * Step + Step / 2,
+    //                    X2 = MARGIN + r.Position.X * Step + 1,
+    //                    Y2 = MARGIN + r.Position.Y * Step + Step / 2
+    //                });
+    //                break;
+    //            default:
+    //                throw new System.Exception();
+    //        }
+
+    //        if (r.Task is null) continue;
+
+    //        t.Left = MARGIN + r.Task.Position.X * Step;
+    //        t.Top = MARGIN + r.Task.Position.Y * Step;
+
+    //        grid = new Grid
+    //        {
+    //            Width = Step,
+    //            Height = Step,
+    //            Margin = t,
+    //            Background = _rectangel
+    //        };
+
+    //        grid.Children.Add(new TextBlock()
+    //        {
+    //            Text = r.ID.ToString(),
+    //            HorizontalAlignment = HorizontalAlignment.Center,
+    //            VerticalAlignment = VerticalAlignment.Center,
+    //            FontSize = fontSize
+    //        });
+
+    //        c.Children.Add(grid);
+    //    }
+    //}
+
+    private void InitRobots(Canvas c)
     {
         var fontSize = 12 * Math.Sqrt(_viewModel!.Zoom);
 
-        foreach (var r in _viewModel.Robots)
+        foreach (var r in _viewModel!.Robots)
         {
-            Thickness t;
-
-            t.Left = MARGIN + 1 + r.Position.X * Step;
-            t.Top = MARGIN + 1 + r.Position.Y * Step;
-
             var grid = new Grid
             {
                 Width = Step - 2,
                 Height = Step - 2,
-                Margin = t,
-                Background = _ellipse
+                Margin = new Thickness(MARGIN + 1 + r.Position.X * Step, MARGIN + 1 + r.Position.Y * Step, 0, 0),
+                Background = _ellipses[(int)r.Direction]
             };
 
             grid.Children.Add(new TextBlock()
@@ -303,68 +415,14 @@ public partial class App : Application
                 FontSize = fontSize
             });
 
+            _robots[r] = grid;
+
             c.Children.Add(grid);
-
-            switch (r.Direction)
-            {
-                case Direction.North:
-                    c.Children.Add(new Line()
-                    {
-                        Stroke = System.Windows.Media.Brushes.Red,
-                        StrokeThickness = 3,
-                        X1 = MARGIN + r.Position.X * Step + Step / 2,
-                        Y1 = MARGIN + r.Position.Y * Step + 1,
-                        X2 = MARGIN + r.Position.X * Step + Step / 2,
-                        Y2 = MARGIN + r.Position.Y * Step + 1 + 7 * _viewModel.Zoom
-                    });
-                    break;
-                case Direction.East:
-                    c.Children.Add(new Line()
-                    {
-                        Stroke = System.Windows.Media.Brushes.Red,
-                        StrokeThickness = 3,
-                        X1 = MARGIN + (r.Position.X + 1) * Step - 1 - 7 * _viewModel.Zoom,
-                        Y1 = MARGIN + r.Position.Y * Step + Step / 2,
-                        X2 = MARGIN + (r.Position.X + 1) * Step - 1,
-                        Y2 = MARGIN + r.Position.Y * Step + Step / 2
-                    });
-                    break;
-                case Direction.South:
-                    c.Children.Add(new Line()
-                    {
-                        Stroke = System.Windows.Media.Brushes.Red,
-                        StrokeThickness = 3,
-                        X1 = MARGIN + r.Position.X * Step + Step / 2,
-                        Y1 = MARGIN + (r.Position.Y + 1) * Step - 1 - 7 * _viewModel.Zoom,
-                        X2 = MARGIN + r.Position.X * Step + Step / 2,
-                        Y2 = MARGIN + (r.Position.Y + 1) * Step - 1
-                    });
-                    break;
-                case Direction.West:
-                    c.Children.Add(new Line()
-                    {
-                        Stroke = System.Windows.Media.Brushes.Red,
-                        StrokeThickness = 3,
-                        X1 = MARGIN + r.Position.X * Step + 1 + 7 * _viewModel.Zoom,
-                        Y1 = MARGIN + r.Position.Y * Step + Step / 2,
-                        X2 = MARGIN + r.Position.X * Step + 1,
-                        Y2 = MARGIN + r.Position.Y * Step + Step / 2
-                    });
-                    break;
-                default:
-                    throw new System.Exception();
-            }
-
-            if (r.Task is null) continue;
-
-            t.Left = MARGIN + r.Task.Position.X * Step;
-            t.Top = MARGIN + r.Task.Position.Y * Step;
 
             grid = new Grid
             {
                 Width = Step,
                 Height = Step,
-                Margin = t,
                 Background = _rectangel
             };
 
@@ -376,7 +434,19 @@ public partial class App : Application
                 FontSize = fontSize
             });
 
+            if (r.Task is not null)
+            {
+                grid.Margin = new Thickness(MARGIN + r.Task.Position.X * Step, MARGIN + r.Task.Position.Y * Step, 0, 0);
+                grid.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                grid.Visibility = Visibility.Hidden;
+            }
+
             c.Children.Add(grid);
+
+            _targets[r] = grid;
         }
     }
 
@@ -405,18 +475,28 @@ public partial class App : Application
             using var g = Graphics.FromImage(bm);
 
             g.FillEllipse(new SolidBrush(System.Drawing.Color.FromArgb(9, 194, 248)), 0, 0, 500, 500);
+            g.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Red, 50), 250, 0, 250, 250);
 
             using var memory = new MemoryStream();
             bm.Save(memory, ImageFormat.Png);
             memory.Position = 0;
             var r = new BitmapImage();
-            r = new BitmapImage();
             r.BeginInit();
             r.StreamSource = memory;
             r.CacheOption = BitmapCacheOption.OnLoad;
             r.EndInit();
 
-            _ellipse = new ImageBrush(r);
+            _ellipses[0] = new ImageBrush(r);
+        }
+
+        for (int i = 1; i < 4; i++)
+        {
+            var e = new ImageBrush(_ellipses[i - 1].ImageSource.Clone())
+            {
+                Transform = new RotateTransform(i * 90, 0.5, 0.5)
+            };
+
+            _ellipses[i] = e;
         }
     }
 
@@ -433,7 +513,7 @@ public partial class App : Application
         {
             case "Zoom":
                 Calculate(_replayWindow?.MapCanvas ?? _simWindow?.MapCanvas ?? throw new System.Exception());
-                Redraw(_replayWindow?.MapCanvas ?? _simWindow!.MapCanvas);
+                Redraw();
                 break;
         }
     }
