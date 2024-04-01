@@ -5,10 +5,10 @@ internal class Assigner : IAssigner
     private readonly ConcurrentQueue<Package> _packages = [];
     private readonly ConcurrentDictionary<Robot, Path> Paths = [];
     private readonly List<Robot> _robots = [];
-    private Board2 _board = new(0, 0);
+    private Board _board = new(0, 0);
     private PathFinder _pathFinder = new DFS();
 
-    public void Init(ControllerType type, Board2 board, IEnumerable<Robot> robots, IEnumerable<Package> packages)
+    public void Init(ControllerType type, Board board, IEnumerable<Robot> robots, IEnumerable<Package> packages)
     {
         _board = board;
 

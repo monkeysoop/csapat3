@@ -2,7 +2,7 @@
 
 public sealed class BFS : PathFinder
 {
-    protected override (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position)
+    protected override (bool, int[]) FindPath(Board board, Point start_position, int start_direction, Point end_position)
     {
         Step[] queue = new Step[5 * board.Height * board.Width];
         int start_index = 0;

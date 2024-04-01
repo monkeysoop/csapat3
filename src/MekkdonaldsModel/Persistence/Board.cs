@@ -3,7 +3,7 @@
 namespace Mekkdonalds.Persistence;
 
 // Has to be public otherwise can't be used in Controller class
-public class Board2
+public class Board
 {
     #region Constants
     public const int EMPTY = 0;
@@ -26,7 +26,7 @@ public class Board2
 
 
     #region Constructors
-    public Board2(int height, int width)
+    public Board(int height, int width)
     {
         Height = height + 2;
         Width = width + 2;
@@ -44,7 +44,7 @@ public class Board2
         AddBorder();
     }
 
-    public Board2(int[,] data, int height, int width)
+    public Board(int[,] data, int height, int width)
     {
         Height = height + 2;
         Width = width + 2;
@@ -74,7 +74,8 @@ public class Board2
     #region Public methods
     public bool TryMoveRobot(Point position, Point next_position)
     {
-        if (RobotMask[next_position.Y * Width + next_position.X] == EMPTY) {
+        if (RobotMask[next_position.Y * Width + next_position.X] == EMPTY)
+        {
             RobotMask[position.Y * Width + position.X] = EMPTY;
             RobotMask[next_position.Y * Width + next_position.X] = OCCUPIED;
             return true;
@@ -85,7 +86,7 @@ public class Board2
     public bool SetSearchedIfEmpty(Point position)
     {
 #if NO_BORDER_CHECK
-        bool t = Data[position.Y * Width + position.X] == EMPTY && 
+        bool t = Data[position.Y * Width + position.X] == EMPTY &&
                  SearchMask[position.Y * Width + position.X] == NOT_SEARCHED &&
                  RobotMask[position.Y * Width + position.X] == EMPTY;
 #else

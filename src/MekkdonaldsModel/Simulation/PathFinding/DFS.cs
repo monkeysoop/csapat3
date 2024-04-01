@@ -2,7 +2,7 @@
 
 public sealed class DFS : PathFinder
 {
-    protected override (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position)
+    protected override (bool, int[]) FindPath(Board board, Point start_position, int start_direction, Point end_position)
     {
         // this depth first search uses heuristics to hopefully find a correct path quicker
         Step[] stack = new Step[5 * board.Height * board.Width];

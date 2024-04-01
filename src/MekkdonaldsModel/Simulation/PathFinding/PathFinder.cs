@@ -9,7 +9,7 @@ public abstract class PathFinder
         new(-1, 0)
     ];
 
-    internal (bool, List<Action>) CalculatePath(Board2 board, Point start_position, int start_direction, Point end_position)
+    internal (bool, List<Action>) CalculatePath(Board board, Point start_position, int start_direction, Point end_position)
     {
         bool found;
         int[] parents_data;
@@ -68,7 +68,7 @@ public abstract class PathFinder
         return path;
     }    
 
-    protected abstract (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position);
+    protected abstract (bool, int[]) FindPath(Board board, Point start_position, int start_direction, Point end_position);
 
     protected static bool ComparePoints(Point first, Point second) // == is overloaded
     {

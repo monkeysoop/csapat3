@@ -42,7 +42,7 @@ public sealed class SimulationController : Controller
         {
             for (int x = 0; x < _board.Width; x++)
             {
-                if (_board.GetValue(x, y) is Board2.WALL)
+                if (_board.GetValue(x, y) is Board.WALL)
                 {
                     _walls.Add(new(x, y));
                 }

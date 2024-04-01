@@ -2,7 +2,7 @@
 
 public sealed class Astar : PathFinder
 {
-    protected override (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position)
+    protected override (bool, int[]) FindPath(Board board, Point start_position, int start_direction, Point end_position)
     {
         const int COST_BIAS = 1;
         const int HEURISTIC_BIAS = 1;
