@@ -3,7 +3,7 @@
 public sealed class SimulationController : Controller
 {
 #pragma warning disable CA1859
-    private readonly IScheduler _pathFinder;
+    private readonly IAssigner _pathFinder;
 #pragma warning restore
 
     /// <summary>
@@ -16,7 +16,7 @@ public sealed class SimulationController : Controller
     /// <param name="pa"></param>
     public SimulationController(string path, IConfigDataAccess ca, IBoardDataAccess ba, IRobotsDataAccess ra, IPackagesDataAccess pa)
     {
-        _pathFinder = new Scheduler.Scheduler();
+        _pathFinder = new Assigner.Assigner();
         Load(path, ca, ba, ra, pa);
     }
 
