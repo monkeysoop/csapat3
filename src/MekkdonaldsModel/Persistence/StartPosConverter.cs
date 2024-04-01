@@ -27,8 +27,7 @@ namespace MekkdonaldsModel.Persistence
         {
             for (int i = 0; i < value.Count; i++)
             {
-                writer.WriteStringValue($"[{value[i].Item1.X},{value[i].Item1.Y},{DirectionMethods.DirectionToString(value[i].Item2)}");
-
+                writer.WriteStringValue($"[{value[i].Item1.X},{value[i].Item1.Y},{DirectionMethods.DirectionToString(value[i].Item2)}]");
             }
         }
     }
