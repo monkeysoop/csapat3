@@ -1,6 +1,6 @@
-﻿namespace Mekkdonalds.Simulation.Scheduler;
+﻿namespace Mekkdonalds.Simulation.Assigner;
 
-internal class Scheduler : IScheduler
+internal class Assigner : IAssigner
 {
     private readonly ConcurrentQueue<Package> _packages = [];
     private readonly ConcurrentDictionary<Robot, Path> Paths = [];
