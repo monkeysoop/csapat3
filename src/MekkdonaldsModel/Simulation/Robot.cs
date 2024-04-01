@@ -15,12 +15,12 @@ public sealed class Robot(Point position, Direction direction) : IMapObject
     private readonly List<Action> _history = [];
     public int ID { get; } = IDCounter++;
 
-    private Point _position = position;
+    //public Point Position = position;
 
     /// <summary>
     /// Current position of the robot
     /// </summary>
-    public Point Position => _position;
+    public Point Position { get; private set; } = position;
 
     /// <summary>
     /// The direction the robot is currently facing
@@ -48,11 +48,38 @@ public sealed class Robot(Point position, Direction direction) : IMapObject
         Task = new Package(p.Value);
     }
 
+    public bool TryStep(Action a, Board2 board)
+    {
+        switch (a)
+        {
+            case Action.F:
+                Point next_position = Direction.GetNewOffsetPoint(Position);
+                if (board.TryMoveRobot(Position, next_position))
+                {
+                    Position = next_position;
+                    return true;
+                }
+                return false;
+            case Action.R:
+                Direction = Direction.ClockWise();
+                return true;
+            case Action.C:
+                Direction = Direction.CounterClockWise();
+                return true;
+            case Action.W:
+                return true;
+            case Action.T:
+                return false;
+            default:
+                return false;
+        }
+    }
+
     public void Step(Action a)
     {
         switch (a)
         {
-            case Action.F: _position.Offset(position_offsets[(int)Direction]); break;
+            case Action.F: Position = Direction.GetNewOffsetPoint(Position); break;
             case Action.R: Direction = Direction.ClockWise(); break;
             case Action.C: Direction = Direction.CounterClockWise(); break;
         }
