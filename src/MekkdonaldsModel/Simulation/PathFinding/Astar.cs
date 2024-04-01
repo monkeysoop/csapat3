@@ -1,8 +1,8 @@
-﻿namespace Mekkdonalds.Simulation.Controller;
+﻿namespace Mekkdonalds.Simulation.PathFinding;
 
-public sealed class AstarController : PathFinder
+public sealed class Astar : PathFinder
 {
-    protected override (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position)
+    protected override (bool, int[]) FindPath(Board board, Point start_position, int start_direction, Point end_position)
     {
         const int COST_BIAS = 1;
         const int HEURISTIC_BIAS = 1;
@@ -152,7 +152,7 @@ public sealed class AstarController : PathFinder
     private static Step HeapRemoveMin(Step[] heap, int length)
     {
         Step min_item = heap[0];
-        heap[0] = heap[^1];
+        heap[0] = heap[length - 1];
         length--; // this is only local!!!
 
         int index = 0;
@@ -182,7 +182,4 @@ public sealed class AstarController : PathFinder
 
         return min_item;
     }
-
-
 }
-

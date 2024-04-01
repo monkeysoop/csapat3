@@ -2,15 +2,13 @@
 
 public abstract class Controller
 {
-    protected ConcurrentDictionary<Robot, Path> Paths;
     protected List<Robot> _robots;
     protected List<Wall> _walls;
-    protected ConcurrentQueue<Package> _packages;
     protected Timer Timer;
     private readonly TimeSpan _interval;
 
 
-    protected Board2 _board;
+    protected Board _board;
 
     public int Width => _board.Width;
     public int Height => _board.Height;
@@ -24,13 +22,11 @@ public abstract class Controller
 
     public Controller()
     {
-        Paths = [];
         _robots = [];
         _walls = [];
-        _packages = [];
 
         _board = new(0, 0);
-        _interval = TimeSpan.FromSeconds(1);
+        _interval = TimeSpan.FromMilliseconds(80);
         Timer = new Timer(OnTick, null, new(int.MaxValue), _interval); // this is probably better then System.Timers.Timer (it is already asynchronous)
     }
 
@@ -39,6 +35,7 @@ public abstract class Controller
     protected void OnLoaded(object? sender)
     {
         Loaded?.Invoke(sender, EventArgs.Empty);
+        Timer.Change(TimeSpan.Zero, _interval);
     }
 
     protected void CallTick(object? sender)
@@ -53,10 +50,5 @@ public abstract class Controller
             throw new ArgumentException("Speed must be positive", nameof(speed));
         }
         Timer.Change(TimeSpan.FromSeconds(1), _interval / speed);
-    }
-
-    protected void StartTimer()
-    {
-        Timer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(80));
     }
 }
