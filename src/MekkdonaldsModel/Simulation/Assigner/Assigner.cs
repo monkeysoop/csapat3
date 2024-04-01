@@ -54,7 +54,7 @@ internal class Assigner : IAssigner
                         // collision detection
                     }
 
-                    r.Step(path.Next());
+                    r.Step(action);
                 }
             }
         }
