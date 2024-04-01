@@ -471,33 +471,43 @@ public partial class App : Application
         }
 
         {
-            using var bm = new Bitmap(500, 500);
-            using var g = Graphics.FromImage(bm);
-
-            g.FillEllipse(new SolidBrush(System.Drawing.Color.FromArgb(9, 194, 248)), 0, 0, 500, 500);
-            g.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Red, 50), 250, 0, 250, 250);
-
-            using var memory = new MemoryStream();
-            bm.Save(memory, ImageFormat.Png);
-            memory.Position = 0;
-            var r = new BitmapImage();
-            r.BeginInit();
-            r.StreamSource = memory;
-            r.CacheOption = BitmapCacheOption.OnLoad;
-            r.EndInit();
-
-            _ellipses[0] = new ImageBrush(r);
-        }
-
-        for (int i = 1; i < 4; i++)
-        {
-            var e = new ImageBrush(_ellipses[i - 1].ImageSource.Clone())
+            for (int i = 0; i < 4; i++)
             {
-                Transform = new RotateTransform(i * 90, 0.5, 0.5)
-            };
+                using var bm = new Bitmap(500, 500);
+                using var g = Graphics.FromImage(bm);
 
-            _ellipses[i] = e;
+                g.FillEllipse(new SolidBrush(System.Drawing.Color.FromArgb(9, 194, 248)), 0, 0, 500, 500);
+
+                switch (i)
+                {
+                    case 0:
+                        g.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Red, 50), 250, 0, 250, 250);
+                        break;
+                    case 1:
+                        g.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Red, 50), 250, 250, 500, 250);
+                        break;
+                    case 2:
+                        g.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Red, 50), 250, 250, 250, 500);
+                        break;
+                    case 3:
+                        g.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Red, 50), 0, 250, 250, 250);
+                        break;
+                }
+
+                using var memory = new MemoryStream();
+                bm.Save(memory, ImageFormat.Png);
+                memory.Position = 0;
+                var r = new BitmapImage();
+                r.BeginInit();
+                r.StreamSource = memory;
+                r.CacheOption = BitmapCacheOption.OnLoad;
+                r.EndInit();
+
+                _ellipses[i] = new ImageBrush(r);
+            }            
         }
+
+        
     }
 
     #endregion
