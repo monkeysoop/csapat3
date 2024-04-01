@@ -26,7 +26,7 @@ public abstract class Controller
         _walls = [];
 
         _board = new(0, 0);
-        _interval = TimeSpan.FromSeconds(1);
+        _interval = TimeSpan.FromMilliseconds(80);
         Timer = new Timer(OnTick, null, new(int.MaxValue), _interval); // this is probably better then System.Timers.Timer (it is already asynchronous)
     }
 
@@ -35,7 +35,7 @@ public abstract class Controller
     protected void OnLoaded(object? sender)
     {
         Loaded?.Invoke(sender, EventArgs.Empty);
-        Timer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(80));
+        Timer.Change(TimeSpan.Zero, _interval);
     }
 
     protected void CallTick(object? sender)

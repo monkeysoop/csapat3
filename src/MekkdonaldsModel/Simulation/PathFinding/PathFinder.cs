@@ -1,11 +1,7 @@
 ﻿namespace Mekkdonalds.Simulation.PathFinding;
 
-public abstract class PathFinder : IPathFinder
+public abstract class PathFinder
 {
-    private readonly ConcurrentQueue<Package> _packages = [];
-    private readonly ConcurrentDictionary<Robot, Path> Paths = [];
-    private Board2 _board = new(0,0);
-
     protected static readonly Point[] nexts_offsets = [
         new(0, -1),
         new(1, 0),
@@ -13,7 +9,7 @@ public abstract class PathFinder : IPathFinder
         new(-1, 0)
     ];
 
-    private (bool, List<Action>) CalculatePath(Board2 board, Point start_position, int start_direction, Point end_position)
+    internal (bool, List<Action>) CalculatePath(Board2 board, Point start_position, int start_direction, Point end_position)
     {
         bool found;
         int[] parents_data;
@@ -102,46 +98,5 @@ public abstract class PathFinder : IPathFinder
         {
             return 0;
         }
-    }
-
-    public void Init(Board2 board, IEnumerable<Package> packages)
-    {
-        _board = board;
-
-        foreach (var p in packages)
-        {
-            _packages.Enqueue(p);
-        }
-    }
-
-    public void Assign(Robot r)
-    {
-        if (_packages.TryDequeue(out var p))
-        {
-            var (found, path) = CalculatePath(_board, r.Position, (int)r.Direction, p.Position);
-
-            if (found)
-            {
-                if (Paths.TryAdd(r, new(path, p.Position)))
-                    r.AddTask(p.Position);
-            }
-        }    
-    }
-
-    public void Step(Robot r)
-    {
-        if (Paths.TryGetValue(r, out var path))
-        {
-            if (path.IsOver)
-            {
-                r.AddTask(null);
-                if (Paths.TryRemove(r, out _))
-                    Assign(r);
-            }
-            else
-            {
-                r.Step(path.Next());
-            }
-        }
-    }
+    }    
 }

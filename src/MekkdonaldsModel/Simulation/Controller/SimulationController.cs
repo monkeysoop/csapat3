@@ -1,10 +1,10 @@
-﻿using Mekkdonalds.Simulation.PathFinding;
-
-namespace Mekkdonalds.Simulation.Controller;
+﻿namespace Mekkdonalds.Simulation.Controller;
 
 public sealed class SimulationController : Controller
 {
-    private readonly PathFinder _pathFinder;
+#pragma warning disable CA1859
+    private readonly IScheduler _pathFinder;
+#pragma warning restore
 
     /// <summary>
     /// 
@@ -16,7 +16,7 @@ public sealed class SimulationController : Controller
     /// <param name="pa"></param>
     public SimulationController(string path, IConfigDataAccess ca, IBoardDataAccess ba, IRobotsDataAccess ra, IPackagesDataAccess pa)
     {
-        _pathFinder = new Astar();
+        _pathFinder = new Scheduler.Scheduler();
         Load(path, ca, ba, ra, pa);
     }
 
@@ -29,11 +29,9 @@ public sealed class SimulationController : Controller
 
         _robots.AddRange(await ra.LoadAsync(config.AgentFile, _board.Width - 2, _board.Height - 2));
 
-        _pathFinder.Init(b ,await pa.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2));
+        _pathFinder.Init(ControllerType.BFS, b, _robots, await pa.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2));
 
         LoadWalls();
-
-        InitPaths();
 
         OnLoaded(this);
     }
@@ -44,7 +42,7 @@ public sealed class SimulationController : Controller
         {
             for (int x = 0; x < _board.Width; x++)
             {
-                if (_board.GetValue(x, y) == Board2.WALL)
+                if (_board.GetValue(x, y) is Board2.WALL)
                 {
                     _walls.Add(new(x, y));
                 }
@@ -52,20 +50,9 @@ public sealed class SimulationController : Controller
         }
     }
 
-    private void InitPaths()
-    {
-        foreach (var r in _robots)
-        {
-            _pathFinder.Assign(r);
-        }
-    }
-
     protected override void OnTick(object? state)
     {
-        foreach (var r in _robots)
-        {
-            _pathFinder.Step(r);
-        } 
+        _pathFinder.Step();
 
         CallTick(this);
     }
