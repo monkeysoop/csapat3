@@ -3,21 +3,33 @@ using System.Text.Json.Serialization;
 
 namespace MekkdonaldsModel.Persistence
 {
-    internal class TaskConverter : JsonConverter<(int, int, int)>
+    internal class TaskConverter : JsonConverter<List<(int, int, int)>>
     {
-        public override (int, int, int) Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override List<(int, int, int)> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var value = reader.GetString() ?? throw new NullReferenceException();
             value = value.Replace("\n", "");
+            value = value.Replace("\t", "");
+            value = value.Replace(" ", "");
             value = value.Replace("[", "");
             value = value.Replace("]", "");
             var values = value.Split(",");
-            return (int.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]));
+            var lista = new List<(int, int, int)>();
+            for (int i = 0; i < values.Length; i += 4)
+            {
+                var tuple = (int.Parse(values[i]), int.Parse(values[i + 1]), int.Parse(values[i + 2]));
+                lista.Add(tuple);
+            }
+            return lista;
         }
 
-        public override void Write(Utf8JsonWriter writer, (int, int, int) value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, List<(int, int, int)> value, JsonSerializerOptions options)
         {
-            writer.WriteStringValue($"[{value.Item1},{value.Item1},{value.Item3}");
+            for (int i = 0; i < value.Count; i++)
+            {
+                writer.WriteStringValue($"[{value[i].Item1},{value[i].Item2},{value[i].Item3}]");
+
+            }
         }
     }
 }
