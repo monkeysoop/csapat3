@@ -1,6 +1,6 @@
-﻿namespace Mekkdonalds.Simulation.Controller;
+﻿namespace Mekkdonalds.Simulation.PathFinding;
 
-public sealed class DFSController : PathFinder
+public sealed class DFS : PathFinder
 {
     protected override (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position)
     {
@@ -15,7 +15,7 @@ public sealed class DFSController : PathFinder
         Point backward_offset = nexts_offsets[backward_direction];
         Point backward_next_position = new(start_position.X + backward_offset.X,
                                            start_position.Y + backward_offset.Y);
-        
+
         stack[0] = new Step(backward_next_position, backward_direction, 0);
         stack_index++;
 

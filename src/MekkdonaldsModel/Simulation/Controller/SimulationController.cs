@@ -2,7 +2,9 @@
 
 public sealed class SimulationController : Controller
 {
-    private readonly PathFinder _pathFinder;
+#pragma warning disable CA1859
+    private readonly IAssigner _pathFinder;
+#pragma warning restore
 
     /// <summary>
     /// 
@@ -14,7 +16,7 @@ public sealed class SimulationController : Controller
     /// <param name="pa"></param>
     public SimulationController(string path, IConfigDataAccess ca, IBoardDataAccess ba, IRobotsDataAccess ra, IPackagesDataAccess pa)
     {
-        _pathFinder = new BFSController();
+        _pathFinder = new Assigner.Assigner();
         Load(path, ca, ba, ra, pa);
     }
 
@@ -27,16 +29,9 @@ public sealed class SimulationController : Controller
 
         _robots.AddRange(await ra.LoadAsync(config.AgentFile, _board.Width - 2, _board.Height - 2));
 
-        foreach (var p in await pa.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2))
-        {
-            _packages.Enqueue(p);
-        }
+        _pathFinder.Init(ControllerType.BFS, b, _robots, await pa.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2));
 
         LoadWalls();
-
-        // _pathFinder.FindAllPaths(_board, _robots, _packages);
-
-        InitPaths();
 
         OnLoaded(this);
     }
@@ -47,7 +42,7 @@ public sealed class SimulationController : Controller
         {
             for (int x = 0; x < _board.Width; x++)
             {
-                if (_board.GetValue(x, y) == Board2.WALL)
+                if (_board.GetValue(x, y) is Board2.WALL)
                 {
                     _walls.Add(new(x, y));
                 }
@@ -55,84 +50,9 @@ public sealed class SimulationController : Controller
         }
     }
 
-    private void InitPaths()
-    {
-        foreach (var r in _robots)
-        {
-            var p = _packages.TryDequeue(out var pack) ? pack.Position : default;
-
-            if (p.X == -1)
-            {
-                break;
-            }
-
-            var (found, path) = _pathFinder.CalculatePath(_board, r.Position, (int)r.Direction, p);
-
-            if (found)
-            {
-                Paths.AddOrUpdate(r, (_) => new(path, p), (_, ls) => new(path, p));
-                r.AddTask(p);
-            }
-            else
-            {
-                Debug.WriteLine(r.Position);
-                Debug.WriteLine(r.Direction);
-                Debug.WriteLine(p);
-                Debug.WriteLine(_board.GetValue(r.Position.X, r.Position.Y) == Board2.WALL);
-                Debug.WriteLine(_board.GetValue(p.X, p.Y) == Board2.WALL);
-
-                throw new PathException("No path found!");
-            }
-        }
-
-        //var q = new Queue<Package>(_packages);
-
-        //var i = 0;
-
-        //while (q.Count > 0)
-        //{
-        //    var r = _robots[i];
-
-        //    var p = q.Peek().Position;
-
-        //    var (found, path) = _pathFinder.CalculatePath(_board, r.Position, (int)r.Direction, p);
-
-        //    if (found)
-        //    {
-        //        Paths.AddOrUpdate(r, (_) => [new Path(path, p)], (_, ls) => { ls.Add(new(path, p)); return ls; });
-        //        q.Dequeue();
-        //    }
-        //    else
-        //    {
-        //        throw new PathException("No path found!");
-        //    }
-
-        //    i = (i + 1) % _robots.Count;
-        //}
-
-        StartTimer();
-    }
-
     protected override void OnTick(object? state)
     {
-        foreach (var r in _robots)
-        {
-            if (Paths.TryGetValue(r, out var path) && path is not null)
-            {
-                var a = path.Next();
-                if (a is null)
-                {
-                    var task = _packages.TryDequeue(out var pack) ? pack.Position : default;
-                    var (found, p) = _pathFinder.CalculatePath(_board, r.Position, (int)r.Direction, task);
-                    Paths.AddOrUpdate(r, _ => new([], new(-1, -1)), (_, _) => new(p, task));
-                    r.AddTask(task);
-                }
-                else
-                {
-                    r.Step(a.Value);
-                }
-            }
-        } 
+        _pathFinder.Step();
 
         CallTick(this);
     }

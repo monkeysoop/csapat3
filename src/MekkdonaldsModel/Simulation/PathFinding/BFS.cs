@@ -1,6 +1,6 @@
-﻿namespace Mekkdonalds.Simulation.Controller;
+﻿namespace Mekkdonalds.Simulation.PathFinding;
 
-public sealed class BFSController : PathFinder
+public sealed class BFS : PathFinder
 {
     protected override (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position)
     {
