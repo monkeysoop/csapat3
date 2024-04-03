@@ -44,6 +44,10 @@ internal abstract class ViewModel : ViewModelBase
     /// </summary>
     public IReadOnlyList<Wall> Walls => Controller.Walls;
 
+    public ICommand Play { get; private set; } = new DelegateCommand(_ => { });
+    public ICommand Pause { get; private set; } = new DelegateCommand(_ => { });
+    public ICommand Forward { get; private set; } = new DelegateCommand(_ => { });
+
     #endregion
 
     /// <summary>
@@ -54,6 +58,12 @@ internal abstract class ViewModel : ViewModelBase
 
     protected void OnLoaded(object? sender)
     {
+        Play = new DelegateCommand(_ => Controller.Play());
+        Pause = new DelegateCommand(_ => Controller.Pause());
+        Forward = new DelegateCommand(_ => Controller.StepForward());
+        OnPropertyChanged(nameof(Play));
+        OnPropertyChanged(nameof(Pause));
+        OnPropertyChanged(nameof(Forward));
         Loaded?.Invoke(sender, EventArgs.Empty);
     }
 

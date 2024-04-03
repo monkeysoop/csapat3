@@ -17,18 +17,19 @@
                 <ColumnDefinition Width="80*"/>
                 <ColumnDefinition Width="20*"/>
             </Grid.ColumnDefinitions>
-            <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <Canvas x:Name="MapCanvas"/>
+            <ScrollViewer x:Name="ScrollViewer" Grid.Column="0" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" PanningMode="Both">
+                <Canvas x:Name="MapCanvas" Margin="5,5,5,5"/>
             </ScrollViewer>
             <Grid Grid.Column="1">
-                <Slider Value="{Binding Zoom}" Minimum="0.1" Maximum="3" VerticalAlignment="Bottom" Margin="10,0,45,0"/>
                 <Label Content="{Binding ZoomLabel}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,0"/>
             </Grid>
         </Grid>
         <Grid Grid.Row="1">
-            <Button Width="20" Height="20" Margin="10,0,0,0" HorizontalAlignment="Left" Content="▶" Command="{Binding Play}"/>
-            <Button Width="20" Height="20" Margin="35,0,0,0" HorizontalAlignment="Left" Content="❚❚" Command="{Binding Pause}"/>
-            <Slider Margin="60,0,100,0" VerticalAlignment="Center" Value="{Binding CurrentTime}" Maximum="{Binding ReplayLength}"/>
+            <Button Width="20" Height="20" Margin="10,0,0,0" HorizontalAlignment="Left" Content="↺" Command="{Binding Backward}"/>
+            <Button Width="20" Height="20" Margin="35,0,0,0" HorizontalAlignment="Left" Content="▶" Command="{Binding Play}"/>
+            <Button Width="20" Height="20" Margin="60,0,0,0" HorizontalAlignment="Left" Content="❚❚" Command="{Binding Pause}"/>
+            <Button Width="20" Height="20" Margin="85,0,0,0" HorizontalAlignment="Left" Content="↻" Command="{Binding Forward}"/>
+            <Slider Margin="110,0,100,0" VerticalAlignment="Center" Value="{Binding CurrentTime}" Maximum="{Binding ReplayLength}"/>
             <Label Content="{Binding TimeLabel}" VerticalAlignment="Center" HorizontalAlignment="Right" Width="80" HorizontalContentAlignment="Right" Margin="0,0,10,0"/>
         </Grid>
     </Grid>

@@ -8,16 +8,26 @@
         mc:Ignorable="d"
         Title="Mekkdonalds" Width="1540" Height="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="80*"/>
-            <ColumnDefinition Width="20*"/>
-        </Grid.ColumnDefinitions>
-        <ScrollViewer x:Name="ScrollViewer" Grid.Column="0" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
-            <Canvas x:Name="MapCanvas" Margin="5,5,5,5"/>            
-        </ScrollViewer>
-        <Grid Grid.Column="1">
-            <Slider Value="{Binding Zoom}" Minimum="0.1" Maximum="3" VerticalAlignment="Bottom" Margin="10,0,45,5"/>
-            <Label Content="{Binding ZoomLabel}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80*"/>
+                <ColumnDefinition Width="20*"/>
+            </Grid.ColumnDefinitions>
+            <ScrollViewer x:Name="ScrollViewer" Grid.Column="0" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" PanningMode="Both">
+                <Canvas x:Name="MapCanvas" Margin="5,5,5,5"/>
+            </ScrollViewer>
+            <Grid Grid.Column="1">
+                <Label Content="{Binding ZoomLabel}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Button Width="20" Height="20" Margin="10,0,0,0" HorizontalAlignment="Left" Content="▶" Command="{Binding Play}"/>
+            <Button Width="20" Height="20" Margin="35,0,0,0" HorizontalAlignment="Left" Content="❚❚" Command="{Binding Pause}"/>
+            <Button Width="20" Height="20" Margin="60,0,0,0" HorizontalAlignment="Left" Content="↻" Command="{Binding Forward}" FontWeight="Bold"/>
         </Grid>
     </Grid>
 </Window>
