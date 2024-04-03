@@ -56,4 +56,9 @@ public sealed class SimulationController : Controller
 
         CallTick(this);
     }
+
+    public override void StepForward()
+    {
+        if (!IsPlaying) OnTick(null);
+    }
 }

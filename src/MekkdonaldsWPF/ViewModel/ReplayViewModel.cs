@@ -6,37 +6,24 @@ internal class ReplayViewModel : ViewModel
 {
     private readonly ReplayController RepController;
     private int _currentTime;
-    private int _replayLength;
 
     #region Properties
 
     public int CurrentTime
     {
-        get => _currentTime;
+        get => RepController.TimeStamp;
         set
         {
-            if (_currentTime != value)
+            if (CurrentTime != value)
             {
-                _currentTime = value;
+                RepController.JumpTo(value);
                 OnPropertyChanged(nameof(CurrentTime));
                 OnPropertyChanged(nameof(TimeLabel)); 
             }
         }
     }
 
-    public int ReplayLength
-    {
-        get => _replayLength;
-        private set
-        {
-            if (_replayLength != value)
-            {
-                _replayLength = value;
-                OnPropertyChanged(nameof(ReplayLength));
-                OnPropertyChanged(nameof(TimeLabel));
-            }
-        }
-    }
+    public int ReplayLength => RepController.Length;
 
     public string TimeLabel
     {
@@ -56,8 +43,7 @@ internal class ReplayViewModel : ViewModel
 
     #region Commands
 
-    public ICommand Play { get; }
-    public ICommand Pause { get; }
+    public readonly ICommand Backward;
 
     #endregion
 
@@ -65,13 +51,16 @@ internal class ReplayViewModel : ViewModel
     {
         Controller = RepController = new ReplayController(logPath, "");
 
-        Controller.Tick += (_, _) => OnTick(this);
-
-        ReplayLength = 180;
-
-        Play = new DelegateCommand(_ => { });
-        Pause = new DelegateCommand(_ => { });
+        Controller.Tick += OnTick;
 
         Zoom = 2;
+
+        Backward = new DelegateCommand(_ => RepController.StepBackward());
+    }
+
+    private void OnTick(object? sender, EventArgs e)
+    {
+        OnPropertyChanged(nameof(TimeLabel));
+        OnTick(this);
     }
 }
