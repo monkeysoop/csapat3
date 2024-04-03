@@ -1,4 +1,4 @@
-namespace Mekkdonalds;
+﻿namespace Mekkdonalds;
 
 /// <summary>
 /// Interaction logic for App.xaml
@@ -85,7 +85,37 @@ public partial class App : Application
 
         if (fd.ShowDialog() is false) return false;
 
-        throw new NotImplementedException("Replay is not implemented yet");
+        _viewModel = new ReplayViewModel(fd.FileName);
+
+        _replayWindow = new ReplayWindow
+        {
+            DataContext = _viewModel
+        };
+
+        _viewModel.Loaded += (_, _) => OnLoaded(_replayWindow, _replayWindow.MapCanvas);
+
+        _viewModel.Tick += OnTick;
+        _viewModel.PropertyChanged += OnPropertyChanged;
+
+        _replayWindow.SizeChanged += (_, _) => OnSizeChanged(_replayWindow.MapCanvas);
+
+        _replayWindow.KeyDown += OnKeyDown;
+
+        _replayWindow.KeyUp += OnKeyUp;
+
+        _replayWindow.ScrollViewer.PreviewMouseWheel += OnMouseWheel;
+
+        _replayWindow.ScrollViewer.MouseMove += OnMouseMove;
+
+        _replayWindow.ScrollViewer.ManipulationDelta += OnManipulationDelta;
+
+        _replayWindow.ScrollViewer.Cursor = Cursors.Hand;
+
+        _replayWindow.Show();
+
+        DisplayLoading(_replayWindow);
+
+        return true;
     }
 
     /// <summary>
@@ -362,10 +392,10 @@ public partial class App : Application
                 r.EndInit();
 
                 _ellipses[i] = new ImageBrush(r);
-            }            
+            }
         }
 
-        
+
     }
 
     #endregion
