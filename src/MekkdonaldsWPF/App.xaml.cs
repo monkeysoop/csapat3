@@ -198,8 +198,6 @@ public partial class App : Application
 
         var fontSize = 12 * Math.Sqrt(_viewModel.Zoom);
 
-        TextBlock? t;
-
         foreach (var g in _robots.Values)
         {
             g.Width = g.Height = Step - 2;
