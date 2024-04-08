@@ -2,7 +2,8 @@
 
 public sealed class ReplayController : Controller
 {
-    private readonly ConcurrentDictionary<Robot, List<Path>> Paths = [];
+    private readonly ConcurrentDictionary<Robot, List<Action>> Paths = [];
+    private readonly ConcurrentDictionary<Robot, IntervalTree<Point>> Targets = [];
 
     public int TimeStamp { get; private set; }
     public int Length { get; private set; }
@@ -10,11 +11,57 @@ public sealed class ReplayController : Controller
     public ReplayController(string path, object la)
     {
         Load(path, la);
+
+        throw new NotImplementedException();
     }
 
-    private async void Load(string path, object la)
+    private async void Load(string logPath, object la)
     {
-        var log = new LogFile();
+        LogFile log = (la as LogFile)!;
+
+        foreach (var (p, d) in log.Start)
+        {
+            var r = new Robot(p, d);
+            Paths[r] = [];
+            Targets[r] = [];
+            _robots.Add(r);
+        }
+
+        for (int i = 0; i < log.ActualPaths.Count; i++)
+        {
+            var path = log.ActualPaths[i];
+            var actions = path.Split(' ').Select(s => (Action)Enum.Parse(typeof(Action), s)).ToList();
+            Paths[_robots[i]].AddRange(actions);
+        }
+
+        var width = Width - 2;
+
+        int start;
+
+        for (int i = 0; i < log.Events.Count; i++)
+        {
+            var r = _robots[i];
+
+            start = 0;
+
+            foreach (var (pos, t, e) in log.Events[i])
+            {
+                switch (e)
+                {
+                    case "assigned":
+                        start = t;
+                        break;
+                    case "finished":
+                        var p = new Point((pos % width) + 1, (pos * width) + 1);
+                        Targets[r][start, t] = p;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        throw new NotImplementedException();
     }
 
     protected override void OnTick(object? state)
