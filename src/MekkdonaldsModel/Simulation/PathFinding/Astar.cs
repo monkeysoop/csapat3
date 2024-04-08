@@ -157,7 +157,7 @@ public sealed class Astar : PathFinder
 
         int index = 0;
         int left_child_index = 1;
-        int right_child_index = 1;
+        int right_child_index = 2;
 
         int next_child_index = left_child_index;
         if (right_child_index < length && heap[right_child_index].Heuristic < heap[left_child_index].Heuristic)
