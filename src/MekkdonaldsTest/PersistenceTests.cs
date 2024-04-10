@@ -26,7 +26,7 @@ public class PersistenceTests
 
             Assert.That(log.ActionModel, Is.EqualTo("MAPF_T"));
             Assert.That(log.TeamSize, Is.EqualTo(20));
-            Assert.That(log.Start[0], Is.EqualTo((new Point(4, 6), Direction.East)));
+            Assert.That(log.Start[0], Is.EqualTo((new Point(7, 5), Direction.East)));
             Assert.That(log.NumTaskFinished, Is.EqualTo(338));
             Assert.That(log.SumOfCost, Is.EqualTo(10000));
             Assert.That(log.Makespan, Is.EqualTo(500));
@@ -51,16 +51,16 @@ public class PersistenceTests
         {
             ActionModel = "MAPF_T",
             TeamSize = 20,
-            Start = [ (new Point(4, 6), Direction.East) ],
+            Start = [(new Point(4, 6), Direction.East)],
             NumTaskFinished = 338,
             SumOfCost = 10000,
             Makespan = 500,
-            ActualPaths = [ [ Action.F ] ],
-            PlannerPaths = [ [ Action.F ] ],
-            PlannerTimes = [ 0.312150264 ],
+            ActualPaths = [[Action.F]],
+            PlannerPaths = [[Action.F]],
+            PlannerTimes = [0.312150264],
             Errors = [],
             Events = [[(0, 0, "assigned")]],
-            Tasks = [ (0, 21, 6) ]
+            Tasks = [(0, 21, 6)]
         };
 
         await logFileDataAccess.SaveAsync("./test_log.json", log);
