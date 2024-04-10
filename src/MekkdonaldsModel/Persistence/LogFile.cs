@@ -16,9 +16,10 @@ public class LogFile
     public int NumTaskFinished { get; set; }
     public int SumOfCost { get; set; }
     public int Makespan { get; set; }
-
-    public required List<string> ActualPaths { get; set; }
-    public required List<string> PlannerPaths { get; set; }
+    [JsonConverter(typeof(PathConverter))]
+    public required List<List<string>> ActualPaths { get; set; }
+    [JsonConverter(typeof(PathConverter))]
+    public required List<List<string>> PlannerPaths { get; set; }
     public required List<double> PlannerTimes { get; set; }
     [JsonConverter(typeof(ErrorConverter))]
     public required List<(int, int, int, string)> Errors { get; set; }
