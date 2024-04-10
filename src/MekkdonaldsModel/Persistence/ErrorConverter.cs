@@ -44,7 +44,7 @@ namespace MekkdonaldsModel.Persistence
 
         private static (int, int, int, string) ReadValue(ref Utf8JsonReader reader)
         {
-            int fst = 0, snd = 0, th = 0, i = 0;
+            int fst = 0, snd = 0, th = 0, i = 0, j = 0;
             string str = "";
 
             if (reader.TokenType != JsonTokenType.StartArray)
@@ -65,13 +65,16 @@ namespace MekkdonaldsModel.Persistence
                     {
                         fst = reader.GetInt32();
                     }
-                    else if (i++ == 1)
-                    {
-                        snd = reader.GetInt32();
-                    }
                     else
                     {
-                        th = reader.GetInt32();
+                        if (j++ == 0)
+                        {
+                            snd = reader.GetInt32();
+                        }
+                        else
+                        {
+                            th = reader.GetInt32();
+                        }
                     }
                 }
                 else if (reader.TokenType == JsonTokenType.String)
