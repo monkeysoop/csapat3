@@ -44,7 +44,7 @@ namespace MekkdonaldsModel.Persistence
                 int i = 0;
                 foreach (var s in item)
                 {
-                    if (i != item.Count)
+                    if (i != item.Count - 1)
                     {
                         str += $"{s},";
 
@@ -55,7 +55,6 @@ namespace MekkdonaldsModel.Persistence
                     }
                     i++;
                 }
-
                 writer.WriteStringValue(str);
             }
             writer.WriteEndArray();
