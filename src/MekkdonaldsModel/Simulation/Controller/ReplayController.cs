@@ -14,7 +14,7 @@ public sealed class ReplayController : Controller
 
     private async void Load(string path, object la)
     {
-        var log = new LogFile();
+        throw new NotImplementedException();
     }
 
     protected override void OnTick(object? state)
