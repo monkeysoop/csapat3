@@ -85,7 +85,17 @@ public partial class App : Application
 
         if (fd.ShowDialog() is false) return false;
 
-        _viewModel = new ReplayViewModel(fd.FileName);
+        var logPath = fd.FileName;
+
+        fd = new OpenFileDialog()
+        {
+            Filter = "Map file (*.map)|*.map",
+            Title = "Map file"
+        };
+
+        if (fd.ShowDialog() is false) return false;
+
+        _viewModel = new ReplayViewModel(logPath, fd.FileName);
 
         _replayWindow = new ReplayWindow
         {

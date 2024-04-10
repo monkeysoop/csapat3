@@ -8,16 +8,18 @@ public sealed class ReplayController : Controller
     public int TimeStamp { get; private set; }
     public int Length { get; private set; }
 
-    public ReplayController(string path, object la)
+    public ReplayController(string logPath, string mapPath, IReplayDataAccess da)
     {
-        Load(path, la);
+        Load(logPath, mapPath, da);
 
         throw new NotImplementedException();
     }
 
-    private async void Load(string logPath, object la)
+    private async void Load(string logPath, string mapPath, IReplayDataAccess da)
     {
-        LogFile log = (la as LogFile)!;
+        _board = await da.BDA.LoadAsync(mapPath);
+
+        LogFile log = (da as LogFile)!;
 
         foreach (var (p, d) in log.Start)
         {

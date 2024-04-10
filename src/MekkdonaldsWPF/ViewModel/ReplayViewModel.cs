@@ -1,6 +1,4 @@
-﻿using Mekkdonalds.Simulation.Controller;
-
-namespace Mekkdonalds.ViewModel;
+﻿namespace Mekkdonalds.ViewModel;
 
 internal class ReplayViewModel : ViewModel
 {
@@ -47,9 +45,14 @@ internal class ReplayViewModel : ViewModel
 
     #endregion
 
-    public ReplayViewModel(string logPath)
+    public ReplayViewModel(string logPath, string mapPath)
     {
-        Controller = RepController = new ReplayController(logPath, "");
+        var da = new ReplayDataAccess()
+        {
+            BDA = new BoardFileDataAccess()
+        };
+
+        Controller = RepController = new ReplayController(logPath, mapPath, da);
 
         Controller.Tick += OnTick;
 
