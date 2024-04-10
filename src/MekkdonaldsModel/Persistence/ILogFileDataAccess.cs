@@ -1,9 +1,7 @@
-﻿
-namespace Mekkdonalds.Persistence
-{
-    internal interface ILogFileDataAccess
-    {
-        public Task<LogFile> Load(string path);
+﻿namespace Mekkdonalds.Persistence;
 
-    }
+public interface ILogFileDataAccess
+{
+    Task<LogFile> Load(string path);
+    Task Save(string path, LogFile logFile);
 }

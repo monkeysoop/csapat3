@@ -1,5 +1,8 @@
-﻿using MekkdonaldsModel.Persistence;
+﻿using Mekkdonalds.Persistence.Converters;
+
 using System.Text.Json.Serialization;
+
+using Action = Mekkdonalds.Simulation.Action;
 
 namespace Mekkdonalds.Persistence;
 
@@ -17,9 +20,9 @@ public class LogFile
     public int SumOfCost { get; set; }
     public int Makespan { get; set; }
     [JsonConverter(typeof(PathConverter))]
-    public required List<List<string>> ActualPaths { get; set; }
+    public required List<List<Action>> ActualPaths { get; set; }
     [JsonConverter(typeof(PathConverter))]
-    public required List<List<string>> PlannerPaths { get; set; }
+    public required List<List<Action>> PlannerPaths { get; set; }
     public required List<double> PlannerTimes { get; set; }
     [JsonConverter(typeof(ErrorConverter))]
     public required List<(int, int, int, string)> Errors { get; set; }
@@ -27,7 +30,6 @@ public class LogFile
     public required List<List<(int, int, string)>> Events { get; set; }
     [JsonConverter(typeof(TaskConverter))]
     public required List<(int, int, int)> Tasks { get; set; }
-
 
 
     [JsonConstructor]

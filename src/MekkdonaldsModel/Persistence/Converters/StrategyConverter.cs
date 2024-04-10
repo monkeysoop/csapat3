@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Mekkdonalds.Persistence;
+namespace Mekkdonalds.Persistence.Converters;
 
 public class StrategyConverter : JsonConverter<Strategy>
 {
