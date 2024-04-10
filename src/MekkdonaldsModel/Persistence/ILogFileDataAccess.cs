@@ -2,6 +2,6 @@
 
 public interface ILogFileDataAccess
 {
-    Task<LogFile> Load(string path);
-    Task Save(string path, LogFile logFile);
+    Task<LogFile> LoadAsync(string path);
+    Task SaveAsync(string path, LogFile logFile);
 }

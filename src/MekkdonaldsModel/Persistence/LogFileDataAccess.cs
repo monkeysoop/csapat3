@@ -6,7 +6,7 @@ public class LogFileDataAccess : ILogFileDataAccess
 {
     public static readonly JsonSerializerOptions SerializerOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
-    public async Task<LogFile> Load(string path) => JsonSerializer.Deserialize<LogFile>(await File.ReadAllTextAsync(path), SerializerOptions) ?? throw new LogFileDataException();
+    public async Task<LogFile> LoadAsync(string path) => JsonSerializer.Deserialize<LogFile>(await File.ReadAllTextAsync(path), SerializerOptions) ?? throw new LogFileDataException();
 
-    public async Task Save(string path, LogFile logFile) => await File.WriteAllTextAsync(path, JsonSerializer.Serialize(logFile, SerializerOptions));
+    public async Task SaveAsync(string path, LogFile logFile) => await File.WriteAllTextAsync(path, JsonSerializer.Serialize(logFile, SerializerOptions));
 }
