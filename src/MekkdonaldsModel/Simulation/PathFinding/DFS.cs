@@ -1,18 +1,27 @@
-﻿namespace Mekkdonalds.Simulation.Controller;
+﻿namespace Mekkdonalds.Simulation.PathFinding;
 
-public sealed class DFSController : SimulationController
+public sealed class DFS : PathFinder
 {
-    protected override (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position)
+    protected override (bool, int[]) FindPath(Board board, Point start_position, int start_direction, Point end_position)
     {
         // this depth first search uses heuristics to hopefully find a correct path quicker
         Step[] stack = new Step[5 * board.Height * board.Width];
-
-
-        stack[0] = new Step(start_position, start_direction, 0);
-        int stack_index = 1;
-
-
+        int stack_index = 0;
         int[] parents = new int[board.Height * board.Width]; // all items are automatically set to 0
+
+
+
+        int backward_direction = (start_direction + 2) % 4;
+        Point backward_offset = nexts_offsets[backward_direction];
+        Point backward_next_position = new(start_position.X + backward_offset.X,
+                                           start_position.Y + backward_offset.Y);
+
+        stack[0] = new Step(backward_next_position, backward_direction, 0);
+        stack_index++;
+
+
+        stack[1] = new Step(start_position, start_direction, 0);
+        stack_index++;
 
         parents[start_position.Y * board.Width + start_position.X] = start_direction;
 

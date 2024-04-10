@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Persistence;
 
-internal class BoardFileDataAccess : IBoardDataAccess
+public class BoardFileDataAccess : IBoardDataAccess
 {
     #region Constants
     public const int EMPTY = 0;
@@ -11,7 +11,7 @@ internal class BoardFileDataAccess : IBoardDataAccess
 
 
 
-    public async Task<Board2> LoadAsync(string path)
+    public async Task<Board> LoadAsync(string path)
     {
         try
         {
@@ -56,7 +56,7 @@ internal class BoardFileDataAccess : IBoardDataAccess
                 }
             }
 
-            return new Board2(data, boardHeight, boardWidth);
+            return new Board(data, boardHeight, boardWidth);
         }
         catch (System.Exception e)
         {
@@ -64,7 +64,7 @@ internal class BoardFileDataAccess : IBoardDataAccess
         }
     }
 
-    public async Task SaveAsync(string path, Board2 board)
+    public async Task SaveAsync(string path, Board board)
     {
         await Task.Delay(0);
 

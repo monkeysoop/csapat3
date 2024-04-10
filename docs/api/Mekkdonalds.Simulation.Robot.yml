@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Robot.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Robot
     path: ../src/MekkdonaldsModel/Simulation/Robot.cs
@@ -58,7 +58,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Robot.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: ID
     path: ../src/MekkdonaldsModel/Simulation/Robot.cs
@@ -87,7 +87,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Robot.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Start
     path: ../src/MekkdonaldsModel/Simulation/Robot.cs
@@ -116,7 +116,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Robot.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Position
     path: ../src/MekkdonaldsModel/Simulation/Robot.cs
@@ -147,7 +147,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Robot.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Direction
     path: ../src/MekkdonaldsModel/Simulation/Robot.cs
@@ -178,7 +178,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Robot.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Task
     path: ../src/MekkdonaldsModel/Simulation/Robot.cs
@@ -209,7 +209,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Robot.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: History
     path: ../src/MekkdonaldsModel/Simulation/Robot.cs
@@ -240,7 +240,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Robot.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: .ctor
     path: ../src/MekkdonaldsModel/Simulation/Robot.cs
@@ -276,7 +276,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Robot.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: .ctor
     path: ../src/MekkdonaldsModel/Simulation/Robot.cs
@@ -308,7 +308,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Robot.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Assign
     path: ../src/MekkdonaldsModel/Simulation/Robot.cs

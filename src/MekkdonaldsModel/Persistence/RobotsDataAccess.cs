@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Persistence;
 
-internal class RobotsDataAccess : IRobotsDataAccess
+public class RobotsDataAccess : IRobotsDataAccess
 {
     public async Task<List<Robot>> LoadAsync(string path, int width, int height)
     {
@@ -9,8 +9,6 @@ internal class RobotsDataAccess : IRobotsDataAccess
         using StreamReader sr = new(path);
 
         _ = sr.ReadLine(); // skip header
-
-        int id = 1;
 
         while (!sr.EndOfStream)
         {
@@ -21,7 +19,7 @@ internal class RobotsDataAccess : IRobotsDataAccess
                 throw new RobotsDataException();
             }
 
-            robots.Add(new Robot(new Point(pos % width, pos / width), Direction.North));
+            robots.Add(new Robot(new Point(((pos % width) + 1), ((pos / width) + 1)), Direction.North));
         }
 
         return robots;

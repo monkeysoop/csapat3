@@ -1,30 +1,24 @@
 ﻿namespace Mekkdonalds.Simulation;
 
-public class Path
+public class Path(List<Action> lista, Point p)
 {
-    private readonly List<Action> l;
+    private readonly List<Action> l = [.. lista];
 
-    int ind;
+    private int _ind;
 
-    public Path()
-    {
-        l = [];
-    }
+    public readonly Point Target = p;
 
-    public Path(List<Action> lista)
-    {
-        l = [.. lista];
-    }
+    public bool IsOver => _ind >= l.Count;
 
-    public Action? this[int i]
+    internal Action? this[int i]
     {
         get => i >= l.Count || i < 0 ? null : l[i];
     }
 
-    internal Action? Next()
+    internal Action Next()
     {
-        if (ind >= l.Count) return null;
+        if (_ind >= l.Count) throw new InvalidOperationException("No more actions in path");
 
-        return l[ind++];
+        return l[_ind++];
     }
 }

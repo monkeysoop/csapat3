@@ -1,140 +1,64 @@
 ﻿namespace Mekkdonalds.Simulation.Controller;
 
-public abstract class SimulationController
+public sealed class SimulationController : Controller
 {
-    protected static readonly Point[] nexts_offsets = [
-        new(0, -1),
-        new(1, 0),
-        new(0, 1),
-        new(-1, 0)
-    ];
+#pragma warning disable CA1859
+    private readonly IAssigner _pathFinder;
+#pragma warning restore
 
-    protected abstract (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position);
-
-    public (bool, List<Action>) CalculatePath(Board2 board, Point start_position, int start_direction, Point end_position)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="path">Path of the config file</param>
+    /// <param name="ca"></param>
+    /// <param name="ba"></param>
+    /// <param name="ra"></param>
+    /// <param name="pa"></param>
+    public SimulationController(string path, IConfigDataAccess ca, IBoardDataAccess ba, IRobotsDataAccess ra, IPackagesDataAccess pa)
     {
-        bool found;
-        int[] parents_data;
-
-        (found, parents_data) = FindPath(board, start_position, start_direction, end_position);
-        board.ClearMask();
-
-        if (found)
-        {
-            return (true, TracePath(parents_data, board.Width, start_position, start_direction, end_position));
-        } else
-        {
-            return (false, new List<Action>());
-        }
+        _pathFinder = new Assigner.Assigner();
+        Load(path, ca, ba, ra, pa);
     }
 
-    public void FindAllPaths(Board2 board, List<Robot> robots, List<Package> packages)
+    private async void Load(string path, IConfigDataAccess da, IBoardDataAccess ba, IRobotsDataAccess ra, IPackagesDataAccess pa)
     {
-        while (packages.Count > 0)
+        var config = await da.Load(path);
+
+        var b = await ba.LoadAsync(config.MapFile);
+        _board = b; // for some reason it only sets board this way ????????
+
+        _robots.AddRange(await ra.LoadAsync(config.AgentFile, _board.Width - 2, _board.Height - 2));
+
+        _pathFinder.Init(ControllerType.BFS, b, _robots, await pa.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2));
+
+        LoadWalls();
+
+        OnLoaded(this);
+    }
+
+    private void LoadWalls()
+    {
+        for (int y = 0; y < _board.Height; y++)
         {
-            foreach(Robot r  in robots)
+            for (int x = 0; x < _board.Width; x++)
             {
-                
+                if (_board.GetValue(x, y) is Board.WALL)
+                {
+                    _walls.Add(new(x, y));
+                }
             }
         }
     }
 
-    public static List<Action> Convert(string path)
+    protected override void OnTick(object? state)
     {
-        var l = new List<Action>();
+        _pathFinder.Step();
 
-        foreach (char c in path)
-        {
-            switch (c)
-            {
-                case 'F':
-                    l.Add(Action.F);
-                    break;
-                case 'R':
-                    l.Add(Action.R);
-                    break;
-                case 'L':
-                    l.Add(Action.C);
-                    break;
-                case 'W':
-                    l.Add(Action.W);
-                    break;
-                default: // can be removed
-                    throw new PathException($"Invalid charachter {c}");
-            }
-        }
-
-        return l;
-    }
-    
-    protected static bool ComparePoints(Point first, Point second) // == is overloaded
-    {
-        return first.X == second.X && first.Y == second.Y;
+        CallTick(this);
     }
 
-    protected static int ManhattenDistance(Point start, Point end)
+    public override void StepForward()
     {
-        return Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y);
+        if (!IsPlaying) OnTick(null);
     }
-
-    protected static int MaxTurnsRequired(Point position, Point direction, Point end)
-    {
-        int diff_x = end.X - position.X;
-        int diff_y = end.Y - position.Y;
-        int dot_product = diff_x * direction.X + diff_y * direction.Y;
-
-        if (dot_product < 0)
-        {
-            return 2;
-        }
-        else if (dot_product * dot_product != diff_x * diff_x + diff_y * diff_y)
-        {
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-
-    private static List<Action> TracePath(int[] parents_board, int board_width, Point start, int start_direction, Point end)
-    {
-        List<Action> path = new List<Action>();
-
-
-        Point current_position = end;
-        int current_direction = (parents_board[current_position.Y * board_width + current_position.X] + 2) % 4;
-
-        while (!ComparePoints(current_position, start))
-        {
-            Point next_offset = nexts_offsets[current_direction];
-
-            Point next_position = new(current_position.X + next_offset.X,
-                                      current_position.Y + next_offset.Y);
-
-            int next_direction = (parents_board[next_position.Y * board_width + next_position.X] + 2) % 4;
-
-            int diff = current_direction - next_direction + 3;
-
-
-            path.Add(Action.F);
-            switch (diff)
-            {
-                case -3: path.Add(Action.R); break;
-                case -2: path.Add(Action.R); path.Add(Action.R); break;
-                case -1: path.Add(Action.C); break;
-                case  0: break;
-                case  1: path.Add(Action.R); break;
-                case  2: path.Add(Action.R); path.Add(Action.R); break;
-                case  3: path.Add(Action.C); break;
-            }
-
-            current_position = next_position;
-            current_direction = next_direction;
-        }
-
-        System.Diagnostics.Debug.WriteLine("path in reverse: " + path);
-        return path;
-    }
-
 }

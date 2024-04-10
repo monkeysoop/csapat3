@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Controller
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
@@ -40,7 +40,6 @@ items:
   inheritance:
   - System.Object
   derivedClasses:
-  - Mekkdonalds.Simulation.Controller.ReplayController
   - Mekkdonalds.Simulation.Controller.SimulationController
   inheritedMembers:
   - System.Object.Equals(System.Object)
@@ -64,7 +63,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Paths
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
@@ -91,7 +90,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: _robots
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
@@ -118,7 +117,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: _walls
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
@@ -145,7 +144,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Timer
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
@@ -172,7 +171,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: _board
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
@@ -199,7 +198,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Robots
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
@@ -228,7 +227,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Walls
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
@@ -257,7 +256,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Tick
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
@@ -284,7 +283,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: .ctor
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
@@ -313,7 +312,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: OnTick
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
@@ -345,7 +344,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: CallTick
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs

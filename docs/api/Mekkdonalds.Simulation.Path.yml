@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Path.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Path
     path: ../src/MekkdonaldsModel/Simulation/Path.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Path.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: .ctor
     path: ../src/MekkdonaldsModel/Simulation/Path.cs

@@ -27,7 +27,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Persistence/Board2.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Board2
     path: ../src/MekkdonaldsModel/Persistence/Board2.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Persistence/Board2.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: EMPTY
     path: ../src/MekkdonaldsModel/Persistence/Board2.cs
@@ -89,7 +89,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Persistence/Board2.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: WALL
     path: ../src/MekkdonaldsModel/Persistence/Board2.cs
@@ -116,7 +116,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Persistence/Board2.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: SEARCHED
     path: ../src/MekkdonaldsModel/Persistence/Board2.cs
@@ -143,7 +143,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Persistence/Board2.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: OPEN
     path: ../src/MekkdonaldsModel/Persistence/Board2.cs
@@ -170,7 +170,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Persistence/Board2.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Height
     path: ../src/MekkdonaldsModel/Persistence/Board2.cs
@@ -199,7 +199,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Persistence/Board2.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Width
     path: ../src/MekkdonaldsModel/Persistence/Board2.cs
@@ -228,7 +228,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Persistence/Board2.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: .ctor
     path: ../src/MekkdonaldsModel/Persistence/Board2.cs
@@ -262,7 +262,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Persistence/Board2.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: .ctor
     path: ../src/MekkdonaldsModel/Persistence/Board2.cs
@@ -298,7 +298,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Persistence/Board2.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: .ctor
     path: ../src/MekkdonaldsModel/Persistence/Board2.cs
@@ -334,7 +334,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Persistence/Board2.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: SetSearched
     path: ../src/MekkdonaldsModel/Persistence/Board2.cs
@@ -363,7 +363,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Persistence/Board2.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: SetOpenIfEmpty
     path: ../src/MekkdonaldsModel/Persistence/Board2.cs
@@ -394,7 +394,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Persistence/Board2.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: SetSearchedIfEmpty
     path: ../src/MekkdonaldsModel/Persistence/Board2.cs

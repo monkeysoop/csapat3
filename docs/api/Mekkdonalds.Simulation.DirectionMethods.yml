@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Direction.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: DirectionMethods
     path: ../src/MekkdonaldsModel/Simulation/Direction.cs
@@ -53,7 +53,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Direction.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: ClockWise
     path: ../src/MekkdonaldsModel/Simulation/Direction.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Direction.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: CounterClockWise
     path: ../src/MekkdonaldsModel/Simulation/Direction.cs

@@ -1,27 +1,39 @@
-﻿namespace Mekkdonalds;
+namespace Mekkdonalds;
 
 /// <summary>
 /// Interaction logic for App.xaml
 /// </summary>
 public partial class App : Application
 {
-    private const double MARGIN = 20;
-    private const double BORDERTHICKNESS = 4;
+    private const double MARGIN = 0;
     private const double SIDELENGTH = 20;
 
-    private double XLength;
-    private double YLength;
+    private int XLength;
+    private int YLength;
 
-    private double Step => SIDELENGTH * (_viewModel?.Zoom ?? 1);
+    private int Step => (int)Math.Round(SIDELENGTH * (_viewModel?.Zoom ?? 1));
 
     private SimulationWindow? _simWindow;
     private StartWindow? _startWindow;
     private ReplayWindow? _replayWindow;
     private ViewModel.ViewModel? _viewModel;
 
+    private bool _ctrlDown;
+    private Point _mousePos;
+
+    private ImageBrush _rectangel;
+    private readonly ImageBrush[] _ellipses = new ImageBrush[4];
+    private readonly Dictionary<Robot, Grid> _robots = [];
+    private readonly Dictionary<Robot, Grid> _targets = [];
+
     public App()
     {
         Startup += OnStartup;
+
+        DrawElements();
+
+        if (_rectangel is null || _ellipses.Any(x => x is null))
+            throw new System.Exception("Failed to load images");
     }
 
     private void OnStartup(object sender, StartupEventArgs e)
@@ -71,28 +83,9 @@ public partial class App : Application
             Title = "Log File"
         };
 
-        if (fd.ShowDialog() is false)
-            return false;
+        if (fd.ShowDialog() is false) return false;
 
-        _viewModel = new ReplayViewModel(fd.FileName);
-
-        _replayWindow = new ReplayWindow
-        {
-            WindowState = WindowState.Maximized,
-            DataContext = _viewModel
-        };
-
-        _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_replayWindow.MapCanvas)); // UI elemts have to be updated with this call when it is called from another thread
-        _viewModel.PropertyChanged += OnPropertyChanged;
-
-        _replayWindow.SizeChanged += (_, _) => { Calculate(_replayWindow.MapCanvas); Redraw(_replayWindow.MapCanvas); };
-
-        _replayWindow.Show();
-
-        Calculate(_replayWindow.MapCanvas);
-        Redraw(_replayWindow.MapCanvas);
-
-        return true;
+        throw new NotImplementedException("Replay is not implemented yet");
     }
 
     /// <summary>
@@ -113,21 +106,50 @@ public partial class App : Application
 
         _simWindow = new SimulationWindow
         {
-            WindowState = WindowState.Maximized,
             DataContext = _viewModel
         };
 
-        _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_simWindow.MapCanvas)); // UI elemts have to be updated with this call when it is called from another thread
+        _viewModel.Loaded += (_, _) => OnLoaded(_simWindow, _simWindow.MapCanvas);
+
+        _viewModel.Tick += OnTick;
         _viewModel.PropertyChanged += OnPropertyChanged;
 
-        _simWindow.SizeChanged += (_, _) => { Calculate(_simWindow.MapCanvas); Redraw(_simWindow.MapCanvas); };
+        _simWindow.SizeChanged += (_, _) => OnSizeChanged(_simWindow.MapCanvas);
+
+        _simWindow.KeyDown += OnKeyDown;
+
+        _simWindow.KeyUp += OnKeyUp;
+
+        _simWindow.ScrollViewer.PreviewMouseWheel += OnMouseWheel;
+
+        _simWindow.ScrollViewer.MouseMove += OnMouseMove;
+
+        _simWindow.ScrollViewer.ManipulationDelta += OnManipulationDelta;
+
+        _simWindow.ScrollViewer.Cursor = Cursors.Hand;
 
         _simWindow.Show();
 
-        Calculate(_simWindow.MapCanvas);
-        Redraw(_simWindow.MapCanvas);
+        DisplayLoading(_simWindow);
 
         return true;
+    }
+
+    private void OnTick(object? sender, EventArgs e)
+    {
+#if DEBUG
+        try
+        { Dispatcher.Invoke(Redraw); }
+        catch (TaskCanceledException)
+        { }
+#else
+        Dispatcher.Invoke(Redraw);
+#endif
+    }
+
+    private static void DisplayLoading(Window w)
+    {
+        w.Cursor = Cursors.Wait;
     }
 
     #region Drawing
@@ -138,82 +160,49 @@ public partial class App : Application
     /// <param name="c">The currently open window's canvas</param>
     private void Calculate(Canvas c)
     {
-        var (w, h) = _viewModel!.Size;
+        var w = _viewModel!.Width;
+        var h = _viewModel.Height;
 
-        XLength = (w + 1) * Step - (_viewModel.Zoom - 1) * MARGIN;
-        YLength = (h + 1) * Step - (_viewModel.Zoom - 1) * MARGIN;
+        c.Width = XLength = w * Step;
+        c.Height = YLength = h * Step;
 
-        c.Width = XLength + 2 * MARGIN;
-        c.Height = YLength + 2 * MARGIN;
+        var fontSize = 12 * Math.Sqrt(_viewModel.Zoom);
+
+        TextBlock? t;
+
+        foreach (var g in _robots.Values)
+        {
+            g.Width = g.Height = Step - 2;
+            (g.Children[0] as TextBlock ?? throw new System.Exception()).FontSize = fontSize;
+        }
+
+        foreach (var g in _targets.Values)
+        {
+            g.Width = g.Height = Step;
+            (g.Children[0] as TextBlock ?? throw new System.Exception()).FontSize = fontSize;
+        }
     }
 
     /// <summary>
     /// Clears the canvas and redraws every element
     /// </summary>
     /// <param name="c">The currently open window's canvas</param>
-    private void Redraw(Canvas c)
+    private void Redraw()
     {
-        c.Children.Clear();
-
-        //DrawFrame(c);
-        DrawGrid(c);
-        DrawRobots(c);
-        DrawWalls(c);
-    }
-
-    /// <summary>
-    /// Draws the frame of the map
-    /// </summary>
-    /// <param name="c">The currently open window's canvas</param>
-    private void DrawFrame(Canvas c)
-    {
-        List<Line> l = [];
-
-        // TOP
-        l.Add(new Line()
+        foreach (var r in _viewModel!.Robots)
         {
-            Stroke = Brushes.Black,
-            StrokeThickness = BORDERTHICKNESS,
-            X1 = MARGIN - 2,
-            Y1 = MARGIN,
-            X2 = XLength + 2,
-            Y2 = MARGIN,
-        });
+            _robots[r].Margin = new Thickness(MARGIN + 1 + r.Position.X * Step, MARGIN + 1 + r.Position.Y * Step, 0, 0);
+            _robots[r].Background = _ellipses[(int)r.Direction];
 
-        // BOTTOM
-        l.Add(new Line()
-        {
-            Stroke = Brushes.Black,
-            StrokeThickness = BORDERTHICKNESS,
-            X1 = MARGIN - 2,
-            Y1 = YLength,
-            X2 = XLength + 2,
-            Y2 = YLength,
-        });
-
-        // LEFT
-        l.Add(new Line()
-        {
-            Stroke = Brushes.Black,
-            StrokeThickness = BORDERTHICKNESS,
-            X1 = MARGIN,
-            Y1 = MARGIN,
-            X2 = MARGIN,
-            Y2 = YLength,
-        });
-
-        // RIGHT
-        l.Add(new Line()
-        {
-            Stroke = Brushes.Black,
-            StrokeThickness = BORDERTHICKNESS,
-            X1 = XLength,
-            Y1 = MARGIN,
-            X2 = XLength,
-            Y2 = YLength,
-        });
-
-        l.ForEach(x => c.Children.Add(x));
+            if (r.Task is not null)
+            {
+                _targets[r].Margin = new Thickness(MARGIN + r.Task.Position.X * Step, MARGIN + r.Task.Position.Y * Step, 0, 0);
+            }
+            else
+            {
+                _targets[r].Visibility = Visibility.Hidden;
+            }
+        }
     }
 
     /// <summary>
@@ -222,63 +211,53 @@ public partial class App : Application
     /// <param name="c">The currently open window's canvas</param>
     private void DrawGrid(Canvas c)
     {
-        for (var i = 0; i <= _viewModel!.Size.W; i++)
+        using var bm = new Bitmap(Step * _viewModel!.Width * 2, Step * _viewModel.Height * 2);
+        using var g = Graphics.FromImage(bm);
+
+        for (var i = 0; i <= _viewModel.Width; i++)
         {
-            c.Children.Add(new Line()
-            {
-                Stroke = Brushes.Black,
-                StrokeThickness = 1,
-                X1 = MARGIN + i * Step,
-                Y1 = MARGIN,
-                X2 = MARGIN + i * Step,
-                Y2 = YLength,
-            });
+            g.DrawLine(Pens.Black, i * Step * 2, 0, i * Step * 2, YLength * 2);
         }
 
-        for (var i = 0; i <= _viewModel.Size.H; i++)
+        for (var i = 0; i <= _viewModel.Height; i++)
         {
-            c.Children.Add(new Line()
-            {
-                Stroke = Brushes.Black,
-                StrokeThickness = 1,
-                X1 = MARGIN,
-                Y1 = MARGIN + i * Step,
-                X2 = XLength,
-                Y2 = MARGIN + i * Step,
-            });
+            g.DrawLine(Pens.Black, 0, i * Step * 2, XLength * 2, i * Step * 2);
         }
+
+        foreach (var w in _viewModel!.Walls)
+        {
+            g.FillRectangle(Brushes.Black, w.Position.X * Step * 2, w.Position.Y * Step * 2, Step * 2, Step * 2);
+        }
+
+        using var memory = new MemoryStream();
+        bm.Save(memory, ImageFormat.Png);
+        memory.Position = 0;
+        var r = new BitmapImage();
+        r.BeginInit();
+        r.StreamSource = memory;
+        r.CacheOption = BitmapCacheOption.OnLoad;
+        r.EndInit();
+
+        c.Background = new ImageBrush(r);
     }
 
     /// <summary>
-    /// Draws the robots and their targets (if they have one) to the canvas
+    /// Creates the grids for the robots and their targets
     /// </summary>
-    /// <param name="c">The currently open window's canvas</param>
-    private void DrawRobots(Canvas c)
+    /// <param name="c"></param>
+    private void InitRobots(Canvas c)
     {
-        var fontSize = 14 * Math.Sqrt(_viewModel!.Zoom);
+        var fontSize = 12 * Math.Sqrt(_viewModel!.Zoom);
 
-        foreach (var r in _viewModel.Robots)
+        foreach (var r in _viewModel!.Robots)
         {
-            Thickness t;
-
-            t.Left = MARGIN + 1 + r.Position.X * Step;
-            t.Top = MARGIN + 1 + r.Position.Y * Step;
-
             var grid = new Grid
             {
                 Width = Step - 2,
                 Height = Step - 2,
-                Margin = t
+                Margin = new Thickness(MARGIN + 1 + r.Position.X * Step, MARGIN + 1 + r.Position.Y * Step, 0, 0),
+                Background = _ellipses[(int)r.Direction]
             };
-
-            grid.Children.Add(new Ellipse()
-            {
-                Stroke = Brushes.Black,
-                StrokeThickness = 1,
-                Fill = new SolidColorBrush(Color.FromRgb(9, 194, 248)), // this is the color in the example
-                Width = Step - 2,
-                Height = Step - 2
-            });
 
             grid.Children.Add(new TextBlock()
             {
@@ -288,28 +267,14 @@ public partial class App : Application
                 FontSize = fontSize
             });
 
-            c.Children.Add(grid);
-
-            if (r.Task is null) continue;
-
-            t.Left = MARGIN + r.Task.Position.X * Step;
-            t.Top = MARGIN + r.Task.Position.Y * Step;
+            _robots[r] = grid;
 
             grid = new Grid
             {
                 Width = Step,
                 Height = Step,
-                Margin = t
+                Background = _rectangel
             };
-
-            grid.Children.Add(new Rectangle()
-            {
-                Stroke = Brushes.Black,
-                StrokeThickness = 0,
-                Fill = Brushes.Orange,
-                Width = Step,
-                Height = Step
-            });
 
             grid.Children.Add(new TextBlock()
             {
@@ -319,50 +284,186 @@ public partial class App : Application
                 FontSize = fontSize
             });
 
+            if (r.Task is not null)
+            {
+                grid.Margin = new Thickness(MARGIN + r.Task.Position.X * Step, MARGIN + r.Task.Position.Y * Step, 0, 0);
+                grid.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                grid.Visibility = Visibility.Hidden;
+            }
+
             c.Children.Add(grid);
+
+            _targets[r] = grid;
+        }
+
+        foreach (var g in _robots.Values)
+        {
+            c.Children.Add(g);
         }
     }
 
     /// <summary>
-    /// Draws the walls to the canvas
+    /// Draws the images used for the robots and their targets
     /// </summary>
-    /// <param name="c">The currently open window's canvas</param>
-    private void DrawWalls(Canvas c)
+    private void DrawElements()
     {
-        foreach (var w in _viewModel!.Walls)
         {
-            Thickness t;
+            using var bm = new Bitmap(500, 500);
+            using var g = Graphics.FromImage(bm);
 
-            t.Left = MARGIN + w.Position.X * Step;
-            t.Top = MARGIN + w.Position.Y * Step;
+            g.FillRectangle(Brushes.Orange, 0, 0, 500, 500);
 
-            c.Children.Add(new Rectangle()
-            {
-                Stroke = Brushes.Black,
-                StrokeThickness = 1,
-                Fill = Brushes.Black,
-                Width = Step,
-                Height = Step,
-                Margin = t
-            });
+            using var memory = new MemoryStream();
+            bm.Save(memory, ImageFormat.Png);
+            memory.Position = 0;
+            var r = new BitmapImage();
+            r.BeginInit();
+            r.StreamSource = memory;
+            r.CacheOption = BitmapCacheOption.OnLoad;
+            r.EndInit();
+
+            _rectangel = new ImageBrush(r);
         }
+
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                using var bm = new Bitmap(500, 500);
+                using var g = Graphics.FromImage(bm);
+
+                g.FillEllipse(new SolidBrush(System.Drawing.Color.FromArgb(9, 194, 248)), 0, 0, 500, 500);
+
+                switch (i)
+                {
+                    case 0:
+                        g.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Red, 50), 250, 0, 250, 250);
+                        break;
+                    case 1:
+                        g.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Red, 50), 250, 250, 500, 250);
+                        break;
+                    case 2:
+                        g.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Red, 50), 250, 250, 250, 500);
+                        break;
+                    case 3:
+                        g.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Red, 50), 0, 250, 250, 250);
+                        break;
+                }
+
+                using var memory = new MemoryStream();
+                bm.Save(memory, ImageFormat.Png);
+                memory.Position = 0;
+                var r = new BitmapImage();
+                r.BeginInit();
+                r.StreamSource = memory;
+                r.CacheOption = BitmapCacheOption.OnLoad;
+                r.EndInit();
+
+                _ellipses[i] = new ImageBrush(r);
+            }            
+        }
+
+        
     }
 
     #endregion
 
-    /// <summary>
-    /// Redraws the canvas when the zoom property changes
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    #region Event Handlers    
     private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         switch (e.PropertyName)
         {
             case "Zoom":
                 Calculate(_replayWindow?.MapCanvas ?? _simWindow?.MapCanvas ?? throw new System.Exception());
-                Redraw(_replayWindow?.MapCanvas ?? _simWindow!.MapCanvas);
+                Redraw();
                 break;
         }
     }
+
+    private void OnKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key is Key.LeftCtrl || e.Key is Key.RightCtrl)
+        {
+            _ctrlDown = true;
+        }
+        else if (e.Key is Key.Escape) Current.Shutdown();
+    }
+
+    private void OnKeyUp(object sender, KeyEventArgs e)
+    {
+        if (e.Key is Key.LeftCtrl || e.Key is Key.RightCtrl)
+        {
+            _ctrlDown = false;
+        }
+    }
+
+    private void OnMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        if (_ctrlDown)
+        {
+            if (e.Delta > 0)
+                _viewModel!.Zoom *= 1.1;
+            else
+                _viewModel!.Zoom /= 1.1;
+        }
+
+        e.Handled = true;
+    }
+
+    private void OnMouseMove(object sender, MouseEventArgs e)
+    {
+        if (sender is not IInputElement ie) return;
+
+        var p = e.GetPosition(ie);
+
+        if (e.LeftButton is MouseButtonState.Pressed)
+        {
+            if (_simWindow is not null)
+            {
+                _simWindow.ScrollViewer.ScrollToHorizontalOffset(_simWindow.ScrollViewer.HorizontalOffset + (_mousePos.X - p.X));
+                _simWindow.ScrollViewer.ScrollToVerticalOffset(_simWindow.ScrollViewer.VerticalOffset + (_mousePos.Y - p.Y));
+            }
+            else if (_replayWindow is not null)
+            {
+                _replayWindow.ScrollViewer.ScrollToHorizontalOffset(_replayWindow.ScrollViewer.HorizontalOffset + (_mousePos.X - p.X));
+                _replayWindow.ScrollViewer.ScrollToVerticalOffset(_replayWindow.ScrollViewer.VerticalOffset + (_mousePos.Y - p.Y));
+            }
+        }
+
+        _mousePos = p;
+    }
+
+    private void OnManipulationDelta(object? sender, ManipulationDeltaEventArgs e)
+    {
+        // Pinching in
+        if (e.DeltaManipulation.Scale.X < 1.0 || e.DeltaManipulation.Scale.Y < 1.0)
+            _viewModel!.Zoom /= 1.1;
+
+        // Pinching out
+        else if (e.DeltaManipulation.Scale.X > 1.0 || e.DeltaManipulation.Scale.Y > 1.0)
+            _viewModel!.Zoom *= 1.1;
+
+        e.Handled = true;
+    }
+
+    private void OnSizeChanged(Canvas canvas)
+    {
+        Calculate(canvas);
+        Redraw();
+    }
+
+    private void OnLoaded(Window window, Canvas canvas)
+    {
+        Dispatcher.Invoke(() =>
+        {
+            Calculate(canvas);
+            DrawGrid(canvas);
+            InitRobots(canvas);
+            Redraw();
+            window.Cursor = Cursors.Arrow;
+        });
+    }
+    #endregion
 }

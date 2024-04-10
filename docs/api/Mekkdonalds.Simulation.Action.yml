@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Action.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Action
     path: ../src/MekkdonaldsModel/Simulation/Action.cs
@@ -45,7 +45,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Action.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: F
     path: ../src/MekkdonaldsModel/Simulation/Action.cs
@@ -71,7 +71,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Action.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: R
     path: ../src/MekkdonaldsModel/Simulation/Action.cs
@@ -97,7 +97,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Action.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: C
     path: ../src/MekkdonaldsModel/Simulation/Action.cs
@@ -123,7 +123,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Action.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: W
     path: ../src/MekkdonaldsModel/Simulation/Action.cs
@@ -149,7 +149,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Action.cs
-      branch: develop
+      branch: master
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: T
     path: ../src/MekkdonaldsModel/Simulation/Action.cs

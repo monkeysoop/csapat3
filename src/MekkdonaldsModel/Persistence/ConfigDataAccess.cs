@@ -2,7 +2,7 @@
 
 namespace Mekkdonalds.Persistence;
 
-internal class ConfigDataAccess : IConfigDataAccess
+public class ConfigDataAccess : IConfigDataAccess
 {
     public static readonly JsonSerializerOptions SerializerOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 

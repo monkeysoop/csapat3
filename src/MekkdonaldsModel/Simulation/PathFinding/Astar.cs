@@ -1,28 +1,43 @@
-﻿namespace Mekkdonalds.Simulation.Controller;
+﻿namespace Mekkdonalds.Simulation.PathFinding;
 
-public sealed class AstarController: SimulationController
+public sealed class Astar : PathFinder
 {
-    protected override (bool, int[]) FindPath(Board2 board, Point start_position, int start_direction, Point end_position)
+    protected override (bool, int[]) FindPath(Board board, Point start_position, int start_direction, Point end_position)
     {
         const int COST_BIAS = 1;
         const int HEURISTIC_BIAS = 1;
 
         Step[] heap = new Step[5 * board.Height * board.Width];
-
-
         int heap_length = 0;
+        int[] costs = new int[board.Height * board.Width]; // all items are automatically set to 0
+        int[] parents = new int[board.Height * board.Width]; // all items are automatically set to 0
+
+
+
         HeapInsert(heap, heap_length, new Step(start_position, start_direction, 0));
         heap_length++;
 
-
-        int[] costs = new int[board.Height * board.Width]; // all items are automatically set to 0
-        int[] parents = new int[board.Height * board.Width]; // all items are automatically set to 0
-        //for (int i = 0; i < board.height * board.width; i++)
-        //{
-        //    parents[i] = NO_PARENT;
-        //} 
-
+        costs[start_position.Y * board.Width + start_position.X] = 0;
         parents[start_position.Y * board.Width + start_position.X] = start_direction;
+
+
+        int backward_direction = (start_direction + 2) % 4;
+        Point backward_offset = nexts_offsets[backward_direction];
+        Point backward_next_position = new(start_position.X + backward_offset.X,
+                                           start_position.Y + backward_offset.Y);
+        int backward_cost = 2;
+        int backward_heuristic = COST_BIAS * backward_cost +
+                                 HEURISTIC_BIAS * MaxTurnsRequired(backward_next_position, backward_offset, end_position) +
+                                 HEURISTIC_BIAS * ManhattenDistance(backward_next_position, end_position);
+
+        if (board.SetSearchedIfEmpty(backward_next_position))
+        {
+            costs[backward_next_position.Y * board.Width + backward_next_position.X] = backward_cost;
+            parents[backward_next_position.Y * board.Width + backward_next_position.X] = backward_direction;
+            HeapInsert(heap, heap_length, new Step(backward_next_position, backward_direction, backward_heuristic));
+            heap_length++;
+        }
+
 
         bool found = false;
         while (heap_length != 0 && !found)
@@ -137,12 +152,12 @@ public sealed class AstarController: SimulationController
     private static Step HeapRemoveMin(Step[] heap, int length)
     {
         Step min_item = heap[0];
-        heap[0] = heap[^1];
+        heap[0] = heap[length - 1];
         length--; // this is only local!!!
 
         int index = 0;
         int left_child_index = 1;
-        int right_child_index = 1;
+        int right_child_index = 2;
 
         int next_child_index = left_child_index;
         if (right_child_index < length && heap[right_child_index].Heuristic < heap[left_child_index].Heuristic)
@@ -167,7 +182,4 @@ public sealed class AstarController: SimulationController
 
         return min_item;
     }
-
-    
 }
-
