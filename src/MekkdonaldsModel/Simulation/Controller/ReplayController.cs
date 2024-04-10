@@ -75,6 +75,21 @@ public sealed class ReplayController : Controller
     {
         if (time < 0 || time > Length) throw new ArgumentOutOfRangeException(nameof(time), "Time must be between 0 and the length of the replay");
 
+        var k = time - TimeStamp > 0 ? 1 : -1;
+
+        foreach (var r in _robots)
+        {
+            r.AddTask(Targets[r][time]);
+
+            for (int t = TimeStamp; t < time; t += k)
+            {
+                var a = Paths[r][TimeStamp];
+                r.Step(k > 0 ? a : a.Reverse());
+            }
+        }
+
+        TimeStamp = time;
+
         throw new NotImplementedException();
     }
 
