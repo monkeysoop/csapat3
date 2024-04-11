@@ -41,7 +41,7 @@ internal class ReplayViewModel : ViewModel
 
     #region Commands
 
-    public readonly ICommand Backward;
+    public ICommand Backward { get; }
 
     #endregion
 
@@ -49,20 +49,29 @@ internal class ReplayViewModel : ViewModel
     {
         var da = new ReplayDataAccess()
         {
-            BDA = new BoardFileDataAccess()
+            BDA = new BoardFileDataAccess(),
+            LDA = new LogFileDataAccess()
         };
 
         Controller = RepController = new ReplayController(logPath, mapPath, da);
 
-        Controller.Tick += OnTick;
-
-        Zoom = 2;
+        RepController.Tick += OnTick;
+        RepController.Loaded += OnLoaded;
 
         Backward = new DelegateCommand(_ => RepController.StepBackward());
     }
 
+    private void OnLoaded(object? sender, EventArgs e)
+    {
+        OnPropertyChanged(nameof(CurrentTime));
+        OnPropertyChanged(nameof(ReplayLength));
+        OnPropertyChanged(nameof(TimeLabel));
+        OnLoaded(this);
+    }
+
     private void OnTick(object? sender, EventArgs e)
     {
+        OnPropertyChanged(nameof(CurrentTime));
         OnPropertyChanged(nameof(TimeLabel));
         OnTick(this);
     }
