@@ -235,6 +235,7 @@ public partial class App : Application
             if (r.Task is not null)
             {
                 _targets[r].Margin = new Thickness(MARGIN + r.Task.Position.X * Step, MARGIN + r.Task.Position.Y * Step, 0, 0);
+                _targets[r].Visibility = Visibility.Visible;
             }
             else
             {
