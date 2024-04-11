@@ -82,6 +82,10 @@ public sealed class Robot(Point position, Direction direction) : IMapObject
             case Action.F: Position = Direction.GetNewOffsetPoint(Position); break;
             case Action.R: Direction = Direction.ClockWise(); break;
             case Action.C: Direction = Direction.CounterClockWise(); break;
+            case Action.W: break;
+            case Action.B: Position = Direction.Opposite().GetNewOffsetPoint(Position); break;
+            default:
+                throw new System.Exception("");
         }
 
         _history.Add(a);

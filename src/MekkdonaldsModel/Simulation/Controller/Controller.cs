@@ -5,10 +5,11 @@ public abstract class Controller
     protected List<Robot> _robots;
     protected List<Wall> _walls;
     protected Timer Timer;
-    private readonly TimeSpan _interval;
-
+    private readonly TimeSpan Interval;
 
     protected Board _board;
+
+    public bool IsPlaying { get; protected set;}
 
     public int Width => _board.Width;
     public int Height => _board.Height;
@@ -26,8 +27,8 @@ public abstract class Controller
         _walls = [];
 
         _board = new(0, 0);
-        _interval = TimeSpan.FromMilliseconds(80);
-        Timer = new Timer(OnTick, null, new(int.MaxValue), _interval); // this is probably better then System.Timers.Timer (it is already asynchronous)
+        Interval = TimeSpan.FromMilliseconds(80);
+        Timer = new Timer(OnTick, null, Timeout.Infinite, Timeout.Infinite);
     }
 
     protected abstract void OnTick(object? state);
@@ -35,12 +36,25 @@ public abstract class Controller
     protected void OnLoaded(object? sender)
     {
         Loaded?.Invoke(sender, EventArgs.Empty);
-        Timer.Change(TimeSpan.Zero, _interval);
+        Timer.Change(TimeSpan.Zero, Interval);
+        IsPlaying = true;
     }
 
     protected void CallTick(object? sender)
     {
         Tick?.Invoke(sender, EventArgs.Empty);
+    }
+
+    protected void LoadWalls()
+    {
+        for (int y = 0; y < _board.Height; y++)
+        {
+            for (int x = 0; x < _board.Width; x++)
+            {
+                if (_board.GetValue(x, y) is Board.WALL)
+                    _walls.Add(new(x, y));                
+            }
+        }
     }
 
     public void ChangeSpeed(double speed)
@@ -49,6 +63,20 @@ public abstract class Controller
         {
             throw new ArgumentException("Speed must be positive", nameof(speed));
         }
-        Timer.Change(TimeSpan.FromSeconds(1), _interval / speed);
+        Timer.Change(TimeSpan.Zero, Interval / speed);
     }
+
+    public void Play()
+    {
+        Timer.Change(TimeSpan.Zero, Interval);
+        IsPlaying = true;
+    }
+
+    public void Pause()
+    {
+        Timer.Change(Timeout.Infinite, Timeout.Infinite);
+        IsPlaying = false;
+    }
+
+    public abstract void StepForward();
 }
