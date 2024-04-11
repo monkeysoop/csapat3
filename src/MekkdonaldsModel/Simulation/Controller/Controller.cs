@@ -45,6 +45,18 @@ public abstract class Controller
         Tick?.Invoke(sender, EventArgs.Empty);
     }
 
+    protected void LoadWalls()
+    {
+        for (int y = 0; y < _board.Height; y++)
+        {
+            for (int x = 0; x < _board.Width; x++)
+            {
+                if (_board.GetValue(x, y) is Board.WALL)
+                    _walls.Add(new(x, y));                
+            }
+        }
+    }
+
     public void ChangeSpeed(double speed)
     {
         if (speed <= 0)

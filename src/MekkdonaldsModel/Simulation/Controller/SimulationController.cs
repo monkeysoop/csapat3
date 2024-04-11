@@ -36,20 +36,6 @@ public sealed class SimulationController : Controller
         OnLoaded(this);
     }
 
-    private void LoadWalls()
-    {
-        for (int y = 0; y < _board.Height; y++)
-        {
-            for (int x = 0; x < _board.Width; x++)
-            {
-                if (_board.GetValue(x, y) is Board.WALL)
-                {
-                    _walls.Add(new(x, y));
-                }
-            }
-        }
-    }
-
     protected override void OnTick(object? state)
     {
         _pathFinder.Step();
