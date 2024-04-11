@@ -1,6 +1,4 @@
-﻿using static System.Collections.Specialized.BitVector32;
-
-namespace Mekkdonalds.Simulation;
+﻿namespace Mekkdonalds.Simulation;
 
 public enum Direction
 {
@@ -20,43 +18,25 @@ public static class DirectionMethods
     ];
 
     public static Point GetOffset(this Direction direction) => position_offsets[(int)direction];
+
     public static Point GetNewOffsetPoint(this Direction direction, Point point) => new Point(point.X + position_offsets[(int)direction].X, point.Y + position_offsets[(int)direction].Y);
+
     public static Direction ClockWise(this Direction original) => (Direction)(((int)original + 1) % 4);
 
     public static Direction CounterClockWise(this Direction original) => (Direction)((3 + (int)original) % 4);
 
-    public static string DirectionToString(this Direction original)
-    {
-        switch (original)
-        {
-            case Direction.North:
-                return "N";
-            case Direction.East:
-                return "E";
-            case Direction.South:
-                return "S";
-            case Direction.West:
-                return "W";
-            default:
-                return original.ToString();
-        }
-    }
+    public static Direction Opposite(this Direction original) => (Direction)((2 + (int)original) % 4);
 
     public static Direction StringToDirection(string original)
     {
-        switch (original)
+        return original switch
         {
-            case "N":
-                return Direction.North;
-            case "E":
-                return Direction.East;
-            case "S":
-                return Direction.South;
-            case "W":
-                return Direction.West;
-            default:
-                throw new ArgumentException();
-        }
+            "N" => Direction.North,
+            "E" => Direction.East,
+            "S" => Direction.South,
+            "W" => Direction.West,
+            _ => throw new ArgumentException(),
+        };
     }
 
 
