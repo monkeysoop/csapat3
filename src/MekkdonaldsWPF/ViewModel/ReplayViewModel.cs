@@ -1,6 +1,4 @@
-﻿using Mekkdonalds.Simulation.Controller;
-
-namespace Mekkdonalds.ViewModel;
+﻿namespace Mekkdonalds.ViewModel;
 
 internal class ReplayViewModel : ViewModel
 {
@@ -43,23 +41,37 @@ internal class ReplayViewModel : ViewModel
 
     #region Commands
 
-    public readonly ICommand Backward;
+    public ICommand Backward { get; }
 
     #endregion
 
-    public ReplayViewModel(string logPath)
+    public ReplayViewModel(string logPath, string mapPath)
     {
-        Controller = RepController = new ReplayController(logPath, "");
+        var da = new ReplayDataAccess()
+        {
+            BDA = new BoardFileDataAccess(),
+            LDA = new LogFileDataAccess()
+        };
 
-        Controller.Tick += OnTick;
+        Controller = RepController = new ReplayController(logPath, mapPath, da);
 
-        Zoom = 2;
+        RepController.Tick += OnTick;
+        RepController.Loaded += OnLoaded;
 
         Backward = new DelegateCommand(_ => RepController.StepBackward());
     }
 
+    private void OnLoaded(object? sender, EventArgs e)
+    {
+        OnPropertyChanged(nameof(CurrentTime));
+        OnPropertyChanged(nameof(ReplayLength));
+        OnPropertyChanged(nameof(TimeLabel));
+        OnLoaded(this);
+    }
+
     private void OnTick(object? sender, EventArgs e)
     {
+        OnPropertyChanged(nameof(CurrentTime));
         OnPropertyChanged(nameof(TimeLabel));
         OnTick(this);
     }

@@ -1,4 +1,4 @@
-namespace Mekkdonalds;
+﻿namespace Mekkdonalds;
 
 /// <summary>
 /// Interaction logic for App.xaml
@@ -85,7 +85,47 @@ public partial class App : Application
 
         if (fd.ShowDialog() is false) return false;
 
-        throw new NotImplementedException("Replay is not implemented yet");
+        var logPath = fd.FileName;
+
+        fd = new OpenFileDialog()
+        {
+            Filter = "Map file (*.map)|*.map",
+            Title = "Map file"
+        };
+
+        if (fd.ShowDialog() is false) return false;
+
+        _viewModel = new ReplayViewModel(logPath, fd.FileName);
+
+        _replayWindow = new ReplayWindow
+        {
+            DataContext = _viewModel
+        };
+
+        _viewModel.Loaded += (_, _) => OnLoaded(_replayWindow, _replayWindow.MapCanvas);
+
+        _viewModel.Tick += OnTick;
+        _viewModel.PropertyChanged += OnPropertyChanged;
+
+        _replayWindow.SizeChanged += (_, _) => OnSizeChanged(_replayWindow.MapCanvas);
+
+        _replayWindow.KeyDown += OnKeyDown;
+
+        _replayWindow.KeyUp += OnKeyUp;
+
+        _replayWindow.ScrollViewer.PreviewMouseWheel += OnMouseWheel;
+
+        _replayWindow.ScrollViewer.MouseMove += OnMouseMove;
+
+        _replayWindow.ScrollViewer.ManipulationDelta += OnManipulationDelta;
+
+        _replayWindow.ScrollViewer.Cursor = Cursors.Hand;
+
+        _replayWindow.Show();
+
+        DisplayLoading(_replayWindow);
+
+        return true;
     }
 
     /// <summary>
@@ -168,8 +208,6 @@ public partial class App : Application
 
         var fontSize = 12 * Math.Sqrt(_viewModel.Zoom);
 
-        TextBlock? t;
-
         foreach (var g in _robots.Values)
         {
             g.Width = g.Height = Step - 2;
@@ -197,6 +235,7 @@ public partial class App : Application
             if (r.Task is not null)
             {
                 _targets[r].Margin = new Thickness(MARGIN + r.Task.Position.X * Step, MARGIN + r.Task.Position.Y * Step, 0, 0);
+                _targets[r].Visibility = Visibility.Visible;
             }
             else
             {
@@ -362,10 +401,10 @@ public partial class App : Application
                 r.EndInit();
 
                 _ellipses[i] = new ImageBrush(r);
-            }            
+            }
         }
 
-        
+
     }
 
     #endregion

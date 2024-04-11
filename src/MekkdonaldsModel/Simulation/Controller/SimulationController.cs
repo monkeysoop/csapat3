@@ -14,40 +14,26 @@ public sealed class SimulationController : Controller
     /// <param name="ba"></param>
     /// <param name="ra"></param>
     /// <param name="pa"></param>
-    public SimulationController(string path, IConfigDataAccess ca, IBoardDataAccess ba, IRobotsDataAccess ra, IPackagesDataAccess pa)
+    public SimulationController(string path, ISimDataAccess da)
     {
         _pathFinder = new Assigner.Assigner();
-        Load(path, ca, ba, ra, pa);
+        Load(path, da);
     }
 
-    private async void Load(string path, IConfigDataAccess da, IBoardDataAccess ba, IRobotsDataAccess ra, IPackagesDataAccess pa)
+    private async void Load(string path, ISimDataAccess da)
     {
-        var config = await da.Load(path);
+        var config = await da.CDA.Load(path);
 
-        var b = await ba.LoadAsync(config.MapFile);
+        var b = await da.BDA.LoadAsync(config.MapFile);
         _board = b; // for some reason it only sets board this way ????????
 
-        _robots.AddRange(await ra.LoadAsync(config.AgentFile, _board.Width - 2, _board.Height - 2));
+        _robots.AddRange(await da.RDA.LoadAsync(config.AgentFile, _board.Width - 2, _board.Height - 2));
 
-        _pathFinder.Init(ControllerType.BFS, b, _robots, await pa.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2));
+        _pathFinder.Init(ControllerType.BFS, b, _robots, await da.PDA.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2));
 
         LoadWalls();
 
         OnLoaded(this);
-    }
-
-    private void LoadWalls()
-    {
-        for (int y = 0; y < _board.Height; y++)
-        {
-            for (int x = 0; x < _board.Width; x++)
-            {
-                if (_board.GetValue(x, y) is Board.WALL)
-                {
-                    _walls.Add(new(x, y));
-                }
-            }
-        }
     }
 
     protected override void OnTick(object? state)
