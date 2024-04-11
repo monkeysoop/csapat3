@@ -33,8 +33,8 @@ public class StartPosConverter : JsonConverter<List<(Point, Direction)>>
         foreach (var (p, d) in value)
         {
             writer.WriteStartArray();
-            writer.WriteNumberValue(p.X);
-            writer.WriteNumberValue(p.Y);
+            writer.WriteNumberValue(p.Y - 1);
+            writer.WriteNumberValue(p.X - 1);
             writer.WriteStringValue(d.ToString()[0..1]);
             writer.WriteEndArray();
         }
@@ -63,11 +63,11 @@ public class StartPosConverter : JsonConverter<List<(Point, Direction)>>
             {
                 if (i++ == 0)
                 {
-                    p.X = reader.GetInt32();
+                    p.Y = reader.GetInt32() + 1;
                 }
                 else
                 {
-                    p.Y = reader.GetInt32();
+                    p.X = reader.GetInt32() + 1;
                 }
             }
             else if (reader.TokenType == JsonTokenType.String)
