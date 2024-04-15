@@ -156,6 +156,56 @@ public class PersistenceTests
         Assert.That(log.TeamSize, Is.EqualTo(3333333));
     }
 
+    [Test]
+
+    public async Task TestStart()
+    {
+        Assert.True(log.Start is not null);
+        Assert.That(log.Start![0], Is.EqualTo((new Point(7, 5), Direction.East)));
+        Assert.That(log.Start![2], Is.EqualTo((new Point(27, 19), Direction.East)));
+        Assert.That(log.Start![^1], Is.EqualTo((new Point(25, 1), Direction.East)));
+        Assert.That(log.Start![13], Is.EqualTo((new Point(26, 24), Direction.East)));
+        log.Start = new List<(Point, Direction)>() { (new Point(3, 9), Direction.North) };
+        await logFileDataAccess.SaveAsync("./test_log.json", log);
+        log = await logFileDataAccess.LoadAsync("./test_log.json");
+        Assert.True(log.Start is not null);
+        Assert.That(log.Start![0], Is.EqualTo((new Point(3, 9), Direction.North)));
+        Assert.That(log.Start.Count, Is.EqualTo(1));
+        log.Start = new List<(Point, Direction)>() { (new Point(13, 10), Direction.South), (new Point(69, 33), Direction.West) };
+        await logFileDataAccess.SaveAsync("./test_log.json", log);
+        log = await logFileDataAccess.LoadAsync("./test_log.json");
+        Assert.True(log.Start is not null);
+        Assert.That(log.Start![0], Is.EqualTo((new Point(13, 10), Direction.South)));
+        Assert.That(log.Start![1], Is.EqualTo((new Point(69, 33), Direction.West)));
+        Assert.That(log.Start.Count, Is.EqualTo(2));
+        log.Start = new List<(Point, Direction)>() { (new Point(13, 10), Direction.South), (new Point(69, 33), Direction.West), (new Point(113, 133), Direction.East) };
+        await logFileDataAccess.SaveAsync("./test_log.json", log);
+        log = await logFileDataAccess.LoadAsync("./test_log.json");
+        Assert.True(log.Start is not null);
+        Assert.That(log.Start![0], Is.EqualTo((new Point(13, 10), Direction.South)));
+        Assert.That(log.Start![1], Is.EqualTo((new Point(69, 33), Direction.West)));
+        Assert.That(log.Start![2], Is.EqualTo((new Point(113, 133), Direction.East)));
+        Assert.That(log.Start.Count, Is.EqualTo(3));
+        List<(Point, Direction)> list = new();
+        Random random = new Random();
+        var Directions = new Direction[] { Direction.North, Direction.South, Direction.West, Direction.East };
+        for (int i = 0; i < 6969; i++)
+        {
+            list.Add((new Point(random.Next(), random.Next()), Directions[random.Next(4)]));
+        }
+        log.Start = list;
+        await logFileDataAccess.SaveAsync("./test_log.json", log);
+        log = await logFileDataAccess.LoadAsync("./test_log.json");
+        Assert.True(log.Start is not null);
+        Assert.That(log.Start![0], Is.EqualTo(list[0]));
+        var num = random.Next(list.Count);
+        Assert.That(log.Start![num], Is.EqualTo(list[num]));
+        Assert.That(log.Start![13], Is.EqualTo(list[13]));
+        Assert.That(log.Start![^1], Is.EqualTo(list[^1]));
+        Assert.That(log.Start, Is.EqualTo(list));
+        Assert.That(log.Start.Count, Is.EqualTo(6969));
+
+    }
 
     [Test]
 
