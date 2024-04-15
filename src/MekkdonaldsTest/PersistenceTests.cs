@@ -88,4 +88,24 @@ public class PersistenceTests
             Assert.That(log.Tasks[0], Is.EqualTo((0, 21, 6)));
         });
     }
+
+    [Test]
+
+    public void TestStructure()
+    {
+        Assert.True(log is LogFile);
+        Assert.That(log.ActionModel is string);
+        Assert.That(log.AllValid is bool);
+        Assert.That(log.TeamSize is int);
+        Assert.That(log.Start is List<(Point, Direction)>);
+        Assert.That(log.NumTaskFinished is int);
+        Assert.That(log.SumOfCost is int);
+        Assert.That(log.Makespan is int);
+        Assert.That(log.ActualPaths is List<List<Action>>);
+        Assert.That(log.PlannerPaths is List<List<Action>>);
+        Assert.That(log.PlannerTimes is List<double>);
+        Assert.That(log.Errors is List<(int, int, int, string)>);
+        Assert.That(log.Events is List<List<(int, int, string)>>);
+        Assert.That(log.Tasks is List<(int, int, int)>);
+    }
 }
