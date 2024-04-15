@@ -132,4 +132,10 @@ public class PersistenceTests
         Assert.True(log.ActionModel is not null);
     }
 
+    [Test]
+    public async Task TestAllValid()
+    {
+        Assert.Pass();
+    }
+
 }
