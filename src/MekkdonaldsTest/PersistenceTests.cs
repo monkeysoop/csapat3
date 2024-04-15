@@ -156,4 +156,18 @@ public class PersistenceTests
         Assert.That(log.TeamSize, Is.EqualTo(3333333));
     }
 
+
+    [Test]
+
+    public void TestException()
+    {
+        Assert.ThrowsAsync<JsonException>(async () =>
+        {
+            log = await logFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/samples/random_20_config.json");
+        });
+
+    }
+
+
+
 }
