@@ -2,16 +2,22 @@
 using Mekkdonalds.Simulation;
 
 using System.Drawing;
-
+using System.Reflection.Emit;
+using System.Text.Json;
 using Action = Mekkdonalds.Simulation.Action;
 
 namespace Mekkdonalds.Test;
 
 public class PersistenceTests
 {
+    LogFile log;
+
+    LogFileDataAccess logFileDataAccess;
     [SetUp]
-    public void Setup()
+    public async Task Setup()
     {
+        logFileDataAccess = new LogFileDataAccess();
+        log = await logFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/samples/random_20_log.json");
     }
 
     [Test]
@@ -19,10 +25,8 @@ public class PersistenceTests
     {
         Assert.Multiple(async () =>
         {
-            //Assert.IsTrue(l.AllValid); // It can't find AllValid in Logfile, because it searches for allValid instant of AllValid, and for some reason it's already written in camelcase in logfile :)
+            //Assert.IsTrue(log.AllValid); // It can't find AllValid in Logfile, because it searches for allValid instant of AllValid, and for some reason it's already written in camelcase in logfile :)
 
-            var logFileDataAccess = new LogFileDataAccess();
-            var log = await logFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/samples/random_20_log.json");
 
             Assert.That(log.ActionModel, Is.EqualTo("MAPF_T"));
             Assert.That(log.TeamSize, Is.EqualTo(20));
