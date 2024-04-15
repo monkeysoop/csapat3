@@ -108,4 +108,28 @@ public class PersistenceTests
         Assert.That(log.Events is List<List<(int, int, string)>>);
         Assert.That(log.Tasks is List<(int, int, int)>);
     }
+
+    [Test]
+    public async Task TestActionModel()
+    {
+        Assert.True(log.ActionModel is not null);
+        Assert.That(log.ActionModel, Is.EqualTo("MAPF_T"));
+        Assert.That(log.ActionModel.Length, Is.EqualTo(6));
+        log.ActionModel = "";
+        await logFileDataAccess.SaveAsync("./test_log.json", log);
+        log = await logFileDataAccess.LoadAsync("./test_log.json");
+        Assert.That(log.ActionModel, Is.EqualTo(""));
+        Assert.True(log.ActionModel is not null);
+        log.ActionModel = "Hajrá Fradi!";
+        await logFileDataAccess.SaveAsync("./test_log.json", log);
+        log = await logFileDataAccess.LoadAsync("./test_log.json");
+        Assert.That(log.ActionModel, Is.EqualTo("Hajrá Fradi!"));
+        Assert.True(log.ActionModel is not null);
+        log.ActionModel = "Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!";
+        await logFileDataAccess.SaveAsync("./test_log.json", log);
+        log = await logFileDataAccess.LoadAsync("./test_log.json");
+        Assert.That(log.ActionModel, Is.EqualTo("Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!"));
+        Assert.True(log.ActionModel is not null);
+    }
+
 }
