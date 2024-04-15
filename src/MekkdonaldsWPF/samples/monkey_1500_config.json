@@ -1,0 +1,8 @@
+{
+  "mapFile": "samples/maps/monkey_129_129.map",
+  "agentFile": "samples/agents/monkey_agents_1500.agents",
+  "teamSize": 1500,
+  "taskFile": "samples/tasks/monkey_tasks_3300.tasks",
+  "numTasksReveal": 1,
+  "taskAssignmentStrategy": "roundrobin"
+}
