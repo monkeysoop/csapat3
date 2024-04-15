@@ -1,0 +1,8 @@
+{
+  "mapFile": "samples/maps/hedgehog_65_65.map",
+  "agentFile": "samples/agents/hedgehog_agents_500.agents",
+  "teamSize": 500,
+  "taskFile": "samples/tasks/hedgehog_tasks_1200.tasks",
+  "numTasksReveal": 1,
+  "taskAssignmentStrategy": "roundrobin"
+}
