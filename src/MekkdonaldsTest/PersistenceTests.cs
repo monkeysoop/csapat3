@@ -228,6 +228,17 @@ public class PersistenceTests
 
     [Test]
 
+    public async Task TestSumOfCost()
+    {
+        Assert.That(log.SumOfCost, Is.EqualTo(10000));
+        log.SumOfCost = 333333333;
+        await logFileDataAccess.SaveAsync("./test_log.json", log);
+        log = await logFileDataAccess.LoadAsync("./test_log.json");
+        Assert.That(log.SumOfCost, Is.EqualTo(333333333));
+    }
+
+    [Test]
+
     public void TestException()
     {
         Assert.ThrowsAsync<JsonException>(async () =>
