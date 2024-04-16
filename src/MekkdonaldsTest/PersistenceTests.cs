@@ -193,10 +193,9 @@ public class PersistenceTests
         Assert.That(log.Start.Count, Is.EqualTo(3));
         List<(Point, Direction)> list = new();
         Random random = new Random();
-        var Directions = new Direction[] { Direction.North, Direction.South, Direction.West, Direction.East };
         for (int i = 0; i < 6969; i++)
         {
-            list.Add((new Point(random.Next(), random.Next()), Directions[random.Next(4)]));
+            list.Add((new Point(random.Next(), random.Next()), (Direction)random.Next(4)));
         }
         log.Start.Clear();
         log.Start.AddRange(list);
