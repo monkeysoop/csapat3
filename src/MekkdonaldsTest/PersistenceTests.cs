@@ -134,8 +134,11 @@ public class PersistenceTests
     [Test]
     public async Task TestAllValid()
     {
-        Assert.False(log.AllValid);
         Assert.True(log.AllValid);
+        log.AllValid = false;
+        await logFileDataAccess.SaveAsync("./test_log.json", log);
+        log = await logFileDataAccess.LoadAsync("./test_log.json");
+        Assert.False(log.AllValid);
     }
 
     [Test]
