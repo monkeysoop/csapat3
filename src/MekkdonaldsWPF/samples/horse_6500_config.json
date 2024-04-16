@@ -1,8 +1,0 @@
-{
-  "mapFile": "samples/maps/horse_257_257.map",
-  "agentFile": "samples/agents/horse_agents_6500.agents",
-  "teamSize": 6500,
-  "taskFile": "samples/tasks/horse_tasks_15000.tasks",
-  "numTasksReveal": 1,
-  "taskAssignmentStrategy": "roundrobin"
-}

@@ -1,8 +1,0 @@
-{
-  "mapFile": "samples/maps/rat_33_33.map",
-  "agentFile": "samples/agents/rat_agents_25.agents",
-  "teamSize": 25,
-  "taskFile": "samples/tasks/rat_tasks_100.tasks",
-  "numTasksReveal": 1,
-  "taskAssignmentStrategy": "roundrobin"
-}
