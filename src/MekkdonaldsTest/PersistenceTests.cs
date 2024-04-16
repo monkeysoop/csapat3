@@ -217,6 +217,17 @@ public class PersistenceTests
 
     [Test]
 
+    public async Task TestNumTaskFinished()
+    {
+        Assert.That(log.NumTaskFinished, Is.EqualTo(338));
+        log.NumTaskFinished = 333333;
+        await logFileDataAccess.SaveAsync("./test_log.json", log);
+        log = await logFileDataAccess.LoadAsync("./test_log.json");
+        Assert.That(log.NumTaskFinished, Is.EqualTo(333333));
+    }
+
+    [Test]
+
     public void TestException()
     {
         Assert.ThrowsAsync<JsonException>(async () =>
