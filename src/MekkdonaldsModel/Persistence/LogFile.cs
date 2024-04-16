@@ -11,7 +11,7 @@ public class LogFile
     public required string ActionModel { get; set; }
 
     [JsonConverter(typeof(YesNoConverter))]
-    public bool AllValid { get; set; }
+    public required bool AllValid { get; set; }
     public int TeamSize { get; set; }
     [JsonConverter(typeof(StartPosConverter))]
     public required List<(Point, Direction)> Start { get; set; }

@@ -25,9 +25,7 @@ public class PersistenceTests
     {
         Assert.Multiple(async () =>
         {
-            //Assert.IsTrue(log.AllValid); // It can't find AllValid in Logfile, because it searches for allValid instant of AllValid, and for some reason it's already written in camelcase in logfile :)
-
-
+            Assert.IsTrue(log.AllValid);
             Assert.That(log.ActionModel, Is.EqualTo("MAPF_T"));
             Assert.That(log.TeamSize, Is.EqualTo(20));
             Assert.That(log.Start[0], Is.EqualTo((new Point(7, 5), Direction.East)));
@@ -54,6 +52,7 @@ public class PersistenceTests
         var log = new LogFile()
         {
             ActionModel = "MAPF_T",
+            AllValid = true,
             TeamSize = 20,
             Start = [(new Point(4, 6), Direction.East)],
             NumTaskFinished = 338,
@@ -135,7 +134,8 @@ public class PersistenceTests
     [Test]
     public async Task TestAllValid()
     {
-        Assert.Pass();
+        Assert.False(log.AllValid);
+        Assert.True(log.AllValid);
     }
 
     [Test]
