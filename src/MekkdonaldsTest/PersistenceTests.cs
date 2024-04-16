@@ -95,7 +95,6 @@ public class PersistenceTests
         Assert.True(log is LogFile);
         Assert.That(log.ActionModel is string);
         Assert.That(log.AllValid is bool);
-        Assert.That(log.TeamSize is int);
         Assert.That(log.TeamSize is uint);
         Assert.That(log.Start is List<(Point, Direction)>);
         Assert.That(log.NumTaskFinished is int);
@@ -168,20 +167,23 @@ public class PersistenceTests
         Assert.That(log.Start![2], Is.EqualTo((new Point(27, 19), Direction.East)));
         Assert.That(log.Start![^1], Is.EqualTo((new Point(25, 1), Direction.East)));
         Assert.That(log.Start![13], Is.EqualTo((new Point(26, 24), Direction.East)));
-        log.Start = new List<(Point, Direction)>() { (new Point(3, 9), Direction.North) };
+        log.Start.Clear();
+        log.Start.AddRange(new List<(Point, Direction)>() { (new Point(3, 9), Direction.North) });
         await logFileDataAccess.SaveAsync("./test_log.json", log);
         log = await logFileDataAccess.LoadAsync("./test_log.json");
         Assert.True(log.Start is not null);
         Assert.That(log.Start![0], Is.EqualTo((new Point(3, 9), Direction.North)));
         Assert.That(log.Start.Count, Is.EqualTo(1));
-        log.Start = new List<(Point, Direction)>() { (new Point(13, 10), Direction.South), (new Point(69, 33), Direction.West) };
+        log.Start.Clear();
+        log.Start.AddRange(new List<(Point, Direction)>() { (new Point(13, 10), Direction.South), (new Point(69, 33), Direction.West) });
         await logFileDataAccess.SaveAsync("./test_log.json", log);
         log = await logFileDataAccess.LoadAsync("./test_log.json");
         Assert.True(log.Start is not null);
         Assert.That(log.Start![0], Is.EqualTo((new Point(13, 10), Direction.South)));
         Assert.That(log.Start![1], Is.EqualTo((new Point(69, 33), Direction.West)));
         Assert.That(log.Start.Count, Is.EqualTo(2));
-        log.Start = new List<(Point, Direction)>() { (new Point(13, 10), Direction.South), (new Point(69, 33), Direction.West), (new Point(113, 133), Direction.East) };
+        log.Start.Clear();
+        log.Start.AddRange(new List<(Point, Direction)>() { (new Point(13, 10), Direction.South), (new Point(69, 33), Direction.West), (new Point(113, 133), Direction.East) });
         await logFileDataAccess.SaveAsync("./test_log.json", log);
         log = await logFileDataAccess.LoadAsync("./test_log.json");
         Assert.True(log.Start is not null);
@@ -196,7 +198,8 @@ public class PersistenceTests
         {
             list.Add((new Point(random.Next(), random.Next()), Directions[random.Next(4)]));
         }
-        log.Start = list;
+        log.Start.Clear();
+        log.Start.AddRange(list);
         await logFileDataAccess.SaveAsync("./test_log.json", log);
         log = await logFileDataAccess.LoadAsync("./test_log.json");
         Assert.True(log.Start is not null);
