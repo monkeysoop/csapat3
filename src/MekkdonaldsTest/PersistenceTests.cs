@@ -256,8 +256,11 @@ public class PersistenceTests
         Assert.That(log.ActualPaths[0], Is.InstanceOf<List<Action>>());
         Assert.That(log.ActualPaths[^1][^1], Is.EqualTo(Action.F));
         Assert.That(log.ActualPaths.All(x => { return x.All(y => { return y != Action.B; }); }), Is.True);
-        log.ActualPaths[0][0] = Action.C;
-        log.ActualPaths[^1][^1] = Action.R;
+        List<List<Action>> list = [.. log.ActualPaths];
+        list[0][0] = Action.C;
+        list[^1][^1] = Action.R;
+        log.ActualPaths.Clear();
+        log.ActualPaths.AddRange(list);
         await logFileDataAccess.SaveAsync("./test_log.json", log);
         log = await logFileDataAccess.LoadAsync("./test_log.json");
         Assert.That(log.ActualPaths[0][0], Is.EqualTo(Action.C));
@@ -278,7 +281,6 @@ public class PersistenceTests
         {
             log = await logFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/samples/random_20_config.json");
         });
-
     }
 
 
