@@ -96,6 +96,7 @@ public class PersistenceTests
         Assert.That(log.ActionModel is string);
         Assert.That(log.AllValid is bool);
         Assert.That(log.TeamSize is int);
+        Assert.That(log.TeamSize is uint);
         Assert.That(log.Start is List<(Point, Direction)>);
         Assert.That(log.NumTaskFinished is int);
         Assert.That(log.SumOfCost is int);
@@ -154,6 +155,8 @@ public class PersistenceTests
         await logFileDataAccess.SaveAsync("./test_log.json", log);
         log = await logFileDataAccess.LoadAsync("./test_log.json");
         Assert.That(log.TeamSize, Is.EqualTo(3333333));
+        Assert.ThrowsAsync<JsonException>(async () => { log = await logFileDataAccess.LoadAsync("TestFiles/test_log_neg_ts.json"); });
+
     }
 
     [Test]
