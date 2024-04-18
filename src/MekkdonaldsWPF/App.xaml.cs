@@ -344,6 +344,20 @@ public partial class App : Application
         }
     }
 
+    private static void RotateBitmap(ref Bitmap bmp, float angle)
+    {
+        Bitmap tempBmp = new(bmp.Width, bmp.Height);
+        using var g = Graphics.FromImage(tempBmp);
+
+        g.TranslateTransform(bmp.Width / 2, bmp.Height / 2);
+        g.RotateTransform(angle);
+        g.TranslateTransform(-bmp.Width / 2, -bmp.Height / 2);
+        g.DrawImage(bmp, new PointF(0, 0));
+
+        bmp.Dispose(); //dispose old bitmap
+        bmp = tempBmp; //assign new bitmap to reference
+    }
+
     /// <summary>
     /// Draws the images used for the robots and their targets
     /// </summary>
@@ -373,8 +387,9 @@ public partial class App : Application
             
             g.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(9, 194, 248)), 0, 250, 500, 250);
             g.FillPie(new SolidBrush(System.Drawing.Color.FromArgb(9, 194, 248)), 0, 0, 500, 500, 180, 180);
-            g.FillEllipse(Brushes.Black, 150, 80, 75, 75);
-            g.FillEllipse(Brushes.Black, 275, 80, 75, 75);
+            // eyes
+            //g.FillEllipse(Brushes.Black, 150, 80, 75, 75);
+            //g.FillEllipse(Brushes.Black, 275, 80, 75, 75);
 
             for (int i = 0; i < 4; i++)
             {
@@ -408,20 +423,6 @@ public partial class App : Application
                 Redraw();
                 break;
         }
-    }
-
-    private static void RotateBitmap(ref Bitmap bmp, float angle)
-    {
-        Bitmap tempBmp = new(bmp.Width, bmp.Height);
-        using var g = Graphics.FromImage(tempBmp);
-        
-        g.TranslateTransform(bmp.Width / 2, bmp.Height / 2);
-        g.RotateTransform(angle);
-        g.TranslateTransform(-bmp.Width / 2, -bmp.Height / 2);
-        g.DrawImage(bmp, new PointF(0, 0));        
-
-        bmp.Dispose(); //dispose old bitmap
-        bmp = tempBmp; //assign new bitmap to reference
     }
 
     private void OnKeyDown(object sender, KeyEventArgs e)
