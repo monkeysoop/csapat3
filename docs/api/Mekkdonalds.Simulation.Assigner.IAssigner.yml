@@ -1,0 +1,326 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mekkdonalds.Simulation.Assigner.IAssigner
+  commentId: T:Mekkdonalds.Simulation.Assigner.IAssigner
+  id: IAssigner
+  parent: Mekkdonalds.Simulation.Assigner
+  children:
+  - Mekkdonalds.Simulation.Assigner.IAssigner.Init(Mekkdonalds.Simulation.ControllerType,Mekkdonalds.Persistence.Board,System.Collections.Generic.IEnumerable{Mekkdonalds.Simulation.Robot},System.Collections.Generic.IEnumerable{Mekkdonalds.Simulation.Package})
+  - Mekkdonalds.Simulation.Assigner.IAssigner.Step
+  langs:
+  - csharp
+  - vb
+  name: IAssigner
+  nameWithType: IAssigner
+  fullName: Mekkdonalds.Simulation.Assigner.IAssigner
+  type: Interface
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Assigner/IAssigner.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: IAssigner
+    path: ../src/MekkdonaldsModel/Simulation/Assigner/IAssigner.cs
+    startLine: 2
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Assigner
+  syntax:
+    content: public interface IAssigner
+    content.vb: Public Interface IAssigner
+- uid: Mekkdonalds.Simulation.Assigner.IAssigner.Init(Mekkdonalds.Simulation.ControllerType,Mekkdonalds.Persistence.Board,System.Collections.Generic.IEnumerable{Mekkdonalds.Simulation.Robot},System.Collections.Generic.IEnumerable{Mekkdonalds.Simulation.Package})
+  commentId: M:Mekkdonalds.Simulation.Assigner.IAssigner.Init(Mekkdonalds.Simulation.ControllerType,Mekkdonalds.Persistence.Board,System.Collections.Generic.IEnumerable{Mekkdonalds.Simulation.Robot},System.Collections.Generic.IEnumerable{Mekkdonalds.Simulation.Package})
+  id: Init(Mekkdonalds.Simulation.ControllerType,Mekkdonalds.Persistence.Board,System.Collections.Generic.IEnumerable{Mekkdonalds.Simulation.Robot},System.Collections.Generic.IEnumerable{Mekkdonalds.Simulation.Package})
+  parent: Mekkdonalds.Simulation.Assigner.IAssigner
+  langs:
+  - csharp
+  - vb
+  name: Init(ControllerType, Board, IEnumerable<Robot>, IEnumerable<Package>)
+  nameWithType: IAssigner.Init(ControllerType, Board, IEnumerable<Robot>, IEnumerable<Package>)
+  fullName: Mekkdonalds.Simulation.Assigner.IAssigner.Init(Mekkdonalds.Simulation.ControllerType, Mekkdonalds.Persistence.Board, System.Collections.Generic.IEnumerable<Mekkdonalds.Simulation.Robot>, System.Collections.Generic.IEnumerable<Mekkdonalds.Simulation.Package>)
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Assigner/IAssigner.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Init
+    path: ../src/MekkdonaldsModel/Simulation/Assigner/IAssigner.cs
+    startLine: 4
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Assigner
+  syntax:
+    content: void Init(ControllerType type, Board board, IEnumerable<Robot> robots, IEnumerable<Package> packages)
+    parameters:
+    - id: type
+      type: Mekkdonalds.Simulation.ControllerType
+    - id: board
+      type: Mekkdonalds.Persistence.Board
+    - id: robots
+      type: System.Collections.Generic.IEnumerable{Mekkdonalds.Simulation.Robot}
+    - id: packages
+      type: System.Collections.Generic.IEnumerable{Mekkdonalds.Simulation.Package}
+    content.vb: Sub Init(type As ControllerType, board As Board, robots As IEnumerable(Of Robot), packages As IEnumerable(Of Package))
+  overload: Mekkdonalds.Simulation.Assigner.IAssigner.Init*
+  nameWithType.vb: IAssigner.Init(ControllerType, Board, IEnumerable(Of Robot), IEnumerable(Of Package))
+  fullName.vb: Mekkdonalds.Simulation.Assigner.IAssigner.Init(Mekkdonalds.Simulation.ControllerType, Mekkdonalds.Persistence.Board, System.Collections.Generic.IEnumerable(Of Mekkdonalds.Simulation.Robot), System.Collections.Generic.IEnumerable(Of Mekkdonalds.Simulation.Package))
+  name.vb: Init(ControllerType, Board, IEnumerable(Of Robot), IEnumerable(Of Package))
+- uid: Mekkdonalds.Simulation.Assigner.IAssigner.Step
+  commentId: M:Mekkdonalds.Simulation.Assigner.IAssigner.Step
+  id: Step
+  parent: Mekkdonalds.Simulation.Assigner.IAssigner
+  langs:
+  - csharp
+  - vb
+  name: Step()
+  nameWithType: IAssigner.Step()
+  fullName: Mekkdonalds.Simulation.Assigner.IAssigner.Step()
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Assigner/IAssigner.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Step
+    path: ../src/MekkdonaldsModel/Simulation/Assigner/IAssigner.cs
+    startLine: 5
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Assigner
+  syntax:
+    content: void Step()
+    content.vb: Sub [Step]()
+  overload: Mekkdonalds.Simulation.Assigner.IAssigner.Step*
+references:
+- uid: Mekkdonalds.Simulation.Assigner
+  commentId: N:Mekkdonalds.Simulation.Assigner
+  href: Mekkdonalds.html
+  name: Mekkdonalds.Simulation.Assigner
+  nameWithType: Mekkdonalds.Simulation.Assigner
+  fullName: Mekkdonalds.Simulation.Assigner
+  spec.csharp:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
+  - name: .
+  - uid: Mekkdonalds.Simulation.Assigner
+    name: Assigner
+    href: Mekkdonalds.Simulation.Assigner.html
+  spec.vb:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
+  - name: .
+  - uid: Mekkdonalds.Simulation.Assigner
+    name: Assigner
+    href: Mekkdonalds.Simulation.Assigner.html
+- uid: Mekkdonalds.Simulation.Assigner.IAssigner.Init*
+  commentId: Overload:Mekkdonalds.Simulation.Assigner.IAssigner.Init
+  href: Mekkdonalds.Simulation.Assigner.IAssigner.html#Mekkdonalds_Simulation_Assigner_IAssigner_Init_Mekkdonalds_Simulation_ControllerType_Mekkdonalds_Persistence_Board_System_Collections_Generic_IEnumerable_Mekkdonalds_Simulation_Robot__System_Collections_Generic_IEnumerable_Mekkdonalds_Simulation_Package__
+  name: Init
+  nameWithType: IAssigner.Init
+  fullName: Mekkdonalds.Simulation.Assigner.IAssigner.Init
+- uid: Mekkdonalds.Simulation.ControllerType
+  commentId: T:Mekkdonalds.Simulation.ControllerType
+  parent: Mekkdonalds.Simulation
+  href: Mekkdonalds.Simulation.ControllerType.html
+  name: ControllerType
+  nameWithType: ControllerType
+  fullName: Mekkdonalds.Simulation.ControllerType
+- uid: Mekkdonalds.Persistence.Board
+  commentId: T:Mekkdonalds.Persistence.Board
+  parent: Mekkdonalds.Persistence
+  href: Mekkdonalds.Persistence.Board.html
+  name: Board
+  nameWithType: Board
+  fullName: Mekkdonalds.Persistence.Board
+- uid: System.Collections.Generic.IEnumerable{Mekkdonalds.Simulation.Robot}
+  commentId: T:System.Collections.Generic.IEnumerable{Mekkdonalds.Simulation.Robot}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<Robot>
+  nameWithType: IEnumerable<Robot>
+  fullName: System.Collections.Generic.IEnumerable<Mekkdonalds.Simulation.Robot>
+  nameWithType.vb: IEnumerable(Of Robot)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of Mekkdonalds.Simulation.Robot)
+  name.vb: IEnumerable(Of Robot)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: Mekkdonalds.Simulation.Robot
+    name: Robot
+    href: Mekkdonalds.Simulation.Robot.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mekkdonalds.Simulation.Robot
+    name: Robot
+    href: Mekkdonalds.Simulation.Robot.html
+  - name: )
+- uid: System.Collections.Generic.IEnumerable{Mekkdonalds.Simulation.Package}
+  commentId: T:System.Collections.Generic.IEnumerable{Mekkdonalds.Simulation.Package}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<Package>
+  nameWithType: IEnumerable<Package>
+  fullName: System.Collections.Generic.IEnumerable<Mekkdonalds.Simulation.Package>
+  nameWithType.vb: IEnumerable(Of Package)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of Mekkdonalds.Simulation.Package)
+  name.vb: IEnumerable(Of Package)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: Mekkdonalds.Simulation.Package
+    name: Package
+    href: Mekkdonalds.Simulation.Package.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mekkdonalds.Simulation.Package
+    name: Package
+    href: Mekkdonalds.Simulation.Package.html
+  - name: )
+- uid: Mekkdonalds.Simulation
+  commentId: N:Mekkdonalds.Simulation
+  href: Mekkdonalds.html
+  name: Mekkdonalds.Simulation
+  nameWithType: Mekkdonalds.Simulation
+  fullName: Mekkdonalds.Simulation
+  spec.csharp:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
+  spec.vb:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
+- uid: Mekkdonalds.Persistence
+  commentId: N:Mekkdonalds.Persistence
+  href: Mekkdonalds.html
+  name: Mekkdonalds.Persistence
+  nameWithType: Mekkdonalds.Persistence
+  fullName: Mekkdonalds.Persistence
+  spec.csharp:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
+  spec.vb:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Mekkdonalds.Simulation.Assigner.IAssigner.Step*
+  commentId: Overload:Mekkdonalds.Simulation.Assigner.IAssigner.Step
+  href: Mekkdonalds.Simulation.Assigner.IAssigner.html#Mekkdonalds_Simulation_Assigner_IAssigner_Step
+  name: Step
+  nameWithType: IAssigner.Step
+  fullName: Mekkdonalds.Simulation.Assigner.IAssigner.Step

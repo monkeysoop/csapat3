@@ -1,34 +1,38 @@
 ### YamlMime:ManagedReference
 items:
-- uid: Mekkdonalds.Simulation.Controller.SimulationController
-  commentId: T:Mekkdonalds.Simulation.Controller.SimulationController
-  id: SimulationController
+- uid: Mekkdonalds.Simulation.Controller.ReplayController
+  commentId: T:Mekkdonalds.Simulation.Controller.ReplayController
+  id: ReplayController
   parent: Mekkdonalds.Simulation.Controller
   children:
-  - Mekkdonalds.Simulation.Controller.SimulationController.#ctor(System.String,Mekkdonalds.Persistence.ISimDataAccess)
-  - Mekkdonalds.Simulation.Controller.SimulationController.OnTick(System.Object)
-  - Mekkdonalds.Simulation.Controller.SimulationController.StepForward
+  - Mekkdonalds.Simulation.Controller.ReplayController.#ctor(System.String,System.String,Mekkdonalds.Persistence.IReplayDataAccess)
+  - Mekkdonalds.Simulation.Controller.ReplayController.JumpTo(System.Int32)
+  - Mekkdonalds.Simulation.Controller.ReplayController.Length
+  - Mekkdonalds.Simulation.Controller.ReplayController.OnTick(System.Object)
+  - Mekkdonalds.Simulation.Controller.ReplayController.StepBackward
+  - Mekkdonalds.Simulation.Controller.ReplayController.StepForward
+  - Mekkdonalds.Simulation.Controller.ReplayController.TimeStamp
   langs:
   - csharp
   - vb
-  name: SimulationController
-  nameWithType: SimulationController
-  fullName: Mekkdonalds.Simulation.Controller.SimulationController
+  name: ReplayController
+  nameWithType: ReplayController
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController
   type: Class
   source:
     remote:
-      path: src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
+      path: src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
       branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: SimulationController
-    path: ../src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
+    id: ReplayController
+    path: ../src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
     startLine: 2
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation.Controller
   syntax:
-    content: 'public sealed class SimulationController : Controller'
-    content.vb: Public NotInheritable Class SimulationController Inherits Controller
+    content: 'public sealed class ReplayController : Controller'
+    content.vb: Public NotInheritable Class ReplayController Inherits Controller
   inheritance:
   - System.Object
   - Mekkdonalds.Simulation.Controller.Controller
@@ -49,62 +53,119 @@ items:
   - System.Object.GetType
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
-- uid: Mekkdonalds.Simulation.Controller.SimulationController.#ctor(System.String,Mekkdonalds.Persistence.ISimDataAccess)
-  commentId: M:Mekkdonalds.Simulation.Controller.SimulationController.#ctor(System.String,Mekkdonalds.Persistence.ISimDataAccess)
-  id: '#ctor(System.String,Mekkdonalds.Persistence.ISimDataAccess)'
-  parent: Mekkdonalds.Simulation.Controller.SimulationController
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.TimeStamp
+  commentId: P:Mekkdonalds.Simulation.Controller.ReplayController.TimeStamp
+  id: TimeStamp
+  parent: Mekkdonalds.Simulation.Controller.ReplayController
   langs:
   - csharp
   - vb
-  name: SimulationController(string, ISimDataAccess)
-  nameWithType: SimulationController.SimulationController(string, ISimDataAccess)
-  fullName: Mekkdonalds.Simulation.Controller.SimulationController.SimulationController(string, Mekkdonalds.Persistence.ISimDataAccess)
-  type: Constructor
+  name: TimeStamp
+  nameWithType: ReplayController.TimeStamp
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.TimeStamp
+  type: Property
   source:
     remote:
-      path: src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
+      path: src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
       branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: .ctor
-    path: ../src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
-    startLine: 16
+    id: TimeStamp
+    path: ../src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+    startLine: 7
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation.Controller
-  summary: ''
-  example: []
   syntax:
-    content: public SimulationController(string path, ISimDataAccess da)
+    content: public int TimeStamp { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property TimeStamp As Integer
+  overload: Mekkdonalds.Simulation.Controller.ReplayController.TimeStamp*
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.Length
+  commentId: P:Mekkdonalds.Simulation.Controller.ReplayController.Length
+  id: Length
+  parent: Mekkdonalds.Simulation.Controller.ReplayController
+  langs:
+  - csharp
+  - vb
+  name: Length
+  nameWithType: ReplayController.Length
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.Length
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Length
+    path: ../src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+    startLine: 8
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  syntax:
+    content: public int Length { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Length As Integer
+  overload: Mekkdonalds.Simulation.Controller.ReplayController.Length*
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.#ctor(System.String,System.String,Mekkdonalds.Persistence.IReplayDataAccess)
+  commentId: M:Mekkdonalds.Simulation.Controller.ReplayController.#ctor(System.String,System.String,Mekkdonalds.Persistence.IReplayDataAccess)
+  id: '#ctor(System.String,System.String,Mekkdonalds.Persistence.IReplayDataAccess)'
+  parent: Mekkdonalds.Simulation.Controller.ReplayController
+  langs:
+  - csharp
+  - vb
+  name: ReplayController(string, string, IReplayDataAccess)
+  nameWithType: ReplayController.ReplayController(string, string, IReplayDataAccess)
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.ReplayController(string, string, Mekkdonalds.Persistence.IReplayDataAccess)
+  type: Constructor
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: .ctor
+    path: ../src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+    startLine: 10
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  syntax:
+    content: public ReplayController(string logPath, string mapPath, IReplayDataAccess da)
     parameters:
-    - id: path
+    - id: logPath
       type: System.String
-      description: Path of the config file
+    - id: mapPath
+      type: System.String
     - id: da
-      type: Mekkdonalds.Persistence.ISimDataAccess
-    content.vb: Public Sub New(path As String, da As ISimDataAccess)
-  overload: Mekkdonalds.Simulation.Controller.SimulationController.#ctor*
-  nameWithType.vb: SimulationController.New(String, ISimDataAccess)
-  fullName.vb: Mekkdonalds.Simulation.Controller.SimulationController.New(String, Mekkdonalds.Persistence.ISimDataAccess)
-  name.vb: New(String, ISimDataAccess)
-- uid: Mekkdonalds.Simulation.Controller.SimulationController.OnTick(System.Object)
-  commentId: M:Mekkdonalds.Simulation.Controller.SimulationController.OnTick(System.Object)
+      type: Mekkdonalds.Persistence.IReplayDataAccess
+    content.vb: Public Sub New(logPath As String, mapPath As String, da As IReplayDataAccess)
+  overload: Mekkdonalds.Simulation.Controller.ReplayController.#ctor*
+  nameWithType.vb: ReplayController.New(String, String, IReplayDataAccess)
+  fullName.vb: Mekkdonalds.Simulation.Controller.ReplayController.New(String, String, Mekkdonalds.Persistence.IReplayDataAccess)
+  name.vb: New(String, String, IReplayDataAccess)
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.OnTick(System.Object)
+  commentId: M:Mekkdonalds.Simulation.Controller.ReplayController.OnTick(System.Object)
   id: OnTick(System.Object)
-  parent: Mekkdonalds.Simulation.Controller.SimulationController
+  parent: Mekkdonalds.Simulation.Controller.ReplayController
   langs:
   - csharp
   - vb
   name: OnTick(object?)
-  nameWithType: SimulationController.OnTick(object?)
-  fullName: Mekkdonalds.Simulation.Controller.SimulationController.OnTick(object?)
+  nameWithType: ReplayController.OnTick(object?)
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.OnTick(object?)
   type: Method
   source:
     remote:
-      path: src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
+      path: src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
       branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: OnTick
-    path: ../src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
-    startLine: 38
+    path: ../src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+    startLine: 69
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation.Controller
@@ -116,29 +177,61 @@ items:
       type: System.Object
     content.vb: Protected Overrides Sub OnTick(state As Object)
   overridden: Mekkdonalds.Simulation.Controller.Controller.OnTick(System.Object)
-  overload: Mekkdonalds.Simulation.Controller.SimulationController.OnTick*
-  nameWithType.vb: SimulationController.OnTick(Object)
-  fullName.vb: Mekkdonalds.Simulation.Controller.SimulationController.OnTick(Object)
+  overload: Mekkdonalds.Simulation.Controller.ReplayController.OnTick*
+  nameWithType.vb: ReplayController.OnTick(Object)
+  fullName.vb: Mekkdonalds.Simulation.Controller.ReplayController.OnTick(Object)
   name.vb: OnTick(Object)
-- uid: Mekkdonalds.Simulation.Controller.SimulationController.StepForward
-  commentId: M:Mekkdonalds.Simulation.Controller.SimulationController.StepForward
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.JumpTo(System.Int32)
+  commentId: M:Mekkdonalds.Simulation.Controller.ReplayController.JumpTo(System.Int32)
+  id: JumpTo(System.Int32)
+  parent: Mekkdonalds.Simulation.Controller.ReplayController
+  langs:
+  - csharp
+  - vb
+  name: JumpTo(int)
+  nameWithType: ReplayController.JumpTo(int)
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.JumpTo(int)
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: JumpTo
+    path: ../src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+    startLine: 81
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  syntax:
+    content: public void JumpTo(int time)
+    parameters:
+    - id: time
+      type: System.Int32
+    content.vb: Public Sub JumpTo(time As Integer)
+  overload: Mekkdonalds.Simulation.Controller.ReplayController.JumpTo*
+  nameWithType.vb: ReplayController.JumpTo(Integer)
+  fullName.vb: Mekkdonalds.Simulation.Controller.ReplayController.JumpTo(Integer)
+  name.vb: JumpTo(Integer)
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.StepForward
+  commentId: M:Mekkdonalds.Simulation.Controller.ReplayController.StepForward
   id: StepForward
-  parent: Mekkdonalds.Simulation.Controller.SimulationController
+  parent: Mekkdonalds.Simulation.Controller.ReplayController
   langs:
   - csharp
   - vb
   name: StepForward()
-  nameWithType: SimulationController.StepForward()
-  fullName: Mekkdonalds.Simulation.Controller.SimulationController.StepForward()
+  nameWithType: ReplayController.StepForward()
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.StepForward()
   type: Method
   source:
     remote:
-      path: src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
+      path: src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
       branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: StepForward
-    path: ../src/MekkdonaldsModel/Simulation/Controller/SimulationController.cs
-    startLine: 45
+    path: ../src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+    startLine: 112
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation.Controller
@@ -147,7 +240,33 @@ items:
     content: public override void StepForward()
     content.vb: Public Overrides Sub StepForward()
   overridden: Mekkdonalds.Simulation.Controller.Controller.StepForward
-  overload: Mekkdonalds.Simulation.Controller.SimulationController.StepForward*
+  overload: Mekkdonalds.Simulation.Controller.ReplayController.StepForward*
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.StepBackward
+  commentId: M:Mekkdonalds.Simulation.Controller.ReplayController.StepBackward
+  id: StepBackward
+  parent: Mekkdonalds.Simulation.Controller.ReplayController
+  langs:
+  - csharp
+  - vb
+  name: StepBackward()
+  nameWithType: ReplayController.StepBackward()
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.StepBackward()
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: StepBackward
+    path: ../src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+    startLine: 117
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  syntax:
+    content: public void StepBackward()
+    content.vb: Public Sub StepBackward()
+  overload: Mekkdonalds.Simulation.Controller.ReplayController.StepBackward*
 references:
 - uid: Mekkdonalds.Simulation.Controller
   commentId: N:Mekkdonalds.Simulation.Controller
@@ -517,14 +636,37 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: Mekkdonalds.Simulation.Controller.SimulationController.#ctor*
-  commentId: Overload:Mekkdonalds.Simulation.Controller.SimulationController.#ctor
-  href: Mekkdonalds.Simulation.Controller.SimulationController.html#Mekkdonalds_Simulation_Controller_SimulationController__ctor_System_String_Mekkdonalds_Persistence_ISimDataAccess_
-  name: SimulationController
-  nameWithType: SimulationController.SimulationController
-  fullName: Mekkdonalds.Simulation.Controller.SimulationController.SimulationController
-  nameWithType.vb: SimulationController.New
-  fullName.vb: Mekkdonalds.Simulation.Controller.SimulationController.New
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.TimeStamp*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.ReplayController.TimeStamp
+  href: Mekkdonalds.Simulation.Controller.ReplayController.html#Mekkdonalds_Simulation_Controller_ReplayController_TimeStamp
+  name: TimeStamp
+  nameWithType: ReplayController.TimeStamp
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.TimeStamp
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.Length*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.ReplayController.Length
+  href: Mekkdonalds.Simulation.Controller.ReplayController.html#Mekkdonalds_Simulation_Controller_ReplayController_Length
+  name: Length
+  nameWithType: ReplayController.Length
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.Length
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.#ctor*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.ReplayController.#ctor
+  href: Mekkdonalds.Simulation.Controller.ReplayController.html#Mekkdonalds_Simulation_Controller_ReplayController__ctor_System_String_System_String_Mekkdonalds_Persistence_IReplayDataAccess_
+  name: ReplayController
+  nameWithType: ReplayController.ReplayController
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.ReplayController
+  nameWithType.vb: ReplayController.New
+  fullName.vb: Mekkdonalds.Simulation.Controller.ReplayController.New
   name.vb: New
 - uid: System.String
   commentId: T:System.String
@@ -537,13 +679,13 @@ references:
   nameWithType.vb: String
   fullName.vb: String
   name.vb: String
-- uid: Mekkdonalds.Persistence.ISimDataAccess
-  commentId: T:Mekkdonalds.Persistence.ISimDataAccess
+- uid: Mekkdonalds.Persistence.IReplayDataAccess
+  commentId: T:Mekkdonalds.Persistence.IReplayDataAccess
   parent: Mekkdonalds.Persistence
-  href: Mekkdonalds.Persistence.ISimDataAccess.html
-  name: ISimDataAccess
-  nameWithType: ISimDataAccess
-  fullName: Mekkdonalds.Persistence.ISimDataAccess
+  href: Mekkdonalds.Persistence.IReplayDataAccess.html
+  name: IReplayDataAccess
+  nameWithType: IReplayDataAccess
+  fullName: Mekkdonalds.Persistence.IReplayDataAccess
 - uid: Mekkdonalds.Persistence
   commentId: N:Mekkdonalds.Persistence
   href: Mekkdonalds.html
@@ -597,12 +739,18 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.object
   - name: )
-- uid: Mekkdonalds.Simulation.Controller.SimulationController.OnTick*
-  commentId: Overload:Mekkdonalds.Simulation.Controller.SimulationController.OnTick
-  href: Mekkdonalds.Simulation.Controller.SimulationController.html#Mekkdonalds_Simulation_Controller_SimulationController_OnTick_System_Object_
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.OnTick*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.ReplayController.OnTick
+  href: Mekkdonalds.Simulation.Controller.ReplayController.html#Mekkdonalds_Simulation_Controller_ReplayController_OnTick_System_Object_
   name: OnTick
-  nameWithType: SimulationController.OnTick
-  fullName: Mekkdonalds.Simulation.Controller.SimulationController.OnTick
+  nameWithType: ReplayController.OnTick
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.OnTick
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.JumpTo*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.ReplayController.JumpTo
+  href: Mekkdonalds.Simulation.Controller.ReplayController.html#Mekkdonalds_Simulation_Controller_ReplayController_JumpTo_System_Int32_
+  name: JumpTo
+  nameWithType: ReplayController.JumpTo
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.JumpTo
 - uid: Mekkdonalds.Simulation.Controller.Controller.StepForward
   commentId: M:Mekkdonalds.Simulation.Controller.Controller.StepForward
   parent: Mekkdonalds.Simulation.Controller.Controller
@@ -622,9 +770,15 @@ references:
     href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_StepForward
   - name: (
   - name: )
-- uid: Mekkdonalds.Simulation.Controller.SimulationController.StepForward*
-  commentId: Overload:Mekkdonalds.Simulation.Controller.SimulationController.StepForward
-  href: Mekkdonalds.Simulation.Controller.SimulationController.html#Mekkdonalds_Simulation_Controller_SimulationController_StepForward
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.StepForward*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.ReplayController.StepForward
+  href: Mekkdonalds.Simulation.Controller.ReplayController.html#Mekkdonalds_Simulation_Controller_ReplayController_StepForward
   name: StepForward
-  nameWithType: SimulationController.StepForward
-  fullName: Mekkdonalds.Simulation.Controller.SimulationController.StepForward
+  nameWithType: ReplayController.StepForward
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.StepForward
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.StepBackward*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.ReplayController.StepBackward
+  href: Mekkdonalds.Simulation.Controller.ReplayController.html#Mekkdonalds_Simulation_Controller_ReplayController_StepBackward
+  name: StepBackward
+  nameWithType: ReplayController.StepBackward
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.StepBackward

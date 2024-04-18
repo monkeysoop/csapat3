@@ -1,0 +1,51 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mekkdonalds.Persistence.IRobotsDataAccess
+  commentId: T:Mekkdonalds.Persistence.IRobotsDataAccess
+  id: IRobotsDataAccess
+  parent: Mekkdonalds.Persistence
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: IRobotsDataAccess
+  nameWithType: IRobotsDataAccess
+  fullName: Mekkdonalds.Persistence.IRobotsDataAccess
+  type: Interface
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/IRobotsDataAccess.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: IRobotsDataAccess
+    path: ../src/MekkdonaldsModel/Persistence/IRobotsDataAccess.cs
+    startLine: 2
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public interface IRobotsDataAccess
+    content.vb: Public Interface IRobotsDataAccess
+references:
+- uid: Mekkdonalds.Persistence
+  commentId: N:Mekkdonalds.Persistence
+  href: Mekkdonalds.html
+  name: Mekkdonalds.Persistence
+  nameWithType: Mekkdonalds.Persistence
+  fullName: Mekkdonalds.Persistence
+  spec.csharp:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
+  spec.vb:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html

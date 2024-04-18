@@ -7,12 +7,21 @@ items:
   children:
   - Mekkdonalds.Simulation.Controller.Controller.#ctor
   - Mekkdonalds.Simulation.Controller.Controller.CallTick(System.Object)
+  - Mekkdonalds.Simulation.Controller.Controller.ChangeSpeed(System.Double)
+  - Mekkdonalds.Simulation.Controller.Controller.Height
+  - Mekkdonalds.Simulation.Controller.Controller.IsPlaying
+  - Mekkdonalds.Simulation.Controller.Controller.LoadWalls
+  - Mekkdonalds.Simulation.Controller.Controller.Loaded
+  - Mekkdonalds.Simulation.Controller.Controller.OnLoaded(System.Object)
   - Mekkdonalds.Simulation.Controller.Controller.OnTick(System.Object)
-  - Mekkdonalds.Simulation.Controller.Controller.Paths
+  - Mekkdonalds.Simulation.Controller.Controller.Pause
+  - Mekkdonalds.Simulation.Controller.Controller.Play
   - Mekkdonalds.Simulation.Controller.Controller.Robots
+  - Mekkdonalds.Simulation.Controller.Controller.StepForward
   - Mekkdonalds.Simulation.Controller.Controller.Tick
   - Mekkdonalds.Simulation.Controller.Controller.Timer
   - Mekkdonalds.Simulation.Controller.Controller.Walls
+  - Mekkdonalds.Simulation.Controller.Controller.Width
   - Mekkdonalds.Simulation.Controller.Controller._board
   - Mekkdonalds.Simulation.Controller.Controller._robots
   - Mekkdonalds.Simulation.Controller.Controller._walls
@@ -26,7 +35,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Controller
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
@@ -40,6 +49,7 @@ items:
   inheritance:
   - System.Object
   derivedClasses:
+  - Mekkdonalds.Simulation.Controller.ReplayController
   - Mekkdonalds.Simulation.Controller.SimulationController
   inheritedMembers:
   - System.Object.Equals(System.Object)
@@ -49,33 +59,6 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
-- uid: Mekkdonalds.Simulation.Controller.Controller.Paths
-  commentId: F:Mekkdonalds.Simulation.Controller.Controller.Paths
-  id: Paths
-  parent: Mekkdonalds.Simulation.Controller.Controller
-  langs:
-  - csharp
-  - vb
-  name: Paths
-  nameWithType: Controller.Paths
-  fullName: Mekkdonalds.Simulation.Controller.Controller.Paths
-  type: Field
-  source:
-    remote:
-      path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: master
-      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: Paths
-    path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-    startLine: 4
-  assemblies:
-  - MekkdonaldsModel
-  namespace: Mekkdonalds.Simulation.Controller
-  syntax:
-    content: protected ConcurrentDictionary<Robot, Path> Paths
-    return:
-      type: System.Collections.Concurrent.ConcurrentDictionary{Mekkdonalds.Simulation.Robot,Mekkdonalds.Simulation.Path}
-    content.vb: Protected Paths As ConcurrentDictionary(Of Robot, Path)
 - uid: Mekkdonalds.Simulation.Controller.Controller._robots
   commentId: F:Mekkdonalds.Simulation.Controller.Controller._robots
   id: _robots
@@ -90,11 +73,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: _robots
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-    startLine: 5
+    startLine: 4
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation.Controller
@@ -117,11 +100,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: _walls
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-    startLine: 6
+    startLine: 5
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation.Controller
@@ -144,11 +127,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Timer
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-    startLine: 7
+    startLine: 6
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation.Controller
@@ -171,7 +154,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: _board
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
@@ -180,10 +163,97 @@ items:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation.Controller
   syntax:
-    content: protected Board2 _board
+    content: protected Board _board
     return:
-      type: MekkdonaldsModel.Persistence.Board2
-    content.vb: Protected _board As Board2
+      type: Mekkdonalds.Persistence.Board
+    content.vb: Protected _board As Board
+- uid: Mekkdonalds.Simulation.Controller.Controller.IsPlaying
+  commentId: P:Mekkdonalds.Simulation.Controller.Controller.IsPlaying
+  id: IsPlaying
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  langs:
+  - csharp
+  - vb
+  name: IsPlaying
+  nameWithType: Controller.IsPlaying
+  fullName: Mekkdonalds.Simulation.Controller.Controller.IsPlaying
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: IsPlaying
+    path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
+    startLine: 11
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  syntax:
+    content: public bool IsPlaying { get; protected set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsPlaying As Boolean
+  overload: Mekkdonalds.Simulation.Controller.Controller.IsPlaying*
+- uid: Mekkdonalds.Simulation.Controller.Controller.Width
+  commentId: P:Mekkdonalds.Simulation.Controller.Controller.Width
+  id: Width
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  langs:
+  - csharp
+  - vb
+  name: Width
+  nameWithType: Controller.Width
+  fullName: Mekkdonalds.Simulation.Controller.Controller.Width
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Width
+    path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
+    startLine: 13
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  syntax:
+    content: public int Width { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Width As Integer
+  overload: Mekkdonalds.Simulation.Controller.Controller.Width*
+- uid: Mekkdonalds.Simulation.Controller.Controller.Height
+  commentId: P:Mekkdonalds.Simulation.Controller.Controller.Height
+  id: Height
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  langs:
+  - csharp
+  - vb
+  name: Height
+  nameWithType: Controller.Height
+  fullName: Mekkdonalds.Simulation.Controller.Controller.Height
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Height
+    path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
+    startLine: 14
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  syntax:
+    content: public int Height { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Height As Integer
+  overload: Mekkdonalds.Simulation.Controller.Controller.Height*
 - uid: Mekkdonalds.Simulation.Controller.Controller.Robots
   commentId: P:Mekkdonalds.Simulation.Controller.Controller.Robots
   id: Robots
@@ -198,11 +268,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Robots
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-    startLine: 11
+    startLine: 16
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation.Controller
@@ -227,11 +297,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Walls
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-    startLine: 13
+    startLine: 18
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation.Controller
@@ -256,11 +326,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Tick
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-    startLine: 15
+    startLine: 20
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation.Controller
@@ -269,6 +339,33 @@ items:
     return:
       type: System.EventHandler
     content.vb: Public Event Tick As EventHandler
+- uid: Mekkdonalds.Simulation.Controller.Controller.Loaded
+  commentId: E:Mekkdonalds.Simulation.Controller.Controller.Loaded
+  id: Loaded
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  langs:
+  - csharp
+  - vb
+  name: Loaded
+  nameWithType: Controller.Loaded
+  fullName: Mekkdonalds.Simulation.Controller.Controller.Loaded
+  type: Event
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Loaded
+    path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
+    startLine: 21
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  syntax:
+    content: public event EventHandler? Loaded
+    return:
+      type: System.EventHandler
+    content.vb: Public Event Loaded As EventHandler
 - uid: Mekkdonalds.Simulation.Controller.Controller.#ctor
   commentId: M:Mekkdonalds.Simulation.Controller.Controller.#ctor
   id: '#ctor'
@@ -283,11 +380,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: .ctor
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-    startLine: 17
+    startLine: 23
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation.Controller
@@ -312,11 +409,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: OnTick
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-    startLine: 28
+    startLine: 33
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation.Controller
@@ -330,6 +427,38 @@ items:
   nameWithType.vb: Controller.OnTick(Object)
   fullName.vb: Mekkdonalds.Simulation.Controller.Controller.OnTick(Object)
   name.vb: OnTick(Object)
+- uid: Mekkdonalds.Simulation.Controller.Controller.OnLoaded(System.Object)
+  commentId: M:Mekkdonalds.Simulation.Controller.Controller.OnLoaded(System.Object)
+  id: OnLoaded(System.Object)
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  langs:
+  - csharp
+  - vb
+  name: OnLoaded(object?)
+  nameWithType: Controller.OnLoaded(object?)
+  fullName: Mekkdonalds.Simulation.Controller.Controller.OnLoaded(object?)
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: OnLoaded
+    path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
+    startLine: 35
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  syntax:
+    content: protected void OnLoaded(object? sender)
+    parameters:
+    - id: sender
+      type: System.Object
+    content.vb: Protected Sub OnLoaded(sender As Object)
+  overload: Mekkdonalds.Simulation.Controller.Controller.OnLoaded*
+  nameWithType.vb: Controller.OnLoaded(Object)
+  fullName.vb: Mekkdonalds.Simulation.Controller.Controller.OnLoaded(Object)
+  name.vb: OnLoaded(Object)
 - uid: Mekkdonalds.Simulation.Controller.Controller.CallTick(System.Object)
   commentId: M:Mekkdonalds.Simulation.Controller.Controller.CallTick(System.Object)
   id: CallTick(System.Object)
@@ -344,11 +473,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: CallTick
     path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
-    startLine: 30
+    startLine: 42
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation.Controller
@@ -362,6 +491,142 @@ items:
   nameWithType.vb: Controller.CallTick(Object)
   fullName.vb: Mekkdonalds.Simulation.Controller.Controller.CallTick(Object)
   name.vb: CallTick(Object)
+- uid: Mekkdonalds.Simulation.Controller.Controller.LoadWalls
+  commentId: M:Mekkdonalds.Simulation.Controller.Controller.LoadWalls
+  id: LoadWalls
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  langs:
+  - csharp
+  - vb
+  name: LoadWalls()
+  nameWithType: Controller.LoadWalls()
+  fullName: Mekkdonalds.Simulation.Controller.Controller.LoadWalls()
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: LoadWalls
+    path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
+    startLine: 47
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  syntax:
+    content: protected void LoadWalls()
+    content.vb: Protected Sub LoadWalls()
+  overload: Mekkdonalds.Simulation.Controller.Controller.LoadWalls*
+- uid: Mekkdonalds.Simulation.Controller.Controller.ChangeSpeed(System.Double)
+  commentId: M:Mekkdonalds.Simulation.Controller.Controller.ChangeSpeed(System.Double)
+  id: ChangeSpeed(System.Double)
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  langs:
+  - csharp
+  - vb
+  name: ChangeSpeed(double)
+  nameWithType: Controller.ChangeSpeed(double)
+  fullName: Mekkdonalds.Simulation.Controller.Controller.ChangeSpeed(double)
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: ChangeSpeed
+    path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
+    startLine: 59
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  syntax:
+    content: public void ChangeSpeed(double speed)
+    parameters:
+    - id: speed
+      type: System.Double
+    content.vb: Public Sub ChangeSpeed(speed As Double)
+  overload: Mekkdonalds.Simulation.Controller.Controller.ChangeSpeed*
+  nameWithType.vb: Controller.ChangeSpeed(Double)
+  fullName.vb: Mekkdonalds.Simulation.Controller.Controller.ChangeSpeed(Double)
+  name.vb: ChangeSpeed(Double)
+- uid: Mekkdonalds.Simulation.Controller.Controller.Play
+  commentId: M:Mekkdonalds.Simulation.Controller.Controller.Play
+  id: Play
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  langs:
+  - csharp
+  - vb
+  name: Play()
+  nameWithType: Controller.Play()
+  fullName: Mekkdonalds.Simulation.Controller.Controller.Play()
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Play
+    path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
+    startLine: 68
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  syntax:
+    content: public void Play()
+    content.vb: Public Sub Play()
+  overload: Mekkdonalds.Simulation.Controller.Controller.Play*
+- uid: Mekkdonalds.Simulation.Controller.Controller.Pause
+  commentId: M:Mekkdonalds.Simulation.Controller.Controller.Pause
+  id: Pause
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  langs:
+  - csharp
+  - vb
+  name: Pause()
+  nameWithType: Controller.Pause()
+  fullName: Mekkdonalds.Simulation.Controller.Controller.Pause()
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Pause
+    path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
+    startLine: 74
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  syntax:
+    content: public void Pause()
+    content.vb: Public Sub Pause()
+  overload: Mekkdonalds.Simulation.Controller.Controller.Pause*
+- uid: Mekkdonalds.Simulation.Controller.Controller.StepForward
+  commentId: M:Mekkdonalds.Simulation.Controller.Controller.StepForward
+  id: StepForward
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  langs:
+  - csharp
+  - vb
+  name: StepForward()
+  nameWithType: Controller.StepForward()
+  fullName: Mekkdonalds.Simulation.Controller.Controller.StepForward()
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/Controller.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: StepForward
+    path: ../src/MekkdonaldsModel/Simulation/Controller/Controller.cs
+    startLine: 80
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  syntax:
+    content: public abstract void StepForward()
+    content.vb: Public MustOverride Sub StepForward()
+  overload: Mekkdonalds.Simulation.Controller.Controller.StepForward*
 references:
 - uid: Mekkdonalds.Simulation.Controller
   commentId: N:Mekkdonalds.Simulation.Controller
@@ -630,120 +895,6 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: System.Collections.Concurrent.ConcurrentDictionary{Mekkdonalds.Simulation.Robot,Mekkdonalds.Simulation.Path}
-  commentId: T:System.Collections.Concurrent.ConcurrentDictionary{Mekkdonalds.Simulation.Robot,Mekkdonalds.Simulation.Path}
-  parent: System.Collections.Concurrent
-  definition: System.Collections.Concurrent.ConcurrentDictionary`2
-  href: https://learn.microsoft.com/dotnet/api/system.collections.concurrent.concurrentdictionary-2
-  name: ConcurrentDictionary<Robot, Path>
-  nameWithType: ConcurrentDictionary<Robot, Path>
-  fullName: System.Collections.Concurrent.ConcurrentDictionary<Mekkdonalds.Simulation.Robot, Mekkdonalds.Simulation.Path>
-  nameWithType.vb: ConcurrentDictionary(Of Robot, Path)
-  fullName.vb: System.Collections.Concurrent.ConcurrentDictionary(Of Mekkdonalds.Simulation.Robot, Mekkdonalds.Simulation.Path)
-  name.vb: ConcurrentDictionary(Of Robot, Path)
-  spec.csharp:
-  - uid: System.Collections.Concurrent.ConcurrentDictionary`2
-    name: ConcurrentDictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.concurrent.concurrentdictionary-2
-  - name: <
-  - uid: Mekkdonalds.Simulation.Robot
-    name: Robot
-    href: Mekkdonalds.Simulation.Robot.html
-  - name: ','
-  - name: " "
-  - uid: Mekkdonalds.Simulation.Path
-    name: Path
-    href: Mekkdonalds.Simulation.Path.html
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Concurrent.ConcurrentDictionary`2
-    name: ConcurrentDictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.concurrent.concurrentdictionary-2
-  - name: (
-  - name: Of
-  - name: " "
-  - uid: Mekkdonalds.Simulation.Robot
-    name: Robot
-    href: Mekkdonalds.Simulation.Robot.html
-  - name: ','
-  - name: " "
-  - uid: Mekkdonalds.Simulation.Path
-    name: Path
-    href: Mekkdonalds.Simulation.Path.html
-  - name: )
-- uid: System.Collections.Concurrent.ConcurrentDictionary`2
-  commentId: T:System.Collections.Concurrent.ConcurrentDictionary`2
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.collections.concurrent.concurrentdictionary-2
-  name: ConcurrentDictionary<TKey, TValue>
-  nameWithType: ConcurrentDictionary<TKey, TValue>
-  fullName: System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>
-  nameWithType.vb: ConcurrentDictionary(Of TKey, TValue)
-  fullName.vb: System.Collections.Concurrent.ConcurrentDictionary(Of TKey, TValue)
-  name.vb: ConcurrentDictionary(Of TKey, TValue)
-  spec.csharp:
-  - uid: System.Collections.Concurrent.ConcurrentDictionary`2
-    name: ConcurrentDictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.concurrent.concurrentdictionary-2
-  - name: <
-  - name: TKey
-  - name: ','
-  - name: " "
-  - name: TValue
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Concurrent.ConcurrentDictionary`2
-    name: ConcurrentDictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.concurrent.concurrentdictionary-2
-  - name: (
-  - name: Of
-  - name: " "
-  - name: TKey
-  - name: ','
-  - name: " "
-  - name: TValue
-  - name: )
-- uid: System.Collections.Concurrent
-  commentId: N:System.Collections.Concurrent
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.Collections.Concurrent
-  nameWithType: System.Collections.Concurrent
-  fullName: System.Collections.Concurrent
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Concurrent
-    name: Concurrent
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.concurrent
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Concurrent
-    name: Concurrent
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.concurrent
 - uid: System.Collections.Generic.List{Mekkdonalds.Simulation.Robot}
   commentId: T:System.Collections.Generic.List{Mekkdonalds.Simulation.Robot}
   parent: System.Collections.Generic
@@ -910,35 +1061,75 @@ references:
     name: Threading
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.threading
-- uid: MekkdonaldsModel.Persistence.Board2
-  commentId: T:MekkdonaldsModel.Persistence.Board2
-  parent: MekkdonaldsModel.Persistence
-  href: MekkdonaldsModel.Persistence.Board2.html
-  name: Board2
-  nameWithType: Board2
-  fullName: MekkdonaldsModel.Persistence.Board2
-- uid: MekkdonaldsModel.Persistence
-  commentId: N:MekkdonaldsModel.Persistence
-  href: MekkdonaldsModel.html
-  name: MekkdonaldsModel.Persistence
-  nameWithType: MekkdonaldsModel.Persistence
-  fullName: MekkdonaldsModel.Persistence
+- uid: Mekkdonalds.Persistence.Board
+  commentId: T:Mekkdonalds.Persistence.Board
+  parent: Mekkdonalds.Persistence
+  href: Mekkdonalds.Persistence.Board.html
+  name: Board
+  nameWithType: Board
+  fullName: Mekkdonalds.Persistence.Board
+- uid: Mekkdonalds.Persistence
+  commentId: N:Mekkdonalds.Persistence
+  href: Mekkdonalds.html
+  name: Mekkdonalds.Persistence
+  nameWithType: Mekkdonalds.Persistence
+  fullName: Mekkdonalds.Persistence
   spec.csharp:
-  - uid: MekkdonaldsModel
-    name: MekkdonaldsModel
-    href: MekkdonaldsModel.html
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
   - name: .
-  - uid: MekkdonaldsModel.Persistence
+  - uid: Mekkdonalds.Persistence
     name: Persistence
-    href: MekkdonaldsModel.Persistence.html
+    href: Mekkdonalds.Persistence.html
   spec.vb:
-  - uid: MekkdonaldsModel
-    name: MekkdonaldsModel
-    href: MekkdonaldsModel.html
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
   - name: .
-  - uid: MekkdonaldsModel.Persistence
+  - uid: Mekkdonalds.Persistence
     name: Persistence
-    href: MekkdonaldsModel.Persistence.html
+    href: Mekkdonalds.Persistence.html
+- uid: Mekkdonalds.Simulation.Controller.Controller.IsPlaying*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.Controller.IsPlaying
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_IsPlaying
+  name: IsPlaying
+  nameWithType: Controller.IsPlaying
+  fullName: Mekkdonalds.Simulation.Controller.Controller.IsPlaying
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Mekkdonalds.Simulation.Controller.Controller.Width*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.Controller.Width
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_Width
+  name: Width
+  nameWithType: Controller.Width
+  fullName: Mekkdonalds.Simulation.Controller.Controller.Width
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mekkdonalds.Simulation.Controller.Controller.Height*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.Controller.Height
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_Height
+  name: Height
+  nameWithType: Controller.Height
+  fullName: Mekkdonalds.Simulation.Controller.Controller.Height
 - uid: Mekkdonalds.Simulation.Controller.Controller.Robots*
   commentId: Overload:Mekkdonalds.Simulation.Controller.Controller.Robots
   href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_Robots
@@ -1068,9 +1259,56 @@ references:
   name: OnTick
   nameWithType: Controller.OnTick
   fullName: Mekkdonalds.Simulation.Controller.Controller.OnTick
+- uid: Mekkdonalds.Simulation.Controller.Controller.OnLoaded*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.Controller.OnLoaded
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_OnLoaded_System_Object_
+  name: OnLoaded
+  nameWithType: Controller.OnLoaded
+  fullName: Mekkdonalds.Simulation.Controller.Controller.OnLoaded
 - uid: Mekkdonalds.Simulation.Controller.Controller.CallTick*
   commentId: Overload:Mekkdonalds.Simulation.Controller.Controller.CallTick
   href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_CallTick_System_Object_
   name: CallTick
   nameWithType: Controller.CallTick
   fullName: Mekkdonalds.Simulation.Controller.Controller.CallTick
+- uid: Mekkdonalds.Simulation.Controller.Controller.LoadWalls*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.Controller.LoadWalls
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_LoadWalls
+  name: LoadWalls
+  nameWithType: Controller.LoadWalls
+  fullName: Mekkdonalds.Simulation.Controller.Controller.LoadWalls
+- uid: Mekkdonalds.Simulation.Controller.Controller.ChangeSpeed*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.Controller.ChangeSpeed
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_ChangeSpeed_System_Double_
+  name: ChangeSpeed
+  nameWithType: Controller.ChangeSpeed
+  fullName: Mekkdonalds.Simulation.Controller.Controller.ChangeSpeed
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+- uid: Mekkdonalds.Simulation.Controller.Controller.Play*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.Controller.Play
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_Play
+  name: Play
+  nameWithType: Controller.Play
+  fullName: Mekkdonalds.Simulation.Controller.Controller.Play
+- uid: Mekkdonalds.Simulation.Controller.Controller.Pause*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.Controller.Pause
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_Pause
+  name: Pause
+  nameWithType: Controller.Pause
+  fullName: Mekkdonalds.Simulation.Controller.Controller.Pause
+- uid: Mekkdonalds.Simulation.Controller.Controller.StepForward*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.Controller.StepForward
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_StepForward
+  name: StepForward
+  nameWithType: Controller.StepForward
+  fullName: Mekkdonalds.Simulation.Controller.Controller.StepForward

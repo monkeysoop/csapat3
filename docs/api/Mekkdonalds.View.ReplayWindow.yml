@@ -1,34 +1,34 @@
 ### YamlMime:ManagedReference
 items:
-- uid: Mekkdonalds.View.SimulationWindow
-  commentId: T:Mekkdonalds.View.SimulationWindow
-  id: SimulationWindow
+- uid: Mekkdonalds.View.ReplayWindow
+  commentId: T:Mekkdonalds.View.ReplayWindow
+  id: ReplayWindow
   parent: Mekkdonalds.View
   children:
-  - Mekkdonalds.View.SimulationWindow.#ctor
+  - Mekkdonalds.View.ReplayWindow.#ctor
   langs:
   - csharp
   - vb
-  name: SimulationWindow
-  nameWithType: SimulationWindow
-  fullName: Mekkdonalds.View.SimulationWindow
+  name: ReplayWindow
+  nameWithType: ReplayWindow
+  fullName: Mekkdonalds.View.ReplayWindow
   type: Class
   source:
     remote:
-      path: src/MekkdonaldsWPF/View/SimulationWindow.xaml.cs
+      path: src/MekkdonaldsWPF/View/ReplayWindow.xaml.cs
       branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: SimulationWindow
-    path: ../src/MekkdonaldsWPF/View/SimulationWindow.xaml.cs
+    id: ReplayWindow
+    path: ../src/MekkdonaldsWPF/View/ReplayWindow.xaml.cs
     startLine: 5
   assemblies:
   - MekkdonaldsWPF
   namespace: Mekkdonalds.View
-  summary: Interaction logic for MainWindow.xaml
+  summary: Interaction logic for ReplayWindow.xaml
   example: []
   syntax:
-    content: 'public class SimulationWindow : Window, IAnimatable, ISupportInitialize, IFrameworkInputElement, IInputElement, IQueryAmbient, IAddChild'
-    content.vb: Public Class SimulationWindow Inherits Window Implements IAnimatable, ISupportInitialize, IFrameworkInputElement, IInputElement, IQueryAmbient, IAddChild
+    content: 'public class ReplayWindow : Window, IAnimatable, ISupportInitialize, IFrameworkInputElement, IInputElement, IQueryAmbient, IAddChild'
+    content.vb: Public Class ReplayWindow Inherits Window Implements IAnimatable, ISupportInitialize, IFrameworkInputElement, IInputElement, IQueryAmbient, IAddChild
   inheritance:
   - System.Object
   - System.Windows.Threading.DispatcherObject
@@ -725,34 +725,34 @@ items:
   - System.Object.GetType
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
-- uid: Mekkdonalds.View.SimulationWindow.#ctor
-  commentId: M:Mekkdonalds.View.SimulationWindow.#ctor
+- uid: Mekkdonalds.View.ReplayWindow.#ctor
+  commentId: M:Mekkdonalds.View.ReplayWindow.#ctor
   id: '#ctor'
-  parent: Mekkdonalds.View.SimulationWindow
+  parent: Mekkdonalds.View.ReplayWindow
   langs:
   - csharp
   - vb
-  name: SimulationWindow()
-  nameWithType: SimulationWindow.SimulationWindow()
-  fullName: Mekkdonalds.View.SimulationWindow.SimulationWindow()
+  name: ReplayWindow()
+  nameWithType: ReplayWindow.ReplayWindow()
+  fullName: Mekkdonalds.View.ReplayWindow.ReplayWindow()
   type: Constructor
   source:
     remote:
-      path: src/MekkdonaldsWPF/View/SimulationWindow.xaml.cs
+      path: src/MekkdonaldsWPF/View/ReplayWindow.xaml.cs
       branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: .ctor
-    path: ../src/MekkdonaldsWPF/View/SimulationWindow.xaml.cs
+    path: ../src/MekkdonaldsWPF/View/ReplayWindow.xaml.cs
     startLine: 7
   assemblies:
   - MekkdonaldsWPF
   namespace: Mekkdonalds.View
   syntax:
-    content: public SimulationWindow()
+    content: public ReplayWindow()
     content.vb: Public Sub New()
-  overload: Mekkdonalds.View.SimulationWindow.#ctor*
-  nameWithType.vb: SimulationWindow.New()
-  fullName.vb: Mekkdonalds.View.SimulationWindow.New()
+  overload: Mekkdonalds.View.ReplayWindow.#ctor*
+  nameWithType.vb: ReplayWindow.New()
+  fullName.vb: Mekkdonalds.View.ReplayWindow.New()
   name.vb: New()
 references:
 - uid: Mekkdonalds.View
@@ -11679,12 +11679,12 @@ references:
     name: Markup
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.windows.markup
-- uid: Mekkdonalds.View.SimulationWindow.#ctor*
-  commentId: Overload:Mekkdonalds.View.SimulationWindow.#ctor
-  href: Mekkdonalds.View.SimulationWindow.html#Mekkdonalds_View_SimulationWindow__ctor
-  name: SimulationWindow
-  nameWithType: SimulationWindow.SimulationWindow
-  fullName: Mekkdonalds.View.SimulationWindow.SimulationWindow
-  nameWithType.vb: SimulationWindow.New
-  fullName.vb: Mekkdonalds.View.SimulationWindow.New
+- uid: Mekkdonalds.View.ReplayWindow.#ctor*
+  commentId: Overload:Mekkdonalds.View.ReplayWindow.#ctor
+  href: Mekkdonalds.View.ReplayWindow.html#Mekkdonalds_View_ReplayWindow__ctor
+  name: ReplayWindow
+  nameWithType: ReplayWindow.ReplayWindow
+  fullName: Mekkdonalds.View.ReplayWindow.ReplayWindow
+  nameWithType.vb: ReplayWindow.New
+  fullName.vb: Mekkdonalds.View.ReplayWindow.New
   name.vb: New

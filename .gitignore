@@ -400,3 +400,5 @@ Visual Studio 2022/
 *.sln.iml
 
 docs/_site/
+
+.mono/

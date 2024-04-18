@@ -1,37 +1,37 @@
 ### YamlMime:ManagedReference
 items:
-- uid: Mekkdonalds.ViewModel.ViewModelBase
-  commentId: T:Mekkdonalds.ViewModel.ViewModelBase
-  id: ViewModelBase
-  parent: Mekkdonalds.ViewModel
+- uid: Mekkdonalds.Persistence.ReplayDataAccess
+  commentId: T:Mekkdonalds.Persistence.ReplayDataAccess
+  id: ReplayDataAccess
+  parent: Mekkdonalds.Persistence
   children:
-  - Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(System.String)
-  - Mekkdonalds.ViewModel.ViewModelBase.PropertyChanged
+  - Mekkdonalds.Persistence.ReplayDataAccess.BDA
+  - Mekkdonalds.Persistence.ReplayDataAccess.LDA
   langs:
   - csharp
   - vb
-  name: ViewModelBase
-  nameWithType: ViewModelBase
-  fullName: Mekkdonalds.ViewModel.ViewModelBase
+  name: ReplayDataAccess
+  nameWithType: ReplayDataAccess
+  fullName: Mekkdonalds.Persistence.ReplayDataAccess
   type: Class
   source:
     remote:
-      path: src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
+      path: src/MekkdonaldsModel/Persistence/ReplayDataAccess.cs
       branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: ViewModelBase
-    path: ../src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
-    startLine: 5
+    id: ReplayDataAccess
+    path: ../src/MekkdonaldsModel/Persistence/ReplayDataAccess.cs
+    startLine: 2
   assemblies:
-  - MekkdonaldsWPF
-  namespace: Mekkdonalds.ViewModel
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
   syntax:
-    content: 'public abstract class ViewModelBase : INotifyPropertyChanged'
-    content.vb: Public MustInherit Class ViewModelBase Implements INotifyPropertyChanged
+    content: 'public class ReplayDataAccess : IReplayDataAccess'
+    content.vb: Public Class ReplayDataAccess Implements IReplayDataAccess
   inheritance:
   - System.Object
   implements:
-  - System.ComponentModel.INotifyPropertyChanged
+  - Mekkdonalds.Persistence.IReplayDataAccess
   inheritedMembers:
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
@@ -40,92 +40,93 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
-- uid: Mekkdonalds.ViewModel.ViewModelBase.PropertyChanged
-  commentId: E:Mekkdonalds.ViewModel.ViewModelBase.PropertyChanged
-  id: PropertyChanged
-  parent: Mekkdonalds.ViewModel.ViewModelBase
+- uid: Mekkdonalds.Persistence.ReplayDataAccess.BDA
+  commentId: P:Mekkdonalds.Persistence.ReplayDataAccess.BDA
+  id: BDA
+  parent: Mekkdonalds.Persistence.ReplayDataAccess
   langs:
   - csharp
   - vb
-  name: PropertyChanged
-  nameWithType: ViewModelBase.PropertyChanged
-  fullName: Mekkdonalds.ViewModel.ViewModelBase.PropertyChanged
-  type: Event
+  name: BDA
+  nameWithType: ReplayDataAccess.BDA
+  fullName: Mekkdonalds.Persistence.ReplayDataAccess.BDA
+  type: Property
   source:
     remote:
-      path: src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
+      path: src/MekkdonaldsModel/Persistence/ReplayDataAccess.cs
       branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: PropertyChanged
-    path: ../src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
-    startLine: 7
+    id: BDA
+    path: ../src/MekkdonaldsModel/Persistence/ReplayDataAccess.cs
+    startLine: 4
   assemblies:
-  - MekkdonaldsWPF
-  namespace: Mekkdonalds.ViewModel
-  summary: Occurs when a property value changes.
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
   example: []
   syntax:
-    content: public event PropertyChangedEventHandler? PropertyChanged
+    content: public required IBoardDataAccess BDA { get; init; }
+    parameters: []
     return:
-      type: System.ComponentModel.PropertyChangedEventHandler
-    content.vb: Public Event PropertyChanged As PropertyChangedEventHandler
+      type: Mekkdonalds.Persistence.IBoardDataAccess
+    content.vb: Public Property BDA As IBoardDataAccess
+  overload: Mekkdonalds.Persistence.ReplayDataAccess.BDA*
   implements:
-  - System.ComponentModel.INotifyPropertyChanged.PropertyChanged
-- uid: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(System.String)
-  commentId: M:Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(System.String)
-  id: OnPropertyChanged(System.String)
-  parent: Mekkdonalds.ViewModel.ViewModelBase
+  - Mekkdonalds.Persistence.IReplayDataAccess.BDA
+- uid: Mekkdonalds.Persistence.ReplayDataAccess.LDA
+  commentId: P:Mekkdonalds.Persistence.ReplayDataAccess.LDA
+  id: LDA
+  parent: Mekkdonalds.Persistence.ReplayDataAccess
   langs:
   - csharp
   - vb
-  name: OnPropertyChanged(string?)
-  nameWithType: ViewModelBase.OnPropertyChanged(string?)
-  fullName: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(string?)
-  type: Method
+  name: LDA
+  nameWithType: ReplayDataAccess.LDA
+  fullName: Mekkdonalds.Persistence.ReplayDataAccess.LDA
+  type: Property
   source:
     remote:
-      path: src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
+      path: src/MekkdonaldsModel/Persistence/ReplayDataAccess.cs
       branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: OnPropertyChanged
-    path: ../src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
-    startLine: 9
+    id: LDA
+    path: ../src/MekkdonaldsModel/Persistence/ReplayDataAccess.cs
+    startLine: 6
   assemblies:
-  - MekkdonaldsWPF
-  namespace: Mekkdonalds.ViewModel
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  example: []
   syntax:
-    content: protected virtual void OnPropertyChanged(string? propertyName = null)
-    parameters:
-    - id: propertyName
-      type: System.String
-    content.vb: Protected Overridable Sub OnPropertyChanged(propertyName As String = Nothing)
-  overload: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged*
-  nameWithType.vb: ViewModelBase.OnPropertyChanged(String)
-  fullName.vb: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(String)
-  name.vb: OnPropertyChanged(String)
+    content: public required ILogFileDataAccess LDA { get; init; }
+    parameters: []
+    return:
+      type: Mekkdonalds.Persistence.ILogFileDataAccess
+    content.vb: Public Property LDA As ILogFileDataAccess
+  overload: Mekkdonalds.Persistence.ReplayDataAccess.LDA*
+  implements:
+  - Mekkdonalds.Persistence.IReplayDataAccess.LDA
 references:
-- uid: Mekkdonalds.ViewModel
-  commentId: N:Mekkdonalds.ViewModel
+- uid: Mekkdonalds.Persistence
+  commentId: N:Mekkdonalds.Persistence
   href: Mekkdonalds.html
-  name: Mekkdonalds.ViewModel
-  nameWithType: Mekkdonalds.ViewModel
-  fullName: Mekkdonalds.ViewModel
+  name: Mekkdonalds.Persistence
+  nameWithType: Mekkdonalds.Persistence
+  fullName: Mekkdonalds.Persistence
   spec.csharp:
   - uid: Mekkdonalds
     name: Mekkdonalds
     href: Mekkdonalds.html
   - name: .
-  - uid: Mekkdonalds.ViewModel
-    name: ViewModel
-    href: Mekkdonalds.ViewModel.html
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
   spec.vb:
   - uid: Mekkdonalds
     name: Mekkdonalds
     href: Mekkdonalds.html
   - name: .
-  - uid: Mekkdonalds.ViewModel
-    name: ViewModel
-    href: Mekkdonalds.ViewModel.html
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
 - uid: System.Object
   commentId: T:System.Object
   parent: System
@@ -137,14 +138,13 @@ references:
   nameWithType.vb: Object
   fullName.vb: Object
   name.vb: Object
-- uid: System.ComponentModel.INotifyPropertyChanged
-  commentId: T:System.ComponentModel.INotifyPropertyChanged
-  parent: System.ComponentModel
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.componentmodel.inotifypropertychanged
-  name: INotifyPropertyChanged
-  nameWithType: INotifyPropertyChanged
-  fullName: System.ComponentModel.INotifyPropertyChanged
+- uid: Mekkdonalds.Persistence.IReplayDataAccess
+  commentId: T:Mekkdonalds.Persistence.IReplayDataAccess
+  parent: Mekkdonalds.Persistence
+  href: Mekkdonalds.Persistence.IReplayDataAccess.html
+  name: IReplayDataAccess
+  nameWithType: IReplayDataAccess
+  fullName: Mekkdonalds.Persistence.IReplayDataAccess
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -371,63 +371,43 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: System.ComponentModel
-  commentId: N:System.ComponentModel
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.ComponentModel
-  nameWithType: System.ComponentModel
-  fullName: System.ComponentModel
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.ComponentModel
-    name: ComponentModel
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.componentmodel
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.ComponentModel
-    name: ComponentModel
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.componentmodel
-- uid: System.ComponentModel.INotifyPropertyChanged.PropertyChanged
-  commentId: E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged
-  parent: System.ComponentModel.INotifyPropertyChanged
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.componentmodel.inotifypropertychanged.propertychanged
-  name: PropertyChanged
-  nameWithType: INotifyPropertyChanged.PropertyChanged
-  fullName: System.ComponentModel.INotifyPropertyChanged.PropertyChanged
-- uid: System.ComponentModel.PropertyChangedEventHandler
-  commentId: T:System.ComponentModel.PropertyChangedEventHandler
-  parent: System.ComponentModel
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.componentmodel.propertychangedeventhandler
-  name: PropertyChangedEventHandler
-  nameWithType: PropertyChangedEventHandler
-  fullName: System.ComponentModel.PropertyChangedEventHandler
-- uid: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged*
-  commentId: Overload:Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged
-  href: Mekkdonalds.ViewModel.ViewModelBase.html#Mekkdonalds_ViewModel_ViewModelBase_OnPropertyChanged_System_String_
-  name: OnPropertyChanged
-  nameWithType: ViewModelBase.OnPropertyChanged
-  fullName: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged
-- uid: System.String
-  commentId: T:System.String
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.string
-  name: string
-  nameWithType: string
-  fullName: string
-  nameWithType.vb: String
-  fullName.vb: String
-  name.vb: String
+- uid: Mekkdonalds.Persistence.ReplayDataAccess.BDA*
+  commentId: Overload:Mekkdonalds.Persistence.ReplayDataAccess.BDA
+  href: Mekkdonalds.Persistence.ReplayDataAccess.html#Mekkdonalds_Persistence_ReplayDataAccess_BDA
+  name: BDA
+  nameWithType: ReplayDataAccess.BDA
+  fullName: Mekkdonalds.Persistence.ReplayDataAccess.BDA
+- uid: Mekkdonalds.Persistence.IReplayDataAccess.BDA
+  commentId: P:Mekkdonalds.Persistence.IReplayDataAccess.BDA
+  parent: Mekkdonalds.Persistence.IReplayDataAccess
+  href: Mekkdonalds.Persistence.IReplayDataAccess.html#Mekkdonalds_Persistence_IReplayDataAccess_BDA
+  name: BDA
+  nameWithType: IReplayDataAccess.BDA
+  fullName: Mekkdonalds.Persistence.IReplayDataAccess.BDA
+- uid: Mekkdonalds.Persistence.IBoardDataAccess
+  commentId: T:Mekkdonalds.Persistence.IBoardDataAccess
+  parent: Mekkdonalds.Persistence
+  href: Mekkdonalds.Persistence.IBoardDataAccess.html
+  name: IBoardDataAccess
+  nameWithType: IBoardDataAccess
+  fullName: Mekkdonalds.Persistence.IBoardDataAccess
+- uid: Mekkdonalds.Persistence.ReplayDataAccess.LDA*
+  commentId: Overload:Mekkdonalds.Persistence.ReplayDataAccess.LDA
+  href: Mekkdonalds.Persistence.ReplayDataAccess.html#Mekkdonalds_Persistence_ReplayDataAccess_LDA
+  name: LDA
+  nameWithType: ReplayDataAccess.LDA
+  fullName: Mekkdonalds.Persistence.ReplayDataAccess.LDA
+- uid: Mekkdonalds.Persistence.IReplayDataAccess.LDA
+  commentId: P:Mekkdonalds.Persistence.IReplayDataAccess.LDA
+  parent: Mekkdonalds.Persistence.IReplayDataAccess
+  href: Mekkdonalds.Persistence.IReplayDataAccess.html#Mekkdonalds_Persistence_IReplayDataAccess_LDA
+  name: LDA
+  nameWithType: IReplayDataAccess.LDA
+  fullName: Mekkdonalds.Persistence.IReplayDataAccess.LDA
+- uid: Mekkdonalds.Persistence.ILogFileDataAccess
+  commentId: T:Mekkdonalds.Persistence.ILogFileDataAccess
+  parent: Mekkdonalds.Persistence
+  href: Mekkdonalds.Persistence.ILogFileDataAccess.html
+  name: ILogFileDataAccess
+  nameWithType: ILogFileDataAccess
+  fullName: Mekkdonalds.Persistence.ILogFileDataAccess

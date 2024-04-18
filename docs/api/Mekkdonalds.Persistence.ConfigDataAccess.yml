@@ -1,37 +1,37 @@
 ### YamlMime:ManagedReference
 items:
-- uid: Mekkdonalds.ViewModel.ViewModelBase
-  commentId: T:Mekkdonalds.ViewModel.ViewModelBase
-  id: ViewModelBase
-  parent: Mekkdonalds.ViewModel
+- uid: Mekkdonalds.Persistence.ConfigDataAccess
+  commentId: T:Mekkdonalds.Persistence.ConfigDataAccess
+  id: ConfigDataAccess
+  parent: Mekkdonalds.Persistence
   children:
-  - Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(System.String)
-  - Mekkdonalds.ViewModel.ViewModelBase.PropertyChanged
+  - Mekkdonalds.Persistence.ConfigDataAccess.Load(System.String)
+  - Mekkdonalds.Persistence.ConfigDataAccess.SerializerOptions
   langs:
   - csharp
   - vb
-  name: ViewModelBase
-  nameWithType: ViewModelBase
-  fullName: Mekkdonalds.ViewModel.ViewModelBase
+  name: ConfigDataAccess
+  nameWithType: ConfigDataAccess
+  fullName: Mekkdonalds.Persistence.ConfigDataAccess
   type: Class
   source:
     remote:
-      path: src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
+      path: src/MekkdonaldsModel/Persistence/ConfigDataAccess.cs
       branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: ViewModelBase
-    path: ../src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
-    startLine: 5
+    id: ConfigDataAccess
+    path: ../src/MekkdonaldsModel/Persistence/ConfigDataAccess.cs
+    startLine: 4
   assemblies:
-  - MekkdonaldsWPF
-  namespace: Mekkdonalds.ViewModel
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
   syntax:
-    content: 'public abstract class ViewModelBase : INotifyPropertyChanged'
-    content.vb: Public MustInherit Class ViewModelBase Implements INotifyPropertyChanged
+    content: 'public class ConfigDataAccess : IConfigDataAccess'
+    content.vb: Public Class ConfigDataAccess Implements IConfigDataAccess
   inheritance:
   - System.Object
   implements:
-  - System.ComponentModel.INotifyPropertyChanged
+  - Mekkdonalds.Persistence.IConfigDataAccess
   inheritedMembers:
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
@@ -40,92 +40,93 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
-- uid: Mekkdonalds.ViewModel.ViewModelBase.PropertyChanged
-  commentId: E:Mekkdonalds.ViewModel.ViewModelBase.PropertyChanged
-  id: PropertyChanged
-  parent: Mekkdonalds.ViewModel.ViewModelBase
+- uid: Mekkdonalds.Persistence.ConfigDataAccess.SerializerOptions
+  commentId: F:Mekkdonalds.Persistence.ConfigDataAccess.SerializerOptions
+  id: SerializerOptions
+  parent: Mekkdonalds.Persistence.ConfigDataAccess
   langs:
   - csharp
   - vb
-  name: PropertyChanged
-  nameWithType: ViewModelBase.PropertyChanged
-  fullName: Mekkdonalds.ViewModel.ViewModelBase.PropertyChanged
-  type: Event
+  name: SerializerOptions
+  nameWithType: ConfigDataAccess.SerializerOptions
+  fullName: Mekkdonalds.Persistence.ConfigDataAccess.SerializerOptions
+  type: Field
   source:
     remote:
-      path: src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
+      path: src/MekkdonaldsModel/Persistence/ConfigDataAccess.cs
       branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: PropertyChanged
-    path: ../src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
-    startLine: 7
+    id: SerializerOptions
+    path: ../src/MekkdonaldsModel/Persistence/ConfigDataAccess.cs
+    startLine: 6
   assemblies:
-  - MekkdonaldsWPF
-  namespace: Mekkdonalds.ViewModel
-  summary: Occurs when a property value changes.
-  example: []
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
   syntax:
-    content: public event PropertyChangedEventHandler? PropertyChanged
+    content: public static readonly JsonSerializerOptions SerializerOptions
     return:
-      type: System.ComponentModel.PropertyChangedEventHandler
-    content.vb: Public Event PropertyChanged As PropertyChangedEventHandler
-  implements:
-  - System.ComponentModel.INotifyPropertyChanged.PropertyChanged
-- uid: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(System.String)
-  commentId: M:Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(System.String)
-  id: OnPropertyChanged(System.String)
-  parent: Mekkdonalds.ViewModel.ViewModelBase
+      type: System.Text.Json.JsonSerializerOptions
+    content.vb: Public Shared ReadOnly SerializerOptions As JsonSerializerOptions
+- uid: Mekkdonalds.Persistence.ConfigDataAccess.Load(System.String)
+  commentId: M:Mekkdonalds.Persistence.ConfigDataAccess.Load(System.String)
+  id: Load(System.String)
+  parent: Mekkdonalds.Persistence.ConfigDataAccess
   langs:
   - csharp
   - vb
-  name: OnPropertyChanged(string?)
-  nameWithType: ViewModelBase.OnPropertyChanged(string?)
-  fullName: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(string?)
+  name: Load(string)
+  nameWithType: ConfigDataAccess.Load(string)
+  fullName: Mekkdonalds.Persistence.ConfigDataAccess.Load(string)
   type: Method
   source:
     remote:
-      path: src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
+      path: src/MekkdonaldsModel/Persistence/ConfigDataAccess.cs
       branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: OnPropertyChanged
-    path: ../src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
-    startLine: 9
+    id: Load
+    path: ../src/MekkdonaldsModel/Persistence/ConfigDataAccess.cs
+    startLine: 8
   assemblies:
-  - MekkdonaldsWPF
-  namespace: Mekkdonalds.ViewModel
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  example: []
   syntax:
-    content: protected virtual void OnPropertyChanged(string? propertyName = null)
+    content: public Task<Config> Load(string path)
     parameters:
-    - id: propertyName
+    - id: path
       type: System.String
-    content.vb: Protected Overridable Sub OnPropertyChanged(propertyName As String = Nothing)
-  overload: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged*
-  nameWithType.vb: ViewModelBase.OnPropertyChanged(String)
-  fullName.vb: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(String)
-  name.vb: OnPropertyChanged(String)
+    return:
+      type: System.Threading.Tasks.Task{Mekkdonalds.Persistence.Config}
+    content.vb: Public Function Load(path As String) As Task(Of Config)
+  overload: Mekkdonalds.Persistence.ConfigDataAccess.Load*
+  implements:
+  - Mekkdonalds.Persistence.IConfigDataAccess.Load(System.String)
+  nameWithType.vb: ConfigDataAccess.Load(String)
+  fullName.vb: Mekkdonalds.Persistence.ConfigDataAccess.Load(String)
+  name.vb: Load(String)
 references:
-- uid: Mekkdonalds.ViewModel
-  commentId: N:Mekkdonalds.ViewModel
+- uid: Mekkdonalds.Persistence
+  commentId: N:Mekkdonalds.Persistence
   href: Mekkdonalds.html
-  name: Mekkdonalds.ViewModel
-  nameWithType: Mekkdonalds.ViewModel
-  fullName: Mekkdonalds.ViewModel
+  name: Mekkdonalds.Persistence
+  nameWithType: Mekkdonalds.Persistence
+  fullName: Mekkdonalds.Persistence
   spec.csharp:
   - uid: Mekkdonalds
     name: Mekkdonalds
     href: Mekkdonalds.html
   - name: .
-  - uid: Mekkdonalds.ViewModel
-    name: ViewModel
-    href: Mekkdonalds.ViewModel.html
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
   spec.vb:
   - uid: Mekkdonalds
     name: Mekkdonalds
     href: Mekkdonalds.html
   - name: .
-  - uid: Mekkdonalds.ViewModel
-    name: ViewModel
-    href: Mekkdonalds.ViewModel.html
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
 - uid: System.Object
   commentId: T:System.Object
   parent: System
@@ -137,14 +138,13 @@ references:
   nameWithType.vb: Object
   fullName.vb: Object
   name.vb: Object
-- uid: System.ComponentModel.INotifyPropertyChanged
-  commentId: T:System.ComponentModel.INotifyPropertyChanged
-  parent: System.ComponentModel
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.componentmodel.inotifypropertychanged
-  name: INotifyPropertyChanged
-  nameWithType: INotifyPropertyChanged
-  fullName: System.ComponentModel.INotifyPropertyChanged
+- uid: Mekkdonalds.Persistence.IConfigDataAccess
+  commentId: T:Mekkdonalds.Persistence.IConfigDataAccess
+  parent: Mekkdonalds.Persistence
+  href: Mekkdonalds.Persistence.IConfigDataAccess.html
+  name: IConfigDataAccess
+  nameWithType: IConfigDataAccess
+  fullName: Mekkdonalds.Persistence.IConfigDataAccess
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -371,55 +371,88 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: System.ComponentModel
-  commentId: N:System.ComponentModel
+- uid: System.Text.Json.JsonSerializerOptions
+  commentId: T:System.Text.Json.JsonSerializerOptions
+  parent: System.Text.Json
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.text.json.jsonserializeroptions
+  name: JsonSerializerOptions
+  nameWithType: JsonSerializerOptions
+  fullName: System.Text.Json.JsonSerializerOptions
+- uid: System.Text.Json
+  commentId: N:System.Text.Json
   isExternal: true
   href: https://learn.microsoft.com/dotnet/api/system
-  name: System.ComponentModel
-  nameWithType: System.ComponentModel
-  fullName: System.ComponentModel
+  name: System.Text.Json
+  nameWithType: System.Text.Json
+  fullName: System.Text.Json
   spec.csharp:
   - uid: System
     name: System
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system
   - name: .
-  - uid: System.ComponentModel
-    name: ComponentModel
+  - uid: System.Text
+    name: Text
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.componentmodel
+    href: https://learn.microsoft.com/dotnet/api/system.text
+  - name: .
+  - uid: System.Text.Json
+    name: Json
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.text.json
   spec.vb:
   - uid: System
     name: System
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system
   - name: .
-  - uid: System.ComponentModel
-    name: ComponentModel
+  - uid: System.Text
+    name: Text
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.componentmodel
-- uid: System.ComponentModel.INotifyPropertyChanged.PropertyChanged
-  commentId: E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged
-  parent: System.ComponentModel.INotifyPropertyChanged
+    href: https://learn.microsoft.com/dotnet/api/system.text
+  - name: .
+  - uid: System.Text.Json
+    name: Json
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.text.json
+- uid: Mekkdonalds.Persistence.ConfigDataAccess.Load*
+  commentId: Overload:Mekkdonalds.Persistence.ConfigDataAccess.Load
+  href: Mekkdonalds.Persistence.ConfigDataAccess.html#Mekkdonalds_Persistence_ConfigDataAccess_Load_System_String_
+  name: Load
+  nameWithType: ConfigDataAccess.Load
+  fullName: Mekkdonalds.Persistence.ConfigDataAccess.Load
+- uid: Mekkdonalds.Persistence.IConfigDataAccess.Load(System.String)
+  commentId: M:Mekkdonalds.Persistence.IConfigDataAccess.Load(System.String)
+  parent: Mekkdonalds.Persistence.IConfigDataAccess
   isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.componentmodel.inotifypropertychanged.propertychanged
-  name: PropertyChanged
-  nameWithType: INotifyPropertyChanged.PropertyChanged
-  fullName: System.ComponentModel.INotifyPropertyChanged.PropertyChanged
-- uid: System.ComponentModel.PropertyChangedEventHandler
-  commentId: T:System.ComponentModel.PropertyChangedEventHandler
-  parent: System.ComponentModel
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.componentmodel.propertychangedeventhandler
-  name: PropertyChangedEventHandler
-  nameWithType: PropertyChangedEventHandler
-  fullName: System.ComponentModel.PropertyChangedEventHandler
-- uid: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged*
-  commentId: Overload:Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged
-  href: Mekkdonalds.ViewModel.ViewModelBase.html#Mekkdonalds_ViewModel_ViewModelBase_OnPropertyChanged_System_String_
-  name: OnPropertyChanged
-  nameWithType: ViewModelBase.OnPropertyChanged
-  fullName: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged
+  href: Mekkdonalds.Persistence.IConfigDataAccess.html#Mekkdonalds_Persistence_IConfigDataAccess_Load_System_String_
+  name: Load(string)
+  nameWithType: IConfigDataAccess.Load(string)
+  fullName: Mekkdonalds.Persistence.IConfigDataAccess.Load(string)
+  nameWithType.vb: IConfigDataAccess.Load(String)
+  fullName.vb: Mekkdonalds.Persistence.IConfigDataAccess.Load(String)
+  name.vb: Load(String)
+  spec.csharp:
+  - uid: Mekkdonalds.Persistence.IConfigDataAccess.Load(System.String)
+    name: Load
+    href: Mekkdonalds.Persistence.IConfigDataAccess.html#Mekkdonalds_Persistence_IConfigDataAccess_Load_System_String_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mekkdonalds.Persistence.IConfigDataAccess.Load(System.String)
+    name: Load
+    href: Mekkdonalds.Persistence.IConfigDataAccess.html#Mekkdonalds_Persistence_IConfigDataAccess_Load_System_String_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
 - uid: System.String
   commentId: T:System.String
   parent: System
@@ -431,3 +464,101 @@ references:
   nameWithType.vb: String
   fullName.vb: String
   name.vb: String
+- uid: System.Threading.Tasks.Task{Mekkdonalds.Persistence.Config}
+  commentId: T:System.Threading.Tasks.Task{Mekkdonalds.Persistence.Config}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<Config>
+  nameWithType: Task<Config>
+  fullName: System.Threading.Tasks.Task<Mekkdonalds.Persistence.Config>
+  nameWithType.vb: Task(Of Config)
+  fullName.vb: System.Threading.Tasks.Task(Of Mekkdonalds.Persistence.Config)
+  name.vb: Task(Of Config)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Mekkdonalds.Persistence.Config
+    name: Config
+    href: Mekkdonalds.Persistence.Config.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mekkdonalds.Persistence.Config
+    name: Config
+    href: Mekkdonalds.Persistence.Config.html
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks

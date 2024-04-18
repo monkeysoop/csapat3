@@ -7,6 +7,10 @@ items:
   children:
   - Mekkdonalds.Simulation.DirectionMethods.ClockWise(Mekkdonalds.Simulation.Direction)
   - Mekkdonalds.Simulation.DirectionMethods.CounterClockWise(Mekkdonalds.Simulation.Direction)
+  - Mekkdonalds.Simulation.DirectionMethods.GetNewOffsetPoint(Mekkdonalds.Simulation.Direction,System.Drawing.Point)
+  - Mekkdonalds.Simulation.DirectionMethods.GetOffset(Mekkdonalds.Simulation.Direction)
+  - Mekkdonalds.Simulation.DirectionMethods.Opposite(Mekkdonalds.Simulation.Direction)
+  - Mekkdonalds.Simulation.DirectionMethods.StringToDirection(System.String)
   langs:
   - csharp
   - vb
@@ -17,7 +21,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Direction.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: DirectionMethods
     path: ../src/MekkdonaldsModel/Simulation/Direction.cs
@@ -38,6 +42,72 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+- uid: Mekkdonalds.Simulation.DirectionMethods.GetOffset(Mekkdonalds.Simulation.Direction)
+  commentId: M:Mekkdonalds.Simulation.DirectionMethods.GetOffset(Mekkdonalds.Simulation.Direction)
+  id: GetOffset(Mekkdonalds.Simulation.Direction)
+  isExtensionMethod: true
+  parent: Mekkdonalds.Simulation.DirectionMethods
+  langs:
+  - csharp
+  - vb
+  name: GetOffset(Direction)
+  nameWithType: DirectionMethods.GetOffset(Direction)
+  fullName: Mekkdonalds.Simulation.DirectionMethods.GetOffset(Mekkdonalds.Simulation.Direction)
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Direction.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: GetOffset
+    path: ../src/MekkdonaldsModel/Simulation/Direction.cs
+    startLine: 19
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
+  syntax:
+    content: public static Point GetOffset(this Direction direction)
+    parameters:
+    - id: direction
+      type: Mekkdonalds.Simulation.Direction
+    return:
+      type: System.Drawing.Point
+    content.vb: Public Shared Function GetOffset(direction As Direction) As Point
+  overload: Mekkdonalds.Simulation.DirectionMethods.GetOffset*
+- uid: Mekkdonalds.Simulation.DirectionMethods.GetNewOffsetPoint(Mekkdonalds.Simulation.Direction,System.Drawing.Point)
+  commentId: M:Mekkdonalds.Simulation.DirectionMethods.GetNewOffsetPoint(Mekkdonalds.Simulation.Direction,System.Drawing.Point)
+  id: GetNewOffsetPoint(Mekkdonalds.Simulation.Direction,System.Drawing.Point)
+  isExtensionMethod: true
+  parent: Mekkdonalds.Simulation.DirectionMethods
+  langs:
+  - csharp
+  - vb
+  name: GetNewOffsetPoint(Direction, Point)
+  nameWithType: DirectionMethods.GetNewOffsetPoint(Direction, Point)
+  fullName: Mekkdonalds.Simulation.DirectionMethods.GetNewOffsetPoint(Mekkdonalds.Simulation.Direction, System.Drawing.Point)
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Direction.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: GetNewOffsetPoint
+    path: ../src/MekkdonaldsModel/Simulation/Direction.cs
+    startLine: 21
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
+  syntax:
+    content: public static Point GetNewOffsetPoint(this Direction direction, Point point)
+    parameters:
+    - id: direction
+      type: Mekkdonalds.Simulation.Direction
+    - id: point
+      type: System.Drawing.Point
+    return:
+      type: System.Drawing.Point
+    content.vb: Public Shared Function GetNewOffsetPoint(direction As Direction, point As Point) As Point
+  overload: Mekkdonalds.Simulation.DirectionMethods.GetNewOffsetPoint*
 - uid: Mekkdonalds.Simulation.DirectionMethods.ClockWise(Mekkdonalds.Simulation.Direction)
   commentId: M:Mekkdonalds.Simulation.DirectionMethods.ClockWise(Mekkdonalds.Simulation.Direction)
   id: ClockWise(Mekkdonalds.Simulation.Direction)
@@ -53,11 +123,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Direction.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: ClockWise
     path: ../src/MekkdonaldsModel/Simulation/Direction.cs
-    startLine: 12
+    startLine: 23
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation
@@ -85,11 +155,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Direction.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: CounterClockWise
     path: ../src/MekkdonaldsModel/Simulation/Direction.cs
-    startLine: 14
+    startLine: 25
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation
@@ -102,6 +172,72 @@ items:
       type: Mekkdonalds.Simulation.Direction
     content.vb: Public Shared Function CounterClockWise(original As Direction) As Direction
   overload: Mekkdonalds.Simulation.DirectionMethods.CounterClockWise*
+- uid: Mekkdonalds.Simulation.DirectionMethods.Opposite(Mekkdonalds.Simulation.Direction)
+  commentId: M:Mekkdonalds.Simulation.DirectionMethods.Opposite(Mekkdonalds.Simulation.Direction)
+  id: Opposite(Mekkdonalds.Simulation.Direction)
+  isExtensionMethod: true
+  parent: Mekkdonalds.Simulation.DirectionMethods
+  langs:
+  - csharp
+  - vb
+  name: Opposite(Direction)
+  nameWithType: DirectionMethods.Opposite(Direction)
+  fullName: Mekkdonalds.Simulation.DirectionMethods.Opposite(Mekkdonalds.Simulation.Direction)
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Direction.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Opposite
+    path: ../src/MekkdonaldsModel/Simulation/Direction.cs
+    startLine: 27
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
+  syntax:
+    content: public static Direction Opposite(this Direction original)
+    parameters:
+    - id: original
+      type: Mekkdonalds.Simulation.Direction
+    return:
+      type: Mekkdonalds.Simulation.Direction
+    content.vb: Public Shared Function Opposite(original As Direction) As Direction
+  overload: Mekkdonalds.Simulation.DirectionMethods.Opposite*
+- uid: Mekkdonalds.Simulation.DirectionMethods.StringToDirection(System.String)
+  commentId: M:Mekkdonalds.Simulation.DirectionMethods.StringToDirection(System.String)
+  id: StringToDirection(System.String)
+  parent: Mekkdonalds.Simulation.DirectionMethods
+  langs:
+  - csharp
+  - vb
+  name: StringToDirection(string)
+  nameWithType: DirectionMethods.StringToDirection(string)
+  fullName: Mekkdonalds.Simulation.DirectionMethods.StringToDirection(string)
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Direction.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: StringToDirection
+    path: ../src/MekkdonaldsModel/Simulation/Direction.cs
+    startLine: 29
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
+  syntax:
+    content: public static Direction StringToDirection(string original)
+    parameters:
+    - id: original
+      type: System.String
+    return:
+      type: Mekkdonalds.Simulation.Direction
+    content.vb: Public Shared Function StringToDirection(original As String) As Direction
+  overload: Mekkdonalds.Simulation.DirectionMethods.StringToDirection*
+  nameWithType.vb: DirectionMethods.StringToDirection(String)
+  fullName.vb: Mekkdonalds.Simulation.DirectionMethods.StringToDirection(String)
+  name.vb: StringToDirection(String)
 references:
 - uid: Mekkdonalds.Simulation
   commentId: N:Mekkdonalds.Simulation
@@ -362,12 +498,12 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: Mekkdonalds.Simulation.DirectionMethods.ClockWise*
-  commentId: Overload:Mekkdonalds.Simulation.DirectionMethods.ClockWise
-  href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_ClockWise_Mekkdonalds_Simulation_Direction_
-  name: ClockWise
-  nameWithType: DirectionMethods.ClockWise
-  fullName: Mekkdonalds.Simulation.DirectionMethods.ClockWise
+- uid: Mekkdonalds.Simulation.DirectionMethods.GetOffset*
+  commentId: Overload:Mekkdonalds.Simulation.DirectionMethods.GetOffset
+  href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_GetOffset_Mekkdonalds_Simulation_Direction_
+  name: GetOffset
+  nameWithType: DirectionMethods.GetOffset
+  fullName: Mekkdonalds.Simulation.DirectionMethods.GetOffset
 - uid: Mekkdonalds.Simulation.Direction
   commentId: T:Mekkdonalds.Simulation.Direction
   parent: Mekkdonalds.Simulation
@@ -375,9 +511,79 @@ references:
   name: Direction
   nameWithType: Direction
   fullName: Mekkdonalds.Simulation.Direction
+- uid: System.Drawing.Point
+  commentId: T:System.Drawing.Point
+  parent: System.Drawing
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.drawing.point
+  name: Point
+  nameWithType: Point
+  fullName: System.Drawing.Point
+- uid: System.Drawing
+  commentId: N:System.Drawing
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Drawing
+  nameWithType: System.Drawing
+  fullName: System.Drawing
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Drawing
+    name: Drawing
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.drawing
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Drawing
+    name: Drawing
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.drawing
+- uid: Mekkdonalds.Simulation.DirectionMethods.GetNewOffsetPoint*
+  commentId: Overload:Mekkdonalds.Simulation.DirectionMethods.GetNewOffsetPoint
+  href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_GetNewOffsetPoint_Mekkdonalds_Simulation_Direction_System_Drawing_Point_
+  name: GetNewOffsetPoint
+  nameWithType: DirectionMethods.GetNewOffsetPoint
+  fullName: Mekkdonalds.Simulation.DirectionMethods.GetNewOffsetPoint
+- uid: Mekkdonalds.Simulation.DirectionMethods.ClockWise*
+  commentId: Overload:Mekkdonalds.Simulation.DirectionMethods.ClockWise
+  href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_ClockWise_Mekkdonalds_Simulation_Direction_
+  name: ClockWise
+  nameWithType: DirectionMethods.ClockWise
+  fullName: Mekkdonalds.Simulation.DirectionMethods.ClockWise
 - uid: Mekkdonalds.Simulation.DirectionMethods.CounterClockWise*
   commentId: Overload:Mekkdonalds.Simulation.DirectionMethods.CounterClockWise
   href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_CounterClockWise_Mekkdonalds_Simulation_Direction_
   name: CounterClockWise
   nameWithType: DirectionMethods.CounterClockWise
   fullName: Mekkdonalds.Simulation.DirectionMethods.CounterClockWise
+- uid: Mekkdonalds.Simulation.DirectionMethods.Opposite*
+  commentId: Overload:Mekkdonalds.Simulation.DirectionMethods.Opposite
+  href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_Opposite_Mekkdonalds_Simulation_Direction_
+  name: Opposite
+  nameWithType: DirectionMethods.Opposite
+  fullName: Mekkdonalds.Simulation.DirectionMethods.Opposite
+- uid: Mekkdonalds.Simulation.DirectionMethods.StringToDirection*
+  commentId: Overload:Mekkdonalds.Simulation.DirectionMethods.StringToDirection
+  href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_StringToDirection_System_String_
+  name: StringToDirection
+  nameWithType: DirectionMethods.StringToDirection
+  fullName: Mekkdonalds.Simulation.DirectionMethods.StringToDirection
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String

@@ -1,0 +1,626 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mekkdonalds.Persistence.Config
+  commentId: T:Mekkdonalds.Persistence.Config
+  id: Config
+  parent: Mekkdonalds.Persistence
+  children:
+  - Mekkdonalds.Persistence.Config.#ctor
+  - Mekkdonalds.Persistence.Config.AgentFile
+  - Mekkdonalds.Persistence.Config.MapFile
+  - Mekkdonalds.Persistence.Config.NumTasksReveal
+  - Mekkdonalds.Persistence.Config.TaskAssignmentStrategy
+  - Mekkdonalds.Persistence.Config.TaskFile
+  - Mekkdonalds.Persistence.Config.TeamSize
+  langs:
+  - csharp
+  - vb
+  name: Config
+  nameWithType: Config
+  fullName: Mekkdonalds.Persistence.Config
+  type: Class
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Config.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Config
+    path: ../src/MekkdonaldsModel/Persistence/Config.cs
+    startLine: 6
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public class Config
+    content.vb: Public Class Config
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Mekkdonalds.Persistence.Config.MapFile
+  commentId: P:Mekkdonalds.Persistence.Config.MapFile
+  id: MapFile
+  parent: Mekkdonalds.Persistence.Config
+  langs:
+  - csharp
+  - vb
+  name: MapFile
+  nameWithType: Config.MapFile
+  fullName: Mekkdonalds.Persistence.Config.MapFile
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Config.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: MapFile
+    path: ../src/MekkdonaldsModel/Persistence/Config.cs
+    startLine: 8
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public required string MapFile { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property MapFile As String
+  overload: Mekkdonalds.Persistence.Config.MapFile*
+- uid: Mekkdonalds.Persistence.Config.AgentFile
+  commentId: P:Mekkdonalds.Persistence.Config.AgentFile
+  id: AgentFile
+  parent: Mekkdonalds.Persistence.Config
+  langs:
+  - csharp
+  - vb
+  name: AgentFile
+  nameWithType: Config.AgentFile
+  fullName: Mekkdonalds.Persistence.Config.AgentFile
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Config.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: AgentFile
+    path: ../src/MekkdonaldsModel/Persistence/Config.cs
+    startLine: 9
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public required string AgentFile { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property AgentFile As String
+  overload: Mekkdonalds.Persistence.Config.AgentFile*
+- uid: Mekkdonalds.Persistence.Config.TaskFile
+  commentId: P:Mekkdonalds.Persistence.Config.TaskFile
+  id: TaskFile
+  parent: Mekkdonalds.Persistence.Config
+  langs:
+  - csharp
+  - vb
+  name: TaskFile
+  nameWithType: Config.TaskFile
+  fullName: Mekkdonalds.Persistence.Config.TaskFile
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Config.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: TaskFile
+    path: ../src/MekkdonaldsModel/Persistence/Config.cs
+    startLine: 10
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public required string TaskFile { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property TaskFile As String
+  overload: Mekkdonalds.Persistence.Config.TaskFile*
+- uid: Mekkdonalds.Persistence.Config.TeamSize
+  commentId: P:Mekkdonalds.Persistence.Config.TeamSize
+  id: TeamSize
+  parent: Mekkdonalds.Persistence.Config
+  langs:
+  - csharp
+  - vb
+  name: TeamSize
+  nameWithType: Config.TeamSize
+  fullName: Mekkdonalds.Persistence.Config.TeamSize
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Config.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: TeamSize
+    path: ../src/MekkdonaldsModel/Persistence/Config.cs
+    startLine: 12
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public int TeamSize { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property TeamSize As Integer
+  overload: Mekkdonalds.Persistence.Config.TeamSize*
+- uid: Mekkdonalds.Persistence.Config.NumTasksReveal
+  commentId: P:Mekkdonalds.Persistence.Config.NumTasksReveal
+  id: NumTasksReveal
+  parent: Mekkdonalds.Persistence.Config
+  langs:
+  - csharp
+  - vb
+  name: NumTasksReveal
+  nameWithType: Config.NumTasksReveal
+  fullName: Mekkdonalds.Persistence.Config.NumTasksReveal
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Config.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: NumTasksReveal
+    path: ../src/MekkdonaldsModel/Persistence/Config.cs
+    startLine: 13
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public int NumTasksReveal { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property NumTasksReveal As Integer
+  overload: Mekkdonalds.Persistence.Config.NumTasksReveal*
+- uid: Mekkdonalds.Persistence.Config.TaskAssignmentStrategy
+  commentId: P:Mekkdonalds.Persistence.Config.TaskAssignmentStrategy
+  id: TaskAssignmentStrategy
+  parent: Mekkdonalds.Persistence.Config
+  langs:
+  - csharp
+  - vb
+  name: TaskAssignmentStrategy
+  nameWithType: Config.TaskAssignmentStrategy
+  fullName: Mekkdonalds.Persistence.Config.TaskAssignmentStrategy
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Config.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: TaskAssignmentStrategy
+    path: ../src/MekkdonaldsModel/Persistence/Config.cs
+    startLine: 15
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: >-
+      [JsonConverter(typeof(StrategyConverter))]
+
+      public Strategy TaskAssignmentStrategy { get; set; }
+    parameters: []
+    return:
+      type: Mekkdonalds.Simulation.Strategy
+    content.vb: >-
+      <JsonConverter(GetType(StrategyConverter))>
+
+      Public Property TaskAssignmentStrategy As Strategy
+  overload: Mekkdonalds.Persistence.Config.TaskAssignmentStrategy*
+  attributes:
+  - type: System.Text.Json.Serialization.JsonConverterAttribute
+    ctor: System.Text.Json.Serialization.JsonConverterAttribute.#ctor(System.Type)
+    arguments:
+    - type: System.Type
+      value: Mekkdonalds.Persistence.Converters.StrategyConverter
+- uid: Mekkdonalds.Persistence.Config.#ctor
+  commentId: M:Mekkdonalds.Persistence.Config.#ctor
+  id: '#ctor'
+  parent: Mekkdonalds.Persistence.Config
+  langs:
+  - csharp
+  - vb
+  name: Config()
+  nameWithType: Config.Config()
+  fullName: Mekkdonalds.Persistence.Config.Config()
+  type: Constructor
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Config.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: .ctor
+    path: ../src/MekkdonaldsModel/Persistence/Config.cs
+    startLine: 18
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: >-
+      [JsonConstructor]
+
+      public Config()
+    content.vb: >-
+      <JsonConstructor>
+
+      Public Sub New()
+  overload: Mekkdonalds.Persistence.Config.#ctor*
+  attributes:
+  - type: System.Text.Json.Serialization.JsonConstructorAttribute
+    ctor: System.Text.Json.Serialization.JsonConstructorAttribute.#ctor
+    arguments: []
+  nameWithType.vb: Config.New()
+  fullName.vb: Mekkdonalds.Persistence.Config.New()
+  name.vb: New()
+references:
+- uid: Mekkdonalds.Persistence
+  commentId: N:Mekkdonalds.Persistence
+  href: Mekkdonalds.html
+  name: Mekkdonalds.Persistence
+  nameWithType: Mekkdonalds.Persistence
+  fullName: Mekkdonalds.Persistence
+  spec.csharp:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
+  spec.vb:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mekkdonalds.Persistence.Config.MapFile*
+  commentId: Overload:Mekkdonalds.Persistence.Config.MapFile
+  href: Mekkdonalds.Persistence.Config.html#Mekkdonalds_Persistence_Config_MapFile
+  name: MapFile
+  nameWithType: Config.MapFile
+  fullName: Mekkdonalds.Persistence.Config.MapFile
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mekkdonalds.Persistence.Config.AgentFile*
+  commentId: Overload:Mekkdonalds.Persistence.Config.AgentFile
+  href: Mekkdonalds.Persistence.Config.html#Mekkdonalds_Persistence_Config_AgentFile
+  name: AgentFile
+  nameWithType: Config.AgentFile
+  fullName: Mekkdonalds.Persistence.Config.AgentFile
+- uid: Mekkdonalds.Persistence.Config.TaskFile*
+  commentId: Overload:Mekkdonalds.Persistence.Config.TaskFile
+  href: Mekkdonalds.Persistence.Config.html#Mekkdonalds_Persistence_Config_TaskFile
+  name: TaskFile
+  nameWithType: Config.TaskFile
+  fullName: Mekkdonalds.Persistence.Config.TaskFile
+- uid: Mekkdonalds.Persistence.Config.TeamSize*
+  commentId: Overload:Mekkdonalds.Persistence.Config.TeamSize
+  href: Mekkdonalds.Persistence.Config.html#Mekkdonalds_Persistence_Config_TeamSize
+  name: TeamSize
+  nameWithType: Config.TeamSize
+  fullName: Mekkdonalds.Persistence.Config.TeamSize
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mekkdonalds.Persistence.Config.NumTasksReveal*
+  commentId: Overload:Mekkdonalds.Persistence.Config.NumTasksReveal
+  href: Mekkdonalds.Persistence.Config.html#Mekkdonalds_Persistence_Config_NumTasksReveal
+  name: NumTasksReveal
+  nameWithType: Config.NumTasksReveal
+  fullName: Mekkdonalds.Persistence.Config.NumTasksReveal
+- uid: Mekkdonalds.Persistence.Config.TaskAssignmentStrategy*
+  commentId: Overload:Mekkdonalds.Persistence.Config.TaskAssignmentStrategy
+  href: Mekkdonalds.Persistence.Config.html#Mekkdonalds_Persistence_Config_TaskAssignmentStrategy
+  name: TaskAssignmentStrategy
+  nameWithType: Config.TaskAssignmentStrategy
+  fullName: Mekkdonalds.Persistence.Config.TaskAssignmentStrategy
+- uid: Mekkdonalds.Simulation.Strategy
+  commentId: T:Mekkdonalds.Simulation.Strategy
+  parent: Mekkdonalds.Simulation
+  href: Mekkdonalds.Simulation.Strategy.html
+  name: Strategy
+  nameWithType: Strategy
+  fullName: Mekkdonalds.Simulation.Strategy
+- uid: Mekkdonalds.Simulation
+  commentId: N:Mekkdonalds.Simulation
+  href: Mekkdonalds.html
+  name: Mekkdonalds.Simulation
+  nameWithType: Mekkdonalds.Simulation
+  fullName: Mekkdonalds.Simulation
+  spec.csharp:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
+  spec.vb:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
+- uid: Mekkdonalds.Persistence.Config.#ctor*
+  commentId: Overload:Mekkdonalds.Persistence.Config.#ctor
+  href: Mekkdonalds.Persistence.Config.html#Mekkdonalds_Persistence_Config__ctor
+  name: Config
+  nameWithType: Config.Config
+  fullName: Mekkdonalds.Persistence.Config.Config
+  nameWithType.vb: Config.New
+  fullName.vb: Mekkdonalds.Persistence.Config.New
+  name.vb: New

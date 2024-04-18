@@ -1,0 +1,921 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mekkdonalds.Persistence.Board
+  commentId: T:Mekkdonalds.Persistence.Board
+  id: Board
+  parent: Mekkdonalds.Persistence
+  children:
+  - Mekkdonalds.Persistence.Board.#ctor(System.Int32,System.Int32)
+  - Mekkdonalds.Persistence.Board.#ctor(System.Int32[0:,0:],System.Int32,System.Int32)
+  - Mekkdonalds.Persistence.Board.ClearMask
+  - Mekkdonalds.Persistence.Board.Data
+  - Mekkdonalds.Persistence.Board.EMPTY
+  - Mekkdonalds.Persistence.Board.GetValue(System.Int32,System.Int32)
+  - Mekkdonalds.Persistence.Board.Height
+  - Mekkdonalds.Persistence.Board.NOT_SEARCHED
+  - Mekkdonalds.Persistence.Board.OCCUPIED
+  - Mekkdonalds.Persistence.Board.SEARCHED
+  - Mekkdonalds.Persistence.Board.SetSearchedIfEmpty(System.Drawing.Point)
+  - Mekkdonalds.Persistence.Board.SetValue(System.Int32,System.Int32,System.Int32)
+  - Mekkdonalds.Persistence.Board.TryMoveRobot(System.Drawing.Point,System.Drawing.Point)
+  - Mekkdonalds.Persistence.Board.WALL
+  - Mekkdonalds.Persistence.Board.Width
+  langs:
+  - csharp
+  - vb
+  name: Board
+  nameWithType: Board
+  fullName: Mekkdonalds.Persistence.Board
+  type: Class
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Board.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Board
+    path: ../src/MekkdonaldsModel/Persistence/Board.cs
+    startLine: 5
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public class Board
+    content.vb: Public Class Board
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Mekkdonalds.Persistence.Board.EMPTY
+  commentId: F:Mekkdonalds.Persistence.Board.EMPTY
+  id: EMPTY
+  parent: Mekkdonalds.Persistence.Board
+  langs:
+  - csharp
+  - vb
+  name: EMPTY
+  nameWithType: Board.EMPTY
+  fullName: Mekkdonalds.Persistence.Board.EMPTY
+  type: Field
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Board.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: EMPTY
+    path: ../src/MekkdonaldsModel/Persistence/Board.cs
+    startLine: 8
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public const int EMPTY = 0
+    return:
+      type: System.Int32
+    content.vb: Public Const EMPTY As Integer = 0
+- uid: Mekkdonalds.Persistence.Board.WALL
+  commentId: F:Mekkdonalds.Persistence.Board.WALL
+  id: WALL
+  parent: Mekkdonalds.Persistence.Board
+  langs:
+  - csharp
+  - vb
+  name: WALL
+  nameWithType: Board.WALL
+  fullName: Mekkdonalds.Persistence.Board.WALL
+  type: Field
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Board.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: WALL
+    path: ../src/MekkdonaldsModel/Persistence/Board.cs
+    startLine: 9
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public const int WALL = 1
+    return:
+      type: System.Int32
+    content.vb: Public Const WALL As Integer = 1
+- uid: Mekkdonalds.Persistence.Board.OCCUPIED
+  commentId: F:Mekkdonalds.Persistence.Board.OCCUPIED
+  id: OCCUPIED
+  parent: Mekkdonalds.Persistence.Board
+  langs:
+  - csharp
+  - vb
+  name: OCCUPIED
+  nameWithType: Board.OCCUPIED
+  fullName: Mekkdonalds.Persistence.Board.OCCUPIED
+  type: Field
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Board.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: OCCUPIED
+    path: ../src/MekkdonaldsModel/Persistence/Board.cs
+    startLine: 10
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public const int OCCUPIED = 1
+    return:
+      type: System.Int32
+    content.vb: Public Const OCCUPIED As Integer = 1
+- uid: Mekkdonalds.Persistence.Board.NOT_SEARCHED
+  commentId: F:Mekkdonalds.Persistence.Board.NOT_SEARCHED
+  id: NOT_SEARCHED
+  parent: Mekkdonalds.Persistence.Board
+  langs:
+  - csharp
+  - vb
+  name: NOT_SEARCHED
+  nameWithType: Board.NOT_SEARCHED
+  fullName: Mekkdonalds.Persistence.Board.NOT_SEARCHED
+  type: Field
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Board.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: NOT_SEARCHED
+    path: ../src/MekkdonaldsModel/Persistence/Board.cs
+    startLine: 11
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public const int NOT_SEARCHED = 0
+    return:
+      type: System.Int32
+    content.vb: Public Const NOT_SEARCHED As Integer = 0
+- uid: Mekkdonalds.Persistence.Board.SEARCHED
+  commentId: F:Mekkdonalds.Persistence.Board.SEARCHED
+  id: SEARCHED
+  parent: Mekkdonalds.Persistence.Board
+  langs:
+  - csharp
+  - vb
+  name: SEARCHED
+  nameWithType: Board.SEARCHED
+  fullName: Mekkdonalds.Persistence.Board.SEARCHED
+  type: Field
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Board.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: SEARCHED
+    path: ../src/MekkdonaldsModel/Persistence/Board.cs
+    startLine: 12
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public const int SEARCHED = 1
+    return:
+      type: System.Int32
+    content.vb: Public Const SEARCHED As Integer = 1
+- uid: Mekkdonalds.Persistence.Board.Data
+  commentId: F:Mekkdonalds.Persistence.Board.Data
+  id: Data
+  parent: Mekkdonalds.Persistence.Board
+  langs:
+  - csharp
+  - vb
+  name: Data
+  nameWithType: Board.Data
+  fullName: Mekkdonalds.Persistence.Board.Data
+  type: Field
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Board.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Data
+    path: ../src/MekkdonaldsModel/Persistence/Board.cs
+    startLine: 18
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public readonly int[] Data
+    return:
+      type: System.Int32[]
+    content.vb: Public ReadOnly Data As Integer()
+- uid: Mekkdonalds.Persistence.Board.Height
+  commentId: P:Mekkdonalds.Persistence.Board.Height
+  id: Height
+  parent: Mekkdonalds.Persistence.Board
+  langs:
+  - csharp
+  - vb
+  name: Height
+  nameWithType: Board.Height
+  fullName: Mekkdonalds.Persistence.Board.Height
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Board.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Height
+    path: ../src/MekkdonaldsModel/Persistence/Board.cs
+    startLine: 21
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public int Height { get; init; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Height As Integer
+  overload: Mekkdonalds.Persistence.Board.Height*
+- uid: Mekkdonalds.Persistence.Board.Width
+  commentId: P:Mekkdonalds.Persistence.Board.Width
+  id: Width
+  parent: Mekkdonalds.Persistence.Board
+  langs:
+  - csharp
+  - vb
+  name: Width
+  nameWithType: Board.Width
+  fullName: Mekkdonalds.Persistence.Board.Width
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Board.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Width
+    path: ../src/MekkdonaldsModel/Persistence/Board.cs
+    startLine: 22
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public int Width { get; init; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Width As Integer
+  overload: Mekkdonalds.Persistence.Board.Width*
+- uid: Mekkdonalds.Persistence.Board.#ctor(System.Int32,System.Int32)
+  commentId: M:Mekkdonalds.Persistence.Board.#ctor(System.Int32,System.Int32)
+  id: '#ctor(System.Int32,System.Int32)'
+  parent: Mekkdonalds.Persistence.Board
+  langs:
+  - csharp
+  - vb
+  name: Board(int, int)
+  nameWithType: Board.Board(int, int)
+  fullName: Mekkdonalds.Persistence.Board.Board(int, int)
+  type: Constructor
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Board.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: .ctor
+    path: ../src/MekkdonaldsModel/Persistence/Board.cs
+    startLine: 28
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public Board(int height, int width)
+    parameters:
+    - id: height
+      type: System.Int32
+    - id: width
+      type: System.Int32
+    content.vb: Public Sub New(height As Integer, width As Integer)
+  overload: Mekkdonalds.Persistence.Board.#ctor*
+  nameWithType.vb: Board.New(Integer, Integer)
+  fullName.vb: Mekkdonalds.Persistence.Board.New(Integer, Integer)
+  name.vb: New(Integer, Integer)
+- uid: Mekkdonalds.Persistence.Board.#ctor(System.Int32[0:,0:],System.Int32,System.Int32)
+  commentId: M:Mekkdonalds.Persistence.Board.#ctor(System.Int32[0:,0:],System.Int32,System.Int32)
+  id: '#ctor(System.Int32[0:,0:],System.Int32,System.Int32)'
+  parent: Mekkdonalds.Persistence.Board
+  langs:
+  - csharp
+  - vb
+  name: Board(int[,], int, int)
+  nameWithType: Board.Board(int[,], int, int)
+  fullName: Mekkdonalds.Persistence.Board.Board(int[,], int, int)
+  type: Constructor
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Board.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: .ctor
+    path: ../src/MekkdonaldsModel/Persistence/Board.cs
+    startLine: 46
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public Board(int[,] data, int height, int width)
+    parameters:
+    - id: data
+      type: System.Int32[,]
+    - id: height
+      type: System.Int32
+    - id: width
+      type: System.Int32
+    content.vb: Public Sub New(data As Integer(,), height As Integer, width As Integer)
+  overload: Mekkdonalds.Persistence.Board.#ctor*
+  nameWithType.vb: Board.New(Integer(,), Integer, Integer)
+  fullName.vb: Mekkdonalds.Persistence.Board.New(Integer(,), Integer, Integer)
+  name.vb: New(Integer(,), Integer, Integer)
+- uid: Mekkdonalds.Persistence.Board.TryMoveRobot(System.Drawing.Point,System.Drawing.Point)
+  commentId: M:Mekkdonalds.Persistence.Board.TryMoveRobot(System.Drawing.Point,System.Drawing.Point)
+  id: TryMoveRobot(System.Drawing.Point,System.Drawing.Point)
+  parent: Mekkdonalds.Persistence.Board
+  langs:
+  - csharp
+  - vb
+  name: TryMoveRobot(Point, Point)
+  nameWithType: Board.TryMoveRobot(Point, Point)
+  fullName: Mekkdonalds.Persistence.Board.TryMoveRobot(System.Drawing.Point, System.Drawing.Point)
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Board.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: TryMoveRobot
+    path: ../src/MekkdonaldsModel/Persistence/Board.cs
+    startLine: 74
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public bool TryMoveRobot(Point position, Point next_position)
+    parameters:
+    - id: position
+      type: System.Drawing.Point
+    - id: next_position
+      type: System.Drawing.Point
+    return:
+      type: System.Boolean
+    content.vb: Public Function TryMoveRobot(position As Point, next_position As Point) As Boolean
+  overload: Mekkdonalds.Persistence.Board.TryMoveRobot*
+- uid: Mekkdonalds.Persistence.Board.SetSearchedIfEmpty(System.Drawing.Point)
+  commentId: M:Mekkdonalds.Persistence.Board.SetSearchedIfEmpty(System.Drawing.Point)
+  id: SetSearchedIfEmpty(System.Drawing.Point)
+  parent: Mekkdonalds.Persistence.Board
+  langs:
+  - csharp
+  - vb
+  name: SetSearchedIfEmpty(Point)
+  nameWithType: Board.SetSearchedIfEmpty(Point)
+  fullName: Mekkdonalds.Persistence.Board.SetSearchedIfEmpty(System.Drawing.Point)
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Board.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: SetSearchedIfEmpty
+    path: ../src/MekkdonaldsModel/Persistence/Board.cs
+    startLine: 85
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public bool SetSearchedIfEmpty(Point position)
+    parameters:
+    - id: position
+      type: System.Drawing.Point
+    return:
+      type: System.Boolean
+    content.vb: Public Function SetSearchedIfEmpty(position As Point) As Boolean
+  overload: Mekkdonalds.Persistence.Board.SetSearchedIfEmpty*
+- uid: Mekkdonalds.Persistence.Board.ClearMask
+  commentId: M:Mekkdonalds.Persistence.Board.ClearMask
+  id: ClearMask
+  parent: Mekkdonalds.Persistence.Board
+  langs:
+  - csharp
+  - vb
+  name: ClearMask()
+  nameWithType: Board.ClearMask()
+  fullName: Mekkdonalds.Persistence.Board.ClearMask()
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Board.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: ClearMask
+    path: ../src/MekkdonaldsModel/Persistence/Board.cs
+    startLine: 107
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public void ClearMask()
+    content.vb: Public Sub ClearMask()
+  overload: Mekkdonalds.Persistence.Board.ClearMask*
+- uid: Mekkdonalds.Persistence.Board.SetValue(System.Int32,System.Int32,System.Int32)
+  commentId: M:Mekkdonalds.Persistence.Board.SetValue(System.Int32,System.Int32,System.Int32)
+  id: SetValue(System.Int32,System.Int32,System.Int32)
+  parent: Mekkdonalds.Persistence.Board
+  langs:
+  - csharp
+  - vb
+  name: SetValue(int, int, int)
+  nameWithType: Board.SetValue(int, int, int)
+  fullName: Mekkdonalds.Persistence.Board.SetValue(int, int, int)
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Board.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: SetValue
+    path: ../src/MekkdonaldsModel/Persistence/Board.cs
+    startLine: 115
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public void SetValue(int x, int y, int value)
+    parameters:
+    - id: x
+      type: System.Int32
+    - id: y
+      type: System.Int32
+    - id: value
+      type: System.Int32
+    content.vb: Public Sub SetValue(x As Integer, y As Integer, value As Integer)
+  overload: Mekkdonalds.Persistence.Board.SetValue*
+  nameWithType.vb: Board.SetValue(Integer, Integer, Integer)
+  fullName.vb: Mekkdonalds.Persistence.Board.SetValue(Integer, Integer, Integer)
+  name.vb: SetValue(Integer, Integer, Integer)
+- uid: Mekkdonalds.Persistence.Board.GetValue(System.Int32,System.Int32)
+  commentId: M:Mekkdonalds.Persistence.Board.GetValue(System.Int32,System.Int32)
+  id: GetValue(System.Int32,System.Int32)
+  parent: Mekkdonalds.Persistence.Board
+  langs:
+  - csharp
+  - vb
+  name: GetValue(int, int)
+  nameWithType: Board.GetValue(int, int)
+  fullName: Mekkdonalds.Persistence.Board.GetValue(int, int)
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/Board.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: GetValue
+    path: ../src/MekkdonaldsModel/Persistence/Board.cs
+    startLine: 133
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public int GetValue(int x, int y)
+    parameters:
+    - id: x
+      type: System.Int32
+    - id: y
+      type: System.Int32
+    return:
+      type: System.Int32
+    content.vb: Public Function GetValue(x As Integer, y As Integer) As Integer
+  overload: Mekkdonalds.Persistence.Board.GetValue*
+  nameWithType.vb: Board.GetValue(Integer, Integer)
+  fullName.vb: Mekkdonalds.Persistence.Board.GetValue(Integer, Integer)
+  name.vb: GetValue(Integer, Integer)
+references:
+- uid: Mekkdonalds.Persistence
+  commentId: N:Mekkdonalds.Persistence
+  href: Mekkdonalds.html
+  name: Mekkdonalds.Persistence
+  nameWithType: Mekkdonalds.Persistence
+  fullName: Mekkdonalds.Persistence
+  spec.csharp:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
+  spec.vb:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.Int32[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int[]
+  nameWithType: int[]
+  fullName: int[]
+  nameWithType.vb: Integer()
+  fullName.vb: Integer()
+  name.vb: Integer()
+  spec.csharp:
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: (
+  - name: )
+- uid: Mekkdonalds.Persistence.Board.Height*
+  commentId: Overload:Mekkdonalds.Persistence.Board.Height
+  href: Mekkdonalds.Persistence.Board.html#Mekkdonalds_Persistence_Board_Height
+  name: Height
+  nameWithType: Board.Height
+  fullName: Mekkdonalds.Persistence.Board.Height
+- uid: Mekkdonalds.Persistence.Board.Width*
+  commentId: Overload:Mekkdonalds.Persistence.Board.Width
+  href: Mekkdonalds.Persistence.Board.html#Mekkdonalds_Persistence_Board_Width
+  name: Width
+  nameWithType: Board.Width
+  fullName: Mekkdonalds.Persistence.Board.Width
+- uid: Mekkdonalds.Persistence.Board.#ctor*
+  commentId: Overload:Mekkdonalds.Persistence.Board.#ctor
+  href: Mekkdonalds.Persistence.Board.html#Mekkdonalds_Persistence_Board__ctor_System_Int32_System_Int32_
+  name: Board
+  nameWithType: Board.Board
+  fullName: Mekkdonalds.Persistence.Board.Board
+  nameWithType.vb: Board.New
+  fullName.vb: Mekkdonalds.Persistence.Board.New
+  name.vb: New
+- uid: System.Int32[,]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int[,]
+  nameWithType: int[,]
+  fullName: int[,]
+  nameWithType.vb: Integer(,)
+  fullName.vb: Integer(,)
+  name.vb: Integer(,)
+  spec.csharp:
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '['
+  - name: ','
+  - name: ']'
+  spec.vb:
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: (
+  - name: ','
+  - name: )
+- uid: Mekkdonalds.Persistence.Board.TryMoveRobot*
+  commentId: Overload:Mekkdonalds.Persistence.Board.TryMoveRobot
+  href: Mekkdonalds.Persistence.Board.html#Mekkdonalds_Persistence_Board_TryMoveRobot_System_Drawing_Point_System_Drawing_Point_
+  name: TryMoveRobot
+  nameWithType: Board.TryMoveRobot
+  fullName: Mekkdonalds.Persistence.Board.TryMoveRobot
+- uid: System.Drawing.Point
+  commentId: T:System.Drawing.Point
+  parent: System.Drawing
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.drawing.point
+  name: Point
+  nameWithType: Point
+  fullName: System.Drawing.Point
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: System.Drawing
+  commentId: N:System.Drawing
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Drawing
+  nameWithType: System.Drawing
+  fullName: System.Drawing
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Drawing
+    name: Drawing
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.drawing
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Drawing
+    name: Drawing
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.drawing
+- uid: Mekkdonalds.Persistence.Board.SetSearchedIfEmpty*
+  commentId: Overload:Mekkdonalds.Persistence.Board.SetSearchedIfEmpty
+  href: Mekkdonalds.Persistence.Board.html#Mekkdonalds_Persistence_Board_SetSearchedIfEmpty_System_Drawing_Point_
+  name: SetSearchedIfEmpty
+  nameWithType: Board.SetSearchedIfEmpty
+  fullName: Mekkdonalds.Persistence.Board.SetSearchedIfEmpty
+- uid: Mekkdonalds.Persistence.Board.ClearMask*
+  commentId: Overload:Mekkdonalds.Persistence.Board.ClearMask
+  href: Mekkdonalds.Persistence.Board.html#Mekkdonalds_Persistence_Board_ClearMask
+  name: ClearMask
+  nameWithType: Board.ClearMask
+  fullName: Mekkdonalds.Persistence.Board.ClearMask
+- uid: Mekkdonalds.Persistence.Board.SetValue*
+  commentId: Overload:Mekkdonalds.Persistence.Board.SetValue
+  href: Mekkdonalds.Persistence.Board.html#Mekkdonalds_Persistence_Board_SetValue_System_Int32_System_Int32_System_Int32_
+  name: SetValue
+  nameWithType: Board.SetValue
+  fullName: Mekkdonalds.Persistence.Board.SetValue
+- uid: Mekkdonalds.Persistence.Board.GetValue*
+  commentId: Overload:Mekkdonalds.Persistence.Board.GetValue
+  href: Mekkdonalds.Persistence.Board.html#Mekkdonalds_Persistence_Board_GetValue_System_Int32_System_Int32_
+  name: GetValue
+  nameWithType: Board.GetValue
+  fullName: Mekkdonalds.Persistence.Board.GetValue

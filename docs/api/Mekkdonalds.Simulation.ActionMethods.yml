@@ -1,37 +1,34 @@
 ### YamlMime:ManagedReference
 items:
-- uid: Mekkdonalds.ViewModel.ViewModelBase
-  commentId: T:Mekkdonalds.ViewModel.ViewModelBase
-  id: ViewModelBase
-  parent: Mekkdonalds.ViewModel
+- uid: Mekkdonalds.Simulation.ActionMethods
+  commentId: T:Mekkdonalds.Simulation.ActionMethods
+  id: ActionMethods
+  parent: Mekkdonalds.Simulation
   children:
-  - Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(System.String)
-  - Mekkdonalds.ViewModel.ViewModelBase.PropertyChanged
+  - Mekkdonalds.Simulation.ActionMethods.Reverse(Mekkdonalds.Simulation.Action)
   langs:
   - csharp
   - vb
-  name: ViewModelBase
-  nameWithType: ViewModelBase
-  fullName: Mekkdonalds.ViewModel.ViewModelBase
+  name: ActionMethods
+  nameWithType: ActionMethods
+  fullName: Mekkdonalds.Simulation.ActionMethods
   type: Class
   source:
     remote:
-      path: src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
+      path: src/MekkdonaldsModel/Simulation/Action.cs
       branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: ViewModelBase
-    path: ../src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
-    startLine: 5
+    id: ActionMethods
+    path: ../src/MekkdonaldsModel/Simulation/Action.cs
+    startLine: 12
   assemblies:
-  - MekkdonaldsWPF
-  namespace: Mekkdonalds.ViewModel
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
   syntax:
-    content: 'public abstract class ViewModelBase : INotifyPropertyChanged'
-    content.vb: Public MustInherit Class ViewModelBase Implements INotifyPropertyChanged
+    content: public static class ActionMethods
+    content.vb: Public Module ActionMethods
   inheritance:
   - System.Object
-  implements:
-  - System.ComponentModel.INotifyPropertyChanged
   inheritedMembers:
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
@@ -40,92 +37,61 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
-- uid: Mekkdonalds.ViewModel.ViewModelBase.PropertyChanged
-  commentId: E:Mekkdonalds.ViewModel.ViewModelBase.PropertyChanged
-  id: PropertyChanged
-  parent: Mekkdonalds.ViewModel.ViewModelBase
+- uid: Mekkdonalds.Simulation.ActionMethods.Reverse(Mekkdonalds.Simulation.Action)
+  commentId: M:Mekkdonalds.Simulation.ActionMethods.Reverse(Mekkdonalds.Simulation.Action)
+  id: Reverse(Mekkdonalds.Simulation.Action)
+  isExtensionMethod: true
+  parent: Mekkdonalds.Simulation.ActionMethods
   langs:
   - csharp
   - vb
-  name: PropertyChanged
-  nameWithType: ViewModelBase.PropertyChanged
-  fullName: Mekkdonalds.ViewModel.ViewModelBase.PropertyChanged
-  type: Event
-  source:
-    remote:
-      path: src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
-      branch: feature/looks
-      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: PropertyChanged
-    path: ../src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
-    startLine: 7
-  assemblies:
-  - MekkdonaldsWPF
-  namespace: Mekkdonalds.ViewModel
-  summary: Occurs when a property value changes.
-  example: []
-  syntax:
-    content: public event PropertyChangedEventHandler? PropertyChanged
-    return:
-      type: System.ComponentModel.PropertyChangedEventHandler
-    content.vb: Public Event PropertyChanged As PropertyChangedEventHandler
-  implements:
-  - System.ComponentModel.INotifyPropertyChanged.PropertyChanged
-- uid: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(System.String)
-  commentId: M:Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(System.String)
-  id: OnPropertyChanged(System.String)
-  parent: Mekkdonalds.ViewModel.ViewModelBase
-  langs:
-  - csharp
-  - vb
-  name: OnPropertyChanged(string?)
-  nameWithType: ViewModelBase.OnPropertyChanged(string?)
-  fullName: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(string?)
+  name: Reverse(Action)
+  nameWithType: ActionMethods.Reverse(Action)
+  fullName: Mekkdonalds.Simulation.ActionMethods.Reverse(Mekkdonalds.Simulation.Action)
   type: Method
   source:
     remote:
-      path: src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
+      path: src/MekkdonaldsModel/Simulation/Action.cs
       branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: OnPropertyChanged
-    path: ../src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
-    startLine: 9
+    id: Reverse
+    path: ../src/MekkdonaldsModel/Simulation/Action.cs
+    startLine: 14
   assemblies:
-  - MekkdonaldsWPF
-  namespace: Mekkdonalds.ViewModel
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
   syntax:
-    content: protected virtual void OnPropertyChanged(string? propertyName = null)
+    content: public static Action Reverse(this Action action)
     parameters:
-    - id: propertyName
-      type: System.String
-    content.vb: Protected Overridable Sub OnPropertyChanged(propertyName As String = Nothing)
-  overload: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged*
-  nameWithType.vb: ViewModelBase.OnPropertyChanged(String)
-  fullName.vb: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(String)
-  name.vb: OnPropertyChanged(String)
+    - id: action
+      type: Mekkdonalds.Simulation.Action
+    return:
+      type: Mekkdonalds.Simulation.Action
+    content.vb: Public Shared Function Reverse(action As Action) As Action
+  overload: Mekkdonalds.Simulation.ActionMethods.Reverse*
 references:
-- uid: Mekkdonalds.ViewModel
-  commentId: N:Mekkdonalds.ViewModel
+- uid: Mekkdonalds.Simulation
+  commentId: N:Mekkdonalds.Simulation
   href: Mekkdonalds.html
-  name: Mekkdonalds.ViewModel
-  nameWithType: Mekkdonalds.ViewModel
-  fullName: Mekkdonalds.ViewModel
+  name: Mekkdonalds.Simulation
+  nameWithType: Mekkdonalds.Simulation
+  fullName: Mekkdonalds.Simulation
   spec.csharp:
   - uid: Mekkdonalds
     name: Mekkdonalds
     href: Mekkdonalds.html
   - name: .
-  - uid: Mekkdonalds.ViewModel
-    name: ViewModel
-    href: Mekkdonalds.ViewModel.html
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
   spec.vb:
   - uid: Mekkdonalds
     name: Mekkdonalds
     href: Mekkdonalds.html
   - name: .
-  - uid: Mekkdonalds.ViewModel
-    name: ViewModel
-    href: Mekkdonalds.ViewModel.html
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
 - uid: System.Object
   commentId: T:System.Object
   parent: System
@@ -137,14 +103,6 @@ references:
   nameWithType.vb: Object
   fullName.vb: Object
   name.vb: Object
-- uid: System.ComponentModel.INotifyPropertyChanged
-  commentId: T:System.ComponentModel.INotifyPropertyChanged
-  parent: System.ComponentModel
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.componentmodel.inotifypropertychanged
-  name: INotifyPropertyChanged
-  nameWithType: INotifyPropertyChanged
-  fullName: System.ComponentModel.INotifyPropertyChanged
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -371,63 +329,16 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: System.ComponentModel
-  commentId: N:System.ComponentModel
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.ComponentModel
-  nameWithType: System.ComponentModel
-  fullName: System.ComponentModel
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.ComponentModel
-    name: ComponentModel
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.componentmodel
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.ComponentModel
-    name: ComponentModel
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.componentmodel
-- uid: System.ComponentModel.INotifyPropertyChanged.PropertyChanged
-  commentId: E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged
-  parent: System.ComponentModel.INotifyPropertyChanged
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.componentmodel.inotifypropertychanged.propertychanged
-  name: PropertyChanged
-  nameWithType: INotifyPropertyChanged.PropertyChanged
-  fullName: System.ComponentModel.INotifyPropertyChanged.PropertyChanged
-- uid: System.ComponentModel.PropertyChangedEventHandler
-  commentId: T:System.ComponentModel.PropertyChangedEventHandler
-  parent: System.ComponentModel
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.componentmodel.propertychangedeventhandler
-  name: PropertyChangedEventHandler
-  nameWithType: PropertyChangedEventHandler
-  fullName: System.ComponentModel.PropertyChangedEventHandler
-- uid: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged*
-  commentId: Overload:Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged
-  href: Mekkdonalds.ViewModel.ViewModelBase.html#Mekkdonalds_ViewModel_ViewModelBase_OnPropertyChanged_System_String_
-  name: OnPropertyChanged
-  nameWithType: ViewModelBase.OnPropertyChanged
-  fullName: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged
-- uid: System.String
-  commentId: T:System.String
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.string
-  name: string
-  nameWithType: string
-  fullName: string
-  nameWithType.vb: String
-  fullName.vb: String
-  name.vb: String
+- uid: Mekkdonalds.Simulation.ActionMethods.Reverse*
+  commentId: Overload:Mekkdonalds.Simulation.ActionMethods.Reverse
+  href: Mekkdonalds.Simulation.ActionMethods.html#Mekkdonalds_Simulation_ActionMethods_Reverse_Mekkdonalds_Simulation_Action_
+  name: Reverse
+  nameWithType: ActionMethods.Reverse
+  fullName: Mekkdonalds.Simulation.ActionMethods.Reverse
+- uid: Mekkdonalds.Simulation.Action
+  commentId: T:Mekkdonalds.Simulation.Action
+  parent: Mekkdonalds.Simulation
+  href: Mekkdonalds.Simulation.Action.html
+  name: Action
+  nameWithType: Action
+  fullName: Mekkdonalds.Simulation.Action
