@@ -35,26 +35,29 @@ internal class Assigner : IAssigner
 
     public void Step()
     {
-        foreach (var r in _robots)
+        lock (_board)
         {
-            if (Paths.TryGetValue(r, out var path))
+            foreach (var r in _robots)
             {
-                if (path.IsOver)
+                if (Paths.TryGetValue(r, out var path))
                 {
-                    r.AddTask(null);
-                    if (Paths.TryRemove(r, out _))
-                        Assign(r);
-                }
-                else
-                {
-                    var action = path.Next();
-
-                    if (action is Action.F)
+                    if (path.IsOver)
                     {
-                        // collision detection
+                        r.AddTask(null);
+                        if (Paths.TryRemove(r, out _))
+                            Assign(r);
                     }
+                    else
+                    {
+                        var action = path.Next();
 
-                    r.Step(action);
+                        if (action is Action.F)
+                        {
+                            // collision detection
+                        }
+
+                        r.Step(action);
+                    }
                 }
             }
         }
