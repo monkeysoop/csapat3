@@ -1,37 +1,36 @@
 ### YamlMime:ManagedReference
 items:
-- uid: Mekkdonalds.ViewModel.ViewModelBase
-  commentId: T:Mekkdonalds.ViewModel.ViewModelBase
-  id: ViewModelBase
-  parent: Mekkdonalds.ViewModel
+- uid: Mekkdonalds.Test.PersistenceTests
+  commentId: T:Mekkdonalds.Test.PersistenceTests
+  id: PersistenceTests
+  parent: Mekkdonalds.Test
   children:
-  - Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(System.String)
-  - Mekkdonalds.ViewModel.ViewModelBase.PropertyChanged
+  - Mekkdonalds.Test.PersistenceTests.LogReadTest
+  - Mekkdonalds.Test.PersistenceTests.LogWriteTest
+  - Mekkdonalds.Test.PersistenceTests.Setup
   langs:
   - csharp
   - vb
-  name: ViewModelBase
-  nameWithType: ViewModelBase
-  fullName: Mekkdonalds.ViewModel.ViewModelBase
+  name: PersistenceTests
+  nameWithType: PersistenceTests
+  fullName: Mekkdonalds.Test.PersistenceTests
   type: Class
   source:
     remote:
-      path: src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
+      path: src/MekkdonaldsTest/PersistenceTests.cs
       branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: ViewModelBase
-    path: ../src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
-    startLine: 5
+    id: PersistenceTests
+    path: ../src/MekkdonaldsTest/PersistenceTests.cs
+    startLine: 9
   assemblies:
-  - MekkdonaldsWPF
-  namespace: Mekkdonalds.ViewModel
+  - MekkdonaldsTest
+  namespace: Mekkdonalds.Test
   syntax:
-    content: 'public abstract class ViewModelBase : INotifyPropertyChanged'
-    content.vb: Public MustInherit Class ViewModelBase Implements INotifyPropertyChanged
+    content: public class PersistenceTests
+    content.vb: Public Class PersistenceTests
   inheritance:
   - System.Object
-  implements:
-  - System.ComponentModel.INotifyPropertyChanged
   inheritedMembers:
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
@@ -40,92 +39,139 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
-- uid: Mekkdonalds.ViewModel.ViewModelBase.PropertyChanged
-  commentId: E:Mekkdonalds.ViewModel.ViewModelBase.PropertyChanged
-  id: PropertyChanged
-  parent: Mekkdonalds.ViewModel.ViewModelBase
+- uid: Mekkdonalds.Test.PersistenceTests.Setup
+  commentId: M:Mekkdonalds.Test.PersistenceTests.Setup
+  id: Setup
+  parent: Mekkdonalds.Test.PersistenceTests
   langs:
   - csharp
   - vb
-  name: PropertyChanged
-  nameWithType: ViewModelBase.PropertyChanged
-  fullName: Mekkdonalds.ViewModel.ViewModelBase.PropertyChanged
-  type: Event
-  source:
-    remote:
-      path: src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
-      branch: feature/looks
-      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: PropertyChanged
-    path: ../src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
-    startLine: 7
-  assemblies:
-  - MekkdonaldsWPF
-  namespace: Mekkdonalds.ViewModel
-  summary: Occurs when a property value changes.
-  example: []
-  syntax:
-    content: public event PropertyChangedEventHandler? PropertyChanged
-    return:
-      type: System.ComponentModel.PropertyChangedEventHandler
-    content.vb: Public Event PropertyChanged As PropertyChangedEventHandler
-  implements:
-  - System.ComponentModel.INotifyPropertyChanged.PropertyChanged
-- uid: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(System.String)
-  commentId: M:Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(System.String)
-  id: OnPropertyChanged(System.String)
-  parent: Mekkdonalds.ViewModel.ViewModelBase
-  langs:
-  - csharp
-  - vb
-  name: OnPropertyChanged(string?)
-  nameWithType: ViewModelBase.OnPropertyChanged(string?)
-  fullName: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(string?)
+  name: Setup()
+  nameWithType: PersistenceTests.Setup()
+  fullName: Mekkdonalds.Test.PersistenceTests.Setup()
   type: Method
   source:
     remote:
-      path: src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
+      path: src/MekkdonaldsTest/PersistenceTests.cs
       branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: OnPropertyChanged
-    path: ../src/MekkdonaldsWPF/ViewModel/ViewModelBase.cs
-    startLine: 9
+    id: Setup
+    path: ../src/MekkdonaldsTest/PersistenceTests.cs
+    startLine: 11
   assemblies:
-  - MekkdonaldsWPF
-  namespace: Mekkdonalds.ViewModel
+  - MekkdonaldsTest
+  namespace: Mekkdonalds.Test
   syntax:
-    content: protected virtual void OnPropertyChanged(string? propertyName = null)
-    parameters:
-    - id: propertyName
-      type: System.String
-    content.vb: Protected Overridable Sub OnPropertyChanged(propertyName As String = Nothing)
-  overload: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged*
-  nameWithType.vb: ViewModelBase.OnPropertyChanged(String)
-  fullName.vb: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged(String)
-  name.vb: OnPropertyChanged(String)
+    content: >-
+      [SetUp]
+
+      public void Setup()
+    content.vb: >-
+      <SetUp>
+
+      Public Sub Setup()
+  overload: Mekkdonalds.Test.PersistenceTests.Setup*
+  attributes:
+  - type: NUnit.Framework.SetUpAttribute
+    ctor: NUnit.Framework.SetUpAttribute.#ctor
+    arguments: []
+- uid: Mekkdonalds.Test.PersistenceTests.LogReadTest
+  commentId: M:Mekkdonalds.Test.PersistenceTests.LogReadTest
+  id: LogReadTest
+  parent: Mekkdonalds.Test.PersistenceTests
+  langs:
+  - csharp
+  - vb
+  name: LogReadTest()
+  nameWithType: PersistenceTests.LogReadTest()
+  fullName: Mekkdonalds.Test.PersistenceTests.LogReadTest()
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsTest/PersistenceTests.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: LogReadTest
+    path: ../src/MekkdonaldsTest/PersistenceTests.cs
+    startLine: 16
+  assemblies:
+  - MekkdonaldsTest
+  namespace: Mekkdonalds.Test
+  syntax:
+    content: >-
+      [Test]
+
+      public void LogReadTest()
+    content.vb: >-
+      <Test>
+
+      Public Sub LogReadTest()
+  overload: Mekkdonalds.Test.PersistenceTests.LogReadTest*
+  attributes:
+  - type: NUnit.Framework.TestAttribute
+    ctor: NUnit.Framework.TestAttribute.#ctor
+    arguments: []
+- uid: Mekkdonalds.Test.PersistenceTests.LogWriteTest
+  commentId: M:Mekkdonalds.Test.PersistenceTests.LogWriteTest
+  id: LogWriteTest
+  parent: Mekkdonalds.Test.PersistenceTests
+  langs:
+  - csharp
+  - vb
+  name: LogWriteTest()
+  nameWithType: PersistenceTests.LogWriteTest()
+  fullName: Mekkdonalds.Test.PersistenceTests.LogWriteTest()
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsTest/PersistenceTests.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: LogWriteTest
+    path: ../src/MekkdonaldsTest/PersistenceTests.cs
+    startLine: 45
+  assemblies:
+  - MekkdonaldsTest
+  namespace: Mekkdonalds.Test
+  syntax:
+    content: >-
+      [Test]
+
+      public Task LogWriteTest()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Test>
+
+      Public Function LogWriteTest() As Task
+  overload: Mekkdonalds.Test.PersistenceTests.LogWriteTest*
+  attributes:
+  - type: NUnit.Framework.TestAttribute
+    ctor: NUnit.Framework.TestAttribute.#ctor
+    arguments: []
 references:
-- uid: Mekkdonalds.ViewModel
-  commentId: N:Mekkdonalds.ViewModel
+- uid: Mekkdonalds.Test
+  commentId: N:Mekkdonalds.Test
   href: Mekkdonalds.html
-  name: Mekkdonalds.ViewModel
-  nameWithType: Mekkdonalds.ViewModel
-  fullName: Mekkdonalds.ViewModel
+  name: Mekkdonalds.Test
+  nameWithType: Mekkdonalds.Test
+  fullName: Mekkdonalds.Test
   spec.csharp:
   - uid: Mekkdonalds
     name: Mekkdonalds
     href: Mekkdonalds.html
   - name: .
-  - uid: Mekkdonalds.ViewModel
-    name: ViewModel
-    href: Mekkdonalds.ViewModel.html
+  - uid: Mekkdonalds.Test
+    name: Test
+    href: Mekkdonalds.Test.html
   spec.vb:
   - uid: Mekkdonalds
     name: Mekkdonalds
     href: Mekkdonalds.html
   - name: .
-  - uid: Mekkdonalds.ViewModel
-    name: ViewModel
-    href: Mekkdonalds.ViewModel.html
+  - uid: Mekkdonalds.Test
+    name: Test
+    href: Mekkdonalds.Test.html
 - uid: System.Object
   commentId: T:System.Object
   parent: System
@@ -137,14 +183,6 @@ references:
   nameWithType.vb: Object
   fullName.vb: Object
   name.vb: Object
-- uid: System.ComponentModel.INotifyPropertyChanged
-  commentId: T:System.ComponentModel.INotifyPropertyChanged
-  parent: System.ComponentModel
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.componentmodel.inotifypropertychanged
-  name: INotifyPropertyChanged
-  nameWithType: INotifyPropertyChanged
-  fullName: System.ComponentModel.INotifyPropertyChanged
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -371,63 +409,66 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: System.ComponentModel
-  commentId: N:System.ComponentModel
+- uid: Mekkdonalds.Test.PersistenceTests.Setup*
+  commentId: Overload:Mekkdonalds.Test.PersistenceTests.Setup
+  href: Mekkdonalds.Test.PersistenceTests.html#Mekkdonalds_Test_PersistenceTests_Setup
+  name: Setup
+  nameWithType: PersistenceTests.Setup
+  fullName: Mekkdonalds.Test.PersistenceTests.Setup
+- uid: Mekkdonalds.Test.PersistenceTests.LogReadTest*
+  commentId: Overload:Mekkdonalds.Test.PersistenceTests.LogReadTest
+  href: Mekkdonalds.Test.PersistenceTests.html#Mekkdonalds_Test_PersistenceTests_LogReadTest
+  name: LogReadTest
+  nameWithType: PersistenceTests.LogReadTest
+  fullName: Mekkdonalds.Test.PersistenceTests.LogReadTest
+- uid: Mekkdonalds.Test.PersistenceTests.LogWriteTest*
+  commentId: Overload:Mekkdonalds.Test.PersistenceTests.LogWriteTest
+  href: Mekkdonalds.Test.PersistenceTests.html#Mekkdonalds_Test_PersistenceTests_LogWriteTest
+  name: LogWriteTest
+  nameWithType: PersistenceTests.LogWriteTest
+  fullName: Mekkdonalds.Test.PersistenceTests.LogWriteTest
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
   isExternal: true
   href: https://learn.microsoft.com/dotnet/api/system
-  name: System.ComponentModel
-  nameWithType: System.ComponentModel
-  fullName: System.ComponentModel
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
   spec.csharp:
   - uid: System
     name: System
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system
   - name: .
-  - uid: System.ComponentModel
-    name: ComponentModel
+  - uid: System.Threading
+    name: Threading
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.componentmodel
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
   spec.vb:
   - uid: System
     name: System
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system
   - name: .
-  - uid: System.ComponentModel
-    name: ComponentModel
+  - uid: System.Threading
+    name: Threading
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.componentmodel
-- uid: System.ComponentModel.INotifyPropertyChanged.PropertyChanged
-  commentId: E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged
-  parent: System.ComponentModel.INotifyPropertyChanged
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.componentmodel.inotifypropertychanged.propertychanged
-  name: PropertyChanged
-  nameWithType: INotifyPropertyChanged.PropertyChanged
-  fullName: System.ComponentModel.INotifyPropertyChanged.PropertyChanged
-- uid: System.ComponentModel.PropertyChangedEventHandler
-  commentId: T:System.ComponentModel.PropertyChangedEventHandler
-  parent: System.ComponentModel
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.componentmodel.propertychangedeventhandler
-  name: PropertyChangedEventHandler
-  nameWithType: PropertyChangedEventHandler
-  fullName: System.ComponentModel.PropertyChangedEventHandler
-- uid: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged*
-  commentId: Overload:Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged
-  href: Mekkdonalds.ViewModel.ViewModelBase.html#Mekkdonalds_ViewModel_ViewModelBase_OnPropertyChanged_System_String_
-  name: OnPropertyChanged
-  nameWithType: ViewModelBase.OnPropertyChanged
-  fullName: Mekkdonalds.ViewModel.ViewModelBase.OnPropertyChanged
-- uid: System.String
-  commentId: T:System.String
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.string
-  name: string
-  nameWithType: string
-  fullName: string
-  nameWithType.vb: String
-  fullName.vb: String
-  name.vb: String
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks

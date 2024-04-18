@@ -1,36 +1,39 @@
 ### YamlMime:ManagedReference
 items:
-- uid: Mekkdonalds.Simulation.Path
-  commentId: T:Mekkdonalds.Simulation.Path
-  id: Path
-  parent: Mekkdonalds.Simulation
+- uid: Mekkdonalds.Persistence.SimDataAccess
+  commentId: T:Mekkdonalds.Persistence.SimDataAccess
+  id: SimDataAccess
+  parent: Mekkdonalds.Persistence
   children:
-  - Mekkdonalds.Simulation.Path.#ctor(System.Collections.Generic.List{Mekkdonalds.Simulation.Action},System.Drawing.Point)
-  - Mekkdonalds.Simulation.Path.IsOver
-  - Mekkdonalds.Simulation.Path.Target
+  - Mekkdonalds.Persistence.SimDataAccess.BDA
+  - Mekkdonalds.Persistence.SimDataAccess.CDA
+  - Mekkdonalds.Persistence.SimDataAccess.PDA
+  - Mekkdonalds.Persistence.SimDataAccess.RDA
   langs:
   - csharp
   - vb
-  name: Path
-  nameWithType: Path
-  fullName: Mekkdonalds.Simulation.Path
+  name: SimDataAccess
+  nameWithType: SimDataAccess
+  fullName: Mekkdonalds.Persistence.SimDataAccess
   type: Class
   source:
     remote:
-      path: src/MekkdonaldsModel/Simulation/Path.cs
+      path: src/MekkdonaldsModel/Persistence/SimDataAccess.cs
       branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: Path
-    path: ../src/MekkdonaldsModel/Simulation/Path.cs
+    id: SimDataAccess
+    path: ../src/MekkdonaldsModel/Persistence/SimDataAccess.cs
     startLine: 2
   assemblies:
   - MekkdonaldsModel
-  namespace: Mekkdonalds.Simulation
+  namespace: Mekkdonalds.Persistence
   syntax:
-    content: public class Path
-    content.vb: Public Class Path
+    content: 'public class SimDataAccess : ISimDataAccess'
+    content.vb: Public Class SimDataAccess Implements ISimDataAccess
   inheritance:
   - System.Object
+  implements:
+  - Mekkdonalds.Persistence.ISimDataAccess
   inheritedMembers:
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
@@ -39,119 +42,157 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
-- uid: Mekkdonalds.Simulation.Path.#ctor(System.Collections.Generic.List{Mekkdonalds.Simulation.Action},System.Drawing.Point)
-  commentId: M:Mekkdonalds.Simulation.Path.#ctor(System.Collections.Generic.List{Mekkdonalds.Simulation.Action},System.Drawing.Point)
-  id: '#ctor(System.Collections.Generic.List{Mekkdonalds.Simulation.Action},System.Drawing.Point)'
-  parent: Mekkdonalds.Simulation.Path
+- uid: Mekkdonalds.Persistence.SimDataAccess.CDA
+  commentId: P:Mekkdonalds.Persistence.SimDataAccess.CDA
+  id: CDA
+  parent: Mekkdonalds.Persistence.SimDataAccess
   langs:
   - csharp
   - vb
-  name: Path(List<Action>, Point)
-  nameWithType: Path.Path(List<Action>, Point)
-  fullName: Mekkdonalds.Simulation.Path.Path(System.Collections.Generic.List<Mekkdonalds.Simulation.Action>, System.Drawing.Point)
-  type: Constructor
-  source:
-    remote:
-      path: src/MekkdonaldsModel/Simulation/Path.cs
-      branch: feature/looks
-      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: .ctor
-    path: ../src/MekkdonaldsModel/Simulation/Path.cs
-    startLine: 2
-  assemblies:
-  - MekkdonaldsModel
-  namespace: Mekkdonalds.Simulation
-  syntax:
-    content: public Path(List<Action> lista, Point p)
-    parameters:
-    - id: lista
-      type: System.Collections.Generic.List{Mekkdonalds.Simulation.Action}
-    - id: p
-      type: System.Drawing.Point
-    content.vb: Public Sub New(lista As List(Of Action), p As Point)
-  overload: Mekkdonalds.Simulation.Path.#ctor*
-  nameWithType.vb: Path.New(List(Of Action), Point)
-  fullName.vb: Mekkdonalds.Simulation.Path.New(System.Collections.Generic.List(Of Mekkdonalds.Simulation.Action), System.Drawing.Point)
-  name.vb: New(List(Of Action), Point)
-- uid: Mekkdonalds.Simulation.Path.Target
-  commentId: F:Mekkdonalds.Simulation.Path.Target
-  id: Target
-  parent: Mekkdonalds.Simulation.Path
-  langs:
-  - csharp
-  - vb
-  name: Target
-  nameWithType: Path.Target
-  fullName: Mekkdonalds.Simulation.Path.Target
-  type: Field
-  source:
-    remote:
-      path: src/MekkdonaldsModel/Simulation/Path.cs
-      branch: feature/looks
-      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: Target
-    path: ../src/MekkdonaldsModel/Simulation/Path.cs
-    startLine: 8
-  assemblies:
-  - MekkdonaldsModel
-  namespace: Mekkdonalds.Simulation
-  syntax:
-    content: public readonly Point Target
-    return:
-      type: System.Drawing.Point
-    content.vb: Public ReadOnly Target As Point
-- uid: Mekkdonalds.Simulation.Path.IsOver
-  commentId: P:Mekkdonalds.Simulation.Path.IsOver
-  id: IsOver
-  parent: Mekkdonalds.Simulation.Path
-  langs:
-  - csharp
-  - vb
-  name: IsOver
-  nameWithType: Path.IsOver
-  fullName: Mekkdonalds.Simulation.Path.IsOver
+  name: CDA
+  nameWithType: SimDataAccess.CDA
+  fullName: Mekkdonalds.Persistence.SimDataAccess.CDA
   type: Property
   source:
     remote:
-      path: src/MekkdonaldsModel/Simulation/Path.cs
+      path: src/MekkdonaldsModel/Persistence/SimDataAccess.cs
       branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: IsOver
-    path: ../src/MekkdonaldsModel/Simulation/Path.cs
-    startLine: 10
+    id: CDA
+    path: ../src/MekkdonaldsModel/Persistence/SimDataAccess.cs
+    startLine: 4
   assemblies:
   - MekkdonaldsModel
-  namespace: Mekkdonalds.Simulation
+  namespace: Mekkdonalds.Persistence
+  example: []
   syntax:
-    content: public bool IsOver { get; }
+    content: public required IConfigDataAccess CDA { get; init; }
     parameters: []
     return:
-      type: System.Boolean
-    content.vb: Public ReadOnly Property IsOver As Boolean
-  overload: Mekkdonalds.Simulation.Path.IsOver*
+      type: Mekkdonalds.Persistence.IConfigDataAccess
+    content.vb: Public Property CDA As IConfigDataAccess
+  overload: Mekkdonalds.Persistence.SimDataAccess.CDA*
+  implements:
+  - Mekkdonalds.Persistence.ISimDataAccess.CDA
+- uid: Mekkdonalds.Persistence.SimDataAccess.BDA
+  commentId: P:Mekkdonalds.Persistence.SimDataAccess.BDA
+  id: BDA
+  parent: Mekkdonalds.Persistence.SimDataAccess
+  langs:
+  - csharp
+  - vb
+  name: BDA
+  nameWithType: SimDataAccess.BDA
+  fullName: Mekkdonalds.Persistence.SimDataAccess.BDA
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/SimDataAccess.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: BDA
+    path: ../src/MekkdonaldsModel/Persistence/SimDataAccess.cs
+    startLine: 5
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  example: []
+  syntax:
+    content: public required IBoardDataAccess BDA { get; init; }
+    parameters: []
+    return:
+      type: Mekkdonalds.Persistence.IBoardDataAccess
+    content.vb: Public Property BDA As IBoardDataAccess
+  overload: Mekkdonalds.Persistence.SimDataAccess.BDA*
+  implements:
+  - Mekkdonalds.Persistence.ISimDataAccess.BDA
+- uid: Mekkdonalds.Persistence.SimDataAccess.PDA
+  commentId: P:Mekkdonalds.Persistence.SimDataAccess.PDA
+  id: PDA
+  parent: Mekkdonalds.Persistence.SimDataAccess
+  langs:
+  - csharp
+  - vb
+  name: PDA
+  nameWithType: SimDataAccess.PDA
+  fullName: Mekkdonalds.Persistence.SimDataAccess.PDA
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/SimDataAccess.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: PDA
+    path: ../src/MekkdonaldsModel/Persistence/SimDataAccess.cs
+    startLine: 6
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  example: []
+  syntax:
+    content: public required IPackagesDataAccess PDA { get; init; }
+    parameters: []
+    return:
+      type: Mekkdonalds.Persistence.IPackagesDataAccess
+    content.vb: Public Property PDA As IPackagesDataAccess
+  overload: Mekkdonalds.Persistence.SimDataAccess.PDA*
+  implements:
+  - Mekkdonalds.Persistence.ISimDataAccess.PDA
+- uid: Mekkdonalds.Persistence.SimDataAccess.RDA
+  commentId: P:Mekkdonalds.Persistence.SimDataAccess.RDA
+  id: RDA
+  parent: Mekkdonalds.Persistence.SimDataAccess
+  langs:
+  - csharp
+  - vb
+  name: RDA
+  nameWithType: SimDataAccess.RDA
+  fullName: Mekkdonalds.Persistence.SimDataAccess.RDA
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/SimDataAccess.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: RDA
+    path: ../src/MekkdonaldsModel/Persistence/SimDataAccess.cs
+    startLine: 7
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  example: []
+  syntax:
+    content: public required IRobotsDataAccess RDA { get; init; }
+    parameters: []
+    return:
+      type: Mekkdonalds.Persistence.IRobotsDataAccess
+    content.vb: Public Property RDA As IRobotsDataAccess
+  overload: Mekkdonalds.Persistence.SimDataAccess.RDA*
+  implements:
+  - Mekkdonalds.Persistence.ISimDataAccess.RDA
 references:
-- uid: Mekkdonalds.Simulation
-  commentId: N:Mekkdonalds.Simulation
+- uid: Mekkdonalds.Persistence
+  commentId: N:Mekkdonalds.Persistence
   href: Mekkdonalds.html
-  name: Mekkdonalds.Simulation
-  nameWithType: Mekkdonalds.Simulation
-  fullName: Mekkdonalds.Simulation
+  name: Mekkdonalds.Persistence
+  nameWithType: Mekkdonalds.Persistence
+  fullName: Mekkdonalds.Persistence
   spec.csharp:
   - uid: Mekkdonalds
     name: Mekkdonalds
     href: Mekkdonalds.html
   - name: .
-  - uid: Mekkdonalds.Simulation
-    name: Simulation
-    href: Mekkdonalds.Simulation.html
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
   spec.vb:
   - uid: Mekkdonalds
     name: Mekkdonalds
     href: Mekkdonalds.html
   - name: .
-  - uid: Mekkdonalds.Simulation
-    name: Simulation
-    href: Mekkdonalds.Simulation.html
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
 - uid: System.Object
   commentId: T:System.Object
   parent: System
@@ -163,6 +204,13 @@ references:
   nameWithType.vb: Object
   fullName.vb: Object
   name.vb: Object
+- uid: Mekkdonalds.Persistence.ISimDataAccess
+  commentId: T:Mekkdonalds.Persistence.ISimDataAccess
+  parent: Mekkdonalds.Persistence
+  href: Mekkdonalds.Persistence.ISimDataAccess.html
+  name: ISimDataAccess
+  nameWithType: ISimDataAccess
+  fullName: Mekkdonalds.Persistence.ISimDataAccess
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -389,162 +437,83 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: Mekkdonalds.Simulation.Path.#ctor*
-  commentId: Overload:Mekkdonalds.Simulation.Path.#ctor
-  href: Mekkdonalds.Simulation.Path.html#Mekkdonalds_Simulation_Path__ctor_System_Collections_Generic_List_Mekkdonalds_Simulation_Action__System_Drawing_Point_
-  name: Path
-  nameWithType: Path.Path
-  fullName: Mekkdonalds.Simulation.Path.Path
-  nameWithType.vb: Path.New
-  fullName.vb: Mekkdonalds.Simulation.Path.New
-  name.vb: New
-- uid: System.Collections.Generic.List{Mekkdonalds.Simulation.Action}
-  commentId: T:System.Collections.Generic.List{Mekkdonalds.Simulation.Action}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.List`1
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  name: List<Action>
-  nameWithType: List<Action>
-  fullName: System.Collections.Generic.List<Mekkdonalds.Simulation.Action>
-  nameWithType.vb: List(Of Action)
-  fullName.vb: System.Collections.Generic.List(Of Mekkdonalds.Simulation.Action)
-  name.vb: List(Of Action)
-  spec.csharp:
-  - uid: System.Collections.Generic.List`1
-    name: List
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  - name: <
-  - uid: Mekkdonalds.Simulation.Action
-    name: Action
-    href: Mekkdonalds.Simulation.Action.html
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.List`1
-    name: List
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  - name: (
-  - name: Of
-  - name: " "
-  - uid: Mekkdonalds.Simulation.Action
-    name: Action
-    href: Mekkdonalds.Simulation.Action.html
-  - name: )
-- uid: System.Drawing.Point
-  commentId: T:System.Drawing.Point
-  parent: System.Drawing
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.drawing.point
-  name: Point
-  nameWithType: Point
-  fullName: System.Drawing.Point
-- uid: System.Collections.Generic.List`1
-  commentId: T:System.Collections.Generic.List`1
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  name: List<T>
-  nameWithType: List<T>
-  fullName: System.Collections.Generic.List<T>
-  nameWithType.vb: List(Of T)
-  fullName.vb: System.Collections.Generic.List(Of T)
-  name.vb: List(Of T)
-  spec.csharp:
-  - uid: System.Collections.Generic.List`1
-    name: List
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  - name: <
-  - name: T
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.List`1
-    name: List
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  - name: (
-  - name: Of
-  - name: " "
-  - name: T
-  - name: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-- uid: System.Drawing
-  commentId: N:System.Drawing
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.Drawing
-  nameWithType: System.Drawing
-  fullName: System.Drawing
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Drawing
-    name: Drawing
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.drawing
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Drawing
-    name: Drawing
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.drawing
-- uid: Mekkdonalds.Simulation.Path.IsOver*
-  commentId: Overload:Mekkdonalds.Simulation.Path.IsOver
-  href: Mekkdonalds.Simulation.Path.html#Mekkdonalds_Simulation_Path_IsOver
-  name: IsOver
-  nameWithType: Path.IsOver
-  fullName: Mekkdonalds.Simulation.Path.IsOver
-- uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.boolean
-  name: bool
-  nameWithType: bool
-  fullName: bool
-  nameWithType.vb: Boolean
-  fullName.vb: Boolean
-  name.vb: Boolean
+- uid: Mekkdonalds.Persistence.SimDataAccess.CDA*
+  commentId: Overload:Mekkdonalds.Persistence.SimDataAccess.CDA
+  href: Mekkdonalds.Persistence.SimDataAccess.html#Mekkdonalds_Persistence_SimDataAccess_CDA
+  name: CDA
+  nameWithType: SimDataAccess.CDA
+  fullName: Mekkdonalds.Persistence.SimDataAccess.CDA
+- uid: Mekkdonalds.Persistence.ISimDataAccess.CDA
+  commentId: P:Mekkdonalds.Persistence.ISimDataAccess.CDA
+  parent: Mekkdonalds.Persistence.ISimDataAccess
+  href: Mekkdonalds.Persistence.ISimDataAccess.html#Mekkdonalds_Persistence_ISimDataAccess_CDA
+  name: CDA
+  nameWithType: ISimDataAccess.CDA
+  fullName: Mekkdonalds.Persistence.ISimDataAccess.CDA
+- uid: Mekkdonalds.Persistence.IConfigDataAccess
+  commentId: T:Mekkdonalds.Persistence.IConfigDataAccess
+  parent: Mekkdonalds.Persistence
+  href: Mekkdonalds.Persistence.IConfigDataAccess.html
+  name: IConfigDataAccess
+  nameWithType: IConfigDataAccess
+  fullName: Mekkdonalds.Persistence.IConfigDataAccess
+- uid: Mekkdonalds.Persistence.SimDataAccess.BDA*
+  commentId: Overload:Mekkdonalds.Persistence.SimDataAccess.BDA
+  href: Mekkdonalds.Persistence.SimDataAccess.html#Mekkdonalds_Persistence_SimDataAccess_BDA
+  name: BDA
+  nameWithType: SimDataAccess.BDA
+  fullName: Mekkdonalds.Persistence.SimDataAccess.BDA
+- uid: Mekkdonalds.Persistence.ISimDataAccess.BDA
+  commentId: P:Mekkdonalds.Persistence.ISimDataAccess.BDA
+  parent: Mekkdonalds.Persistence.ISimDataAccess
+  href: Mekkdonalds.Persistence.ISimDataAccess.html#Mekkdonalds_Persistence_ISimDataAccess_BDA
+  name: BDA
+  nameWithType: ISimDataAccess.BDA
+  fullName: Mekkdonalds.Persistence.ISimDataAccess.BDA
+- uid: Mekkdonalds.Persistence.IBoardDataAccess
+  commentId: T:Mekkdonalds.Persistence.IBoardDataAccess
+  parent: Mekkdonalds.Persistence
+  href: Mekkdonalds.Persistence.IBoardDataAccess.html
+  name: IBoardDataAccess
+  nameWithType: IBoardDataAccess
+  fullName: Mekkdonalds.Persistence.IBoardDataAccess
+- uid: Mekkdonalds.Persistence.SimDataAccess.PDA*
+  commentId: Overload:Mekkdonalds.Persistence.SimDataAccess.PDA
+  href: Mekkdonalds.Persistence.SimDataAccess.html#Mekkdonalds_Persistence_SimDataAccess_PDA
+  name: PDA
+  nameWithType: SimDataAccess.PDA
+  fullName: Mekkdonalds.Persistence.SimDataAccess.PDA
+- uid: Mekkdonalds.Persistence.ISimDataAccess.PDA
+  commentId: P:Mekkdonalds.Persistence.ISimDataAccess.PDA
+  parent: Mekkdonalds.Persistence.ISimDataAccess
+  href: Mekkdonalds.Persistence.ISimDataAccess.html#Mekkdonalds_Persistence_ISimDataAccess_PDA
+  name: PDA
+  nameWithType: ISimDataAccess.PDA
+  fullName: Mekkdonalds.Persistence.ISimDataAccess.PDA
+- uid: Mekkdonalds.Persistence.IPackagesDataAccess
+  commentId: T:Mekkdonalds.Persistence.IPackagesDataAccess
+  parent: Mekkdonalds.Persistence
+  href: Mekkdonalds.Persistence.IPackagesDataAccess.html
+  name: IPackagesDataAccess
+  nameWithType: IPackagesDataAccess
+  fullName: Mekkdonalds.Persistence.IPackagesDataAccess
+- uid: Mekkdonalds.Persistence.SimDataAccess.RDA*
+  commentId: Overload:Mekkdonalds.Persistence.SimDataAccess.RDA
+  href: Mekkdonalds.Persistence.SimDataAccess.html#Mekkdonalds_Persistence_SimDataAccess_RDA
+  name: RDA
+  nameWithType: SimDataAccess.RDA
+  fullName: Mekkdonalds.Persistence.SimDataAccess.RDA
+- uid: Mekkdonalds.Persistence.ISimDataAccess.RDA
+  commentId: P:Mekkdonalds.Persistence.ISimDataAccess.RDA
+  parent: Mekkdonalds.Persistence.ISimDataAccess
+  href: Mekkdonalds.Persistence.ISimDataAccess.html#Mekkdonalds_Persistence_ISimDataAccess_RDA
+  name: RDA
+  nameWithType: ISimDataAccess.RDA
+  fullName: Mekkdonalds.Persistence.ISimDataAccess.RDA
+- uid: Mekkdonalds.Persistence.IRobotsDataAccess
+  commentId: T:Mekkdonalds.Persistence.IRobotsDataAccess
+  parent: Mekkdonalds.Persistence
+  href: Mekkdonalds.Persistence.IRobotsDataAccess.html
+  name: IRobotsDataAccess
+  nameWithType: IRobotsDataAccess
+  fullName: Mekkdonalds.Persistence.IRobotsDataAccess

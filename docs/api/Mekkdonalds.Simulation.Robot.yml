@@ -5,15 +5,15 @@ items:
   id: Robot
   parent: Mekkdonalds.Simulation
   children:
-  - Mekkdonalds.Simulation.Robot.#ctor(System.Int32)
-  - Mekkdonalds.Simulation.Robot.#ctor(System.Int32,System.Int32,System.Int32)
-  - Mekkdonalds.Simulation.Robot.Assign(System.Int32,System.Int32)
+  - Mekkdonalds.Simulation.Robot.#ctor(System.Drawing.Point,Mekkdonalds.Simulation.Direction)
+  - Mekkdonalds.Simulation.Robot.AddTask(System.Nullable{System.Drawing.Point})
   - Mekkdonalds.Simulation.Robot.Direction
   - Mekkdonalds.Simulation.Robot.History
   - Mekkdonalds.Simulation.Robot.ID
   - Mekkdonalds.Simulation.Robot.Position
-  - Mekkdonalds.Simulation.Robot.Start
+  - Mekkdonalds.Simulation.Robot.Step(Mekkdonalds.Simulation.Action)
   - Mekkdonalds.Simulation.Robot.Task
+  - Mekkdonalds.Simulation.Robot.TryStep(Mekkdonalds.Simulation.Action,Mekkdonalds.Persistence.Board)
   langs:
   - csharp
   - vb
@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Robot.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Robot
     path: ../src/MekkdonaldsModel/Simulation/Robot.cs
@@ -44,6 +44,40 @@ items:
   - System.Object.GetType
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+- uid: Mekkdonalds.Simulation.Robot.#ctor(System.Drawing.Point,Mekkdonalds.Simulation.Direction)
+  commentId: M:Mekkdonalds.Simulation.Robot.#ctor(System.Drawing.Point,Mekkdonalds.Simulation.Direction)
+  id: '#ctor(System.Drawing.Point,Mekkdonalds.Simulation.Direction)'
+  parent: Mekkdonalds.Simulation.Robot
+  langs:
+  - csharp
+  - vb
+  name: Robot(Point, Direction)
+  nameWithType: Robot.Robot(Point, Direction)
+  fullName: Mekkdonalds.Simulation.Robot.Robot(System.Drawing.Point, Mekkdonalds.Simulation.Direction)
+  type: Constructor
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Robot.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: .ctor
+    path: ../src/MekkdonaldsModel/Simulation/Robot.cs
+    startLine: 2
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
+  syntax:
+    content: public Robot(Point position, Direction direction)
+    parameters:
+    - id: position
+      type: System.Drawing.Point
+    - id: direction
+      type: Mekkdonalds.Simulation.Direction
+    content.vb: Public Sub New(position As Point, direction As Direction)
+  overload: Mekkdonalds.Simulation.Robot.#ctor*
+  nameWithType.vb: Robot.New(Point, Direction)
+  fullName.vb: Mekkdonalds.Simulation.Robot.New(System.Drawing.Point, Mekkdonalds.Simulation.Direction)
+  name.vb: New(Point, Direction)
 - uid: Mekkdonalds.Simulation.Robot.ID
   commentId: P:Mekkdonalds.Simulation.Robot.ID
   id: ID
@@ -58,11 +92,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Robot.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: ID
     path: ../src/MekkdonaldsModel/Simulation/Robot.cs
-    startLine: 6
+    startLine: 15
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation
@@ -73,35 +107,6 @@ items:
       type: System.Int32
     content.vb: Public ReadOnly Property ID As Integer
   overload: Mekkdonalds.Simulation.Robot.ID*
-- uid: Mekkdonalds.Simulation.Robot.Start
-  commentId: P:Mekkdonalds.Simulation.Robot.Start
-  id: Start
-  parent: Mekkdonalds.Simulation.Robot
-  langs:
-  - csharp
-  - vb
-  name: Start
-  nameWithType: Robot.Start
-  fullName: Mekkdonalds.Simulation.Robot.Start
-  type: Property
-  source:
-    remote:
-      path: src/MekkdonaldsModel/Simulation/Robot.cs
-      branch: master
-      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: Start
-    path: ../src/MekkdonaldsModel/Simulation/Robot.cs
-    startLine: 7
-  assemblies:
-  - MekkdonaldsModel
-  namespace: Mekkdonalds.Simulation
-  syntax:
-    content: public Point Start { get; }
-    parameters: []
-    return:
-      type: System.Drawing.Point
-    content.vb: Public ReadOnly Property Start As Point
-  overload: Mekkdonalds.Simulation.Robot.Start*
 - uid: Mekkdonalds.Simulation.Robot.Position
   commentId: P:Mekkdonalds.Simulation.Robot.Position
   id: Position
@@ -116,11 +121,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Robot.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Position
     path: ../src/MekkdonaldsModel/Simulation/Robot.cs
-    startLine: 12
+    startLine: 22
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation
@@ -147,11 +152,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Robot.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Direction
     path: ../src/MekkdonaldsModel/Simulation/Robot.cs
-    startLine: 17
+    startLine: 27
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation
@@ -178,11 +183,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Robot.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Task
     path: ../src/MekkdonaldsModel/Simulation/Robot.cs
-    startLine: 22
+    startLine: 32
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation
@@ -209,11 +214,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Robot.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: History
     path: ../src/MekkdonaldsModel/Simulation/Robot.cs
-    startLine: 27
+    startLine: 37
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation
@@ -226,108 +231,97 @@ items:
       type: System.Collections.Generic.IReadOnlyList{Mekkdonalds.Simulation.Action}
     content.vb: Public ReadOnly Property History As IReadOnlyList(Of Action)
   overload: Mekkdonalds.Simulation.Robot.History*
-- uid: Mekkdonalds.Simulation.Robot.#ctor(System.Int32,System.Int32,System.Int32)
-  commentId: M:Mekkdonalds.Simulation.Robot.#ctor(System.Int32,System.Int32,System.Int32)
-  id: '#ctor(System.Int32,System.Int32,System.Int32)'
+- uid: Mekkdonalds.Simulation.Robot.AddTask(System.Nullable{System.Drawing.Point})
+  commentId: M:Mekkdonalds.Simulation.Robot.AddTask(System.Nullable{System.Drawing.Point})
+  id: AddTask(System.Nullable{System.Drawing.Point})
   parent: Mekkdonalds.Simulation.Robot
   langs:
   - csharp
   - vb
-  name: Robot(int, int, int)
-  nameWithType: Robot.Robot(int, int, int)
-  fullName: Mekkdonalds.Simulation.Robot.Robot(int, int, int)
-  type: Constructor
+  name: AddTask(Point?)
+  nameWithType: Robot.AddTask(Point?)
+  fullName: Mekkdonalds.Simulation.Robot.AddTask(System.Drawing.Point?)
+  type: Method
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Robot.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: .ctor
-    path: ../src/MekkdonaldsModel/Simulation/Robot.cs
-    startLine: 32
-  assemblies:
-  - MekkdonaldsModel
-  namespace: Mekkdonalds.Simulation
-  syntax:
-    content: public Robot(int id, int x, int y)
-    parameters:
-    - id: id
-      type: System.Int32
-    - id: x
-      type: System.Int32
-    - id: y
-      type: System.Int32
-    content.vb: Public Sub New(id As Integer, x As Integer, y As Integer)
-  overload: Mekkdonalds.Simulation.Robot.#ctor*
-  nameWithType.vb: Robot.New(Integer, Integer, Integer)
-  fullName.vb: Mekkdonalds.Simulation.Robot.New(Integer, Integer, Integer)
-  name.vb: New(Integer, Integer, Integer)
-- uid: Mekkdonalds.Simulation.Robot.#ctor(System.Int32)
-  commentId: M:Mekkdonalds.Simulation.Robot.#ctor(System.Int32)
-  id: '#ctor(System.Int32)'
-  parent: Mekkdonalds.Simulation.Robot
-  langs:
-  - csharp
-  - vb
-  name: Robot(int)
-  nameWithType: Robot.Robot(int)
-  fullName: Mekkdonalds.Simulation.Robot.Robot(int)
-  type: Constructor
-  source:
-    remote:
-      path: src/MekkdonaldsModel/Simulation/Robot.cs
-      branch: master
-      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: .ctor
+    id: AddTask
     path: ../src/MekkdonaldsModel/Simulation/Robot.cs
     startLine: 39
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation
   syntax:
-    content: public Robot(int id)
+    content: public void AddTask(Point? p)
     parameters:
-    - id: id
-      type: System.Int32
-    content.vb: Public Sub New(id As Integer)
-  overload: Mekkdonalds.Simulation.Robot.#ctor*
-  nameWithType.vb: Robot.New(Integer)
-  fullName.vb: Mekkdonalds.Simulation.Robot.New(Integer)
-  name.vb: New(Integer)
-- uid: Mekkdonalds.Simulation.Robot.Assign(System.Int32,System.Int32)
-  commentId: M:Mekkdonalds.Simulation.Robot.Assign(System.Int32,System.Int32)
-  id: Assign(System.Int32,System.Int32)
+    - id: p
+      type: System.Nullable{System.Drawing.Point}
+    content.vb: Public Sub AddTask(p As Point?)
+  overload: Mekkdonalds.Simulation.Robot.AddTask*
+- uid: Mekkdonalds.Simulation.Robot.TryStep(Mekkdonalds.Simulation.Action,Mekkdonalds.Persistence.Board)
+  commentId: M:Mekkdonalds.Simulation.Robot.TryStep(Mekkdonalds.Simulation.Action,Mekkdonalds.Persistence.Board)
+  id: TryStep(Mekkdonalds.Simulation.Action,Mekkdonalds.Persistence.Board)
   parent: Mekkdonalds.Simulation.Robot
   langs:
   - csharp
   - vb
-  name: Assign(int, int)
-  nameWithType: Robot.Assign(int, int)
-  fullName: Mekkdonalds.Simulation.Robot.Assign(int, int)
+  name: TryStep(Action, Board)
+  nameWithType: Robot.TryStep(Action, Board)
+  fullName: Mekkdonalds.Simulation.Robot.TryStep(Mekkdonalds.Simulation.Action, Mekkdonalds.Persistence.Board)
   type: Method
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Robot.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
-    id: Assign
+    id: TryStep
     path: ../src/MekkdonaldsModel/Simulation/Robot.cs
-    startLine: 42
+    startLine: 50
   assemblies:
   - MekkdonaldsModel
   namespace: Mekkdonalds.Simulation
   syntax:
-    content: public void Assign(int x, int y)
+    content: public bool TryStep(Action a, Board board)
     parameters:
-    - id: x
-      type: System.Int32
-    - id: y
-      type: System.Int32
-    content.vb: Public Sub Assign(x As Integer, y As Integer)
-  overload: Mekkdonalds.Simulation.Robot.Assign*
-  nameWithType.vb: Robot.Assign(Integer, Integer)
-  fullName.vb: Mekkdonalds.Simulation.Robot.Assign(Integer, Integer)
-  name.vb: Assign(Integer, Integer)
+    - id: a
+      type: Mekkdonalds.Simulation.Action
+    - id: board
+      type: Mekkdonalds.Persistence.Board
+    return:
+      type: System.Boolean
+    content.vb: Public Function TryStep(a As Action, board As Board) As Boolean
+  overload: Mekkdonalds.Simulation.Robot.TryStep*
+- uid: Mekkdonalds.Simulation.Robot.Step(Mekkdonalds.Simulation.Action)
+  commentId: M:Mekkdonalds.Simulation.Robot.Step(Mekkdonalds.Simulation.Action)
+  id: Step(Mekkdonalds.Simulation.Action)
+  parent: Mekkdonalds.Simulation.Robot
+  langs:
+  - csharp
+  - vb
+  name: Step(Action)
+  nameWithType: Robot.Step(Action)
+  fullName: Mekkdonalds.Simulation.Robot.Step(Mekkdonalds.Simulation.Action)
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Robot.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Step
+    path: ../src/MekkdonaldsModel/Simulation/Robot.cs
+    startLine: 77
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
+  syntax:
+    content: public void Step(Action a)
+    parameters:
+    - id: a
+      type: Mekkdonalds.Simulation.Action
+    content.vb: Public Sub [Step](a As Action)
+  overload: Mekkdonalds.Simulation.Robot.Step*
 references:
 - uid: Mekkdonalds.Simulation
   commentId: N:Mekkdonalds.Simulation
@@ -564,29 +558,15 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: Mekkdonalds.Simulation.Robot.ID*
-  commentId: Overload:Mekkdonalds.Simulation.Robot.ID
-  href: Mekkdonalds.Simulation.Robot.html#Mekkdonalds_Simulation_Robot_ID
-  name: ID
-  nameWithType: Robot.ID
-  fullName: Mekkdonalds.Simulation.Robot.ID
-- uid: System.Int32
-  commentId: T:System.Int32
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.int32
-  name: int
-  nameWithType: int
-  fullName: int
-  nameWithType.vb: Integer
-  fullName.vb: Integer
-  name.vb: Integer
-- uid: Mekkdonalds.Simulation.Robot.Start*
-  commentId: Overload:Mekkdonalds.Simulation.Robot.Start
-  href: Mekkdonalds.Simulation.Robot.html#Mekkdonalds_Simulation_Robot_Start
-  name: Start
-  nameWithType: Robot.Start
-  fullName: Mekkdonalds.Simulation.Robot.Start
+- uid: Mekkdonalds.Simulation.Robot.#ctor*
+  commentId: Overload:Mekkdonalds.Simulation.Robot.#ctor
+  href: Mekkdonalds.Simulation.Robot.html#Mekkdonalds_Simulation_Robot__ctor_System_Drawing_Point_Mekkdonalds_Simulation_Direction_
+  name: Robot
+  nameWithType: Robot.Robot
+  fullName: Mekkdonalds.Simulation.Robot.Robot
+  nameWithType.vb: Robot.New
+  fullName.vb: Mekkdonalds.Simulation.Robot.New
+  name.vb: New
 - uid: System.Drawing.Point
   commentId: T:System.Drawing.Point
   parent: System.Drawing
@@ -595,6 +575,13 @@ references:
   name: Point
   nameWithType: Point
   fullName: System.Drawing.Point
+- uid: Mekkdonalds.Simulation.Direction
+  commentId: T:Mekkdonalds.Simulation.Direction
+  parent: Mekkdonalds.Simulation
+  href: Mekkdonalds.Simulation.Direction.html
+  name: Direction
+  nameWithType: Direction
+  fullName: Mekkdonalds.Simulation.Direction
 - uid: System.Drawing
   commentId: N:System.Drawing
   isExternal: true
@@ -622,6 +609,23 @@ references:
     name: Drawing
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.drawing
+- uid: Mekkdonalds.Simulation.Robot.ID*
+  commentId: Overload:Mekkdonalds.Simulation.Robot.ID
+  href: Mekkdonalds.Simulation.Robot.html#Mekkdonalds_Simulation_Robot_ID
+  name: ID
+  nameWithType: Robot.ID
+  fullName: Mekkdonalds.Simulation.Robot.ID
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
 - uid: Mekkdonalds.Simulation.Robot.Position*
   commentId: Overload:Mekkdonalds.Simulation.Robot.Position
   href: Mekkdonalds.Simulation.Robot.html#Mekkdonalds_Simulation_Robot_Position
@@ -634,13 +638,6 @@ references:
   name: Direction
   nameWithType: Robot.Direction
   fullName: Mekkdonalds.Simulation.Robot.Direction
-- uid: Mekkdonalds.Simulation.Direction
-  commentId: T:Mekkdonalds.Simulation.Direction
-  parent: Mekkdonalds.Simulation
-  href: Mekkdonalds.Simulation.Direction.html
-  name: Direction
-  nameWithType: Direction
-  fullName: Mekkdonalds.Simulation.Direction
 - uid: Mekkdonalds.Simulation.Robot.Task*
   commentId: Overload:Mekkdonalds.Simulation.Robot.Task
   href: Mekkdonalds.Simulation.Robot.html#Mekkdonalds_Simulation_Robot_Task
@@ -758,18 +755,116 @@ references:
     name: Generic
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-- uid: Mekkdonalds.Simulation.Robot.#ctor*
-  commentId: Overload:Mekkdonalds.Simulation.Robot.#ctor
-  href: Mekkdonalds.Simulation.Robot.html#Mekkdonalds_Simulation_Robot__ctor_System_Int32_System_Int32_System_Int32_
-  name: Robot
-  nameWithType: Robot.Robot
-  fullName: Mekkdonalds.Simulation.Robot.Robot
-  nameWithType.vb: Robot.New
-  fullName.vb: Mekkdonalds.Simulation.Robot.New
-  name.vb: New
-- uid: Mekkdonalds.Simulation.Robot.Assign*
-  commentId: Overload:Mekkdonalds.Simulation.Robot.Assign
-  href: Mekkdonalds.Simulation.Robot.html#Mekkdonalds_Simulation_Robot_Assign_System_Int32_System_Int32_
-  name: Assign
-  nameWithType: Robot.Assign
-  fullName: Mekkdonalds.Simulation.Robot.Assign
+- uid: Mekkdonalds.Simulation.Robot.AddTask*
+  commentId: Overload:Mekkdonalds.Simulation.Robot.AddTask
+  href: Mekkdonalds.Simulation.Robot.html#Mekkdonalds_Simulation_Robot_AddTask_System_Nullable_System_Drawing_Point__
+  name: AddTask
+  nameWithType: Robot.AddTask
+  fullName: Mekkdonalds.Simulation.Robot.AddTask
+- uid: System.Nullable{System.Drawing.Point}
+  commentId: T:System.Nullable{System.Drawing.Point}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.drawing.point
+  name: Point?
+  nameWithType: Point?
+  fullName: System.Drawing.Point?
+  spec.csharp:
+  - uid: System.Drawing.Point
+    name: Point
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.drawing.point
+  - name: '?'
+  spec.vb:
+  - uid: System.Drawing.Point
+    name: Point
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.drawing.point
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mekkdonalds.Simulation.Robot.TryStep*
+  commentId: Overload:Mekkdonalds.Simulation.Robot.TryStep
+  href: Mekkdonalds.Simulation.Robot.html#Mekkdonalds_Simulation_Robot_TryStep_Mekkdonalds_Simulation_Action_Mekkdonalds_Persistence_Board_
+  name: TryStep
+  nameWithType: Robot.TryStep
+  fullName: Mekkdonalds.Simulation.Robot.TryStep
+- uid: Mekkdonalds.Simulation.Action
+  commentId: T:Mekkdonalds.Simulation.Action
+  parent: Mekkdonalds.Simulation
+  href: Mekkdonalds.Simulation.Action.html
+  name: Action
+  nameWithType: Action
+  fullName: Mekkdonalds.Simulation.Action
+- uid: Mekkdonalds.Persistence.Board
+  commentId: T:Mekkdonalds.Persistence.Board
+  parent: Mekkdonalds.Persistence
+  href: Mekkdonalds.Persistence.Board.html
+  name: Board
+  nameWithType: Board
+  fullName: Mekkdonalds.Persistence.Board
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Mekkdonalds.Persistence
+  commentId: N:Mekkdonalds.Persistence
+  href: Mekkdonalds.html
+  name: Mekkdonalds.Persistence
+  nameWithType: Mekkdonalds.Persistence
+  fullName: Mekkdonalds.Persistence
+  spec.csharp:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
+  spec.vb:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
+- uid: Mekkdonalds.Simulation.Robot.Step*
+  commentId: Overload:Mekkdonalds.Simulation.Robot.Step
+  href: Mekkdonalds.Simulation.Robot.html#Mekkdonalds_Simulation_Robot_Step_Mekkdonalds_Simulation_Action_
+  name: Step
+  nameWithType: Robot.Step
+  fullName: Mekkdonalds.Simulation.Robot.Step

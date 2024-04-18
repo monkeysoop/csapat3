@@ -5,6 +5,7 @@ items:
   id: Action
   parent: Mekkdonalds.Simulation
   children:
+  - Mekkdonalds.Simulation.Action.B
   - Mekkdonalds.Simulation.Action.C
   - Mekkdonalds.Simulation.Action.F
   - Mekkdonalds.Simulation.Action.R
@@ -20,7 +21,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Action.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Action
     path: ../src/MekkdonaldsModel/Simulation/Action.cs
@@ -31,6 +32,8 @@ items:
   syntax:
     content: public enum Action
     content.vb: Public Enum Action
+  extensionMethods:
+  - Mekkdonalds.Simulation.Action.Mekkdonalds.Simulation.ActionMethods.Reverse
 - uid: Mekkdonalds.Simulation.Action.F
   commentId: F:Mekkdonalds.Simulation.Action.F
   id: F
@@ -45,7 +48,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Action.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: F
     path: ../src/MekkdonaldsModel/Simulation/Action.cs
@@ -71,7 +74,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Action.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: R
     path: ../src/MekkdonaldsModel/Simulation/Action.cs
@@ -97,7 +100,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Action.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: C
     path: ../src/MekkdonaldsModel/Simulation/Action.cs
@@ -123,7 +126,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Action.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: W
     path: ../src/MekkdonaldsModel/Simulation/Action.cs
@@ -149,7 +152,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Action.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: T
     path: ../src/MekkdonaldsModel/Simulation/Action.cs
@@ -159,6 +162,32 @@ items:
   namespace: Mekkdonalds.Simulation
   syntax:
     content: T = 4
+    return:
+      type: Mekkdonalds.Simulation.Action
+- uid: Mekkdonalds.Simulation.Action.B
+  commentId: F:Mekkdonalds.Simulation.Action.B
+  id: B
+  parent: Mekkdonalds.Simulation.Action
+  langs:
+  - csharp
+  - vb
+  name: B
+  nameWithType: Action.B
+  fullName: Mekkdonalds.Simulation.Action.B
+  type: Field
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Action.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: B
+    path: ../src/MekkdonaldsModel/Simulation/Action.cs
+    startLine: 9
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
+  syntax:
+    content: B = 5
     return:
       type: Mekkdonalds.Simulation.Action
 references:
@@ -184,6 +213,63 @@ references:
   - uid: Mekkdonalds.Simulation
     name: Simulation
     href: Mekkdonalds.Simulation.html
+- uid: Mekkdonalds.Simulation.Action.Mekkdonalds.Simulation.ActionMethods.Reverse
+  commentId: M:Mekkdonalds.Simulation.ActionMethods.Reverse(Mekkdonalds.Simulation.Action)
+  parent: Mekkdonalds.Simulation.ActionMethods
+  definition: Mekkdonalds.Simulation.ActionMethods.Reverse(Mekkdonalds.Simulation.Action)
+  href: Mekkdonalds.Simulation.ActionMethods.html#Mekkdonalds_Simulation_ActionMethods_Reverse_Mekkdonalds_Simulation_Action_
+  name: Reverse(Action)
+  nameWithType: ActionMethods.Reverse(Action)
+  fullName: Mekkdonalds.Simulation.ActionMethods.Reverse(Mekkdonalds.Simulation.Action)
+  spec.csharp:
+  - uid: Mekkdonalds.Simulation.ActionMethods.Reverse(Mekkdonalds.Simulation.Action)
+    name: Reverse
+    href: Mekkdonalds.Simulation.ActionMethods.html#Mekkdonalds_Simulation_ActionMethods_Reverse_Mekkdonalds_Simulation_Action_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Action
+    name: Action
+    href: Mekkdonalds.Simulation.Action.html
+  - name: )
+  spec.vb:
+  - uid: Mekkdonalds.Simulation.ActionMethods.Reverse(Mekkdonalds.Simulation.Action)
+    name: Reverse
+    href: Mekkdonalds.Simulation.ActionMethods.html#Mekkdonalds_Simulation_ActionMethods_Reverse_Mekkdonalds_Simulation_Action_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Action
+    name: Action
+    href: Mekkdonalds.Simulation.Action.html
+  - name: )
+- uid: Mekkdonalds.Simulation.ActionMethods.Reverse(Mekkdonalds.Simulation.Action)
+  commentId: M:Mekkdonalds.Simulation.ActionMethods.Reverse(Mekkdonalds.Simulation.Action)
+  href: Mekkdonalds.Simulation.ActionMethods.html#Mekkdonalds_Simulation_ActionMethods_Reverse_Mekkdonalds_Simulation_Action_
+  name: Reverse(Action)
+  nameWithType: ActionMethods.Reverse(Action)
+  fullName: Mekkdonalds.Simulation.ActionMethods.Reverse(Mekkdonalds.Simulation.Action)
+  spec.csharp:
+  - uid: Mekkdonalds.Simulation.ActionMethods.Reverse(Mekkdonalds.Simulation.Action)
+    name: Reverse
+    href: Mekkdonalds.Simulation.ActionMethods.html#Mekkdonalds_Simulation_ActionMethods_Reverse_Mekkdonalds_Simulation_Action_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Action
+    name: Action
+    href: Mekkdonalds.Simulation.Action.html
+  - name: )
+  spec.vb:
+  - uid: Mekkdonalds.Simulation.ActionMethods.Reverse(Mekkdonalds.Simulation.Action)
+    name: Reverse
+    href: Mekkdonalds.Simulation.ActionMethods.html#Mekkdonalds_Simulation_ActionMethods_Reverse_Mekkdonalds_Simulation_Action_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Action
+    name: Action
+    href: Mekkdonalds.Simulation.Action.html
+  - name: )
+- uid: Mekkdonalds.Simulation.ActionMethods
+  commentId: T:Mekkdonalds.Simulation.ActionMethods
+  parent: Mekkdonalds.Simulation
+  href: Mekkdonalds.Simulation.ActionMethods.html
+  name: ActionMethods
+  nameWithType: ActionMethods
+  fullName: Mekkdonalds.Simulation.ActionMethods
 - uid: Mekkdonalds.Simulation.Action
   commentId: T:Mekkdonalds.Simulation.Action
   parent: Mekkdonalds.Simulation
