@@ -1,0 +1,8 @@
+{
+  "mapFile": "samples/maps/bat_5_5.map",
+  "agentFile": "samples/agents/bat_2.agents",
+  "teamSize": 2,
+  "taskFile": "samples/tasks/bat_8.tasks",
+  "numTasksReveal": 1,
+  "taskAssignmentStrategy": "roundrobin"
+}
