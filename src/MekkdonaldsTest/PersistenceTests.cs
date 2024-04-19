@@ -310,6 +310,18 @@ public class PersistenceTests
         Assert.That(log.PlannerTimes[13], Is.EqualTo(0.69));
     }
 
+    [Test]
+
+    public async Task TestErrors()
+    {
+        Assert.That(log.Errors, Is.Empty);
+        log.Errors = new List<(int, int, int, string)> { (3, 13, 33, "Mekk ÚR"), (3, 13, 21, "Adorján"), (0, 0, 0, "Endre"), (3, 23, 53, "Milán"), (3, 69, 69, "Randi") };
+        await logFileDataAccess.SaveAsync("./test_log.json", log);
+        log = await logFileDataAccess.LoadAsync("./test_log.json");
+        Assert.That(log.Errors[0], Is.EqualTo((3, 13, 33, "Mekk ÚR")));
+        Assert.That(log.Errors[^1], Is.EqualTo((3, 69, 69, "Randi")));
+        Assert.That(log.Errors[3], Is.EqualTo((3, 23, 53, "Milán")));
+    }
 
     [Test]
 
