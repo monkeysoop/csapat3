@@ -357,6 +357,24 @@ public class PersistenceTests
     }
 
     [Test]
+    public async Task TestTasks()
+    {
+        Assert.That(log.Tasks[0], Is.EqualTo((0, 21, 6)));
+        Assert.That(log.Tasks[13], Is.EqualTo((13, 26, 22)));
+        Assert.That(log.Tasks[^1], Is.EqualTo((357, 6, 21)));
+        log.Tasks[0] = (3, 13, 33);
+        log.Tasks[13] = (3, 69, 69);
+        log.Tasks[^1] = (3, 69, 90);
+        await logFileDataAccess.SaveAsync("./test_log.json", log);
+        log = await logFileDataAccess.LoadAsync("./test_log.json");
+        Assert.That(log.Tasks[0], Is.EqualTo((3, 13, 33)));
+        Assert.That(log.Tasks[13], Is.EqualTo((3, 69, 69)));
+        Assert.That(log.Tasks[^1], Is.EqualTo((3, 69, 90)));
+
+
+    }
+
+    [Test]
 
     public void TestException()
     {
