@@ -10,7 +10,7 @@ public class Logger
 
         if (!Directory.Exists("logs")) Directory.CreateDirectory("logs");
 
-        _fileName = $"logs/{mapName}{DateTime.Now:yyyy-MM-dd-hh-mm}.json";
+        _fileName = $"logs/{mapName}_{DateTime.Now:yyyy-MM-dd-HH-mm}_log.json";
     }
 
     /// <summary>

@@ -15,7 +15,7 @@ internal class Assigner : IAssigner
     public event EventHandler? Ended;
 
     [NotNull]
-    private Logger _logger;
+    private Logger? _logger;
 
     public void Init(ControllerType type, Board board, IEnumerable<Robot> robots, IEnumerable<Package> packages, Logger logger)
     {
@@ -46,14 +46,14 @@ internal class Assigner : IAssigner
 
     public void Step()
     {
-        if (_packages.IsEmpty && Paths.IsEmpty)
-        {
-            Ended?.Invoke(this, EventArgs.Empty);
-            return;
-        }
-
         lock (_board)
         {
+            if (_packages.IsEmpty && Paths.IsEmpty)
+            {
+                Ended?.Invoke(this, EventArgs.Empty);
+                return;
+            }
+
             foreach (var r in _robots)
             {
                 if (Paths.TryGetValue(r, out var path))
@@ -66,23 +66,35 @@ internal class Assigner : IAssigner
                         r.AddTask((Package?)null);
                         if (Paths.TryRemove(r, out _))
                             Assign(r);
-                    }
-                    else
-                    {
-                        var action = path.Next();
 
-                        if (action is Action.F)
+                        
+                        if (!Paths.TryGetValue(r, out path))
                         {
-                            // collision detection
+                            continue;
                         }
 
-                        r.Step(action);
+                        if (path.IsOver)
+                        {
+                            r.Step(Action.W);
+                            continue;
+                        }
                     }
+
+                    var action = path.Next();
+
+                    if (action is Action.F)
+                    {
+                        // collision detection
+                    }
+
+                    r.Step(action);
+                    
                 }
             }
+
+            TimeStamp++;
         }
 
-        TimeStamp++;
     }
 
     private void Assign(Robot r)
