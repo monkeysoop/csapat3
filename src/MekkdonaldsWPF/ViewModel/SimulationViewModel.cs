@@ -1,7 +1,4 @@
-﻿using Mekkdonalds.Persistence;
-using Mekkdonalds.Simulation.Controller;
-
-namespace Mekkdonalds.ViewModel;
+﻿namespace Mekkdonalds.ViewModel;
 
 internal class SimulationViewModel : ViewModel
 {
@@ -9,15 +6,7 @@ internal class SimulationViewModel : ViewModel
 
     public SimulationViewModel(string path) : base()
     {
-        var da = new SimDataAccess
-        {
-            CDA = new ConfigDataAccess(),
-            BDA = new BoardFileDataAccess(),
-            RDA = new RobotsDataAccess(),
-            PDA = new PackagesDataAccess()
-        };
-
-        Controller = SimController = new(path, da);
+        Controller = SimController = new(path, SimDataAccess.Instance);
 
         SimController.Loaded += (_, _) => OnLoaded(this);
         SimController.Tick += (_, _) => OnTick(this);
