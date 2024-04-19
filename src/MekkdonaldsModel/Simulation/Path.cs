@@ -10,6 +10,8 @@ public class Path(List<Action> lista, Point p)
 
     public bool IsOver => _ind >= l.Count;
 
+    public IReadOnlyList<Action> PlannedPath => l.Take(_ind).ToList();
+
     internal Action? this[int i]
     {
         get => i >= l.Count || i < 0 ? null : l[i];

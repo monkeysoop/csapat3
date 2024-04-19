@@ -2,6 +2,8 @@
 
 public interface IAssigner
 {
-    void Init(ControllerType type, Board board, IEnumerable<Robot> robots, IEnumerable<Package> packages);
+    int TimeStamp { get; }
+    event EventHandler? Ended;
+    void Init(ControllerType type, Board board, IEnumerable<Robot> robots, IEnumerable<Package> packages, Logger logger);
     void Step();
 }

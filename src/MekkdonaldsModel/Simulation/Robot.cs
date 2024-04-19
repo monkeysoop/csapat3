@@ -48,6 +48,11 @@ public sealed class Robot(Point position, Direction direction) : IMapObject
         Task = new Package(p.Value);
     }
 
+    public void AddTask(Package? p)
+    {
+        Task = p;
+    }
+
     public bool TryStep(Action a, Board board)
     {
         switch (a)

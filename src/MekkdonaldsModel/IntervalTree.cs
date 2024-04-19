@@ -17,7 +17,12 @@ public class IntervalTree<TValue> : IntervalTree<int, TValue>
     {
         set
         {
-            base.Add(from, to - 1, value);
+            if (from < to)
+                base.Add(from, to - 1, value);
+            else if (from == to)
+                base.Add(from, to, value);
+            else
+                throw new ArgumentException($"{nameof(from)} must be less than or equal to {nameof(to)}");
         }
     }
 }
