@@ -22,7 +22,7 @@ public class PersistenceTests
             //Assert.IsTrue(l.AllValid); // It can't find AllValid in Logfile, because it searches for allValid instant of AllValid, and for some reason it's already written in camelcase in logfile :)
 
             var logFileDataAccess = new LogFileDataAccess();
-            var log = await logFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/samples/random_20_log.json");
+            var log = await logFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/logs/random_20_log.json");
 
             Assert.That(log.ActionModel, Is.EqualTo("MAPF_T"));
             Assert.That(log.TeamSize, Is.EqualTo(20));
@@ -38,7 +38,7 @@ public class PersistenceTests
             Assert.That(log.Events[0][0], Is.EqualTo((0, 0, "assigned")));
             Assert.That(log.Tasks[0], Is.EqualTo((0, 21, 6)));
 
-            log = await logFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/samples/warehouse_100_log.json");
+            log = await logFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/logs/warehouse_100_log.json");
             Assert.That(log.Errors[0], Is.EqualTo((-1, -1, 1, "incorrect vector size")));
         });
     }
