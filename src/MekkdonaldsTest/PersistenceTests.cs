@@ -322,6 +322,39 @@ public class PersistenceTests
         Assert.That(log.Errors[^1], Is.EqualTo((3, 69, 69, "Randi")));
         Assert.That(log.Errors[3], Is.EqualTo((3, 23, 53, "Milán")));
     }
+    [Test]
+    public async Task TestEvents()
+    {
+        Assert.That(log.Events[0][0], Is.EqualTo((0, 0, "assigned")));
+        Assert.That(log.Events[0][^1], Is.EqualTo((347, 484, "assigned")));
+        Assert.That(log.Events[0][3], Is.EqualTo((32, 60, "finished")));
+        Assert.That(log.Events[^1][0], Is.EqualTo((19, 0, "assigned")));
+        Assert.That(log.Events[^1][3], Is.EqualTo((43, 85, "finished")));
+        Assert.That(log.Events[^1][^1], Is.EqualTo((345, 482, "assigned")));
+        Assert.That(log.Events[3][0], Is.EqualTo((3, 0, "assigned")));
+        Assert.That(log.Events[3][^1], Is.EqualTo((343, 481, "assigned")));
+        Assert.That(log.Events[3][3], Is.EqualTo((42, 62, "finished")));
+        log.Events[0][0] = (13, 13, "Sanyika");
+        log.Events[0][^1] = (13, 13, "Sanyika");
+        log.Events[0][3] = (13, 13, "Sanyika");
+        log.Events[^1][0] = (3, 69, "Randi");
+        log.Events[^1][^1] = (3, 69, "Randi");
+        log.Events[^1][3] = (3, 69, "Randi");
+        log.Events[3][0] = (33, 33, "MEKK ÚR");
+        log.Events[3][^1] = (33, 33, "MEKK ÚR");
+        log.Events[3][3] = (33, 33, "MEKK ÚR");
+        await logFileDataAccess.SaveAsync("./test_log.json", log);
+        log = await logFileDataAccess.LoadAsync("./test_log.json");
+        Assert.That(log.Events[0][0], Is.EqualTo((13, 13, "Sanyika")));
+        Assert.That(log.Events[0][^1], Is.EqualTo((13, 13, "Sanyika")));
+        Assert.That(log.Events[0][3], Is.EqualTo((13, 13, "Sanyika")));
+        Assert.That(log.Events[^1][0], Is.EqualTo((3, 69, "Randi")));
+        Assert.That(log.Events[^1][3], Is.EqualTo((3, 69, "Randi")));
+        Assert.That(log.Events[^1][^1], Is.EqualTo((3, 69, "Randi")));
+        Assert.That(log.Events[3][0], Is.EqualTo((33, 33, "MEKK ÚR")));
+        Assert.That(log.Events[3][^1], Is.EqualTo((33, 33, "MEKK ÚR")));
+        Assert.That(log.Events[3][3], Is.EqualTo((33, 33, "MEKK ÚR")));
+    }
 
     [Test]
 
