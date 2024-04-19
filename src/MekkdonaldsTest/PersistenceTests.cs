@@ -293,6 +293,23 @@ public class PersistenceTests
 
     }
 
+    [Test]
+
+    public async Task TestPlannerTimes()
+    {
+        Assert.That(log.PlannerTimes[0], Is.EqualTo(0.312150264));
+        Assert.That(log.PlannerTimes[^1], Is.EqualTo(0.0043267));
+        Assert.That(log.PlannerTimes[13], Is.EqualTo(0.010686006));
+        log.PlannerTimes[0] = 0.13;
+        log.PlannerTimes[^1] = 0;
+        log.PlannerTimes[13] = 0.69;
+        await logFileDataAccess.SaveAsync("./test_log.json", log);
+        log = await logFileDataAccess.LoadAsync("./test_log.json");
+        Assert.That(log.PlannerTimes[0], Is.EqualTo(0.13));
+        Assert.That(log.PlannerTimes[^1], Is.EqualTo(0));
+        Assert.That(log.PlannerTimes[13], Is.EqualTo(0.69));
+    }
+
 
     [Test]
 
