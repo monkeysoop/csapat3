@@ -384,7 +384,7 @@ public partial class App : Application
         {
             var bm = new Bitmap(500, 500);
             using var g = Graphics.FromImage(bm);
-            
+
             g.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(9, 194, 248)), 0, 250, 500, 250);
             g.FillPie(new SolidBrush(System.Drawing.Color.FromArgb(9, 194, 248)), 0, 0, 500, 500, 180, 180);
             // eyes
@@ -406,9 +406,9 @@ public partial class App : Application
 
                 RotateBitmap(ref bm, 90);
             }
-            
+
             bm.Dispose();
-        }        
+        }
     }
 
     #endregion
@@ -427,11 +427,20 @@ public partial class App : Application
 
     private void OnKeyDown(object sender, KeyEventArgs e)
     {
-        if (e.Key is Key.LeftCtrl || e.Key is Key.RightCtrl)
+        switch (e.Key)
         {
-            _ctrlDown = true;
+            case Key.LeftCtrl:
+            case Key.RightCtrl:
+                _ctrlDown = true;
+                break;
+            case Key.Escape:
+                Current.Shutdown();
+                break;            
+            case Key.Space:
+                _viewModel?.Toggle();
+                break;
+
         }
-        else if (e.Key is Key.Escape) Current.Shutdown();
     }
 
     private void OnKeyUp(object sender, KeyEventArgs e)

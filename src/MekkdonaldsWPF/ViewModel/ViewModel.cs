@@ -1,6 +1,4 @@
-﻿using Mekkdonalds.Simulation.Controller;
-
-namespace Mekkdonalds.ViewModel;
+﻿namespace Mekkdonalds.ViewModel;
 
 internal abstract class ViewModel : ViewModelBase
 {
@@ -74,5 +72,13 @@ internal abstract class ViewModel : ViewModelBase
     protected void OnTick(object? sender)
     {
         Tick?.Invoke(sender, EventArgs.Empty);
+    }
+
+    internal void Toggle()
+    {
+        if (Controller.IsPlaying)
+            Controller.Pause();
+        else
+            Controller.Play();
     }
 }
