@@ -1,0 +1,8 @@
+{
+  "mapFile": "maps/shrew_9_9.map",
+  "agentFile": "agents/shrew_3.agents",
+  "teamSize": 3,
+  "taskFile": "tasks/shrew_20.tasks",
+  "numTasksReveal": 1,
+  "taskAssignmentStrategy": "roundrobin"
+}

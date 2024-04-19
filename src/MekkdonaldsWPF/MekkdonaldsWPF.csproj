@@ -18,9 +18,24 @@
   </ItemGroup>
 
   <ItemGroup>
-	<Content Include="samples\**">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+	<Content Include="agents\**">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+	<Content Include="configs\**">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+	<Content Include="logs\**">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+	<Content Include="maps\**">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+	<Content Include="old_samples\**">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+	<Content Include="tasks\**">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
   </ItemGroup>
 
 </Project>
