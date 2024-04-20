@@ -20,7 +20,7 @@ public partial class App : Application
     private bool _ctrlDown;
     private Point _mousePos;
 
-    private ImageBrush _rectangel;
+    private ImageBrush _rectangle;
     private readonly ImageBrush[] _ellipses = new ImageBrush[4];
     private readonly Dictionary<Robot, Grid> _robots = [];
     private readonly Dictionary<Robot, Grid> _targets = [];
@@ -31,7 +31,7 @@ public partial class App : Application
 
         DrawElements();
 
-        if (_rectangel is null || _ellipses.Any(x => x is null))
+        if (_rectangle is null || _ellipses.Any(x => x is null))
             throw new System.Exception("Failed to load images");
     }
 
@@ -73,7 +73,7 @@ public partial class App : Application
     /// <summary>
     /// Opens a replay window
     /// </summary>
-    /// <returns>Wether to user want's to proceed with opening the window</returns>
+    /// <returns>Whether to user want's to proceed with opening the window</returns>
     private bool OpenReplay()
     {        
         var fd = new OpenFileDialog()
@@ -132,7 +132,7 @@ public partial class App : Application
     /// <summary>
     /// Opens a simulation window
     /// </summary>
-    /// <returns>Wether to user want's to proceed with opening the window</returns>
+    /// <returns>Whether to user want's to proceed with opening the window</returns>
     private bool OpenSim()
     {
         var fd = new OpenFileDialog()
@@ -323,7 +323,7 @@ public partial class App : Application
             {
                 Width = Step,
                 Height = Step,
-                Background = _rectangel
+                Background = _rectangle
             };
 
             grid.Children.Add(new TextBlock()
@@ -389,7 +389,7 @@ public partial class App : Application
             r.CacheOption = BitmapCacheOption.OnLoad;
             r.EndInit();
 
-            _rectangel = new ImageBrush(r);
+            _rectangle = new ImageBrush(r);
         }
 
         {
