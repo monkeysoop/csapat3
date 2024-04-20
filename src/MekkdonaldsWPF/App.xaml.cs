@@ -145,16 +145,20 @@ public partial class App : Application
         if (fd.ShowDialog() is false) return false;
 
         var algorithm = ControllerType.Astar;
+        
+        var configFile = fd.FileName;
 
         if (_startWindow!.BFS.IsChecked!.Value) algorithm = ControllerType.BFS;
         else if (_startWindow.DFS.IsChecked!.Value) algorithm = ControllerType.DFS;
 
-        _viewModel = new SimulationViewModel(fd.FileName, algorithm);
+        _viewModel = new SimulationViewModel(configFile, algorithm);
 
         _simWindow = new SimulationWindow
         {
-            DataContext = _viewModel
+            DataContext = _viewModel,
         };
+
+        _simWindow.Title += $" - Simulation - {System.IO.Path.GetFileName(fd.FileName)}";
 
         _viewModel.Loaded += (_, _) => OnLoaded(_simWindow, _simWindow.MapCanvas);
 
