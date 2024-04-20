@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Simulation;
 
-public sealed class Package(Point p) : IMapObject
+public sealed class Package(Point p)
 {
     private static int IDCounter = 1;
 

@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Simulation;
 
-public sealed class Robot(Point position, Direction direction) : IMapObject
+public sealed class Robot(Point position, Direction direction)
 {
     private static readonly Point[] position_offsets = [
         new(0, -1),
