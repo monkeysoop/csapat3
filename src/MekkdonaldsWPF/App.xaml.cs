@@ -144,7 +144,12 @@ public partial class App : Application
 
         if (fd.ShowDialog() is false) return false;
 
-        _viewModel = new SimulationViewModel(fd.FileName);
+        var algorithm = ControllerType.Astar;
+
+        if (_startWindow!.BFS.IsChecked!.Value) algorithm = ControllerType.BFS;
+        else if (_startWindow.DFS.IsChecked!.Value) algorithm = ControllerType.DFS;
+
+        _viewModel = new SimulationViewModel(fd.FileName, algorithm);
 
         _simWindow = new SimulationWindow
         {

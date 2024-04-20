@@ -11,10 +11,10 @@ public sealed class SimulationController : Controller
     private Logger _logger;
     private readonly ILogFileDataAccess _logFileDataAccess;
 
-    public SimulationController(string path, ISimDataAccess da)
+    public SimulationController(string path, ISimDataAccess da, ControllerType algorithm)
     {
         _pathFinder = new Assigner.Assigner();
-        Load(path, da);
+        Load(path, da, algorithm);
 
         _logFileDataAccess = da.LDA;
 
@@ -28,7 +28,7 @@ public sealed class SimulationController : Controller
         SaveLog();
     }
 
-    private async void Load(string path, ISimDataAccess da)
+    private async void Load(string path, ISimDataAccess da, ControllerType algorithm)
     {
         var config = await da.CDA.Load(path);
 
@@ -43,7 +43,7 @@ public sealed class SimulationController : Controller
         var tasks = await da.PDA.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2);
         _logger.LogTasks(tasks);
 
-        _pathFinder.Init(ControllerType.BFS, b, _robots, tasks, _logger);
+        _pathFinder.Init(algorithm, b, _robots, tasks, _logger);
 
         LoadWalls();
 

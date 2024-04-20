@@ -13,5 +13,10 @@
         </Grid.ColumnDefinitions>
         <Button x:Name="ReplayButton" Grid.Column="0" Width="250" Height="70" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16">Open Replay</Button>
         <Button x:Name="SimButton"    Grid.Column="1" Width="250" Height="70" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16">Open Simulation</Button>
+        <Grid Grid.Column="1" Margin="50,0,50,20" Height="30" VerticalAlignment="Bottom">
+            <RadioButton x:Name="AStar" HorizontalAlignment="Left" IsChecked="True">A Star</RadioButton>
+            <RadioButton x:Name="BFS" HorizontalAlignment="Center">BFS</RadioButton>
+            <RadioButton x:Name="DFS" HorizontalAlignment="Right">DFS</RadioButton>
+        </Grid>
     </Grid>
 </Window>
