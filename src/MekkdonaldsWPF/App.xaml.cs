@@ -75,11 +75,12 @@ public partial class App : Application
     /// </summary>
     /// <returns>Wether to user want's to proceed with opening the window</returns>
     private bool OpenReplay()
-    {
+    {        
         var fd = new OpenFileDialog()
         {
             Filter = "Json files (*.json)|*.json",
-            Title = "Log File"
+            Title = "Log File",
+            InitialDirectory = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "logs")
         };
 
         if (fd.ShowDialog() is false) return false;
@@ -89,7 +90,8 @@ public partial class App : Application
         fd = new OpenFileDialog()
         {
             Filter = "Map file (*.map)|*.map",
-            Title = "Map file"
+            Title = "Map file",
+            InitialDirectory = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "maps")
         };
 
         if (fd.ShowDialog() is false) return false;
@@ -136,7 +138,8 @@ public partial class App : Application
         var fd = new OpenFileDialog()
         {
             Filter = "Json file (*.json)|*.json",
-            Title = "Config file"
+            Title = "Config file",
+            InitialDirectory = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "configs")
         };
 
         if (fd.ShowDialog() is false) return false;
