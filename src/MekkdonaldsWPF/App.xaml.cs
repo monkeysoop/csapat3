@@ -5,7 +5,6 @@
 /// </summary>
 public partial class App : Application
 {
-    private const double MARGIN = 0;
     private const double SIDELENGTH = 20;
 
     private int XLength;
@@ -229,12 +228,12 @@ public partial class App : Application
     {
         foreach (var r in _viewModel!.Robots)
         {
-            _robots[r].Margin = new Thickness(MARGIN + 1 + r.Position.X * Step, MARGIN + 1 + r.Position.Y * Step, 0, 0);
+            _robots[r].Margin = new Thickness(1 + r.Position.X * Step, 1 + r.Position.Y * Step, 0, 0);
             _robots[r].Background = _ellipses[(int)r.Direction];
 
             if (r.Task is not null)
             {
-                _targets[r].Margin = new Thickness(MARGIN + r.Task.Position.X * Step, MARGIN + r.Task.Position.Y * Step, 0, 0);
+                _targets[r].Margin = new Thickness(r.Task.Position.X * Step, r.Task.Position.Y * Step, 0, 0);
                 _targets[r].Visibility = Visibility.Visible;
             }
             else
@@ -294,7 +293,7 @@ public partial class App : Application
             {
                 Width = Step - 2,
                 Height = Step - 2,
-                Margin = new Thickness(MARGIN + 1 + r.Position.X * Step, MARGIN + 1 + r.Position.Y * Step, 0, 0),
+                Margin = new Thickness(1 + r.Position.X * Step, 1 + r.Position.Y * Step, 0, 0),
                 Background = _ellipses[(int)r.Direction]
             };
 
@@ -325,7 +324,7 @@ public partial class App : Application
 
             if (r.Task is not null)
             {
-                grid.Margin = new Thickness(MARGIN + r.Task.Position.X * Step, MARGIN + r.Task.Position.Y * Step, 0, 0);
+                grid.Margin = new Thickness(r.Task.Position.X * Step, r.Task.Position.Y * Step, 0, 0);
                 grid.Visibility = Visibility.Visible;
             }
             else
@@ -435,7 +434,7 @@ public partial class App : Application
                 break;
             case Key.Escape:
                 Current.Shutdown();
-                break;            
+                break;
             case Key.Space:
                 _viewModel?.Toggle();
                 break;
