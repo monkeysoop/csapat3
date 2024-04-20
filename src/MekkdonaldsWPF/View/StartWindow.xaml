@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mekkdonalds.View"
         mc:Ignorable="d"
-        Title="MekkDonalds" Height="450" Width="800">
+        Title="MekkDonalds" Height="450" Width="800" MinWidth="550">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
