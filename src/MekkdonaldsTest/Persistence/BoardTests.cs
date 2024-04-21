@@ -54,11 +54,8 @@ public class BoardTests
         Point nextPosition = new Point(6, 5);
         board.SetRobotMaskValue(initialPosition.X, initialPosition.Y, Board.OCCUPIED);
 
-        // Move the robot
-        bool moveSuccessful = board.TryMoveRobot(initialPosition, nextPosition);
-
         // Assert that the move was successful
-        Assert.That(moveSuccessful, Is.True);
+        Assert.That(board.TryMoveRobot(initialPosition, nextPosition), Is.True);
         Assert.That(board.GetRobotMaskValue(nextPosition.X, nextPosition.Y), Is.EqualTo(Board.OCCUPIED));
         Assert.That(board.GetRobotMaskValue(initialPosition.X, initialPosition.Y), Is.EqualTo(Board.EMPTY));
     }
