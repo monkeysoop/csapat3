@@ -14,6 +14,8 @@ public class PersistenceTests
     LogFileDataAccess logFileDataAccess;
     ConfigDataAccess configDataAccess;
     Config config;
+    BoardFileDataAccess boardFileDataAccess;
+    Board board;
     [SetUp]
     public async Task Setup()
     {
@@ -21,6 +23,19 @@ public class PersistenceTests
         log = await logFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/samples/random_20_log.json");
         configDataAccess = new ConfigDataAccess();
         config = await configDataAccess.Load("../../../../MekkdonaldsWPF/samples/random_20_config.json");
+        boardFileDataAccess = new();
+        board = await boardFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/samples/maps/random-32-32-20.map");
+
+    [Test]
+
+    public void TestBoardLoading()
+    {
+        Assert.That(board is not null);
+        Assert.That(board!.Height, Is.EqualTo(34));
+        Assert.That(board!.Width, Is.EqualTo(34));
+        Assert.That(board.Data[0], Is.EqualTo(1));
+        Assert.That(board.Data[^1], Is.EqualTo(1));
+        Assert.That(board.Data[13], Is.EqualTo(1));
 
     }
 
@@ -402,6 +417,7 @@ public class PersistenceTests
         Assert.That(config.TaskAssignmentStrategy, Is.EqualTo(Strategy.RoundRobin));
 
     }
+
 
     [Test]
 
