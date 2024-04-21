@@ -1,0 +1,75 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mekkdonalds.Simulation.PathFinding
+  commentId: N:Mekkdonalds.Simulation.PathFinding
+  id: Mekkdonalds.Simulation.PathFinding
+  children:
+  - Mekkdonalds.Simulation.PathFinding.Astar
+  - Mekkdonalds.Simulation.PathFinding.BFS
+  - Mekkdonalds.Simulation.PathFinding.DFS
+  - Mekkdonalds.Simulation.PathFinding.PathFinder
+  langs:
+  - csharp
+  - vb
+  name: Mekkdonalds.Simulation.PathFinding
+  nameWithType: Mekkdonalds.Simulation.PathFinding
+  fullName: Mekkdonalds.Simulation.PathFinding
+  type: Namespace
+  assemblies:
+  - MekkdonaldsModel
+references:
+- uid: Mekkdonalds.Simulation.PathFinding.Astar
+  commentId: T:Mekkdonalds.Simulation.PathFinding.Astar
+  href: Mekkdonalds.Simulation.PathFinding.Astar.html
+  name: Astar
+  nameWithType: Astar
+  fullName: Mekkdonalds.Simulation.PathFinding.Astar
+- uid: Mekkdonalds.Simulation.PathFinding.BFS
+  commentId: T:Mekkdonalds.Simulation.PathFinding.BFS
+  href: Mekkdonalds.Simulation.PathFinding.BFS.html
+  name: BFS
+  nameWithType: BFS
+  fullName: Mekkdonalds.Simulation.PathFinding.BFS
+- uid: Mekkdonalds.Simulation.PathFinding.DFS
+  commentId: T:Mekkdonalds.Simulation.PathFinding.DFS
+  href: Mekkdonalds.Simulation.PathFinding.DFS.html
+  name: DFS
+  nameWithType: DFS
+  fullName: Mekkdonalds.Simulation.PathFinding.DFS
+- uid: Mekkdonalds.Simulation.PathFinding.PathFinder
+  commentId: T:Mekkdonalds.Simulation.PathFinding.PathFinder
+  parent: Mekkdonalds.Simulation.PathFinding
+  href: Mekkdonalds.Simulation.PathFinding.PathFinder.html
+  name: PathFinder
+  nameWithType: PathFinder
+  fullName: Mekkdonalds.Simulation.PathFinding.PathFinder
+- uid: Mekkdonalds.Simulation.PathFinding
+  commentId: N:Mekkdonalds.Simulation.PathFinding
+  href: Mekkdonalds.html
+  name: Mekkdonalds.Simulation.PathFinding
+  nameWithType: Mekkdonalds.Simulation.PathFinding
+  fullName: Mekkdonalds.Simulation.PathFinding
+  spec.csharp:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
+  - name: .
+  - uid: Mekkdonalds.Simulation.PathFinding
+    name: PathFinding
+    href: Mekkdonalds.Simulation.PathFinding.html
+  spec.vb:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
+  - name: .
+  - uid: Mekkdonalds.Simulation.PathFinding
+    name: PathFinding
+    href: Mekkdonalds.Simulation.PathFinding.html

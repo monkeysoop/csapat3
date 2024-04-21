@@ -1,0 +1,139 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mekkdonalds.Simulation.ControllerType
+  commentId: T:Mekkdonalds.Simulation.ControllerType
+  id: ControllerType
+  parent: Mekkdonalds.Simulation
+  children:
+  - Mekkdonalds.Simulation.ControllerType.Astar
+  - Mekkdonalds.Simulation.ControllerType.BFS
+  - Mekkdonalds.Simulation.ControllerType.DFS
+  langs:
+  - csharp
+  - vb
+  name: ControllerType
+  nameWithType: ControllerType
+  fullName: Mekkdonalds.Simulation.ControllerType
+  type: Enum
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/ControllerType.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: ControllerType
+    path: ../src/MekkdonaldsModel/Simulation/ControllerType.cs
+    startLine: 2
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
+  syntax:
+    content: public enum ControllerType
+    content.vb: Public Enum ControllerType
+- uid: Mekkdonalds.Simulation.ControllerType.Astar
+  commentId: F:Mekkdonalds.Simulation.ControllerType.Astar
+  id: Astar
+  parent: Mekkdonalds.Simulation.ControllerType
+  langs:
+  - csharp
+  - vb
+  name: Astar
+  nameWithType: ControllerType.Astar
+  fullName: Mekkdonalds.Simulation.ControllerType.Astar
+  type: Field
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/ControllerType.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Astar
+    path: ../src/MekkdonaldsModel/Simulation/ControllerType.cs
+    startLine: 4
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
+  syntax:
+    content: Astar = 0
+    return:
+      type: Mekkdonalds.Simulation.ControllerType
+- uid: Mekkdonalds.Simulation.ControllerType.BFS
+  commentId: F:Mekkdonalds.Simulation.ControllerType.BFS
+  id: BFS
+  parent: Mekkdonalds.Simulation.ControllerType
+  langs:
+  - csharp
+  - vb
+  name: BFS
+  nameWithType: ControllerType.BFS
+  fullName: Mekkdonalds.Simulation.ControllerType.BFS
+  type: Field
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/ControllerType.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: BFS
+    path: ../src/MekkdonaldsModel/Simulation/ControllerType.cs
+    startLine: 5
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
+  syntax:
+    content: BFS = 1
+    return:
+      type: Mekkdonalds.Simulation.ControllerType
+- uid: Mekkdonalds.Simulation.ControllerType.DFS
+  commentId: F:Mekkdonalds.Simulation.ControllerType.DFS
+  id: DFS
+  parent: Mekkdonalds.Simulation.ControllerType
+  langs:
+  - csharp
+  - vb
+  name: DFS
+  nameWithType: ControllerType.DFS
+  fullName: Mekkdonalds.Simulation.ControllerType.DFS
+  type: Field
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/ControllerType.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: DFS
+    path: ../src/MekkdonaldsModel/Simulation/ControllerType.cs
+    startLine: 6
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation
+  syntax:
+    content: DFS = 2
+    return:
+      type: Mekkdonalds.Simulation.ControllerType
+references:
+- uid: Mekkdonalds.Simulation
+  commentId: N:Mekkdonalds.Simulation
+  href: Mekkdonalds.html
+  name: Mekkdonalds.Simulation
+  nameWithType: Mekkdonalds.Simulation
+  fullName: Mekkdonalds.Simulation
+  spec.csharp:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
+  spec.vb:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
+- uid: Mekkdonalds.Simulation.ControllerType
+  commentId: T:Mekkdonalds.Simulation.ControllerType
+  parent: Mekkdonalds.Simulation
+  href: Mekkdonalds.Simulation.ControllerType.html
+  name: ControllerType
+  nameWithType: ControllerType
+  fullName: Mekkdonalds.Simulation.ControllerType

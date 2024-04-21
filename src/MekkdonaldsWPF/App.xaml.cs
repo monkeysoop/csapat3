@@ -5,7 +5,6 @@
 /// </summary>
 public partial class App : Application
 {
-    private const double MARGIN = 0;
     private const double SIDELENGTH = 20;
 
     private int XLength;
@@ -21,7 +20,7 @@ public partial class App : Application
     private bool _ctrlDown;
     private Point _mousePos;
 
-    private ImageBrush _rectangel;
+    private ImageBrush _rectangle;
     private readonly ImageBrush[] _ellipses = new ImageBrush[4];
     private readonly Dictionary<Robot, Grid> _robots = [];
     private readonly Dictionary<Robot, Grid> _targets = [];
@@ -32,7 +31,7 @@ public partial class App : Application
 
         DrawElements();
 
-        if (_rectangel is null || _ellipses.Any(x => x is null))
+        if (_rectangle is null || _ellipses.Any(x => x is null))
             throw new System.Exception("Failed to load images");
     }
 
@@ -74,13 +73,14 @@ public partial class App : Application
     /// <summary>
     /// Opens a replay window
     /// </summary>
-    /// <returns>Wether to user want's to proceed with opening the window</returns>
+    /// <returns>Whether to user want's to proceed with opening the window</returns>
     private bool OpenReplay()
-    {
+    {        
         var fd = new OpenFileDialog()
         {
             Filter = "Json files (*.json)|*.json",
-            Title = "Log File"
+            Title = "Log File",
+            InitialDirectory = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "logs")
         };
 
         if (fd.ShowDialog() is false) return false;
@@ -90,7 +90,8 @@ public partial class App : Application
         fd = new OpenFileDialog()
         {
             Filter = "Map file (*.map)|*.map",
-            Title = "Map file"
+            Title = "Map file",
+            InitialDirectory = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "maps")
         };
 
         if (fd.ShowDialog() is false) return false;
@@ -131,23 +132,33 @@ public partial class App : Application
     /// <summary>
     /// Opens a simulation window
     /// </summary>
-    /// <returns>Wether to user want's to proceed with opening the window</returns>
+    /// <returns>Whether to user want's to proceed with opening the window</returns>
     private bool OpenSim()
     {
         var fd = new OpenFileDialog()
         {
             Filter = "Json file (*.json)|*.json",
-            Title = "Config file"
+            Title = "Config file",
+            InitialDirectory = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "configs")
         };
 
         if (fd.ShowDialog() is false) return false;
 
-        _viewModel = new SimulationViewModel(fd.FileName);
+        var algorithm = ControllerType.Astar;
+        
+        var configFile = fd.FileName;
+
+        if (_startWindow!.BFS.IsChecked!.Value) algorithm = ControllerType.BFS;
+        else if (_startWindow.DFS.IsChecked!.Value) algorithm = ControllerType.DFS;
+
+        _viewModel = new SimulationViewModel(configFile, algorithm);
 
         _simWindow = new SimulationWindow
         {
-            DataContext = _viewModel
+            DataContext = _viewModel,
         };
+
+        _simWindow.Title += $" - Simulation - {System.IO.Path.GetFileName(fd.FileName)}";
 
         _viewModel.Loaded += (_, _) => OnLoaded(_simWindow, _simWindow.MapCanvas);
 
@@ -229,12 +240,12 @@ public partial class App : Application
     {
         foreach (var r in _viewModel!.Robots)
         {
-            _robots[r].Margin = new Thickness(MARGIN + 1 + r.Position.X * Step, MARGIN + 1 + r.Position.Y * Step, 0, 0);
+            _robots[r].Margin = new Thickness(1 + r.Position.X * Step, 1 + r.Position.Y * Step, 0, 0);
             _robots[r].Background = _ellipses[(int)r.Direction];
 
             if (r.Task is not null)
             {
-                _targets[r].Margin = new Thickness(MARGIN + r.Task.Position.X * Step, MARGIN + r.Task.Position.Y * Step, 0, 0);
+                _targets[r].Margin = new Thickness(r.Task.Position.X * Step, r.Task.Position.Y * Step, 0, 0);
                 _targets[r].Visibility = Visibility.Visible;
             }
             else
@@ -294,7 +305,7 @@ public partial class App : Application
             {
                 Width = Step - 2,
                 Height = Step - 2,
-                Margin = new Thickness(MARGIN + 1 + r.Position.X * Step, MARGIN + 1 + r.Position.Y * Step, 0, 0),
+                Margin = new Thickness(1 + r.Position.X * Step, 1 + r.Position.Y * Step, 0, 0),
                 Background = _ellipses[(int)r.Direction]
             };
 
@@ -312,7 +323,7 @@ public partial class App : Application
             {
                 Width = Step,
                 Height = Step,
-                Background = _rectangel
+                Background = _rectangle
             };
 
             grid.Children.Add(new TextBlock()
@@ -325,7 +336,7 @@ public partial class App : Application
 
             if (r.Task is not null)
             {
-                grid.Margin = new Thickness(MARGIN + r.Task.Position.X * Step, MARGIN + r.Task.Position.Y * Step, 0, 0);
+                grid.Margin = new Thickness(r.Task.Position.X * Step, r.Task.Position.Y * Step, 0, 0);
                 grid.Visibility = Visibility.Visible;
             }
             else
@@ -342,6 +353,20 @@ public partial class App : Application
         {
             c.Children.Add(g);
         }
+    }
+
+    private static void RotateBitmap(ref Bitmap bmp, float angle)
+    {
+        Bitmap tempBmp = new(bmp.Width, bmp.Height);
+        using var g = Graphics.FromImage(tempBmp);
+
+        g.TranslateTransform(bmp.Width / 2, bmp.Height / 2);
+        g.RotateTransform(angle);
+        g.TranslateTransform(-bmp.Width / 2, -bmp.Height / 2);
+        g.DrawImage(bmp, new PointF(0, 0));
+
+        bmp.Dispose(); //dispose old bitmap
+        bmp = tempBmp; //assign new bitmap to reference
     }
 
     /// <summary>
@@ -364,33 +389,21 @@ public partial class App : Application
             r.CacheOption = BitmapCacheOption.OnLoad;
             r.EndInit();
 
-            _rectangel = new ImageBrush(r);
+            _rectangle = new ImageBrush(r);
         }
 
         {
+            var bm = new Bitmap(500, 500);
+            using var g = Graphics.FromImage(bm);
+
+            g.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(9, 194, 248)), 0, 250, 500, 250);
+            g.FillPie(new SolidBrush(System.Drawing.Color.FromArgb(9, 194, 248)), 0, 0, 500, 500, 180, 180);
+            // eyes
+            //g.FillEllipse(Brushes.Black, 150, 80, 75, 75);
+            //g.FillEllipse(Brushes.Black, 275, 80, 75, 75);
+
             for (int i = 0; i < 4; i++)
             {
-                using var bm = new Bitmap(500, 500);
-                using var g = Graphics.FromImage(bm);
-
-                g.FillEllipse(new SolidBrush(System.Drawing.Color.FromArgb(9, 194, 248)), 0, 0, 500, 500);
-
-                switch (i)
-                {
-                    case 0:
-                        g.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Red, 50), 250, 0, 250, 250);
-                        break;
-                    case 1:
-                        g.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Red, 50), 250, 250, 500, 250);
-                        break;
-                    case 2:
-                        g.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Red, 50), 250, 250, 250, 500);
-                        break;
-                    case 3:
-                        g.DrawLine(new System.Drawing.Pen(System.Drawing.Color.Red, 50), 0, 250, 250, 250);
-                        break;
-                }
-
                 using var memory = new MemoryStream();
                 bm.Save(memory, ImageFormat.Png);
                 memory.Position = 0;
@@ -401,10 +414,12 @@ public partial class App : Application
                 r.EndInit();
 
                 _ellipses[i] = new ImageBrush(r);
+
+                RotateBitmap(ref bm, 90);
             }
+
+            bm.Dispose();
         }
-
-
     }
 
     #endregion
@@ -423,11 +438,20 @@ public partial class App : Application
 
     private void OnKeyDown(object sender, KeyEventArgs e)
     {
-        if (e.Key is Key.LeftCtrl || e.Key is Key.RightCtrl)
+        switch (e.Key)
         {
-            _ctrlDown = true;
+            case Key.LeftCtrl:
+            case Key.RightCtrl:
+                _ctrlDown = true;
+                break;
+            case Key.Escape:
+                Current.Shutdown();
+                break;
+            case Key.Space:
+                _viewModel?.Toggle();
+                break;
+
         }
-        else if (e.Key is Key.Escape) Current.Shutdown();
     }
 
     private void OnKeyUp(object sender, KeyEventArgs e)

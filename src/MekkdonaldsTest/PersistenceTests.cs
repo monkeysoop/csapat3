@@ -92,7 +92,7 @@ public class PersistenceTests
             Assert.That(log.Events[0][0], Is.EqualTo((0, 0, "assigned")));
             Assert.That(log.Tasks[0], Is.EqualTo((0, 21, 6)));
 
-            log = await logFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/samples/warehouse_100_log.json");
+            log = await logFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/logs/warehouse_100_log.json");
             Assert.That(log.Errors[0], Is.EqualTo((-1, -1, 1, "incorrect vector size")));
         });
     }

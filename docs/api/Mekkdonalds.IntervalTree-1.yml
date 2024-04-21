@@ -1,0 +1,1271 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mekkdonalds.IntervalTree`1
+  commentId: T:Mekkdonalds.IntervalTree`1
+  id: IntervalTree`1
+  parent: Mekkdonalds
+  children:
+  - Mekkdonalds.IntervalTree`1.Add(System.Int32,System.Int32,`0)
+  - Mekkdonalds.IntervalTree`1.Item(System.Int32)
+  - Mekkdonalds.IntervalTree`1.Item(System.Int32,System.Int32)
+  - Mekkdonalds.IntervalTree`1.Query(System.Int32)
+  langs:
+  - csharp
+  - vb
+  name: IntervalTree<TValue>
+  nameWithType: IntervalTree<TValue>
+  fullName: Mekkdonalds.IntervalTree<TValue>
+  type: Class
+  source:
+    remote:
+      path: src/MekkdonaldsModel/IntervalTree.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: IntervalTree
+    path: ../src/MekkdonaldsModel/IntervalTree.cs
+    startLine: 4
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds
+  syntax:
+    content: 'public class IntervalTree<TValue> : IntervalTree<int, TValue>, IIntervalTree<int, TValue>, IEnumerable<RangeValuePair<int, TValue>>, IEnumerable'
+    typeParameters:
+    - id: TValue
+    content.vb: Public Class IntervalTree(Of TValue) Inherits IntervalTree(Of Integer, TValue) Implements IIntervalTree(Of Integer, TValue), IEnumerable(Of RangeValuePair(Of Integer, TValue)), IEnumerable
+  inheritance:
+  - System.Object
+  - IntervalTree.IntervalTree{System.Int32,{TValue}}
+  implements:
+  - IntervalTree.IIntervalTree{System.Int32,{TValue}}
+  - System.Collections.Generic.IEnumerable{IntervalTree.RangeValuePair{System.Int32,{TValue}}}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - IntervalTree.IntervalTree{System.Int32,{TValue}}.Query(System.Int32)
+  - IntervalTree.IntervalTree{System.Int32,{TValue}}.Query(System.Int32,System.Int32)
+  - IntervalTree.IntervalTree{System.Int32,{TValue}}.Add(System.Int32,System.Int32,{TValue})
+  - IntervalTree.IntervalTree{System.Int32,{TValue}}.Remove({TValue})
+  - IntervalTree.IntervalTree{System.Int32,{TValue}}.Remove(System.Collections.Generic.IEnumerable{{TValue}})
+  - IntervalTree.IntervalTree{System.Int32,{TValue}}.Clear
+  - IntervalTree.IntervalTree{System.Int32,{TValue}}.GetEnumerator
+  - IntervalTree.IntervalTree{System.Int32,{TValue}}.Max
+  - IntervalTree.IntervalTree{System.Int32,{TValue}}.Min
+  - IntervalTree.IntervalTree{System.Int32,{TValue}}.Values
+  - IntervalTree.IntervalTree{System.Int32,{TValue}}.Count
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  nameWithType.vb: IntervalTree(Of TValue)
+  fullName.vb: Mekkdonalds.IntervalTree(Of TValue)
+  name.vb: IntervalTree(Of TValue)
+- uid: Mekkdonalds.IntervalTree`1.Add(System.Int32,System.Int32,`0)
+  commentId: M:Mekkdonalds.IntervalTree`1.Add(System.Int32,System.Int32,`0)
+  id: Add(System.Int32,System.Int32,`0)
+  parent: Mekkdonalds.IntervalTree`1
+  langs:
+  - csharp
+  - vb
+  name: Add(int, int, TValue)
+  nameWithType: IntervalTree<TValue>.Add(int, int, TValue)
+  fullName: Mekkdonalds.IntervalTree<TValue>.Add(int, int, TValue)
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/IntervalTree.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Add
+    path: ../src/MekkdonaldsModel/IntervalTree.cs
+    startLine: 6
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds
+  syntax:
+    content: public void Add(int from, int to, TValue value)
+    parameters:
+    - id: from
+      type: System.Int32
+    - id: to
+      type: System.Int32
+    - id: value
+      type: '{TValue}'
+    content.vb: Public Sub Add(from As Integer, [to] As Integer, value As TValue)
+  overload: Mekkdonalds.IntervalTree`1.Add*
+  nameWithType.vb: IntervalTree(Of TValue).Add(Integer, Integer, TValue)
+  fullName.vb: Mekkdonalds.IntervalTree(Of TValue).Add(Integer, Integer, TValue)
+  name.vb: Add(Integer, Integer, TValue)
+- uid: Mekkdonalds.IntervalTree`1.Query(System.Int32)
+  commentId: M:Mekkdonalds.IntervalTree`1.Query(System.Int32)
+  id: Query(System.Int32)
+  parent: Mekkdonalds.IntervalTree`1
+  langs:
+  - csharp
+  - vb
+  name: Query(int)
+  nameWithType: IntervalTree<TValue>.Query(int)
+  fullName: Mekkdonalds.IntervalTree<TValue>.Query(int)
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/IntervalTree.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Query
+    path: ../src/MekkdonaldsModel/IntervalTree.cs
+    startLine: 11
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds
+  syntax:
+    content: public TValue? Query(int key)
+    parameters:
+    - id: key
+      type: System.Int32
+    return:
+      type: '{TValue}'
+    content.vb: Public Function Query(key As Integer) As TValue
+  overload: Mekkdonalds.IntervalTree`1.Query*
+  nameWithType.vb: IntervalTree(Of TValue).Query(Integer)
+  fullName.vb: Mekkdonalds.IntervalTree(Of TValue).Query(Integer)
+  name.vb: Query(Integer)
+- uid: Mekkdonalds.IntervalTree`1.Item(System.Int32)
+  commentId: P:Mekkdonalds.IntervalTree`1.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: Mekkdonalds.IntervalTree`1
+  langs:
+  - csharp
+  - vb
+  name: this[int]
+  nameWithType: IntervalTree<TValue>.this[int]
+  fullName: Mekkdonalds.IntervalTree<TValue>.this[int]
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/IntervalTree.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: this[]
+    path: ../src/MekkdonaldsModel/IntervalTree.cs
+    startLine: 13
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds
+  syntax:
+    content: public TValue? this[int key] { get; }
+    parameters:
+    - id: key
+      type: System.Int32
+    return:
+      type: '{TValue}'
+    content.vb: Public ReadOnly Default Property this[](key As Integer) As TValue
+  overload: Mekkdonalds.IntervalTree`1.Item*
+  nameWithType.vb: IntervalTree(Of TValue).this[](Integer)
+  fullName.vb: Mekkdonalds.IntervalTree(Of TValue).this[](Integer)
+  name.vb: this[](Integer)
+- uid: Mekkdonalds.IntervalTree`1.Item(System.Int32,System.Int32)
+  commentId: P:Mekkdonalds.IntervalTree`1.Item(System.Int32,System.Int32)
+  id: Item(System.Int32,System.Int32)
+  parent: Mekkdonalds.IntervalTree`1
+  langs:
+  - csharp
+  - vb
+  name: this[int, int]
+  nameWithType: IntervalTree<TValue>.this[int, int]
+  fullName: Mekkdonalds.IntervalTree<TValue>.this[int, int]
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/IntervalTree.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: this[]
+    path: ../src/MekkdonaldsModel/IntervalTree.cs
+    startLine: 15
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds
+  syntax:
+    content: public TValue this[int from, int to] { set; }
+    parameters:
+    - id: from
+      type: System.Int32
+    - id: to
+      type: System.Int32
+    return:
+      type: '{TValue}'
+    content.vb: Public WriteOnly Default Property this[](from As Integer, [to] As Integer) As TValue
+  overload: Mekkdonalds.IntervalTree`1.Item*
+  nameWithType.vb: IntervalTree(Of TValue).this[](Integer, Integer)
+  fullName.vb: Mekkdonalds.IntervalTree(Of TValue).this[](Integer, Integer)
+  name.vb: this[](Integer, Integer)
+references:
+- uid: Mekkdonalds
+  commentId: N:Mekkdonalds
+  href: Mekkdonalds.html
+  name: Mekkdonalds
+  nameWithType: Mekkdonalds
+  fullName: Mekkdonalds
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: IntervalTree.IntervalTree{System.Int32,{TValue}}
+  commentId: T:IntervalTree.IntervalTree{System.Int32,`0}
+  parent: IntervalTree
+  definition: IntervalTree.IntervalTree`2
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: IntervalTree<int, TValue>
+  nameWithType: IntervalTree<int, TValue>
+  fullName: IntervalTree.IntervalTree<int, TValue>
+  nameWithType.vb: IntervalTree(Of Integer, TValue)
+  fullName.vb: IntervalTree.IntervalTree(Of Integer, TValue)
+  name.vb: IntervalTree(Of Integer, TValue)
+  spec.csharp:
+  - uid: IntervalTree.IntervalTree`2
+    name: IntervalTree
+    isExternal: true
+  - name: <
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: IntervalTree.IntervalTree`2
+    name: IntervalTree
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: IntervalTree.IIntervalTree{System.Int32,{TValue}}
+  commentId: T:IntervalTree.IIntervalTree{System.Int32,`0}
+  parent: IntervalTree
+  definition: IntervalTree.IIntervalTree`2
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: IIntervalTree<int, TValue>
+  nameWithType: IIntervalTree<int, TValue>
+  fullName: IntervalTree.IIntervalTree<int, TValue>
+  nameWithType.vb: IIntervalTree(Of Integer, TValue)
+  fullName.vb: IntervalTree.IIntervalTree(Of Integer, TValue)
+  name.vb: IIntervalTree(Of Integer, TValue)
+  spec.csharp:
+  - uid: IntervalTree.IIntervalTree`2
+    name: IIntervalTree
+    isExternal: true
+  - name: <
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: IntervalTree.IIntervalTree`2
+    name: IIntervalTree
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic.IEnumerable{IntervalTree.RangeValuePair{System.Int32,{TValue}}}
+  commentId: T:System.Collections.Generic.IEnumerable{IntervalTree.RangeValuePair{System.Int32,`0}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<RangeValuePair<int, TValue>>
+  nameWithType: IEnumerable<RangeValuePair<int, TValue>>
+  fullName: System.Collections.Generic.IEnumerable<IntervalTree.RangeValuePair<int, TValue>>
+  nameWithType.vb: IEnumerable(Of RangeValuePair(Of Integer, TValue))
+  fullName.vb: System.Collections.Generic.IEnumerable(Of IntervalTree.RangeValuePair(Of Integer, TValue))
+  name.vb: IEnumerable(Of RangeValuePair(Of Integer, TValue))
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: IntervalTree.RangeValuePair`2
+    name: RangeValuePair
+    isExternal: true
+  - name: <
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: IntervalTree.RangeValuePair`2
+    name: RangeValuePair
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+  - name: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.ienumerable
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: IntervalTree.IntervalTree{System.Int32,{TValue}}.Query(System.Int32)
+  commentId: M:IntervalTree.IntervalTree{System.Int32,`0}.Query(System.Int32)
+  parent: IntervalTree.IntervalTree{System.Int32,{TValue}}
+  definition: IntervalTree.IntervalTree`2.Query(`0)
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: Query(int)
+  nameWithType: IntervalTree<int, TValue>.Query(int)
+  fullName: IntervalTree.IntervalTree<int, TValue>.Query(int)
+  nameWithType.vb: IntervalTree(Of Integer, TValue).Query(Integer)
+  fullName.vb: IntervalTree.IntervalTree(Of Integer, TValue).Query(Integer)
+  name.vb: Query(Integer)
+  spec.csharp:
+  - uid: IntervalTree.IntervalTree{System.Int32,`0}.Query(System.Int32)
+    name: Query
+    isExternal: true
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: IntervalTree.IntervalTree{System.Int32,`0}.Query(System.Int32)
+    name: Query
+    isExternal: true
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: IntervalTree.IntervalTree{System.Int32,{TValue}}.Query(System.Int32,System.Int32)
+  commentId: M:IntervalTree.IntervalTree{System.Int32,`0}.Query(System.Int32,System.Int32)
+  parent: IntervalTree.IntervalTree{System.Int32,{TValue}}
+  definition: IntervalTree.IntervalTree`2.Query(`0,`0)
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: Query(int, int)
+  nameWithType: IntervalTree<int, TValue>.Query(int, int)
+  fullName: IntervalTree.IntervalTree<int, TValue>.Query(int, int)
+  nameWithType.vb: IntervalTree(Of Integer, TValue).Query(Integer, Integer)
+  fullName.vb: IntervalTree.IntervalTree(Of Integer, TValue).Query(Integer, Integer)
+  name.vb: Query(Integer, Integer)
+  spec.csharp:
+  - uid: IntervalTree.IntervalTree{System.Int32,`0}.Query(System.Int32,System.Int32)
+    name: Query
+    isExternal: true
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: IntervalTree.IntervalTree{System.Int32,`0}.Query(System.Int32,System.Int32)
+    name: Query
+    isExternal: true
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: IntervalTree.IntervalTree{System.Int32,{TValue}}.Add(System.Int32,System.Int32,{TValue})
+  commentId: M:IntervalTree.IntervalTree{System.Int32,`0}.Add(System.Int32,System.Int32,`0)
+  parent: IntervalTree.IntervalTree{System.Int32,{TValue}}
+  definition: IntervalTree.IntervalTree`2.Add(`0,`0,`1)
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: Add(int, int, TValue)
+  nameWithType: IntervalTree<int, TValue>.Add(int, int, TValue)
+  fullName: IntervalTree.IntervalTree<int, TValue>.Add(int, int, TValue)
+  nameWithType.vb: IntervalTree(Of Integer, TValue).Add(Integer, Integer, TValue)
+  fullName.vb: IntervalTree.IntervalTree(Of Integer, TValue).Add(Integer, Integer, TValue)
+  name.vb: Add(Integer, Integer, TValue)
+  spec.csharp:
+  - uid: IntervalTree.IntervalTree{System.Int32,`0}.Add(System.Int32,System.Int32,`0)
+    name: Add
+    isExternal: true
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+  spec.vb:
+  - uid: IntervalTree.IntervalTree{System.Int32,`0}.Add(System.Int32,System.Int32,`0)
+    name: Add
+    isExternal: true
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: IntervalTree.IntervalTree{System.Int32,{TValue}}.Remove({TValue})
+  commentId: M:IntervalTree.IntervalTree{System.Int32,`0}.Remove(`0)
+  parent: IntervalTree.IntervalTree{System.Int32,{TValue}}
+  definition: IntervalTree.IntervalTree`2.Remove(`1)
+  name: Remove(TValue)
+  nameWithType: IntervalTree<int, TValue>.Remove(TValue)
+  fullName: IntervalTree.IntervalTree<int, TValue>.Remove(TValue)
+  nameWithType.vb: IntervalTree(Of Integer, TValue).Remove(TValue)
+  fullName.vb: IntervalTree.IntervalTree(Of Integer, TValue).Remove(TValue)
+  spec.csharp:
+  - uid: IntervalTree.IntervalTree{System.Int32,`0}.Remove(`0)
+    name: Remove
+    isExternal: true
+  - name: (
+  - name: TValue
+  - name: )
+  spec.vb:
+  - uid: IntervalTree.IntervalTree{System.Int32,`0}.Remove(`0)
+    name: Remove
+    isExternal: true
+  - name: (
+  - name: TValue
+  - name: )
+- uid: IntervalTree.IntervalTree{System.Int32,{TValue}}.Remove(System.Collections.Generic.IEnumerable{{TValue}})
+  commentId: M:IntervalTree.IntervalTree{System.Int32,`0}.Remove(System.Collections.Generic.IEnumerable{`0})
+  parent: IntervalTree.IntervalTree{System.Int32,{TValue}}
+  definition: IntervalTree.IntervalTree`2.Remove(System.Collections.Generic.IEnumerable{`1})
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: Remove(IEnumerable<TValue>)
+  nameWithType: IntervalTree<int, TValue>.Remove(IEnumerable<TValue>)
+  fullName: IntervalTree.IntervalTree<int, TValue>.Remove(System.Collections.Generic.IEnumerable<TValue>)
+  nameWithType.vb: IntervalTree(Of Integer, TValue).Remove(IEnumerable(Of TValue))
+  fullName.vb: IntervalTree.IntervalTree(Of Integer, TValue).Remove(System.Collections.Generic.IEnumerable(Of TValue))
+  name.vb: Remove(IEnumerable(Of TValue))
+  spec.csharp:
+  - uid: IntervalTree.IntervalTree{System.Int32,`0}.Remove(System.Collections.Generic.IEnumerable{`0})
+    name: Remove
+    isExternal: true
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: TValue
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: IntervalTree.IntervalTree{System.Int32,`0}.Remove(System.Collections.Generic.IEnumerable{`0})
+    name: Remove
+    isExternal: true
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TValue
+  - name: )
+  - name: )
+- uid: IntervalTree.IntervalTree{System.Int32,{TValue}}.Clear
+  commentId: M:IntervalTree.IntervalTree{System.Int32,`0}.Clear
+  parent: IntervalTree.IntervalTree{System.Int32,{TValue}}
+  definition: IntervalTree.IntervalTree`2.Clear
+  name: Clear()
+  nameWithType: IntervalTree<int, TValue>.Clear()
+  fullName: IntervalTree.IntervalTree<int, TValue>.Clear()
+  nameWithType.vb: IntervalTree(Of Integer, TValue).Clear()
+  fullName.vb: IntervalTree.IntervalTree(Of Integer, TValue).Clear()
+  spec.csharp:
+  - uid: IntervalTree.IntervalTree{System.Int32,`0}.Clear
+    name: Clear
+    isExternal: true
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: IntervalTree.IntervalTree{System.Int32,`0}.Clear
+    name: Clear
+    isExternal: true
+  - name: (
+  - name: )
+- uid: IntervalTree.IntervalTree{System.Int32,{TValue}}.GetEnumerator
+  commentId: M:IntervalTree.IntervalTree{System.Int32,`0}.GetEnumerator
+  parent: IntervalTree.IntervalTree{System.Int32,{TValue}}
+  definition: IntervalTree.IntervalTree`2.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IntervalTree<int, TValue>.GetEnumerator()
+  fullName: IntervalTree.IntervalTree<int, TValue>.GetEnumerator()
+  nameWithType.vb: IntervalTree(Of Integer, TValue).GetEnumerator()
+  fullName.vb: IntervalTree.IntervalTree(Of Integer, TValue).GetEnumerator()
+  spec.csharp:
+  - uid: IntervalTree.IntervalTree{System.Int32,`0}.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: IntervalTree.IntervalTree{System.Int32,`0}.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+  - name: (
+  - name: )
+- uid: IntervalTree.IntervalTree{System.Int32,{TValue}}.Max
+  commentId: P:IntervalTree.IntervalTree{System.Int32,`0}.Max
+  parent: IntervalTree.IntervalTree{System.Int32,{TValue}}
+  definition: IntervalTree.IntervalTree`2.Max
+  name: Max
+  nameWithType: IntervalTree<int, TValue>.Max
+  fullName: IntervalTree.IntervalTree<int, TValue>.Max
+  nameWithType.vb: IntervalTree(Of Integer, TValue).Max
+  fullName.vb: IntervalTree.IntervalTree(Of Integer, TValue).Max
+- uid: IntervalTree.IntervalTree{System.Int32,{TValue}}.Min
+  commentId: P:IntervalTree.IntervalTree{System.Int32,`0}.Min
+  parent: IntervalTree.IntervalTree{System.Int32,{TValue}}
+  definition: IntervalTree.IntervalTree`2.Min
+  name: Min
+  nameWithType: IntervalTree<int, TValue>.Min
+  fullName: IntervalTree.IntervalTree<int, TValue>.Min
+  nameWithType.vb: IntervalTree(Of Integer, TValue).Min
+  fullName.vb: IntervalTree.IntervalTree(Of Integer, TValue).Min
+- uid: IntervalTree.IntervalTree{System.Int32,{TValue}}.Values
+  commentId: P:IntervalTree.IntervalTree{System.Int32,`0}.Values
+  parent: IntervalTree.IntervalTree{System.Int32,{TValue}}
+  definition: IntervalTree.IntervalTree`2.Values
+  name: Values
+  nameWithType: IntervalTree<int, TValue>.Values
+  fullName: IntervalTree.IntervalTree<int, TValue>.Values
+  nameWithType.vb: IntervalTree(Of Integer, TValue).Values
+  fullName.vb: IntervalTree.IntervalTree(Of Integer, TValue).Values
+- uid: IntervalTree.IntervalTree{System.Int32,{TValue}}.Count
+  commentId: P:IntervalTree.IntervalTree{System.Int32,`0}.Count
+  parent: IntervalTree.IntervalTree{System.Int32,{TValue}}
+  definition: IntervalTree.IntervalTree`2.Count
+  name: Count
+  nameWithType: IntervalTree<int, TValue>.Count
+  fullName: IntervalTree.IntervalTree<int, TValue>.Count
+  nameWithType.vb: IntervalTree(Of Integer, TValue).Count
+  fullName.vb: IntervalTree.IntervalTree(Of Integer, TValue).Count
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: IntervalTree.IntervalTree`2
+  commentId: T:IntervalTree.IntervalTree`2
+  isExternal: true
+  name: IntervalTree<TKey, TValue>
+  nameWithType: IntervalTree<TKey, TValue>
+  fullName: IntervalTree.IntervalTree<TKey, TValue>
+  nameWithType.vb: IntervalTree(Of TKey, TValue)
+  fullName.vb: IntervalTree.IntervalTree(Of TKey, TValue)
+  name.vb: IntervalTree(Of TKey, TValue)
+  spec.csharp:
+  - uid: IntervalTree.IntervalTree`2
+    name: IntervalTree
+    isExternal: true
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: IntervalTree.IntervalTree`2
+    name: IntervalTree
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: IntervalTree
+  commentId: N:IntervalTree
+  isExternal: true
+  name: IntervalTree
+  nameWithType: IntervalTree
+  fullName: IntervalTree
+- uid: IntervalTree.IIntervalTree`2
+  commentId: T:IntervalTree.IIntervalTree`2
+  isExternal: true
+  name: IIntervalTree<TKey, TValue>
+  nameWithType: IIntervalTree<TKey, TValue>
+  fullName: IntervalTree.IIntervalTree<TKey, TValue>
+  nameWithType.vb: IIntervalTree(Of TKey, TValue)
+  fullName.vb: IntervalTree.IIntervalTree(Of TKey, TValue)
+  name.vb: IIntervalTree(Of TKey, TValue)
+  spec.csharp:
+  - uid: IntervalTree.IIntervalTree`2
+    name: IIntervalTree
+    isExternal: true
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: IntervalTree.IIntervalTree`2
+    name: IIntervalTree
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+- uid: IntervalTree.IntervalTree`2.Query(`0)
+  commentId: M:IntervalTree.IntervalTree`2.Query(`0)
+  isExternal: true
+  name: Query(TKey)
+  nameWithType: IntervalTree<TKey, TValue>.Query(TKey)
+  fullName: IntervalTree.IntervalTree<TKey, TValue>.Query(TKey)
+  nameWithType.vb: IntervalTree(Of TKey, TValue).Query(TKey)
+  fullName.vb: IntervalTree.IntervalTree(Of TKey, TValue).Query(TKey)
+  spec.csharp:
+  - uid: IntervalTree.IntervalTree`2.Query(`0)
+    name: Query
+    isExternal: true
+  - name: (
+  - name: TKey
+  - name: )
+  spec.vb:
+  - uid: IntervalTree.IntervalTree`2.Query(`0)
+    name: Query
+    isExternal: true
+  - name: (
+  - name: TKey
+  - name: )
+- uid: IntervalTree.IntervalTree`2.Query(`0,`0)
+  commentId: M:IntervalTree.IntervalTree`2.Query(`0,`0)
+  isExternal: true
+  name: Query(TKey, TKey)
+  nameWithType: IntervalTree<TKey, TValue>.Query(TKey, TKey)
+  fullName: IntervalTree.IntervalTree<TKey, TValue>.Query(TKey, TKey)
+  nameWithType.vb: IntervalTree(Of TKey, TValue).Query(TKey, TKey)
+  fullName.vb: IntervalTree.IntervalTree(Of TKey, TValue).Query(TKey, TKey)
+  spec.csharp:
+  - uid: IntervalTree.IntervalTree`2.Query(`0,`0)
+    name: Query
+    isExternal: true
+  - name: (
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TKey
+  - name: )
+  spec.vb:
+  - uid: IntervalTree.IntervalTree`2.Query(`0,`0)
+    name: Query
+    isExternal: true
+  - name: (
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TKey
+  - name: )
+- uid: IntervalTree.IntervalTree`2.Add(`0,`0,`1)
+  commentId: M:IntervalTree.IntervalTree`2.Add(`0,`0,`1)
+  isExternal: true
+  name: Add(TKey, TKey, TValue)
+  nameWithType: IntervalTree<TKey, TValue>.Add(TKey, TKey, TValue)
+  fullName: IntervalTree.IntervalTree<TKey, TValue>.Add(TKey, TKey, TValue)
+  nameWithType.vb: IntervalTree(Of TKey, TValue).Add(TKey, TKey, TValue)
+  fullName.vb: IntervalTree.IntervalTree(Of TKey, TValue).Add(TKey, TKey, TValue)
+  spec.csharp:
+  - uid: IntervalTree.IntervalTree`2.Add(`0,`0,`1)
+    name: Add
+    isExternal: true
+  - name: (
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+  spec.vb:
+  - uid: IntervalTree.IntervalTree`2.Add(`0,`0,`1)
+    name: Add
+    isExternal: true
+  - name: (
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: IntervalTree.IntervalTree`2.Remove(`1)
+  commentId: M:IntervalTree.IntervalTree`2.Remove(`1)
+  isExternal: true
+  name: Remove(TValue)
+  nameWithType: IntervalTree<TKey, TValue>.Remove(TValue)
+  fullName: IntervalTree.IntervalTree<TKey, TValue>.Remove(TValue)
+  nameWithType.vb: IntervalTree(Of TKey, TValue).Remove(TValue)
+  fullName.vb: IntervalTree.IntervalTree(Of TKey, TValue).Remove(TValue)
+  spec.csharp:
+  - uid: IntervalTree.IntervalTree`2.Remove(`1)
+    name: Remove
+    isExternal: true
+  - name: (
+  - name: TValue
+  - name: )
+  spec.vb:
+  - uid: IntervalTree.IntervalTree`2.Remove(`1)
+    name: Remove
+    isExternal: true
+  - name: (
+  - name: TValue
+  - name: )
+- uid: IntervalTree.IntervalTree`2.Remove(System.Collections.Generic.IEnumerable{`1})
+  commentId: M:IntervalTree.IntervalTree`2.Remove(System.Collections.Generic.IEnumerable{`1})
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: Remove(IEnumerable<TValue>)
+  nameWithType: IntervalTree<TKey, TValue>.Remove(IEnumerable<TValue>)
+  fullName: IntervalTree.IntervalTree<TKey, TValue>.Remove(System.Collections.Generic.IEnumerable<TValue>)
+  nameWithType.vb: IntervalTree(Of TKey, TValue).Remove(IEnumerable(Of TValue))
+  fullName.vb: IntervalTree.IntervalTree(Of TKey, TValue).Remove(System.Collections.Generic.IEnumerable(Of TValue))
+  name.vb: Remove(IEnumerable(Of TValue))
+  spec.csharp:
+  - uid: IntervalTree.IntervalTree`2.Remove(System.Collections.Generic.IEnumerable{`1})
+    name: Remove
+    isExternal: true
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: TValue
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: IntervalTree.IntervalTree`2.Remove(System.Collections.Generic.IEnumerable{`1})
+    name: Remove
+    isExternal: true
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TValue
+  - name: )
+  - name: )
+- uid: IntervalTree.IntervalTree`2.Clear
+  commentId: M:IntervalTree.IntervalTree`2.Clear
+  isExternal: true
+  name: Clear()
+  nameWithType: IntervalTree<TKey, TValue>.Clear()
+  fullName: IntervalTree.IntervalTree<TKey, TValue>.Clear()
+  nameWithType.vb: IntervalTree(Of TKey, TValue).Clear()
+  fullName.vb: IntervalTree.IntervalTree(Of TKey, TValue).Clear()
+  spec.csharp:
+  - uid: IntervalTree.IntervalTree`2.Clear
+    name: Clear
+    isExternal: true
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: IntervalTree.IntervalTree`2.Clear
+    name: Clear
+    isExternal: true
+  - name: (
+  - name: )
+- uid: IntervalTree.IntervalTree`2.GetEnumerator
+  commentId: M:IntervalTree.IntervalTree`2.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IntervalTree<TKey, TValue>.GetEnumerator()
+  fullName: IntervalTree.IntervalTree<TKey, TValue>.GetEnumerator()
+  nameWithType.vb: IntervalTree(Of TKey, TValue).GetEnumerator()
+  fullName.vb: IntervalTree.IntervalTree(Of TKey, TValue).GetEnumerator()
+  spec.csharp:
+  - uid: IntervalTree.IntervalTree`2.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: IntervalTree.IntervalTree`2.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+  - name: (
+  - name: )
+- uid: IntervalTree.IntervalTree`2.Max
+  commentId: P:IntervalTree.IntervalTree`2.Max
+  isExternal: true
+  name: Max
+  nameWithType: IntervalTree<TKey, TValue>.Max
+  fullName: IntervalTree.IntervalTree<TKey, TValue>.Max
+  nameWithType.vb: IntervalTree(Of TKey, TValue).Max
+  fullName.vb: IntervalTree.IntervalTree(Of TKey, TValue).Max
+- uid: IntervalTree.IntervalTree`2.Min
+  commentId: P:IntervalTree.IntervalTree`2.Min
+  isExternal: true
+  name: Min
+  nameWithType: IntervalTree<TKey, TValue>.Min
+  fullName: IntervalTree.IntervalTree<TKey, TValue>.Min
+  nameWithType.vb: IntervalTree(Of TKey, TValue).Min
+  fullName.vb: IntervalTree.IntervalTree(Of TKey, TValue).Min
+- uid: IntervalTree.IntervalTree`2.Values
+  commentId: P:IntervalTree.IntervalTree`2.Values
+  isExternal: true
+  name: Values
+  nameWithType: IntervalTree<TKey, TValue>.Values
+  fullName: IntervalTree.IntervalTree<TKey, TValue>.Values
+  nameWithType.vb: IntervalTree(Of TKey, TValue).Values
+  fullName.vb: IntervalTree.IntervalTree(Of TKey, TValue).Values
+- uid: IntervalTree.IntervalTree`2.Count
+  commentId: P:IntervalTree.IntervalTree`2.Count
+  isExternal: true
+  name: Count
+  nameWithType: IntervalTree<TKey, TValue>.Count
+  fullName: IntervalTree.IntervalTree<TKey, TValue>.Count
+  nameWithType.vb: IntervalTree(Of TKey, TValue).Count
+  fullName.vb: IntervalTree.IntervalTree(Of TKey, TValue).Count
+- uid: Mekkdonalds.IntervalTree`1.Add*
+  commentId: Overload:Mekkdonalds.IntervalTree`1.Add
+  href: Mekkdonalds.IntervalTree-1.html#Mekkdonalds_IntervalTree_1_Add_System_Int32_System_Int32__0_
+  name: Add
+  nameWithType: IntervalTree<TValue>.Add
+  fullName: Mekkdonalds.IntervalTree<TValue>.Add
+  nameWithType.vb: IntervalTree(Of TValue).Add
+  fullName.vb: Mekkdonalds.IntervalTree(Of TValue).Add
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: '{TValue}'
+  commentId: '!:TValue'
+  definition: TValue
+  name: TValue
+  nameWithType: TValue
+  fullName: TValue
+- uid: TValue
+  name: TValue
+  nameWithType: TValue
+  fullName: TValue
+- uid: Mekkdonalds.IntervalTree`1.Query*
+  commentId: Overload:Mekkdonalds.IntervalTree`1.Query
+  href: Mekkdonalds.IntervalTree-1.html#Mekkdonalds_IntervalTree_1_Query_System_Int32_
+  name: Query
+  nameWithType: IntervalTree<TValue>.Query
+  fullName: Mekkdonalds.IntervalTree<TValue>.Query
+  nameWithType.vb: IntervalTree(Of TValue).Query
+  fullName.vb: Mekkdonalds.IntervalTree(Of TValue).Query
+- uid: Mekkdonalds.IntervalTree`1.Item*
+  commentId: Overload:Mekkdonalds.IntervalTree`1.Item
+  href: Mekkdonalds.IntervalTree-1.html#Mekkdonalds_IntervalTree_1_Item_System_Int32_
+  name: this
+  nameWithType: IntervalTree<TValue>.this
+  fullName: Mekkdonalds.IntervalTree<TValue>.this
+  nameWithType.vb: IntervalTree(Of TValue).this[]
+  fullName.vb: Mekkdonalds.IntervalTree(Of TValue).this[]
+  name.vb: this[]

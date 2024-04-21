@@ -1,0 +1,784 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mekkdonalds.Simulation.Controller.ReplayController
+  commentId: T:Mekkdonalds.Simulation.Controller.ReplayController
+  id: ReplayController
+  parent: Mekkdonalds.Simulation.Controller
+  children:
+  - Mekkdonalds.Simulation.Controller.ReplayController.#ctor(System.String,System.String,Mekkdonalds.Persistence.IReplayDataAccess)
+  - Mekkdonalds.Simulation.Controller.ReplayController.JumpTo(System.Int32)
+  - Mekkdonalds.Simulation.Controller.ReplayController.Length
+  - Mekkdonalds.Simulation.Controller.ReplayController.OnTick(System.Object)
+  - Mekkdonalds.Simulation.Controller.ReplayController.StepBackward
+  - Mekkdonalds.Simulation.Controller.ReplayController.StepForward
+  - Mekkdonalds.Simulation.Controller.ReplayController.TimeStamp
+  langs:
+  - csharp
+  - vb
+  name: ReplayController
+  nameWithType: ReplayController
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController
+  type: Class
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: ReplayController
+    path: ../src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+    startLine: 2
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  syntax:
+    content: 'public sealed class ReplayController : Controller'
+    content.vb: Public NotInheritable Class ReplayController Inherits Controller
+  inheritance:
+  - System.Object
+  - Mekkdonalds.Simulation.Controller.Controller
+  inheritedMembers:
+  - Mekkdonalds.Simulation.Controller.Controller.IsPlaying
+  - Mekkdonalds.Simulation.Controller.Controller.Width
+  - Mekkdonalds.Simulation.Controller.Controller.Height
+  - Mekkdonalds.Simulation.Controller.Controller.Robots
+  - Mekkdonalds.Simulation.Controller.Controller.Walls
+  - Mekkdonalds.Simulation.Controller.Controller.Tick
+  - Mekkdonalds.Simulation.Controller.Controller.Loaded
+  - Mekkdonalds.Simulation.Controller.Controller.ChangeSpeed(System.Double)
+  - Mekkdonalds.Simulation.Controller.Controller.Play
+  - Mekkdonalds.Simulation.Controller.Controller.Pause
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.TimeStamp
+  commentId: P:Mekkdonalds.Simulation.Controller.ReplayController.TimeStamp
+  id: TimeStamp
+  parent: Mekkdonalds.Simulation.Controller.ReplayController
+  langs:
+  - csharp
+  - vb
+  name: TimeStamp
+  nameWithType: ReplayController.TimeStamp
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.TimeStamp
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: TimeStamp
+    path: ../src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+    startLine: 7
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  syntax:
+    content: public int TimeStamp { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property TimeStamp As Integer
+  overload: Mekkdonalds.Simulation.Controller.ReplayController.TimeStamp*
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.Length
+  commentId: P:Mekkdonalds.Simulation.Controller.ReplayController.Length
+  id: Length
+  parent: Mekkdonalds.Simulation.Controller.ReplayController
+  langs:
+  - csharp
+  - vb
+  name: Length
+  nameWithType: ReplayController.Length
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.Length
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: Length
+    path: ../src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+    startLine: 8
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  syntax:
+    content: public int Length { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Length As Integer
+  overload: Mekkdonalds.Simulation.Controller.ReplayController.Length*
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.#ctor(System.String,System.String,Mekkdonalds.Persistence.IReplayDataAccess)
+  commentId: M:Mekkdonalds.Simulation.Controller.ReplayController.#ctor(System.String,System.String,Mekkdonalds.Persistence.IReplayDataAccess)
+  id: '#ctor(System.String,System.String,Mekkdonalds.Persistence.IReplayDataAccess)'
+  parent: Mekkdonalds.Simulation.Controller.ReplayController
+  langs:
+  - csharp
+  - vb
+  name: ReplayController(string, string, IReplayDataAccess)
+  nameWithType: ReplayController.ReplayController(string, string, IReplayDataAccess)
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.ReplayController(string, string, Mekkdonalds.Persistence.IReplayDataAccess)
+  type: Constructor
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: .ctor
+    path: ../src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+    startLine: 10
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  syntax:
+    content: public ReplayController(string logPath, string mapPath, IReplayDataAccess da)
+    parameters:
+    - id: logPath
+      type: System.String
+    - id: mapPath
+      type: System.String
+    - id: da
+      type: Mekkdonalds.Persistence.IReplayDataAccess
+    content.vb: Public Sub New(logPath As String, mapPath As String, da As IReplayDataAccess)
+  overload: Mekkdonalds.Simulation.Controller.ReplayController.#ctor*
+  nameWithType.vb: ReplayController.New(String, String, IReplayDataAccess)
+  fullName.vb: Mekkdonalds.Simulation.Controller.ReplayController.New(String, String, Mekkdonalds.Persistence.IReplayDataAccess)
+  name.vb: New(String, String, IReplayDataAccess)
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.OnTick(System.Object)
+  commentId: M:Mekkdonalds.Simulation.Controller.ReplayController.OnTick(System.Object)
+  id: OnTick(System.Object)
+  parent: Mekkdonalds.Simulation.Controller.ReplayController
+  langs:
+  - csharp
+  - vb
+  name: OnTick(object?)
+  nameWithType: ReplayController.OnTick(object?)
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.OnTick(object?)
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: OnTick
+    path: ../src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+    startLine: 69
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  example: []
+  syntax:
+    content: protected override void OnTick(object? state)
+    parameters:
+    - id: state
+      type: System.Object
+    content.vb: Protected Overrides Sub OnTick(state As Object)
+  overridden: Mekkdonalds.Simulation.Controller.Controller.OnTick(System.Object)
+  overload: Mekkdonalds.Simulation.Controller.ReplayController.OnTick*
+  nameWithType.vb: ReplayController.OnTick(Object)
+  fullName.vb: Mekkdonalds.Simulation.Controller.ReplayController.OnTick(Object)
+  name.vb: OnTick(Object)
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.JumpTo(System.Int32)
+  commentId: M:Mekkdonalds.Simulation.Controller.ReplayController.JumpTo(System.Int32)
+  id: JumpTo(System.Int32)
+  parent: Mekkdonalds.Simulation.Controller.ReplayController
+  langs:
+  - csharp
+  - vb
+  name: JumpTo(int)
+  nameWithType: ReplayController.JumpTo(int)
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.JumpTo(int)
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: JumpTo
+    path: ../src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+    startLine: 81
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  syntax:
+    content: public void JumpTo(int time)
+    parameters:
+    - id: time
+      type: System.Int32
+    content.vb: Public Sub JumpTo(time As Integer)
+  overload: Mekkdonalds.Simulation.Controller.ReplayController.JumpTo*
+  nameWithType.vb: ReplayController.JumpTo(Integer)
+  fullName.vb: Mekkdonalds.Simulation.Controller.ReplayController.JumpTo(Integer)
+  name.vb: JumpTo(Integer)
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.StepForward
+  commentId: M:Mekkdonalds.Simulation.Controller.ReplayController.StepForward
+  id: StepForward
+  parent: Mekkdonalds.Simulation.Controller.ReplayController
+  langs:
+  - csharp
+  - vb
+  name: StepForward()
+  nameWithType: ReplayController.StepForward()
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.StepForward()
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: StepForward
+    path: ../src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+    startLine: 112
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  example: []
+  syntax:
+    content: public override void StepForward()
+    content.vb: Public Overrides Sub StepForward()
+  overridden: Mekkdonalds.Simulation.Controller.Controller.StepForward
+  overload: Mekkdonalds.Simulation.Controller.ReplayController.StepForward*
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.StepBackward
+  commentId: M:Mekkdonalds.Simulation.Controller.ReplayController.StepBackward
+  id: StepBackward
+  parent: Mekkdonalds.Simulation.Controller.ReplayController
+  langs:
+  - csharp
+  - vb
+  name: StepBackward()
+  nameWithType: ReplayController.StepBackward()
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.StepBackward()
+  type: Method
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: StepBackward
+    path: ../src/MekkdonaldsModel/Simulation/Controller/ReplayController.cs
+    startLine: 117
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Simulation.Controller
+  syntax:
+    content: public void StepBackward()
+    content.vb: Public Sub StepBackward()
+  overload: Mekkdonalds.Simulation.Controller.ReplayController.StepBackward*
+references:
+- uid: Mekkdonalds.Simulation.Controller
+  commentId: N:Mekkdonalds.Simulation.Controller
+  href: Mekkdonalds.html
+  name: Mekkdonalds.Simulation.Controller
+  nameWithType: Mekkdonalds.Simulation.Controller
+  fullName: Mekkdonalds.Simulation.Controller
+  spec.csharp:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
+  - name: .
+  - uid: Mekkdonalds.Simulation.Controller
+    name: Controller
+    href: Mekkdonalds.Simulation.Controller.html
+  spec.vb:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Simulation
+    name: Simulation
+    href: Mekkdonalds.Simulation.html
+  - name: .
+  - uid: Mekkdonalds.Simulation.Controller
+    name: Controller
+    href: Mekkdonalds.Simulation.Controller.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mekkdonalds.Simulation.Controller.Controller
+  commentId: T:Mekkdonalds.Simulation.Controller.Controller
+  parent: Mekkdonalds.Simulation.Controller
+  href: Mekkdonalds.Simulation.Controller.Controller.html
+  name: Controller
+  nameWithType: Controller
+  fullName: Mekkdonalds.Simulation.Controller.Controller
+- uid: Mekkdonalds.Simulation.Controller.Controller.IsPlaying
+  commentId: P:Mekkdonalds.Simulation.Controller.Controller.IsPlaying
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_IsPlaying
+  name: IsPlaying
+  nameWithType: Controller.IsPlaying
+  fullName: Mekkdonalds.Simulation.Controller.Controller.IsPlaying
+- uid: Mekkdonalds.Simulation.Controller.Controller.Width
+  commentId: P:Mekkdonalds.Simulation.Controller.Controller.Width
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_Width
+  name: Width
+  nameWithType: Controller.Width
+  fullName: Mekkdonalds.Simulation.Controller.Controller.Width
+- uid: Mekkdonalds.Simulation.Controller.Controller.Height
+  commentId: P:Mekkdonalds.Simulation.Controller.Controller.Height
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_Height
+  name: Height
+  nameWithType: Controller.Height
+  fullName: Mekkdonalds.Simulation.Controller.Controller.Height
+- uid: Mekkdonalds.Simulation.Controller.Controller.Robots
+  commentId: P:Mekkdonalds.Simulation.Controller.Controller.Robots
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_Robots
+  name: Robots
+  nameWithType: Controller.Robots
+  fullName: Mekkdonalds.Simulation.Controller.Controller.Robots
+- uid: Mekkdonalds.Simulation.Controller.Controller.Walls
+  commentId: P:Mekkdonalds.Simulation.Controller.Controller.Walls
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_Walls
+  name: Walls
+  nameWithType: Controller.Walls
+  fullName: Mekkdonalds.Simulation.Controller.Controller.Walls
+- uid: Mekkdonalds.Simulation.Controller.Controller.Tick
+  commentId: E:Mekkdonalds.Simulation.Controller.Controller.Tick
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_Tick
+  name: Tick
+  nameWithType: Controller.Tick
+  fullName: Mekkdonalds.Simulation.Controller.Controller.Tick
+- uid: Mekkdonalds.Simulation.Controller.Controller.Loaded
+  commentId: E:Mekkdonalds.Simulation.Controller.Controller.Loaded
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_Loaded
+  name: Loaded
+  nameWithType: Controller.Loaded
+  fullName: Mekkdonalds.Simulation.Controller.Controller.Loaded
+- uid: Mekkdonalds.Simulation.Controller.Controller.ChangeSpeed(System.Double)
+  commentId: M:Mekkdonalds.Simulation.Controller.Controller.ChangeSpeed(System.Double)
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  isExternal: true
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_ChangeSpeed_System_Double_
+  name: ChangeSpeed(double)
+  nameWithType: Controller.ChangeSpeed(double)
+  fullName: Mekkdonalds.Simulation.Controller.Controller.ChangeSpeed(double)
+  nameWithType.vb: Controller.ChangeSpeed(Double)
+  fullName.vb: Mekkdonalds.Simulation.Controller.Controller.ChangeSpeed(Double)
+  name.vb: ChangeSpeed(Double)
+  spec.csharp:
+  - uid: Mekkdonalds.Simulation.Controller.Controller.ChangeSpeed(System.Double)
+    name: ChangeSpeed
+    href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_ChangeSpeed_System_Double_
+  - name: (
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+  spec.vb:
+  - uid: Mekkdonalds.Simulation.Controller.Controller.ChangeSpeed(System.Double)
+    name: ChangeSpeed
+    href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_ChangeSpeed_System_Double_
+  - name: (
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+- uid: Mekkdonalds.Simulation.Controller.Controller.Play
+  commentId: M:Mekkdonalds.Simulation.Controller.Controller.Play
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_Play
+  name: Play()
+  nameWithType: Controller.Play()
+  fullName: Mekkdonalds.Simulation.Controller.Controller.Play()
+  spec.csharp:
+  - uid: Mekkdonalds.Simulation.Controller.Controller.Play
+    name: Play
+    href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_Play
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Mekkdonalds.Simulation.Controller.Controller.Play
+    name: Play
+    href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_Play
+  - name: (
+  - name: )
+- uid: Mekkdonalds.Simulation.Controller.Controller.Pause
+  commentId: M:Mekkdonalds.Simulation.Controller.Controller.Pause
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_Pause
+  name: Pause()
+  nameWithType: Controller.Pause()
+  fullName: Mekkdonalds.Simulation.Controller.Controller.Pause()
+  spec.csharp:
+  - uid: Mekkdonalds.Simulation.Controller.Controller.Pause
+    name: Pause
+    href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_Pause
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Mekkdonalds.Simulation.Controller.Controller.Pause
+    name: Pause
+    href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_Pause
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.TimeStamp*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.ReplayController.TimeStamp
+  href: Mekkdonalds.Simulation.Controller.ReplayController.html#Mekkdonalds_Simulation_Controller_ReplayController_TimeStamp
+  name: TimeStamp
+  nameWithType: ReplayController.TimeStamp
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.TimeStamp
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.Length*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.ReplayController.Length
+  href: Mekkdonalds.Simulation.Controller.ReplayController.html#Mekkdonalds_Simulation_Controller_ReplayController_Length
+  name: Length
+  nameWithType: ReplayController.Length
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.Length
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.#ctor*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.ReplayController.#ctor
+  href: Mekkdonalds.Simulation.Controller.ReplayController.html#Mekkdonalds_Simulation_Controller_ReplayController__ctor_System_String_System_String_Mekkdonalds_Persistence_IReplayDataAccess_
+  name: ReplayController
+  nameWithType: ReplayController.ReplayController
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.ReplayController
+  nameWithType.vb: ReplayController.New
+  fullName.vb: Mekkdonalds.Simulation.Controller.ReplayController.New
+  name.vb: New
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mekkdonalds.Persistence.IReplayDataAccess
+  commentId: T:Mekkdonalds.Persistence.IReplayDataAccess
+  parent: Mekkdonalds.Persistence
+  href: Mekkdonalds.Persistence.IReplayDataAccess.html
+  name: IReplayDataAccess
+  nameWithType: IReplayDataAccess
+  fullName: Mekkdonalds.Persistence.IReplayDataAccess
+- uid: Mekkdonalds.Persistence
+  commentId: N:Mekkdonalds.Persistence
+  href: Mekkdonalds.html
+  name: Mekkdonalds.Persistence
+  nameWithType: Mekkdonalds.Persistence
+  fullName: Mekkdonalds.Persistence
+  spec.csharp:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
+  spec.vb:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
+- uid: Mekkdonalds.Simulation.Controller.Controller.OnTick(System.Object)
+  commentId: M:Mekkdonalds.Simulation.Controller.Controller.OnTick(System.Object)
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  isExternal: true
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_OnTick_System_Object_
+  name: OnTick(object)
+  nameWithType: Controller.OnTick(object)
+  fullName: Mekkdonalds.Simulation.Controller.Controller.OnTick(object)
+  nameWithType.vb: Controller.OnTick(Object)
+  fullName.vb: Mekkdonalds.Simulation.Controller.Controller.OnTick(Object)
+  name.vb: OnTick(Object)
+  spec.csharp:
+  - uid: Mekkdonalds.Simulation.Controller.Controller.OnTick(System.Object)
+    name: OnTick
+    href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_OnTick_System_Object_
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: Mekkdonalds.Simulation.Controller.Controller.OnTick(System.Object)
+    name: OnTick
+    href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_OnTick_System_Object_
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.OnTick*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.ReplayController.OnTick
+  href: Mekkdonalds.Simulation.Controller.ReplayController.html#Mekkdonalds_Simulation_Controller_ReplayController_OnTick_System_Object_
+  name: OnTick
+  nameWithType: ReplayController.OnTick
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.OnTick
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.JumpTo*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.ReplayController.JumpTo
+  href: Mekkdonalds.Simulation.Controller.ReplayController.html#Mekkdonalds_Simulation_Controller_ReplayController_JumpTo_System_Int32_
+  name: JumpTo
+  nameWithType: ReplayController.JumpTo
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.JumpTo
+- uid: Mekkdonalds.Simulation.Controller.Controller.StepForward
+  commentId: M:Mekkdonalds.Simulation.Controller.Controller.StepForward
+  parent: Mekkdonalds.Simulation.Controller.Controller
+  href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_StepForward
+  name: StepForward()
+  nameWithType: Controller.StepForward()
+  fullName: Mekkdonalds.Simulation.Controller.Controller.StepForward()
+  spec.csharp:
+  - uid: Mekkdonalds.Simulation.Controller.Controller.StepForward
+    name: StepForward
+    href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_StepForward
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Mekkdonalds.Simulation.Controller.Controller.StepForward
+    name: StepForward
+    href: Mekkdonalds.Simulation.Controller.Controller.html#Mekkdonalds_Simulation_Controller_Controller_StepForward
+  - name: (
+  - name: )
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.StepForward*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.ReplayController.StepForward
+  href: Mekkdonalds.Simulation.Controller.ReplayController.html#Mekkdonalds_Simulation_Controller_ReplayController_StepForward
+  name: StepForward
+  nameWithType: ReplayController.StepForward
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.StepForward
+- uid: Mekkdonalds.Simulation.Controller.ReplayController.StepBackward*
+  commentId: Overload:Mekkdonalds.Simulation.Controller.ReplayController.StepBackward
+  href: Mekkdonalds.Simulation.Controller.ReplayController.html#Mekkdonalds_Simulation_Controller_ReplayController_StepBackward
+  name: StepBackward
+  nameWithType: ReplayController.StepBackward
+  fullName: Mekkdonalds.Simulation.Controller.ReplayController.StepBackward

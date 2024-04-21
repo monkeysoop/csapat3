@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/App.xaml.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: App
     path: ../src/MekkdonaldsWPF/App.xaml.cs
@@ -104,11 +104,11 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/App.xaml.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: .ctor
     path: ../src/MekkdonaldsWPF/App.xaml.cs
-    startLine: 18
+    startLine: 28
   assemblies:
   - MekkdonaldsWPF
   namespace: Mekkdonalds

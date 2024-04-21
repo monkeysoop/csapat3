@@ -5,11 +5,14 @@ items:
   id: Mekkdonalds.Simulation
   children:
   - Mekkdonalds.Simulation.Action
+  - Mekkdonalds.Simulation.ActionMethods
+  - Mekkdonalds.Simulation.ControllerType
   - Mekkdonalds.Simulation.Direction
   - Mekkdonalds.Simulation.DirectionMethods
   - Mekkdonalds.Simulation.Package
   - Mekkdonalds.Simulation.Path
   - Mekkdonalds.Simulation.Robot
+  - Mekkdonalds.Simulation.Strategy
   - Mekkdonalds.Simulation.Wall
   langs:
   - csharp
@@ -28,6 +31,20 @@ references:
   name: Action
   nameWithType: Action
   fullName: Mekkdonalds.Simulation.Action
+- uid: Mekkdonalds.Simulation.ActionMethods
+  commentId: T:Mekkdonalds.Simulation.ActionMethods
+  parent: Mekkdonalds.Simulation
+  href: Mekkdonalds.Simulation.ActionMethods.html
+  name: ActionMethods
+  nameWithType: ActionMethods
+  fullName: Mekkdonalds.Simulation.ActionMethods
+- uid: Mekkdonalds.Simulation.ControllerType
+  commentId: T:Mekkdonalds.Simulation.ControllerType
+  parent: Mekkdonalds.Simulation
+  href: Mekkdonalds.Simulation.ControllerType.html
+  name: ControllerType
+  nameWithType: ControllerType
+  fullName: Mekkdonalds.Simulation.ControllerType
 - uid: Mekkdonalds.Simulation.Direction
   commentId: T:Mekkdonalds.Simulation.Direction
   parent: Mekkdonalds.Simulation
@@ -57,11 +74,17 @@ references:
   fullName: Mekkdonalds.Simulation.Path
 - uid: Mekkdonalds.Simulation.Robot
   commentId: T:Mekkdonalds.Simulation.Robot
-  parent: Mekkdonalds.Simulation
   href: Mekkdonalds.Simulation.Robot.html
   name: Robot
   nameWithType: Robot
   fullName: Mekkdonalds.Simulation.Robot
+- uid: Mekkdonalds.Simulation.Strategy
+  commentId: T:Mekkdonalds.Simulation.Strategy
+  parent: Mekkdonalds.Simulation
+  href: Mekkdonalds.Simulation.Strategy.html
+  name: Strategy
+  nameWithType: Strategy
+  fullName: Mekkdonalds.Simulation.Strategy
 - uid: Mekkdonalds.Simulation.Wall
   commentId: T:Mekkdonalds.Simulation.Wall
   href: Mekkdonalds.Simulation.Wall.html

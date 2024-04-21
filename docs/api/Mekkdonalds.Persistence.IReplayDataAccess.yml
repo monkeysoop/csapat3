@@ -1,0 +1,137 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mekkdonalds.Persistence.IReplayDataAccess
+  commentId: T:Mekkdonalds.Persistence.IReplayDataAccess
+  id: IReplayDataAccess
+  parent: Mekkdonalds.Persistence
+  children:
+  - Mekkdonalds.Persistence.IReplayDataAccess.BDA
+  - Mekkdonalds.Persistence.IReplayDataAccess.LDA
+  langs:
+  - csharp
+  - vb
+  name: IReplayDataAccess
+  nameWithType: IReplayDataAccess
+  fullName: Mekkdonalds.Persistence.IReplayDataAccess
+  type: Interface
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/IReplayDataAccess.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: IReplayDataAccess
+    path: ../src/MekkdonaldsModel/Persistence/IReplayDataAccess.cs
+    startLine: 2
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: public interface IReplayDataAccess
+    content.vb: Public Interface IReplayDataAccess
+- uid: Mekkdonalds.Persistence.IReplayDataAccess.BDA
+  commentId: P:Mekkdonalds.Persistence.IReplayDataAccess.BDA
+  id: BDA
+  parent: Mekkdonalds.Persistence.IReplayDataAccess
+  langs:
+  - csharp
+  - vb
+  name: BDA
+  nameWithType: IReplayDataAccess.BDA
+  fullName: Mekkdonalds.Persistence.IReplayDataAccess.BDA
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/IReplayDataAccess.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: BDA
+    path: ../src/MekkdonaldsModel/Persistence/IReplayDataAccess.cs
+    startLine: 4
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: IBoardDataAccess BDA { get; init; }
+    parameters: []
+    return:
+      type: Mekkdonalds.Persistence.IBoardDataAccess
+    content.vb: Property BDA As IBoardDataAccess
+  overload: Mekkdonalds.Persistence.IReplayDataAccess.BDA*
+- uid: Mekkdonalds.Persistence.IReplayDataAccess.LDA
+  commentId: P:Mekkdonalds.Persistence.IReplayDataAccess.LDA
+  id: LDA
+  parent: Mekkdonalds.Persistence.IReplayDataAccess
+  langs:
+  - csharp
+  - vb
+  name: LDA
+  nameWithType: IReplayDataAccess.LDA
+  fullName: Mekkdonalds.Persistence.IReplayDataAccess.LDA
+  type: Property
+  source:
+    remote:
+      path: src/MekkdonaldsModel/Persistence/IReplayDataAccess.cs
+      branch: feature/looks
+      repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
+    id: LDA
+    path: ../src/MekkdonaldsModel/Persistence/IReplayDataAccess.cs
+    startLine: 5
+  assemblies:
+  - MekkdonaldsModel
+  namespace: Mekkdonalds.Persistence
+  syntax:
+    content: ILogFileDataAccess LDA { get; init; }
+    parameters: []
+    return:
+      type: Mekkdonalds.Persistence.ILogFileDataAccess
+    content.vb: Property LDA As ILogFileDataAccess
+  overload: Mekkdonalds.Persistence.IReplayDataAccess.LDA*
+references:
+- uid: Mekkdonalds.Persistence
+  commentId: N:Mekkdonalds.Persistence
+  href: Mekkdonalds.html
+  name: Mekkdonalds.Persistence
+  nameWithType: Mekkdonalds.Persistence
+  fullName: Mekkdonalds.Persistence
+  spec.csharp:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
+  spec.vb:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
+- uid: Mekkdonalds.Persistence.IReplayDataAccess.BDA*
+  commentId: Overload:Mekkdonalds.Persistence.IReplayDataAccess.BDA
+  href: Mekkdonalds.Persistence.IReplayDataAccess.html#Mekkdonalds_Persistence_IReplayDataAccess_BDA
+  name: BDA
+  nameWithType: IReplayDataAccess.BDA
+  fullName: Mekkdonalds.Persistence.IReplayDataAccess.BDA
+- uid: Mekkdonalds.Persistence.IBoardDataAccess
+  commentId: T:Mekkdonalds.Persistence.IBoardDataAccess
+  parent: Mekkdonalds.Persistence
+  href: Mekkdonalds.Persistence.IBoardDataAccess.html
+  name: IBoardDataAccess
+  nameWithType: IBoardDataAccess
+  fullName: Mekkdonalds.Persistence.IBoardDataAccess
+- uid: Mekkdonalds.Persistence.IReplayDataAccess.LDA*
+  commentId: Overload:Mekkdonalds.Persistence.IReplayDataAccess.LDA
+  href: Mekkdonalds.Persistence.IReplayDataAccess.html#Mekkdonalds_Persistence_IReplayDataAccess_LDA
+  name: LDA
+  nameWithType: IReplayDataAccess.LDA
+  fullName: Mekkdonalds.Persistence.IReplayDataAccess.LDA
+- uid: Mekkdonalds.Persistence.ILogFileDataAccess
+  commentId: T:Mekkdonalds.Persistence.ILogFileDataAccess
+  parent: Mekkdonalds.Persistence
+  href: Mekkdonalds.Persistence.ILogFileDataAccess.html
+  name: ILogFileDataAccess
+  nameWithType: ILogFileDataAccess
+  fullName: Mekkdonalds.Persistence.ILogFileDataAccess

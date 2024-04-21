@@ -1,0 +1,78 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mekkdonalds.Persistence.Converters
+  commentId: N:Mekkdonalds.Persistence.Converters
+  id: Mekkdonalds.Persistence.Converters
+  children:
+  - Mekkdonalds.Persistence.Converters.PathConverter
+  - Mekkdonalds.Persistence.Converters.StartPosConverter
+  - Mekkdonalds.Persistence.Converters.StrategyConverter
+  - Mekkdonalds.Persistence.Converters.YesNoConverter
+  langs:
+  - csharp
+  - vb
+  name: Mekkdonalds.Persistence.Converters
+  nameWithType: Mekkdonalds.Persistence.Converters
+  fullName: Mekkdonalds.Persistence.Converters
+  type: Namespace
+  assemblies:
+  - MekkdonaldsModel
+references:
+- uid: Mekkdonalds.Persistence.Converters.PathConverter
+  commentId: T:Mekkdonalds.Persistence.Converters.PathConverter
+  parent: Mekkdonalds.Persistence.Converters
+  href: Mekkdonalds.Persistence.Converters.PathConverter.html
+  name: PathConverter
+  nameWithType: PathConverter
+  fullName: Mekkdonalds.Persistence.Converters.PathConverter
+- uid: Mekkdonalds.Persistence.Converters.StartPosConverter
+  commentId: T:Mekkdonalds.Persistence.Converters.StartPosConverter
+  parent: Mekkdonalds.Persistence.Converters
+  href: Mekkdonalds.Persistence.Converters.StartPosConverter.html
+  name: StartPosConverter
+  nameWithType: StartPosConverter
+  fullName: Mekkdonalds.Persistence.Converters.StartPosConverter
+- uid: Mekkdonalds.Persistence.Converters.StrategyConverter
+  commentId: T:Mekkdonalds.Persistence.Converters.StrategyConverter
+  parent: Mekkdonalds.Persistence.Converters
+  href: Mekkdonalds.Persistence.Converters.StrategyConverter.html
+  name: StrategyConverter
+  nameWithType: StrategyConverter
+  fullName: Mekkdonalds.Persistence.Converters.StrategyConverter
+- uid: Mekkdonalds.Persistence.Converters.YesNoConverter
+  commentId: T:Mekkdonalds.Persistence.Converters.YesNoConverter
+  parent: Mekkdonalds.Persistence.Converters
+  href: Mekkdonalds.Persistence.Converters.YesNoConverter.html
+  name: YesNoConverter
+  nameWithType: YesNoConverter
+  fullName: Mekkdonalds.Persistence.Converters.YesNoConverter
+- uid: Mekkdonalds.Persistence.Converters
+  commentId: N:Mekkdonalds.Persistence.Converters
+  href: Mekkdonalds.html
+  name: Mekkdonalds.Persistence.Converters
+  nameWithType: Mekkdonalds.Persistence.Converters
+  fullName: Mekkdonalds.Persistence.Converters
+  spec.csharp:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
+  - name: .
+  - uid: Mekkdonalds.Persistence.Converters
+    name: Converters
+    href: Mekkdonalds.Persistence.Converters.html
+  spec.vb:
+  - uid: Mekkdonalds
+    name: Mekkdonalds
+    href: Mekkdonalds.html
+  - name: .
+  - uid: Mekkdonalds.Persistence
+    name: Persistence
+    href: Mekkdonalds.Persistence.html
+  - name: .
+  - uid: Mekkdonalds.Persistence.Converters
+    name: Converters
+    href: Mekkdonalds.Persistence.Converters.html

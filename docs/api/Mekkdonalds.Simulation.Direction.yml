@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Direction.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: Direction
     path: ../src/MekkdonaldsModel/Simulation/Direction.cs
@@ -33,6 +33,9 @@ items:
   extensionMethods:
   - Mekkdonalds.Simulation.Direction.Mekkdonalds.Simulation.DirectionMethods.ClockWise
   - Mekkdonalds.Simulation.Direction.Mekkdonalds.Simulation.DirectionMethods.CounterClockWise
+  - Mekkdonalds.Simulation.Direction.Mekkdonalds.Simulation.DirectionMethods.GetNewOffsetPoint(System.Drawing.Point)
+  - Mekkdonalds.Simulation.Direction.Mekkdonalds.Simulation.DirectionMethods.GetOffset
+  - Mekkdonalds.Simulation.Direction.Mekkdonalds.Simulation.DirectionMethods.Opposite
 - uid: Mekkdonalds.Simulation.Direction.North
   commentId: F:Mekkdonalds.Simulation.Direction.North
   id: North
@@ -47,7 +50,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Direction.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: North
     path: ../src/MekkdonaldsModel/Simulation/Direction.cs
@@ -73,7 +76,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Direction.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: East
     path: ../src/MekkdonaldsModel/Simulation/Direction.cs
@@ -99,7 +102,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Direction.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: South
     path: ../src/MekkdonaldsModel/Simulation/Direction.cs
@@ -125,7 +128,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsModel/Simulation/Direction.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: West
     path: ../src/MekkdonaldsModel/Simulation/Direction.cs
@@ -212,6 +215,96 @@ references:
     name: Direction
     href: Mekkdonalds.Simulation.Direction.html
   - name: )
+- uid: Mekkdonalds.Simulation.Direction.Mekkdonalds.Simulation.DirectionMethods.GetNewOffsetPoint(System.Drawing.Point)
+  commentId: M:Mekkdonalds.Simulation.DirectionMethods.GetNewOffsetPoint(Mekkdonalds.Simulation.Direction,System.Drawing.Point)
+  parent: Mekkdonalds.Simulation.DirectionMethods
+  definition: Mekkdonalds.Simulation.DirectionMethods.GetNewOffsetPoint(Mekkdonalds.Simulation.Direction,System.Drawing.Point)
+  href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_GetNewOffsetPoint_Mekkdonalds_Simulation_Direction_System_Drawing_Point_
+  name: GetNewOffsetPoint(Direction, Point)
+  nameWithType: DirectionMethods.GetNewOffsetPoint(Direction, Point)
+  fullName: Mekkdonalds.Simulation.DirectionMethods.GetNewOffsetPoint(Mekkdonalds.Simulation.Direction, System.Drawing.Point)
+  spec.csharp:
+  - uid: Mekkdonalds.Simulation.DirectionMethods.GetNewOffsetPoint(Mekkdonalds.Simulation.Direction,System.Drawing.Point)
+    name: GetNewOffsetPoint
+    href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_GetNewOffsetPoint_Mekkdonalds_Simulation_Direction_System_Drawing_Point_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+    href: Mekkdonalds.Simulation.Direction.html
+  - name: ','
+  - name: " "
+  - uid: System.Drawing.Point
+    name: Point
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.drawing.point
+  - name: )
+  spec.vb:
+  - uid: Mekkdonalds.Simulation.DirectionMethods.GetNewOffsetPoint(Mekkdonalds.Simulation.Direction,System.Drawing.Point)
+    name: GetNewOffsetPoint
+    href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_GetNewOffsetPoint_Mekkdonalds_Simulation_Direction_System_Drawing_Point_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+    href: Mekkdonalds.Simulation.Direction.html
+  - name: ','
+  - name: " "
+  - uid: System.Drawing.Point
+    name: Point
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.drawing.point
+  - name: )
+- uid: Mekkdonalds.Simulation.Direction.Mekkdonalds.Simulation.DirectionMethods.GetOffset
+  commentId: M:Mekkdonalds.Simulation.DirectionMethods.GetOffset(Mekkdonalds.Simulation.Direction)
+  parent: Mekkdonalds.Simulation.DirectionMethods
+  definition: Mekkdonalds.Simulation.DirectionMethods.GetOffset(Mekkdonalds.Simulation.Direction)
+  href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_GetOffset_Mekkdonalds_Simulation_Direction_
+  name: GetOffset(Direction)
+  nameWithType: DirectionMethods.GetOffset(Direction)
+  fullName: Mekkdonalds.Simulation.DirectionMethods.GetOffset(Mekkdonalds.Simulation.Direction)
+  spec.csharp:
+  - uid: Mekkdonalds.Simulation.DirectionMethods.GetOffset(Mekkdonalds.Simulation.Direction)
+    name: GetOffset
+    href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_GetOffset_Mekkdonalds_Simulation_Direction_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+    href: Mekkdonalds.Simulation.Direction.html
+  - name: )
+  spec.vb:
+  - uid: Mekkdonalds.Simulation.DirectionMethods.GetOffset(Mekkdonalds.Simulation.Direction)
+    name: GetOffset
+    href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_GetOffset_Mekkdonalds_Simulation_Direction_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+    href: Mekkdonalds.Simulation.Direction.html
+  - name: )
+- uid: Mekkdonalds.Simulation.Direction.Mekkdonalds.Simulation.DirectionMethods.Opposite
+  commentId: M:Mekkdonalds.Simulation.DirectionMethods.Opposite(Mekkdonalds.Simulation.Direction)
+  parent: Mekkdonalds.Simulation.DirectionMethods
+  definition: Mekkdonalds.Simulation.DirectionMethods.Opposite(Mekkdonalds.Simulation.Direction)
+  href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_Opposite_Mekkdonalds_Simulation_Direction_
+  name: Opposite(Direction)
+  nameWithType: DirectionMethods.Opposite(Direction)
+  fullName: Mekkdonalds.Simulation.DirectionMethods.Opposite(Mekkdonalds.Simulation.Direction)
+  spec.csharp:
+  - uid: Mekkdonalds.Simulation.DirectionMethods.Opposite(Mekkdonalds.Simulation.Direction)
+    name: Opposite
+    href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_Opposite_Mekkdonalds_Simulation_Direction_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+    href: Mekkdonalds.Simulation.Direction.html
+  - name: )
+  spec.vb:
+  - uid: Mekkdonalds.Simulation.DirectionMethods.Opposite(Mekkdonalds.Simulation.Direction)
+    name: Opposite
+    href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_Opposite_Mekkdonalds_Simulation_Direction_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+    href: Mekkdonalds.Simulation.Direction.html
+  - name: )
 - uid: Mekkdonalds.Simulation.DirectionMethods.ClockWise(Mekkdonalds.Simulation.Direction)
   commentId: M:Mekkdonalds.Simulation.DirectionMethods.ClockWise(Mekkdonalds.Simulation.Direction)
   href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_ClockWise_Mekkdonalds_Simulation_Direction_
@@ -262,6 +355,91 @@ references:
   - uid: Mekkdonalds.Simulation.DirectionMethods.CounterClockWise(Mekkdonalds.Simulation.Direction)
     name: CounterClockWise
     href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_CounterClockWise_Mekkdonalds_Simulation_Direction_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+    href: Mekkdonalds.Simulation.Direction.html
+  - name: )
+- uid: Mekkdonalds.Simulation.DirectionMethods.GetNewOffsetPoint(Mekkdonalds.Simulation.Direction,System.Drawing.Point)
+  commentId: M:Mekkdonalds.Simulation.DirectionMethods.GetNewOffsetPoint(Mekkdonalds.Simulation.Direction,System.Drawing.Point)
+  isExternal: true
+  href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_GetNewOffsetPoint_Mekkdonalds_Simulation_Direction_System_Drawing_Point_
+  name: GetNewOffsetPoint(Direction, Point)
+  nameWithType: DirectionMethods.GetNewOffsetPoint(Direction, Point)
+  fullName: Mekkdonalds.Simulation.DirectionMethods.GetNewOffsetPoint(Mekkdonalds.Simulation.Direction, System.Drawing.Point)
+  spec.csharp:
+  - uid: Mekkdonalds.Simulation.DirectionMethods.GetNewOffsetPoint(Mekkdonalds.Simulation.Direction,System.Drawing.Point)
+    name: GetNewOffsetPoint
+    href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_GetNewOffsetPoint_Mekkdonalds_Simulation_Direction_System_Drawing_Point_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+    href: Mekkdonalds.Simulation.Direction.html
+  - name: ','
+  - name: " "
+  - uid: System.Drawing.Point
+    name: Point
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.drawing.point
+  - name: )
+  spec.vb:
+  - uid: Mekkdonalds.Simulation.DirectionMethods.GetNewOffsetPoint(Mekkdonalds.Simulation.Direction,System.Drawing.Point)
+    name: GetNewOffsetPoint
+    href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_GetNewOffsetPoint_Mekkdonalds_Simulation_Direction_System_Drawing_Point_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+    href: Mekkdonalds.Simulation.Direction.html
+  - name: ','
+  - name: " "
+  - uid: System.Drawing.Point
+    name: Point
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.drawing.point
+  - name: )
+- uid: Mekkdonalds.Simulation.DirectionMethods.GetOffset(Mekkdonalds.Simulation.Direction)
+  commentId: M:Mekkdonalds.Simulation.DirectionMethods.GetOffset(Mekkdonalds.Simulation.Direction)
+  href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_GetOffset_Mekkdonalds_Simulation_Direction_
+  name: GetOffset(Direction)
+  nameWithType: DirectionMethods.GetOffset(Direction)
+  fullName: Mekkdonalds.Simulation.DirectionMethods.GetOffset(Mekkdonalds.Simulation.Direction)
+  spec.csharp:
+  - uid: Mekkdonalds.Simulation.DirectionMethods.GetOffset(Mekkdonalds.Simulation.Direction)
+    name: GetOffset
+    href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_GetOffset_Mekkdonalds_Simulation_Direction_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+    href: Mekkdonalds.Simulation.Direction.html
+  - name: )
+  spec.vb:
+  - uid: Mekkdonalds.Simulation.DirectionMethods.GetOffset(Mekkdonalds.Simulation.Direction)
+    name: GetOffset
+    href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_GetOffset_Mekkdonalds_Simulation_Direction_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+    href: Mekkdonalds.Simulation.Direction.html
+  - name: )
+- uid: Mekkdonalds.Simulation.DirectionMethods.Opposite(Mekkdonalds.Simulation.Direction)
+  commentId: M:Mekkdonalds.Simulation.DirectionMethods.Opposite(Mekkdonalds.Simulation.Direction)
+  href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_Opposite_Mekkdonalds_Simulation_Direction_
+  name: Opposite(Direction)
+  nameWithType: DirectionMethods.Opposite(Direction)
+  fullName: Mekkdonalds.Simulation.DirectionMethods.Opposite(Mekkdonalds.Simulation.Direction)
+  spec.csharp:
+  - uid: Mekkdonalds.Simulation.DirectionMethods.Opposite(Mekkdonalds.Simulation.Direction)
+    name: Opposite
+    href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_Opposite_Mekkdonalds_Simulation_Direction_
+  - name: (
+  - uid: Mekkdonalds.Simulation.Direction
+    name: Direction
+    href: Mekkdonalds.Simulation.Direction.html
+  - name: )
+  spec.vb:
+  - uid: Mekkdonalds.Simulation.DirectionMethods.Opposite(Mekkdonalds.Simulation.Direction)
+    name: Opposite
+    href: Mekkdonalds.Simulation.DirectionMethods.html#Mekkdonalds_Simulation_DirectionMethods_Opposite_Mekkdonalds_Simulation_Direction_
   - name: (
   - uid: Mekkdonalds.Simulation.Direction
     name: Direction

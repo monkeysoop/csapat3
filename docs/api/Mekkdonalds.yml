@@ -5,6 +5,7 @@ items:
   id: Mekkdonalds
   children:
   - Mekkdonalds.App
+  - Mekkdonalds.IntervalTree`1
   langs:
   - csharp
   - vb
@@ -13,8 +14,33 @@ items:
   fullName: Mekkdonalds
   type: Namespace
   assemblies:
-  - MekkdonaldsWPF
+  - MekkdonaldsModel
 references:
+- uid: Mekkdonalds.IntervalTree`1
+  commentId: T:Mekkdonalds.IntervalTree`1
+  href: Mekkdonalds.IntervalTree-1.html
+  name: IntervalTree<TValue>
+  nameWithType: IntervalTree<TValue>
+  fullName: Mekkdonalds.IntervalTree<TValue>
+  nameWithType.vb: IntervalTree(Of TValue)
+  fullName.vb: Mekkdonalds.IntervalTree(Of TValue)
+  name.vb: IntervalTree(Of TValue)
+  spec.csharp:
+  - uid: Mekkdonalds.IntervalTree`1
+    name: IntervalTree
+    href: Mekkdonalds.IntervalTree-1.html
+  - name: <
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: Mekkdonalds.IntervalTree`1
+    name: IntervalTree
+    href: Mekkdonalds.IntervalTree-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TValue
+  - name: )
 - uid: Mekkdonalds.App
   commentId: T:Mekkdonalds.App
   href: Mekkdonalds.App.html

@@ -2,13 +2,14 @@
 
 public sealed class BFS : PathFinder
 {
-    protected override (bool, int[]) FindPath(Board board, Point start_position, int start_direction, Point end_position)
+    protected override (bool, int[], int[]) FindPath(Board board, Point start_position, int start_direction, Point end_position, int start_cost)
     {
+        throw new NotImplementedException();
         Step[] queue = new Step[5 * board.Height * board.Width];
         int start_index = 0;
         int end_index = 0;
         int[] parents = new int[board.Height * board.Width]; // all items are automatically set to 0
-
+        int[] costs = new int[board.Height * board.Width]; // all items are automatically set to 0
 
 
         queue[0] = new Step(start_position, start_direction, 0);
@@ -77,6 +78,6 @@ public sealed class BFS : PathFinder
                 }
             }
         }
-        return (found, parents);
+        return (found, parents, costs);
     }
 }

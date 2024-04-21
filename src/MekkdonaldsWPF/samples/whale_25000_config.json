@@ -1,8 +1,0 @@
-{
-  "mapFile": "samples/maps/whale_513_513.map",
-  "agentFile": "samples/agents/whale_agents_25000.agents",
-  "teamSize": 25000,
-  "taskFile": "samples/tasks/whale_tasks_60000.tasks",
-  "numTasksReveal": 1,
-  "taskAssignmentStrategy": "roundrobin"
-}

@@ -5,6 +5,7 @@ items:
   id: Mekkdonalds.Test
   children:
   - Mekkdonalds.Test.BotTests
+  - Mekkdonalds.Test.PersistenceTests
   - Mekkdonalds.Test.ReplayTests
   - Mekkdonalds.Test.SimulationTests
   langs:
@@ -23,6 +24,12 @@ references:
   name: BotTests
   nameWithType: BotTests
   fullName: Mekkdonalds.Test.BotTests
+- uid: Mekkdonalds.Test.PersistenceTests
+  commentId: T:Mekkdonalds.Test.PersistenceTests
+  href: Mekkdonalds.Test.PersistenceTests.html
+  name: PersistenceTests
+  nameWithType: PersistenceTests
+  fullName: Mekkdonalds.Test.PersistenceTests
 - uid: Mekkdonalds.Test.ReplayTests
   commentId: T:Mekkdonalds.Test.ReplayTests
   href: Mekkdonalds.Test.ReplayTests.html

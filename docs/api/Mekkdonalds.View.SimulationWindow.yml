@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/View/SimulationWindow.xaml.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: SimulationWindow
     path: ../src/MekkdonaldsWPF/View/SimulationWindow.xaml.cs
@@ -739,7 +739,7 @@ items:
   source:
     remote:
       path: src/MekkdonaldsWPF/View/SimulationWindow.xaml.cs
-      branch: master
+      branch: feature/looks
       repo: git@szofttech.inf.elte.hu:szofttech-ab-2024/group-07/csapat3.git
     id: .ctor
     path: ../src/MekkdonaldsWPF/View/SimulationWindow.xaml.cs
