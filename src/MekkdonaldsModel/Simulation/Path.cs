@@ -10,12 +10,12 @@ public class Path(List<Action> lista, Point p)
 
     public bool IsOver => _ind >= l.Count;
 
-    internal Action? this[int i]
+    public Action? this[int i]
     {
         get => i >= l.Count || i < 0 ? null : l[i];
     }
 
-    internal Action Next()
+    public Action Next()
     {
         if (_ind >= l.Count) throw new InvalidOperationException("No more actions in path");
 
