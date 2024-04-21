@@ -54,10 +54,14 @@ public class BoardTests
         Point nextPosition = new Point(6, 5);
         board.SetRobotMaskValue(initialPosition.X, initialPosition.Y, Board.OCCUPIED);
 
-        // Assert that the move was successful
-        Assert.That(board.TryMoveRobot(initialPosition, nextPosition), Is.True);
-        Assert.That(board.GetRobotMaskValue(nextPosition.X, nextPosition.Y), Is.EqualTo(Board.OCCUPIED));
-        Assert.That(board.GetRobotMaskValue(initialPosition.X, initialPosition.Y), Is.EqualTo(Board.EMPTY));
+        Assert.Multiple(() =>
+        {
+            // Assert that the move was successful
+            Assert.That(board.TryMoveRobot(initialPosition, nextPosition), Is.True, "The move should be successful");
+            Assert.That(board.GetRobotMaskValue(nextPosition.X, nextPosition.Y), Is.EqualTo(Board.OCCUPIED), "Robot should be at the next position");
+            Assert.That(board.GetRobotMaskValue(initialPosition.X, initialPosition.Y), Is.EqualTo(Board.EMPTY), "Initial position should be empty after the move");
+        });
+
     }
 
     [Test]
@@ -77,12 +81,11 @@ public class BoardTests
         // Act
         bool moveSuccessful = board.TryMoveRobot(initialPosition, nextPosition);
 
-        // Assert
-        Assert.That(moveSuccessful, Is.False); // The move should not be successful
 
         // Assert that the robot position and occupied position remain the same
         Assert.Multiple(() =>
         {
+            Assert.That(moveSuccessful, Is.False); // The move should not be successful
             Assert.That(board.GetRobotMaskValue(initialPosition.X, initialPosition.Y), Is.EqualTo(Board.OCCUPIED), "Robot position should remain occupied at initial position");
             Assert.That(board.GetRobotMaskValue(occupiedPosition.X, occupiedPosition.Y), Is.EqualTo(Board.OCCUPIED), "Occupied position should remain occupied");
         });
