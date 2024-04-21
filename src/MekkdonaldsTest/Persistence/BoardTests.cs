@@ -58,7 +58,7 @@ public class BoardTests
         bool moveSuccessful = board.TryMoveRobot(initialPosition, nextPosition);
 
         // Assert that the move was successful
-        ClassicAssert.IsTrue(moveSuccessful);
+        Assert.That(moveSuccessful, Is.True);
         Assert.That(board.GetRobotMaskValue(nextPosition.X, nextPosition.Y), Is.EqualTo(Board.OCCUPIED));
         Assert.That(board.GetRobotMaskValue(initialPosition.X, initialPosition.Y), Is.EqualTo(Board.EMPTY));
     }
