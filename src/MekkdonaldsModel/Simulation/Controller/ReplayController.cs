@@ -13,58 +13,61 @@ public sealed class ReplayController : Controller
         Load(logPath, mapPath, da);
     }
 
-    private async void Load(string logPath, string mapPath, IReplayDataAccess da)
+    private void Load(string logPath, string mapPath, IReplayDataAccess da)
     {
-        _board = await da.BDA.LoadAsync(mapPath);
-
-        var log = await da.LDA.LoadAsync(logPath);
-
-        foreach (var (p, d) in log.Start)
+        Task.Run(async () =>
         {
-            var r = new Robot(p, d);
-            Paths[r] = [];
-            Targets[r] = [];
-            _robots.Add(r);
-        }
+            _board = await da.BDA.LoadAsync(mapPath);
 
-        for (int i = 0; i < log.ActualPaths.Count; i++)
-        {
-            Paths[_robots[i]].AddRange(log.ActualPaths[i]);
-        }
+            var log = await da.LDA.LoadAsync(logPath);
 
-        var width = Width - 2;
-
-        int start;
-
-        for (int i = 0; i < log.Events.Count; i++)
-        {
-            var r = _robots[i];
-
-            start = 0;
-
-            foreach (var (task, t, e) in log.Events[i])
+            foreach (var (p, d) in log.Start)
             {
-                switch (e)
+                var r = new Robot(p, d);
+                Paths[r] = [];
+                Targets[r] = [];
+                _robots.Add(r);
+            }
+
+            for (int i = 0; i < log.ActualPaths.Count; i++)
+            {
+                Paths[_robots[i]].AddRange(log.ActualPaths[i]);
+            }
+
+            var width = Width - 2;
+
+            int start;
+
+            for (int i = 0; i < log.Events.Count; i++)
+            {
+                var r = _robots[i];
+
+                start = 0;
+
+                foreach (var (task, t, e) in log.Events[i])
                 {
-                    case "assigned":
-                        start = t;
-                        break;
-                    case "finished":
-                        var pos = log.Tasks.First(x => x.Item1 == task);
-                        var p = new Point(pos.Item3 + 1, pos.Item2 + 1);
-                        Targets[r][start, t] = p;
-                        break;
-                    default:
-                        break;
+                    switch (e)
+                    {
+                        case "assigned":
+                            start = t;
+                            break;
+                        case "finished":
+                            var pos = log.Tasks.First(x => x.Item1 == task);
+                            var p = new Point(pos.Item3 + 1, pos.Item2 + 1);
+                            Targets[r][start, t] = p;
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
-        }
 
-        Length = log.Makespan;
+            Length = log.Makespan;
 
-        LoadWalls();
+            LoadWalls();
 
-        OnLoaded(this);
+            OnLoaded(this);
+        });
     }
 
     protected override void OnTick(object? state)
