@@ -11,13 +11,17 @@ namespace Mekkdonalds.Test;
 public class PersistenceTests
 {
     LogFile log;
-
     LogFileDataAccess logFileDataAccess;
+    ConfigDataAccess configDataAccess;
+    Config config;
     [SetUp]
     public async Task Setup()
     {
         logFileDataAccess = new LogFileDataAccess();
         log = await logFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/samples/random_20_log.json");
+        configDataAccess = new ConfigDataAccess();
+        config = await configDataAccess.Load("../../../../MekkdonaldsWPF/samples/random_20_config.json");
+
     }
 
     [Test]
@@ -92,7 +96,7 @@ public class PersistenceTests
 
     public void TestStructure()
     {
-        Assert.True(log is LogFile);
+        Assert.That(log is LogFile);
         Assert.That(log.ActionModel is string);
         Assert.That(log.AllValid is bool);
         Assert.That(log.TeamSize is uint);
@@ -378,11 +382,38 @@ public class PersistenceTests
 
     [Test]
 
+    public async Task TestConfig()
+    {
+        Assert.That(config is not null);
+        Assert.That(config.MapFile is not null);
+        Assert.That(config.MapFile is string);
+        Assert.That(config.MapFile, Is.EqualTo("samples/maps/random-32-32-20.map"));
+        Assert.That(config.AgentFile is not null);
+        Assert.That(config.AgentFile is string);
+        Assert.That(config.AgentFile, Is.EqualTo("samples/agents/random_20.agents"));
+        Assert.That(config.TeamSize is int);
+        Assert.That(config.TeamSize, Is.EqualTo(20));
+        Assert.That(config.TaskFile is not null);
+        Assert.That(config.TaskFile is string);
+        Assert.That(config.TaskFile, Is.EqualTo("samples/tasks/random-32-32-20.tasks"));
+        Assert.That(config.NumTasksReveal is int);
+        Assert.That(config.NumTasksReveal, Is.EqualTo(1));
+        Assert.That(config.TaskAssignmentStrategy is Strategy);
+        Assert.That(config.TaskAssignmentStrategy, Is.EqualTo(Strategy.RoundRobin));
+
+    }
+
+    [Test]
+
     public void TestException()
     {
         Assert.ThrowsAsync<JsonException>(async () =>
         {
             log = await logFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/samples/random_20_config.json");
+        });
+        Assert.ThrowsAsync<JsonException>(async () =>
+        {
+            config = await configDataAccess.Load("../../../../MekkdonaldsWPF/samples/random_20_log.json");
         });
     }
 
