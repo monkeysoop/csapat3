@@ -81,11 +81,14 @@ public class BoardTests
         bool moveSuccessful = board.TryMoveRobot(initialPosition, nextPosition);
 
         // Assert
-        ClassicAssert.IsFalse(moveSuccessful); // The move should not be successful
+        Assert.That(moveSuccessful, Is.False); // The move should not be successful
 
         // Assert that the robot position and occupied position remain the same
-        Assert.That(board.GetRobotMaskValue(initialPosition.X, initialPosition.Y), Is.EqualTo(Board.OCCUPIED));
-        Assert.That(board.GetRobotMaskValue(occupiedPosition.X, occupiedPosition.Y), Is.EqualTo(Board.OCCUPIED));
+        Assert.Multiple(() =>
+        {
+            Assert.That(board.GetRobotMaskValue(initialPosition.X, initialPosition.Y), Is.EqualTo(Board.OCCUPIED), "Robot position should remain occupied at initial position");
+            Assert.That(board.GetRobotMaskValue(occupiedPosition.X, occupiedPosition.Y), Is.EqualTo(Board.OCCUPIED), "Occupied position should remain occupied");
+        });
     }
 
     [Test]
