@@ -382,7 +382,7 @@ public class PersistenceTests
 
     [Test]
 
-    public async Task TestConfig()
+    public void TestConfig()
     {
         Assert.That(config is not null);
         Assert.That(config.MapFile is not null);
