@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mekkdonalds.View"
         mc:Ignorable="d"
-        Title="MekkDonalds" Height="450" Width="800">
+        Title="MekkDonalds" Height="450" Width="800" MinWidth="550">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -13,5 +13,10 @@
         </Grid.ColumnDefinitions>
         <Button x:Name="ReplayButton" Grid.Column="0" Width="250" Height="70" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16">Open Replay</Button>
         <Button x:Name="SimButton"    Grid.Column="1" Width="250" Height="70" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16">Open Simulation</Button>
+        <Grid Grid.Column="1" Margin="50,0,50,20" Height="30" VerticalAlignment="Bottom">
+            <RadioButton x:Name="AStar" HorizontalAlignment="Left" IsChecked="True">A Star</RadioButton>
+            <RadioButton x:Name="BFS" HorizontalAlignment="Center">BFS</RadioButton>
+            <RadioButton x:Name="DFS" HorizontalAlignment="Right">DFS</RadioButton>
+        </Grid>
     </Grid>
 </Window>
