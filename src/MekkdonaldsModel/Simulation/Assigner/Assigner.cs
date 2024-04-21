@@ -49,7 +49,7 @@ internal class Assigner : IAssigner
     {
         lock (_board)
         {
-            if (_packages.IsEmpty && _paths.IsEmpty)
+            if (_packages.IsEmpty && _paths.All(x => x.Value.IsOver))
             {
                 Ended?.Invoke(this, EventArgs.Empty);
                 return;
