@@ -72,6 +72,8 @@ public class Board
 
 
     #region Public methods
+
+
     public bool TryMoveRobot(Point position, Point next_position)
     {
         if (RobotMask[next_position.Y * Width + next_position.X] == EMPTY)
@@ -144,6 +146,25 @@ public class Board
 
         return Data[y * Width + x];
     }
+    // only for testing
+    public int GetSearchMaskValue(int x, int y)
+    {
+        return SearchMask[y * Width + x];
+    }
+
+    public void SetSearchMaskValue(int x, int y, int value)
+    {
+        SearchMask[y * Width + x] = value;
+    }
+    public int GetRobotMaskValue(int x, int y)
+    {
+        return RobotMask[y * Width + x];
+    }
+
+    public void SetRobotMaskValue(int x, int y, int value)
+    {
+        RobotMask[y * Width + x] = value;
+    }
     #endregion
 
 
@@ -162,6 +183,7 @@ public class Board
             }
         }
     }
+
     #endregion
 }
 
