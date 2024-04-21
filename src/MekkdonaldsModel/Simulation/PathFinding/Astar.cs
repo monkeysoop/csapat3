@@ -20,10 +20,10 @@ public sealed class Astar : PathFinder
 
         if (board.SetSearchedIfEmptyStart(start_position, start_cost))
         {
-            CheckHeap(heap, heap_length, heap_hashmap, board.Width);
+            //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
             HeapInsert(heap, heap_length, new Step(start_position, start_direction, start_cost), heap_hashmap, board.Width);
             heap_length++;
-            CheckHeap(heap, heap_length, heap_hashmap, board.Width);
+            //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
 
             costs[start_position.Y * board.Width + start_position.X] = start_cost;
             parents[start_position.Y * board.Width + start_position.X] = start_direction;
@@ -44,10 +44,10 @@ public sealed class Astar : PathFinder
 
         if (board.SetSearchedIfEmptyBackward(start_position, backward_next_position, backward_cost))
         {
-            CheckHeap(heap, heap_length, heap_hashmap, board.Width);
+            //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
             HeapInsert(heap, heap_length, new Step(backward_next_position, backward_direction, backward_heuristic), heap_hashmap, board.Width);
             heap_length++;
-            CheckHeap(heap, heap_length, heap_hashmap, board.Width);
+            //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
             costs[backward_next_position.Y * board.Width + backward_next_position.X] = backward_cost;
             parents[backward_next_position.Y * board.Width + backward_next_position.X] = backward_direction;
         }
@@ -55,12 +55,12 @@ public sealed class Astar : PathFinder
 
         bool found = false;
         //while (heap_length != 0 && !found)
-        while (heap_length != 0)
+        while (heap_length != 0 && !found)
         {
-            CheckHeap(heap, heap_length, heap_hashmap, board.Width);
+            //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
             Step current_step = HeapRemoveMin(heap, heap_length, heap_hashmap, board.Width);
             heap_length--;
-            CheckHeap(heap, heap_length, heap_hashmap, board.Width);
+            //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
 
             if (ComparePoints(current_step.Position, end_position))
             {
@@ -104,10 +104,10 @@ public sealed class Astar : PathFinder
 
                 if (board.SetSearchedIfEmptyForward(forward_next_position, forward_cost))
                 {
-                    CheckHeap(heap, heap_length, heap_hashmap, board.Width);
+                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
                     HeapInsert(heap, heap_length, new Step(forward_next_position, forward_direction, forward_heuristic), heap_hashmap, board.Width);
                     heap_length++;
-                    CheckHeap(heap, heap_length, heap_hashmap, board.Width);
+                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
                     costs[forward_next_position.Y * board.Width + forward_next_position.X] = forward_cost;
                     parents[forward_next_position.Y * board.Width + forward_next_position.X] = forward_direction;
                 }
@@ -115,9 +115,9 @@ public sealed class Astar : PathFinder
                         (board.NotReservedForward(forward_next_position, forward_cost)) &&
                         (heap_hashmap[forward_next_position.Y * board.Width + forward_next_position.X] != -1))
                 {
-                    CheckHeap(heap, heap_length, heap_hashmap, board.Width);
+                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
                     UpdateHeapItem(heap, heap_length, new Step(forward_next_position, forward_direction, forward_heuristic), heap_hashmap, board.Width);
-                    CheckHeap(heap, heap_length, heap_hashmap, board.Width);
+                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
                     costs[forward_next_position.Y * board.Width + forward_next_position.X] = forward_cost;
                     parents[forward_next_position.Y * board.Width + forward_next_position.X] = forward_direction;
                 }
@@ -126,10 +126,10 @@ public sealed class Astar : PathFinder
 
                 if (board.SetSearchedIfEmptyLeftRight(current_step.Position, left_next_position, left_cost))
                 {
-                    CheckHeap(heap, heap_length, heap_hashmap, board.Width);
+                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
                     HeapInsert(heap, heap_length, new Step(left_next_position, left_direction, left_heuristic), heap_hashmap, board.Width);
                     heap_length++;
-                    CheckHeap(heap, heap_length, heap_hashmap, board.Width);
+                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
                     costs[left_next_position.Y * board.Width + left_next_position.X] = left_cost;
                     parents[left_next_position.Y * board.Width + left_next_position.X] = left_direction;
                 }
@@ -137,9 +137,9 @@ public sealed class Astar : PathFinder
                         (board.NotReservedLeftRight(current_step.Position, left_next_position, left_cost)) &&
                         (heap_hashmap[left_next_position.Y * board.Width + left_next_position.X] != -1))
                 {
-                    CheckHeap(heap, heap_length, heap_hashmap, board.Width);
+                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
                     UpdateHeapItem(heap, heap_length, new Step(left_next_position, left_direction, left_heuristic), heap_hashmap, board.Width);
-                    CheckHeap(heap, heap_length, heap_hashmap, board.Width);
+                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
                     costs[left_next_position.Y * board.Width + left_next_position.X] = left_cost;
                     parents[left_next_position.Y * board.Width + left_next_position.X] = left_direction;
                 }
@@ -148,10 +148,10 @@ public sealed class Astar : PathFinder
 
                 if (board.SetSearchedIfEmptyLeftRight(current_step.Position, right_next_position, right_cost))
                 {
-                    CheckHeap(heap, heap_length, heap_hashmap, board.Width);
+                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
                     HeapInsert(heap, heap_length, new Step(right_next_position, right_direction, right_heuristic), heap_hashmap, board.Width);
                     heap_length++;
-                    CheckHeap(heap, heap_length, heap_hashmap, board.Width);
+                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
                     costs[right_next_position.Y * board.Width + right_next_position.X] = right_cost;
                     parents[right_next_position.Y * board.Width + right_next_position.X] = right_direction;
                 }
@@ -159,9 +159,9 @@ public sealed class Astar : PathFinder
                         (board.NotReservedLeftRight(current_step.Position, right_next_position, right_cost)) &&
                         (heap_hashmap[right_next_position.Y * board.Width + right_next_position.X] != -1))
                 {
-                    CheckHeap(heap, heap_length, heap_hashmap, board.Width);
+                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
                     UpdateHeapItem(heap, heap_length, new Step(right_next_position, right_direction, right_heuristic), heap_hashmap, board.Width);
-                    CheckHeap(heap, heap_length, heap_hashmap, board.Width);
+                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
                     costs[right_next_position.Y * board.Width + right_next_position.X] = right_cost;
                     parents[right_next_position.Y * board.Width + right_next_position.X] = right_direction;
                 }
