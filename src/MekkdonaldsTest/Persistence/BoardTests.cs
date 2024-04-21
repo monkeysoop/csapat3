@@ -64,6 +64,31 @@ public class BoardTests
     }
 
     [Test]
+    public void TestMoveRobotToOccupiedSpace()
+    {
+        // Arrange
+        Point initialPosition = new Point(5, 5);
+        Point nextPosition = new Point(6, 5);
+        Point occupiedPosition = new Point(6, 5);
+
+        // Place a robot on the board
+        board.SetRobotMaskValue(initialPosition.X, initialPosition.Y, Board.OCCUPIED);
+
+        // Set the next position as occupied
+        board.SetRobotMaskValue(occupiedPosition.X, occupiedPosition.Y, Board.OCCUPIED);
+
+        // Act
+        bool moveSuccessful = board.TryMoveRobot(initialPosition, nextPosition);
+
+        // Assert
+        ClassicAssert.IsFalse(moveSuccessful); // The move should not be successful
+
+        // Assert that the robot position and occupied position remain the same
+        Assert.That(board.GetRobotMaskValue(initialPosition.X, initialPosition.Y), Is.EqualTo(Board.OCCUPIED));
+        Assert.That(board.GetRobotMaskValue(occupiedPosition.X, occupiedPosition.Y), Is.EqualTo(Board.OCCUPIED));
+    }
+
+    [Test]
     public void TestSetSearchedIfEmpty()
     {
         // Set an empty cell as searched
