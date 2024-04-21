@@ -96,11 +96,11 @@ public class BoardTests
         bool setSearchedSuccessful = board.SetSearchedIfEmpty(emptyPosition);
 
         // Assert that the cell was marked as searched
-        ClassicAssert.IsTrue(setSearchedSuccessful);
+        Assert.That(setSearchedSuccessful, Is.True);
 
         // Check if the same cell cannot be marked as searched again
         bool isSearched = board.SetSearchedIfEmpty(emptyPosition);
-        ClassicAssert.IsFalse(isSearched);
+        Assert.That(isSearched, Is.False);
     }
 
     [Test]
