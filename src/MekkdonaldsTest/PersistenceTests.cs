@@ -18,6 +18,9 @@ public class PersistenceTests
     Board board;
     RobotsDataAccess robotsDataAccess;
     List<Robot> agents;
+    PackagesDataAccess packagesDataAccess;
+    List<Package> tasks;
+
     [SetUp]
     public async Task Setup()
     {
@@ -29,6 +32,21 @@ public class PersistenceTests
         board = await boardFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/samples/maps/random-32-32-20.map");
         robotsDataAccess = new();
         agents = await robotsDataAccess.LoadAsync("../../../../MekkdonaldsWPF/samples/agents/random_20.agents", 32, 32);
+        packagesDataAccess = new();
+        tasks = await packagesDataAccess.LoadAsync("../../../../MekkdonaldsWPF/samples/tasks/random-32-32-20.tasks", 32, 32);
+
+    }
+
+    [Test]
+
+    public void TestTasksLoad()
+    {
+        Assert.That(tasks is not null);
+        Assert.That(tasks![0].Position, Is.EqualTo(new Point(7, 22)));
+        Assert.That(tasks![^1].Position, Is.EqualTo(new Point(2, 26)));
+        Assert.That(tasks![13].Position, Is.EqualTo(new Point(23, 27)));
+
+    }
 
     [Test]
 
