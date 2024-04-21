@@ -43,8 +43,10 @@ public class BoardTests
         Assert.That(board.GetValue(5, 5), Is.EqualTo(Board.WALL));
 
         // Assert that setting an invalid value throws an exception
-        Assert.Throws<ArgumentOutOfRangeException>(() => board.SetValue(5, 5, 2));
+        Assert.That(() => board.SetValue(5, 5, 2), Throws.Exception
+            .With.Message.EqualTo("invalid value2"));
     }
+
 
     [Test]
     public void TestMoveRobot()
@@ -129,22 +131,32 @@ public class BoardTests
     [Test]
     public void TestSetValueOutOfBounds()
     {
-        // Assert that setting a value outside the board bounds throws an exception
-        Assert.Throws<ArgumentOutOfRangeException>(() => board.SetValue(-1, 5, Board.WALL));
-        Assert.Throws<ArgumentOutOfRangeException>(() => board.SetValue(5, -1, Board.WALL));
-        Assert.Throws<ArgumentOutOfRangeException>(() => board.SetValue(board.Width, 5, Board.WALL));
-        Assert.Throws<ArgumentOutOfRangeException>(() => board.SetValue(5, board.Height, Board.WALL));
+        // Assert that setting a value outside the board bounds throws an exception with the correct message
+        Assert.That(() => board.SetValue(-1, 5, Board.WALL), Throws.Exception
+            .With.Message.EqualTo("invalid position{X=-1,Y=5}"));
+        Assert.That(() => board.SetValue(5, -1, Board.WALL), Throws.Exception
+            .With.Message.EqualTo("invalid position{X=5,Y=-1}"));
+        Assert.That(() => board.SetValue(board.Width, 5, Board.WALL), Throws.Exception
+            .With.Message.EqualTo($"invalid position{{X={board.Width},Y=5}}"));
+        Assert.That(() => board.SetValue(5, board.Height, Board.WALL), Throws.Exception
+            .With.Message.EqualTo($"invalid position{{X=5,Y={board.Height}}}"));
     }
 
     [Test]
     public void TestGetValueOutOfBounds()
     {
-        // Assert that getting a value outside the board bounds throws an exception
-        Assert.Throws<ArgumentOutOfRangeException>(() => board.GetValue(-1, 5));
-        Assert.Throws<ArgumentOutOfRangeException>(() => board.GetValue(5, -1));
-        Assert.Throws<ArgumentOutOfRangeException>(() => board.GetValue(board.Width, 5));
-        Assert.Throws<ArgumentOutOfRangeException>(() => board.GetValue(5, board.Height));
+        // Assert that getting a value outside the board bounds throws an exception with the correct message
+        Assert.That(() => board.GetValue(-1, 5), Throws.Exception
+            .With.Message.EqualTo("invalid position{X=-1,Y=5}"));
+        Assert.That(() => board.GetValue(5, -1), Throws.Exception
+            .With.Message.EqualTo("invalid position{X=5,Y=-1}"));
+        Assert.That(() => board.GetValue(board.Width, 5), Throws.Exception
+            .With.Message.EqualTo($"invalid position{{X={board.Width},Y=5}}"));
+        Assert.That(() => board.GetValue(5, board.Height), Throws.Exception
+            .With.Message.EqualTo($"invalid position{{X=5,Y={board.Height}}}"));
     }
+
+
 
     [Test]
     public void TestAddBorder()
