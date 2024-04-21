@@ -2,12 +2,14 @@
 
 public sealed class DFS : PathFinder
 {
-    protected override (bool, int[]) FindPath(Board board, Point start_position, int start_direction, Point end_position)
+    protected override (bool, int[], int[]) FindPath(Board board, Point start_position, int start_direction, Point end_position, int start_cost)
     {
+        throw new NotImplementedException();
         // this depth first search uses heuristics to hopefully find a correct path quicker
         Step[] stack = new Step[5 * board.Height * board.Width];
         int stack_index = 0;
         int[] parents = new int[board.Height * board.Width]; // all items are automatically set to 0
+        int[] costs = new int[board.Height * board.Width]; // all items are automatically set to 0
 
 
 
@@ -98,6 +100,6 @@ public sealed class DFS : PathFinder
             }
         }
 
-        return (found, parents);
+        return (found, parents, costs);
     }
 }

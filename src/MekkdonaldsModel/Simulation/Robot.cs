@@ -11,7 +11,6 @@ public sealed class Robot(Point position, Direction direction)
     private static int IDCounter = 1;
 
 
-
     private readonly List<Action> _history = [];
     public int ID { get; } = IDCounter++;
 
@@ -36,7 +35,18 @@ public sealed class Robot(Point position, Direction direction)
     /// History of actions the robot executed
     /// </summary>
     public IReadOnlyList<Action> History => _history.AsReadOnly();
-
+    public Package RemoveTask()
+    {
+        if (Task == null)
+        {
+            throw new System.Exception("");
+        } else
+        {
+            Package t = Task;
+            Task = null;
+            return t;
+        }
+    }
     public void AddTask(Point? p)
     {
         if (p is null)
@@ -53,7 +63,7 @@ public sealed class Robot(Point position, Direction direction)
         Task = p;
     }
 
-    public bool TryStep(Action a, Board board)
+    public bool TryStep(Action a, Board board, int cost_counter)
     {
         switch (a)
         {
@@ -61,22 +71,42 @@ public sealed class Robot(Point position, Direction direction)
                 Point next_position = Direction.GetNewOffsetPoint(Position);
                 if (board.TryMoveRobot(Position, next_position))
                 {
+                    board.UnReserve(Position, cost_counter);
+                    board.UnReserve(Position, cost_counter + 1);
                     Position = next_position;
+                    _history.Add(a);
                     return true;
                 }
-                return false;
+                else
+                {
+                    // collision
+                    // the robots planned path becomes invalid, so it should drop its path and unreserve all of it
+
+                    //board.UnReserve(Position, cost_counter);
+                    board.Reserve(Position, cost_counter + 1);
+                    return false;
+                }
             case Action.R:
+                board.UnReserve(Position, cost_counter);
                 Direction = Direction.ClockWise();
+                _history.Add(a);
                 return true;
             case Action.C:
+                board.UnReserve(Position, cost_counter);
                 Direction = Direction.CounterClockWise();
+                _history.Add(a);
                 return true;
             case Action.W:
+                board.UnReserve(Position, cost_counter);
+                _history.Add(a);
                 return true;
             case Action.T:
+                board.UnReserve(Position, cost_counter);
+                board.Reserve(Position, cost_counter + 1);
+                _history.Add(a);
                 return false;
             default:
-                return false;
+                throw new System.Exception("");
         }
     }
 

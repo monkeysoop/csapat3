@@ -11,14 +11,18 @@ public class Board
     public const int OCCUPIED = 1;
     public const int NOT_SEARCHED = 0;
     public const int SEARCHED = 1;
+
+    public const int MAX_PATH_LENGTH_FACTOR = 20;
     #endregion
 
 
 
     #region Fields
-    public readonly int[] Data;
+    private readonly int[] Data;
     private readonly int[] SearchMask;
     private readonly int[] RobotMask;
+    private readonly int[] ReservationTable;
+    public int MaxPathLength { get; init; }
     public int Height { get; init; }
     public int Width { get; init; }
     #endregion
@@ -30,16 +34,22 @@ public class Board
     {
         Height = height + 2;
         Width = width + 2;
+        MaxPathLength = (Height + Width) * MAX_PATH_LENGTH_FACTOR;
 
         Data = new int[Height * Width];
         SearchMask = new int[Height * Width];
         RobotMask = new int[Height * Width];
+        ReservationTable = new int[Height * Width * MaxPathLength]; // lots and lots of memory
 
         for (int i = 0; i < Height * Width; i++)
         {
             Data[i] = EMPTY;
             SearchMask[i] = NOT_SEARCHED;
             RobotMask[i] = EMPTY;
+            for (int j = 0; j < MaxPathLength; j++)
+            {
+                ReservationTable[i * MaxPathLength + j] = EMPTY;
+            }
         }
         AddBorder();
     }
@@ -48,15 +58,21 @@ public class Board
     {
         Height = height + 2;
         Width = width + 2;
+        MaxPathLength = (Height + Width) * MAX_PATH_LENGTH_FACTOR;
 
         Data = new int[Height * Width];
         SearchMask = new int[Height * Width];
         RobotMask = new int[Height * Width];
+        ReservationTable = new int[Height * Width * MaxPathLength]; // lots and lots of memory
 
         for (int i = 0; i < Height * Width; i++)
         {
             SearchMask[i] = NOT_SEARCHED;
             RobotMask[i] = EMPTY;
+            for (int j = 0; j < MaxPathLength; j++)
+            {
+                ReservationTable[i * MaxPathLength + j] = EMPTY;
+            }
         }
         for (int y = 0; y < height; y++)
         {
@@ -72,19 +88,151 @@ public class Board
 
 
     #region Public methods
-    public bool TryMoveRobot(Point position, Point next_position)
+    public bool TryMoveRobot(Point current_position, Point next_position)
     {
+        CheckPosition(current_position);
+        CheckPosition(next_position);
+
         if (RobotMask[next_position.Y * Width + next_position.X] == EMPTY)
         {
-            RobotMask[position.Y * Width + position.X] = EMPTY;
+            RobotMask[current_position.Y * Width + current_position.X] = EMPTY;
             RobotMask[next_position.Y * Width + next_position.X] = OCCUPIED;
             return true;
         }
         return false;
     }
 
+    public void UnReserve(Point position, int cost)
+    {
+        CheckPosition(position);
+        CheckCost(cost);
+
+        ReservationTable[(position.Y * Width + position.X) * MaxPathLength + ((cost + MaxPathLength) % MaxPathLength)] = EMPTY;
+    }
+
+    public void Reserve(Point position, int cost)
+    {
+        CheckPosition(position);
+        CheckCost(cost);
+
+        ReservationTable[(position.Y * Width + position.X) * MaxPathLength + ((cost + MaxPathLength) % MaxPathLength)] = OCCUPIED;
+    }
+
+    public void UnReserveWithCheck(Point position, int cost)
+    {
+        CheckPosition(position);
+        CheckCost(cost);
+        CheckReserve(position, cost, EMPTY);
+
+        ReservationTable[(position.Y * Width + position.X) * MaxPathLength + ((cost + MaxPathLength) % MaxPathLength)] = EMPTY;
+    }
+
+    public void ReserveWithCheck(Point position, int cost)
+    {
+        CheckPosition(position);
+        CheckCost(cost);
+        CheckReserve(position, cost, OCCUPIED);
+
+        ReservationTable[(position.Y * Width + position.X) * MaxPathLength + ((cost + MaxPathLength) % MaxPathLength)] = OCCUPIED;
+    }
+
+    public bool NotReservedForward(Point next_position, int cost)
+    {
+        CheckPosition(next_position);
+        CheckCost(cost);
+
+        return (ReservationTable[(next_position.Y * Width + next_position.X) * MaxPathLength + (cost % MaxPathLength)] == EMPTY);
+    }
+
+    public bool NotReservedLeftRight(Point current_position, Point next_position, int cost)
+    {
+        CheckPosition(current_position);
+        CheckPosition(next_position);
+        CheckCost(cost - 1);
+
+        return (ReservationTable[(next_position.Y * Width + next_position.X) * MaxPathLength + (cost % MaxPathLength)] == EMPTY) &&
+               (ReservationTable[(current_position.Y * Width + current_position.X) * MaxPathLength + ((cost + MaxPathLength - 1) % MaxPathLength)] == EMPTY);
+    }
+
+    public bool SetSearchedIfEmptyForward(Point next_position, int cost)
+    {
+        CheckPosition(next_position);
+        CheckCost(cost);
+
+        bool t = (Data[next_position.Y * Width + next_position.X] == EMPTY) &&
+                 (RobotMask[next_position.Y * Width + next_position.X] == EMPTY) && // this is needed, because the reservation table cant really be set when a robot finishes a task and doesnt immediatly get a new one
+                 (SearchMask[next_position.Y * Width + next_position.X] == NOT_SEARCHED) &&
+                 (ReservationTable[(next_position.Y * Width + next_position.X) * MaxPathLength + (cost % MaxPathLength)] == EMPTY);
+
+        if (t)
+        {
+            SearchMask[next_position.Y * Width + next_position.X] = SEARCHED;
+        }
+
+        return t;
+    }
+
+    public bool SetSearchedIfEmptyLeftRight(Point current_position, Point next_position, int cost)
+    {
+        CheckPosition(current_position);
+        CheckPosition(next_position);
+        CheckCost(cost - 1);
+
+        bool t = (Data[next_position.Y * Width + next_position.X] == EMPTY) &&
+                 (RobotMask[next_position.Y * Width + next_position.X] == EMPTY) && // this is needed, because the reservation table cant really be set when a robot finishes a task and doesnt immediatly get a new one
+                 (SearchMask[next_position.Y * Width + next_position.X] == NOT_SEARCHED) &&
+                 (ReservationTable[(current_position.Y * Width + current_position.X) * MaxPathLength + ((cost + MaxPathLength - 1) % MaxPathLength)] == EMPTY) &&
+                 (ReservationTable[(next_position.Y * Width + next_position.X) * MaxPathLength + ((cost) % MaxPathLength)] == EMPTY);
+
+        if (t)
+        {
+            SearchMask[next_position.Y * Width + next_position.X] = SEARCHED;
+        }
+
+        return t;
+    }
+
+    public bool SetSearchedIfEmptyBackward(Point current_position, Point next_position, int cost)
+    {
+        CheckPosition(current_position);
+        CheckPosition(next_position);
+        CheckCost(cost - 2);
+
+        bool t = //(Data[current_position.Y * Width + current_position.X] == EMPTY) && this is checked by SetSearchedIfEmptyStart and exception is thrown if needed
+                 (Data[next_position.Y * Width + next_position.X] == EMPTY) &&
+                 (RobotMask[next_position.Y * Width + next_position.X] == EMPTY) && // this is needed, because the reservation table cant really be set when a robot finishes a task and doesnt immediatly get a new one
+                 (SearchMask[next_position.Y * Width + next_position.X] == NOT_SEARCHED) &&
+                 //(ReservationTable[(current_position.Y * Width + current_position.X) * MaxPathLength + ((cost + MaxPathLength - 2) % MaxPathLength)] == EMPTY) &&
+                 (ReservationTable[(current_position.Y * Width + current_position.X) * MaxPathLength + ((cost + MaxPathLength - 1) % MaxPathLength)] == EMPTY) &&
+                 (ReservationTable[(next_position.Y * Width + next_position.X) * MaxPathLength + ((cost) % MaxPathLength)] == EMPTY);
+
+        if (t)
+        {
+            SearchMask[next_position.Y * Width + next_position.X] = SEARCHED;
+        }
+
+        return t;
+    }
+
+    public bool SetSearchedIfEmptyStart(Point current_position, int cost)
+    {
+        CheckPosition(current_position);
+        CheckCost(cost);
+
+        bool t = (Data[current_position.Y * Width + current_position.X] == EMPTY);
+
+        if (t)
+        {
+            SearchMask[current_position.Y * Width + current_position.X] = SEARCHED;
+        }
+
+        return t;
+    }
+
     public bool SetSearchedIfEmpty(Point position)
     {
+        CheckPosition(position);
+
 #if NO_BORDER_CHECK
         bool t = Data[position.Y * Width + position.X] == EMPTY &&
                  SearchMask[position.Y * Width + position.X] == NOT_SEARCHED &&
@@ -115,32 +263,15 @@ public class Board
 
     public void SetValue(int x, int y, int value)
     {
-        if (x < 0 || x >= this.Width)
-        {
-            throw new ArgumentOutOfRangeException(nameof(x), "The X coordinate is out of range.");
-        }
-        if (y < 0 || y >= this.Height)
-        {
-            throw new ArgumentOutOfRangeException(nameof(y), "The Y coordinate is out of range.");
-        }
-        if (value != EMPTY && value != WALL)
-        {
-            throw new ArgumentOutOfRangeException(nameof(value), "The value is out of range.");
-        }
+        CheckPosition(x, y);
+        CheckValue(value);
 
         Data[y * Width + x] = value;
     }
 
     public int GetValue(int x, int y)
     {
-        if (x < 0 || x >= this.Width)
-        {
-            throw new ArgumentOutOfRangeException(nameof(x), "The X coordinate is out of range.");
-        }
-        if (y < 0 || y >= this.Height)
-        {
-            throw new ArgumentOutOfRangeException(nameof(y), "The Y coordinate is out of range.");
-        }
+        CheckPosition(x, y);
 
         return Data[y * Width + x];
     }
@@ -160,6 +291,50 @@ public class Board
                 Data[y * Width] = WALL;
                 Data[y * Width + Width - 1] = WALL;
             }
+        }
+    }
+    private void CheckPosition(Point position)
+    {
+        if (position.X < 0 || position.X >= Width || position.Y < 0 || position.Y >= Height)
+        {
+            Debug.WriteLine("invalid position: " + position);
+            throw new System.Exception("invalid position" + position);
+        }
+    }
+
+    private void CheckPosition(int x, int y)
+    {
+        if (x < 0 || x >= Width || y < 0 || y >= Height)
+        {
+            Debug.WriteLine("invalid position: " + new Point(x, y));
+            throw new System.Exception("invalid position" + new Point(x, y));
+        }
+    }
+
+    private void CheckCost(int cost)
+    {
+        if (cost < 0)
+        {
+            Debug.WriteLine("invalid cost: " + cost);
+            throw new System.Exception("invalid cost" + cost);
+        }
+    }
+
+    private void CheckValue(int value)
+    {
+        if (value != EMPTY && value != WALL)
+        {
+            Debug.WriteLine("invalid value: " + value);
+            throw new System.Exception("invalid value" + value);
+        }
+    }
+
+    private void CheckReserve(Point position, int cost, int value)
+    {
+        if (ReservationTable[(position.Y * Width + position.X) * MaxPathLength + ((cost + MaxPathLength) % MaxPathLength)] == value)
+        {
+            Debug.WriteLine("already (un)reserved position: " + position + "\ncost: " + cost);
+            throw new System.Exception("already (un)reserved position: " + position + "\ncost: " + cost);
         }
     }
     #endregion

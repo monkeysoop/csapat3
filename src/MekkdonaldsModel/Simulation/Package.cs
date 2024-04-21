@@ -4,7 +4,7 @@ public sealed class Package(Point p)
 {
     private static int IDCounter = 1;
 
-    public readonly int ID = IDCounter++;
+    public int ID { get; } = IDCounter++;
 
     public Point Position { get; } = p;
 
