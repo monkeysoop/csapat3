@@ -21,7 +21,7 @@ public class Board
     private readonly int[] Data;
     private readonly int[] SearchMask;
     private readonly int[] RobotMask;
-    private readonly int[] ReservationTable;
+    private readonly byte[] ReservationTable;
     public int MaxPathLength { get; init; }
     public int Height { get; init; }
     public int Width { get; init; }
@@ -39,18 +39,18 @@ public class Board
         Data = new int[Height * Width];
         SearchMask = new int[Height * Width];
         RobotMask = new int[Height * Width];
-        ReservationTable = new int[Height * Width * MaxPathLength]; // lots and lots of memory
+        ReservationTable = new byte[Height * Width * MaxPathLength]; // lots and lots of memory
 
-        for (int i = 0; i < Height * Width; i++)
-        {
-            Data[i] = EMPTY;
-            SearchMask[i] = NOT_SEARCHED;
-            RobotMask[i] = EMPTY;
-            for (int j = 0; j < MaxPathLength; j++)
-            {
-                ReservationTable[i * MaxPathLength + j] = EMPTY;
-            }
-        }
+        //for (int i = 0; i < Height * Width; i++)
+        //{
+        //    Data[i] = EMPTY;
+        //    SearchMask[i] = NOT_SEARCHED;
+        //    RobotMask[i] = EMPTY;
+        //    for (int j = 0; j < MaxPathLength; j++)
+        //    {
+        //        ReservationTable[i * MaxPathLength + j] = EMPTY;
+        //    }
+        //}
         AddBorder();
     }
 
@@ -63,17 +63,17 @@ public class Board
         Data = new int[Height * Width];
         SearchMask = new int[Height * Width];
         RobotMask = new int[Height * Width];
-        ReservationTable = new int[Height * Width * MaxPathLength]; // lots and lots of memory
+        ReservationTable = new byte[Height * Width * MaxPathLength]; // lots and lots of memory
 
-        for (int i = 0; i < Height * Width; i++)
-        {
-            SearchMask[i] = NOT_SEARCHED;
-            RobotMask[i] = EMPTY;
-            for (int j = 0; j < MaxPathLength; j++)
-            {
-                ReservationTable[i * MaxPathLength + j] = EMPTY;
-            }
-        }
+        //for (int i = 0; i < Height * Width; i++)
+        //{
+        //    SearchMask[i] = NOT_SEARCHED;
+        //    RobotMask[i] = EMPTY;
+        //    for (int j = 0; j < MaxPathLength; j++)
+        //    {
+        //        ReservationTable[i * MaxPathLength + j] = EMPTY;
+        //    }
+        //}
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
@@ -311,7 +311,7 @@ public class Board
         }
     }
 
-    private void CheckCost(int cost)
+    private static void CheckCost(int cost)
     {
         if (cost < 0)
         {
@@ -320,7 +320,7 @@ public class Board
         }
     }
 
-    private void CheckValue(int value)
+    private static void CheckValue(int value)
     {
         if (value != EMPTY && value != WALL)
         {
