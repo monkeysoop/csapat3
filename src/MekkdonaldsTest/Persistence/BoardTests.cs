@@ -121,7 +121,7 @@ public class BoardTests
         {
             for (int x = 1; x < 11; x++)
             {
-                ClassicAssert.IsTrue(board.SetSearchedIfEmpty(new Point(x, y)));
+                Assert.That(board.SetSearchedIfEmpty(new Point(x, y)), Is.True);
             }
         }
     }
