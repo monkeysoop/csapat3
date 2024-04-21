@@ -13,9 +13,9 @@ public sealed class ReplayController : Controller
         Load(logPath, mapPath, da);
     }
 
-    private void Load(string logPath, string mapPath, IReplayDataAccess da)
+    private async void Load(string logPath, string mapPath, IReplayDataAccess da)
     {
-        Task.Run(async () =>
+        await Task.Run(async () =>
         {
             _board = await da.BDA.LoadAsync(mapPath);
 

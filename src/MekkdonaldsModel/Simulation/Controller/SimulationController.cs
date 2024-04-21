@@ -28,9 +28,9 @@ public sealed class SimulationController : Controller
         SaveLog();
     }
 
-    private void Load(string path, ISimDataAccess da, ControllerType algorithm)
+    private async void Load(string path, ISimDataAccess da, ControllerType algorithm)
     {
-        Task.Run(async () =>
+        await Task.Run(async () =>
         {
             var config = await da.CDA.Load(path);
 
@@ -55,14 +55,6 @@ public sealed class SimulationController : Controller
 
     private async void SaveLog()
     {
-        foreach (var r in _robots)
-        {
-            while (r.History.Count < _pathFinder.TimeStamp + 1)
-            {
-                r.Step(Action.W);
-            }
-        }
-
         _logger.LogActualPaths(_robots);
 
         _logger.LogReplayLength(_pathFinder.TimeStamp + 1);
