@@ -17,7 +17,7 @@ internal class Assigner : IAssigner
     [NotNull]
     private Logger? _logger;
 
-    public void Init(ControllerType type, Board board, IEnumerable<Robot> robots, IEnumerable<Package> packages, Logger logger)
+    public void Init(ControllerType algorithm, Board board, IEnumerable<Robot> robots, IEnumerable<Package> packages, Logger logger)
     {
         _logger = logger;
 
@@ -28,7 +28,7 @@ internal class Assigner : IAssigner
             _packages.Enqueue(p);
         }
 
-        _pathFinder = type switch
+        _pathFinder = algorithm switch
         {
             ControllerType.Astar => new Astar(),
             ControllerType.BFS => new BFS(),
@@ -67,7 +67,7 @@ internal class Assigner : IAssigner
                         if (Paths.TryRemove(r, out _))
                             Assign(r);
 
-                        
+
                         if (!Paths.TryGetValue(r, out path))
                         {
                             continue;
@@ -88,7 +88,7 @@ internal class Assigner : IAssigner
                     }
 
                     r.Step(action);
-                    
+
                 }
             }
 

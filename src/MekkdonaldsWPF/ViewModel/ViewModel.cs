@@ -2,6 +2,9 @@
 
 internal abstract class ViewModel : ViewModelBase
 {
+    private const double MINZOOM = .3;
+    private const double MAXZOOM = 2;
+
 #pragma warning disable CS8618 // :)
     protected Controller Controller;
 #pragma warning restore CS8618
@@ -20,10 +23,9 @@ internal abstract class ViewModel : ViewModelBase
         {
             if (_zoom != value)
             {
-                if (value < 0.1)
-                    value = 0.1;
-                else if (value > 8)
-                    value = 8;
+                if (value < MINZOOM || value > MAXZOOM)
+                    return;
+
                 _zoom = value;
                 OnPropertyChanged(nameof(Zoom));
                 OnPropertyChanged(nameof(ZoomLabel));

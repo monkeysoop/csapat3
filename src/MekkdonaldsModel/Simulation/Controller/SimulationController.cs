@@ -11,10 +11,10 @@ public sealed class SimulationController : Controller
     private Logger _logger;
     private readonly ILogFileDataAccess _logFileDataAccess;
 
-    public SimulationController(string path, ISimDataAccess da)
+    public SimulationController(string path, ISimDataAccess da, ControllerType algorithm)
     {
         _pathFinder = new Assigner.Assigner();
-        Load(path, da);
+        Load(path, da, algorithm);
 
         _logFileDataAccess = da.LDA;
 
@@ -28,26 +28,29 @@ public sealed class SimulationController : Controller
         SaveLog();
     }
 
-    private async void Load(string path, ISimDataAccess da)
+    private void Load(string path, ISimDataAccess da, ControllerType algorithm)
     {
-        var config = await da.CDA.Load(path);
+        Task.Run(async () =>
+        {
+            var config = await da.CDA.Load(path);
 
-        _logger = new Logger(config.MapFile.Split('/')[^1].Replace(".map", ""));
+            _logger = new Logger(config.MapFile.Split('/')[^1].Replace(".map", ""));
 
-        var b = await da.BDA.LoadAsync(config.MapFile);
-        _board = b; // for some reason it only sets board this way ????????
+            var b = await da.BDA.LoadAsync(config.MapFile);
+            _board = b; // for some reason it only sets board this way ????????
 
-        _robots.AddRange(await da.RDA.LoadAsync(config.AgentFile, _board.Width - 2, _board.Height - 2));
-        _logger.LogStarts(_robots);
+            _robots.AddRange(await da.RDA.LoadAsync(config.AgentFile, _board.Width - 2, _board.Height - 2));
+            _logger.LogStarts(_robots);
 
-        var tasks = await da.PDA.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2);
-        _logger.LogTasks(tasks);
+            var tasks = await da.PDA.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2);
+            _logger.LogTasks(tasks);
 
-        _pathFinder.Init(ControllerType.BFS, b, _robots, tasks, _logger);
+            _pathFinder.Init(algorithm, b, _robots, tasks, _logger);
 
-        LoadWalls();
+            LoadWalls();
 
-        OnLoaded(this);
+            OnLoaded(this);
+        });
     }
 
     private async void SaveLog()
