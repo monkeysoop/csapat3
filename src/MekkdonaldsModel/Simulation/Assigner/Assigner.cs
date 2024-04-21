@@ -70,8 +70,11 @@ internal class Assigner : IAssigner
 
                 if (path.IsOver)
                 {
-                    _logger.LogPlannerPaths(robot.ID, path);
-                    _logger.LogFinish(robot.ID, robot.Task!.ID, TimeStamp);
+                    if (robot.Task != null)
+                    {
+                        _logger.LogPlannerPaths(robot.ID, path);
+                        _logger.LogFinish(robot.ID, robot.Task!.ID, TimeStamp);
+                    }
                     
                     if (!_paths.TryRemove(robot, out var _))
                     {
@@ -100,46 +103,10 @@ internal class Assigner : IAssigner
                     // this could happen if the next task is at the same position as the robot which is assigned to
                     _board.UnReserve(robot.Position, cost_counter);
                 }
-
-                //if (_paths.TryGetValue(r, out var path))
-                //{
-                //    if (path.IsOver)
-                //    {
-                //        _logger.LogPlannerPaths(r.ID, path);
-                //        _logger.LogFinish(r.ID, r.Task!.ID, TimeStamp); // Task is not null here (hopefully)
-                //
-                //        r.AddTask((Package?)null);
-                //        if (_paths.TryRemove(r, out _))
-                //            Assign(r);
-                //
-                //
-                //        if (!_paths.TryGetValue(r, out path))
-                //        {
-                //            continue;
-                //        }
-                //
-                //        if (path.IsOver)
-                //        {
-                //            r.Step(Action.W);
-                //            continue;
-                //        }
-                //    }
-                //
-                //    var action = path.Next();
-                //
-                //    if (action is Action.F)
-                //    {
-                //        // collision detection
-                //    }
-                //
-                //    r.Step(action);
-                //
-                //}
             }
 
             cost_counter++;
         }
-
     }
 
     private Path Assign(Robot robot)
@@ -190,22 +157,6 @@ internal class Assigner : IAssigner
         
         return path;
     }
-    //private void Assign(Robot r)
-    //{
-    //    if (_packages.TryDequeue(out var p))
-    //    {
-    //        var (found, path) = _pathFinder.CalculatePath(_board, r.Position, (int)r.Direction, p.Position);
-    //
-    //        if (found)
-    //        {
-    //            if (_paths.TryAdd(r, new(path, p.Position)))
-    //            {
-    //                r.AddTask(p);
-    //                _logger.LogAssignment(r.ID, p.ID, TimeStamp);
-    //            }
-    //        }
-    //    }
-    //}
 
     private void Free(Robot robot, Path path)
     {
