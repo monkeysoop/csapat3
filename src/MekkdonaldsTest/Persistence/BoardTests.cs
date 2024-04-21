@@ -117,4 +117,38 @@ public class BoardTests
         Assert.Throws<ArgumentOutOfRangeException>(() => board.GetValue(board.Width, 5));
         Assert.Throws<ArgumentOutOfRangeException>(() => board.GetValue(5, board.Height));
     }
+
+    [Test]
+    public void TestAddBorder()
+    {
+        // Arrange
+        int height = 5;
+        int width = 10;
+        Board board = new Board(height, width);
+
+        // Act
+        // No need to call AddBorder explicitly, as it's called in the constructor
+
+        // Assert
+        // Check if the border cells are set to WALL
+        for (int y = 0; y < board.Height; y++)
+        {
+            for (int x = 0; x < board.Width; x++)
+            {
+                if (x == 0 || x == board.Width - 1 || y == 0 || y == board.Height - 1)
+                {
+                    Assert.That(board.GetValue(x, y), Is.EqualTo(Board.WALL));
+                }
+            }
+        }
+
+        // Check if the inner cells are set to EMPTY
+        for (int y = 1; y < board.Height - 1; y++)
+        {
+            for (int x = 1; x < board.Width - 1; x++)
+            {
+                Assert.That(board.GetValue(x, y), Is.EqualTo(Board.EMPTY));
+            }
+        }
+    }
 }
