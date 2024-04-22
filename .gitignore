@@ -399,6 +399,7 @@ Visual Studio 2022/
 # JetBrains Rider
 *.sln.iml
 
-docs/_site/
+docs/html/
+docs/latex/
 
 .mono/

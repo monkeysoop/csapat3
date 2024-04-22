@@ -27,7 +27,7 @@ public abstract class Controller
         _walls = [];
 
         _board = new(0, 0);
-        Interval = TimeSpan.FromMilliseconds(80);
+        Interval = TimeSpan.FromMilliseconds(200);
         Timer = new Timer(OnTick, null, Timeout.Infinite, Timeout.Infinite);
     }
 

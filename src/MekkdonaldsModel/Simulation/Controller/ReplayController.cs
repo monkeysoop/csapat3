@@ -72,7 +72,7 @@ public sealed class ReplayController : Controller
 
     protected override void OnTick(object? state)
     {
-        if (TimeStamp == Length)
+        if (TimeStamp >= Length)
         {
             Timer.Change(Timeout.Infinite, Timeout.Infinite);
             IsPlaying = false;
@@ -86,29 +86,40 @@ public sealed class ReplayController : Controller
     {
         if (time < 0 || time > Length) throw new ArgumentOutOfRangeException(nameof(time), "Time must be between 0 and the length of the replay");
 
-        foreach (var r in _robots)
+        lock (this)
         {
-            r.AddTask(Targets[r][time]);
+            foreach (var r in _robots)
+            {
+                r.AddTask(Targets[r][time]);
 
-            if (Math.Sign(time - TimeStamp) == -1)
-            {
-                for (int t = TimeStamp - 1; t >= time; t--)
+                if (Math.Sign(time - TimeStamp) == -1)
                 {
-                    var a = Paths[r][t];
-                    r.Step(a.Reverse());
+                    for (int t = TimeStamp - 1; t >= time; t--)
+                    {
+                        try
+                        {
+                            var a = Paths[r][t];
+                            r.Step(a.Reverse());
+                        }
+                        catch (System.Exception) { }
+                    }
+                }
+                else if (Math.Sign(time - TimeStamp) == 1)
+                {
+                    for (int t = TimeStamp; t < time; t++)
+                    {
+                        try
+                        {
+                            var a = Paths[r][t];
+                            r.Step(a);
+                        }
+                        catch (System.Exception) { }
+                    }
                 }
             }
-            else if (Math.Sign(time - TimeStamp) == 1)
-            {
-                for (int t = TimeStamp; t < time; t++)
-                {
-                    var a = Paths[r][t];
-                    r.Step(a);
-                }
-            }
+
+            TimeStamp = time;
         }
-
-        TimeStamp = time;
 
         CallTick(this);
     }

@@ -51,6 +51,11 @@ internal class Assigner : IAssigner
         {
             if (_packages.IsEmpty && _paths.All(x => x.Value.IsOver))
             {
+                foreach (var robot in _robots.Where(r => r.Task is not null))
+                {
+                    robot.RemoveTask();
+                }
+
                 Ended?.Invoke(this, EventArgs.Empty);
                 return;
             }
