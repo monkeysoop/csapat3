@@ -72,7 +72,7 @@ public sealed class ReplayController : Controller
 
     protected override void OnTick(object? state)
     {
-        if (TimeStamp == Length)
+        if (TimeStamp >= Length)
         {
             Timer.Change(Timeout.Infinite, Timeout.Infinite);
             IsPlaying = false;
@@ -96,16 +96,24 @@ public sealed class ReplayController : Controller
                 {
                     for (int t = TimeStamp - 1; t >= time; t--)
                     {
-                        var a = Paths[r][t];
-                        r.Step(a.Reverse());
+                        try
+                        {
+                            var a = Paths[r][t];
+                            r.Step(a.Reverse());
+                        }
+                        catch (System.Exception) { }
                     }
                 }
                 else if (Math.Sign(time - TimeStamp) == 1)
                 {
                     for (int t = TimeStamp; t < time; t++)
                     {
-                        var a = Paths[r][t];
-                        r.Step(a);
+                        try
+                        {
+                            var a = Paths[r][t];
+                            r.Step(a);
+                        }
+                        catch (System.Exception) { }
                     }
                 }
             }
