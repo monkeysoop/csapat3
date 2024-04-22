@@ -27,4 +27,10 @@
     <ProjectReference Include="..\MekkdonaldsModel\MekkdonaldsModel.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<Content Include="TestFiles\**">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
 </Project>

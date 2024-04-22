@@ -14,7 +14,7 @@ public class Path(List<Action> path, Point? target)
 
     public IReadOnlyList<Action> PlannedPath => _path.Take(_ind).ToList();
 
-    internal Action? this[int i]
+    public Action? this[int i]
     {
         get => i >= _path.Count || i < 0 ? null : _path[i];
     }
@@ -34,7 +34,7 @@ public class Path(List<Action> path, Point? target)
         _ind++;
     }
 
-    internal Action Next()
+    public Action Next()
     {
         if (_ind >= _path.Count)
         {
