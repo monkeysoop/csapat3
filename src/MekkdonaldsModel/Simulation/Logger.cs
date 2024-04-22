@@ -64,7 +64,11 @@ public class Logger
     /// <param name="robot2">ID of the second robot in the incident</param>
     /// <param name="time">When it occurred</param>
     /// <param name="eventName">Type of the event</param>
-    public void LogError(int robot1, int robot2, int time, string eventName) => _logFile.Errors.Add((robot1 - 1, robot2 - 1, time, eventName));
+    public void LogError(int robot1, int robot2, int time, string eventName)
+    {
+        _logFile.AllValid = false;
+        _logFile.Errors.Add((robot1 - 1, robot2 - 1, time, eventName));
+    }
 
     /// <summary>
     /// Logs an error that doesn't involve robots
@@ -108,6 +112,10 @@ public class Logger
     /// <returns>A Task that represents the asynchronous save opertaion</returns>
     public async Task SaveAsync(ILogFileDataAccess access) => await access.SaveAsync(_fileName, _logFile);
 
+    /// <summary>
+    /// Creates a deep copy of the log file
+    /// </summary>
+    /// <returns>An equivalent log file</returns>
     public LogFile GetLogFile()
     {
         var l = LogFile.New;
@@ -124,6 +132,7 @@ public class Logger
         l.NumTaskFinished = _logFile.NumTaskFinished;
         l.TeamSize = _logFile.TeamSize;
         l.Tasks.AddRange(_logFile.Tasks);
+        l.ActionModel = _logFile.ActionModel;
 
         return l;
     }
