@@ -156,15 +156,18 @@ public class PersistenceTests
 
     public void TestLogStructure()
     {
-        Assert.That(log is LogFile);
-        Assert.That(log.ActionModel is string);
-        Assert.That(log.Start is List<(Point, Direction)>);
-        Assert.That(log.ActualPaths is List<List<Action>>);
-        Assert.That(log.PlannerPaths is List<List<Action>>);
-        Assert.That(log.PlannerTimes is List<double>);
-        Assert.That(log.Errors is List<(int, int, int, string)>);
-        Assert.That(log.Events is List<List<(int, int, string)>>);
-        Assert.That(log.Tasks is List<(int, int, int)>);
+        Assert.Multiple(() =>
+        {
+            Assert.That(log is LogFile);
+            Assert.That(log.ActionModel is string);
+            Assert.That(log.Start is List<(Point, Direction)>);
+            Assert.That(log.ActualPaths is List<List<Action>>);
+            Assert.That(log.PlannerPaths is List<List<Action>>);
+            Assert.That(log.PlannerTimes is List<double>);
+            Assert.That(log.Errors is List<(int, int, int, string)>);
+            Assert.That(log.Events is List<List<(int, int, string)>>);
+            Assert.That(log.Tasks is List<(int, int, int)>);
+        });
     }
 
     [Test]
