@@ -403,17 +403,20 @@ public class PersistenceTests
 
     [Test]
 
-    public async Task TestErrors()
+    public void TestErrors()
     {
-        Assert.That(log.Errors, Is.Empty);
-        var list = new List<(int, int, int, string)> { (3, 13, 33, "Mekk ÚR"), (3, 13, 21, "Adorján"), (0, 0, 0, "Endre"), (3, 23, 53, "Milán"), (3, 69, 69, "Randi") };
-        log.Errors.Clear();
-        log.Errors.AddRange(list);
-        await logFileDataAccess.SaveAsync("./test_log.json", log);
-        log = await logFileDataAccess.LoadAsync("./test_log.json");
-        Assert.That(log.Errors[0], Is.EqualTo((3, 13, 33, "Mekk ÚR")));
-        Assert.That(log.Errors[^1], Is.EqualTo((3, 69, 69, "Randi")));
-        Assert.That(log.Errors[3], Is.EqualTo((3, 23, 53, "Milán")));
+        Assert.Multiple(async () =>
+        {
+            Assert.That(log.Errors, Is.Empty);
+            var list = new List<(int, int, int, string)> { (3, 13, 33, "Mekk ÚR"), (3, 13, 21, "Adorján"), (0, 0, 0, "Endre"), (3, 23, 53, "Milán"), (3, 69, 69, "Randi") };
+            log.Errors.Clear();
+            log.Errors.AddRange(list);
+            await logFileDataAccess.SaveAsync("./test_log.json", log);
+            log = await logFileDataAccess.LoadAsync("./test_log.json");
+            Assert.That(log.Errors[0], Is.EqualTo((3, 13, 33, "Mekk ÚR")));
+            Assert.That(log.Errors[^1], Is.EqualTo((3, 69, 69, "Randi")));
+            Assert.That(log.Errors[3], Is.EqualTo((3, 23, 53, "Milán")));
+        });
     }
     [Test]
     public async Task TestEvents()
