@@ -122,7 +122,5 @@ public sealed class Robot(Point position, Direction direction)
             default:
                 throw new System.Exception("");
         }
-
-        _history.Add(a);
     }
 }
