@@ -197,13 +197,16 @@ public class PersistenceTests
     }
 
     [Test]
-    public async Task TestAllValid()
+    public void TestAllValid()
     {
-        Assert.That(log.AllValid);
-        log.AllValid = false;
-        await logFileDataAccess.SaveAsync("./test_log.json", log);
-        log = await logFileDataAccess.LoadAsync("./test_log.json");
-        Assert.That(!log.AllValid);
+        Assert.Multiple(async () =>
+        {
+            Assert.That(log.AllValid);
+            log.AllValid = false;
+            await logFileDataAccess.SaveAsync("./test_log.json", log);
+            log = await logFileDataAccess.LoadAsync("./test_log.json");
+            Assert.That(!log.AllValid);
+        });
     }
 
     [Test]
