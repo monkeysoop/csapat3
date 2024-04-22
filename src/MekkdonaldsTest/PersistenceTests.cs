@@ -25,15 +25,15 @@ public class PersistenceTests
     public async Task Setup()
     {
         logFileDataAccess = new LogFileDataAccess();
-        log = await logFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/samples/random_20_log.json");
+        log = await logFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/logs/random_20_log.json");
         configDataAccess = new ConfigDataAccess();
-        config = await configDataAccess.Load("../../../../MekkdonaldsWPF/samples/random_20_config.json");
+        config = await configDataAccess.Load("../../../../MekkdonaldsWPF/configs/random_20_config.json");
         boardFileDataAccess = new();
-        board = await boardFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/samples/maps/random-32-32-20.map");
+        board = await boardFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/maps/random-32-32-20.map");
         robotsDataAccess = new();
-        agents = await robotsDataAccess.LoadAsync("../../../../MekkdonaldsWPF/samples/agents/random_20.agents", 32, 32);
+        agents = await robotsDataAccess.LoadAsync("../../../../MekkdonaldsWPF/agents/random_20.agents", 32, 32);
         packagesDataAccess = new();
-        tasks = await packagesDataAccess.LoadAsync("../../../../MekkdonaldsWPF/samples/tasks/random-32-32-20.tasks", 32, 32);
+        tasks = await packagesDataAccess.LoadAsync("../../../../MekkdonaldsWPF/tasks/random-32-32-20.tasks", 32, 32);
 
     }
 
