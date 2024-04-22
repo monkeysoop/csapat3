@@ -14,18 +14,17 @@ tests:
     entrypoint: [""]
   script:
     - dotnet test
-    - if [ $? -ne 0 ]; then exit 1; fi
+    - doxygen docs/Doxyfile
 
 pages:
   stage: deploy
-  image:
-    name: container-registry.pommalabs.xyz/pommalabs/docfx
-    entrypoint: [""]
+  image: alpine
   script:
-    - docfx docs/docfx.json
-    - mv docs/_site public
+    - apt-get -yq update
+    - apt-get -yq install graphviz
+    - apt-get -yq install doxygen
+    - doxygen docs/Doxyfile
+    - mv docs/html/ public/
   artifacts:
     paths:
       - public
-  only:
-    - master
