@@ -304,13 +304,16 @@ public class PersistenceTests
 
     [Test]
 
-    public async Task TestSumOfCost()
+    public void TestSumOfCost()
     {
-        Assert.That(log.SumOfCost, Is.EqualTo(10000));
-        log.SumOfCost = 333333333;
-        await logFileDataAccess.SaveAsync("./test_log.json", log);
-        log = await logFileDataAccess.LoadAsync("./test_log.json");
-        Assert.That(log.SumOfCost, Is.EqualTo(333333333));
+        Assert.Multiple(async () =>
+        {
+            Assert.That(log.SumOfCost, Is.EqualTo(10000));
+            log.SumOfCost = 333333333;
+            await logFileDataAccess.SaveAsync("./test_log.json", log);
+            log = await logFileDataAccess.LoadAsync("./test_log.json");
+            Assert.That(log.SumOfCost, Is.EqualTo(333333333));
+        });
     }
 
     [Test]
