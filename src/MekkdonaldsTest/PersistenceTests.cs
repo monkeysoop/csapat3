@@ -317,13 +317,16 @@ public class PersistenceTests
     }
 
     [Test]
-    public async Task TesMakespan()
+    public void TesMakespan()
     {
-        Assert.That(log.Makespan, Is.EqualTo(500));
-        log.Makespan = 33333333;
-        await logFileDataAccess.SaveAsync("./test_log.json", log);
-        log = await logFileDataAccess.LoadAsync("./test_log.json");
-        Assert.That(log.Makespan, Is.EqualTo(33333333));
+        Assert.Multiple(async () =>
+        {
+            Assert.That(log.Makespan, Is.EqualTo(500));
+            log.Makespan = 33333333;
+            await logFileDataAccess.SaveAsync("./test_log.json", log);
+            log = await logFileDataAccess.LoadAsync("./test_log.json");
+            Assert.That(log.Makespan, Is.EqualTo(33333333));
+        });
     }
 
     [Test]
