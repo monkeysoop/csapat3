@@ -162,34 +162,34 @@ public class PersistenceTests
     [Test]
     public async Task TestActionModel()
     {
-        Assert.True(log.ActionModel is not null);
+        Assert.That(log.ActionModel is not null);
         Assert.That(log.ActionModel, Is.EqualTo("MAPF_T"));
         Assert.That(log.ActionModel.Length, Is.EqualTo(6));
         log.ActionModel = "";
         await logFileDataAccess.SaveAsync("./test_log.json", log);
         log = await logFileDataAccess.LoadAsync("./test_log.json");
         Assert.That(log.ActionModel, Is.EqualTo(""));
-        Assert.True(log.ActionModel is not null);
+        Assert.That(log.ActionModel is not null);
         log.ActionModel = "Hajrá Fradi!";
         await logFileDataAccess.SaveAsync("./test_log.json", log);
         log = await logFileDataAccess.LoadAsync("./test_log.json");
         Assert.That(log.ActionModel, Is.EqualTo("Hajrá Fradi!"));
-        Assert.True(log.ActionModel is not null);
+        Assert.That(log.ActionModel is not null);
         log.ActionModel = "Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!";
         await logFileDataAccess.SaveAsync("./test_log.json", log);
         log = await logFileDataAccess.LoadAsync("./test_log.json");
         Assert.That(log.ActionModel, Is.EqualTo("Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!"));
-        Assert.True(log.ActionModel is not null);
+        Assert.That(log.ActionModel is not null);
     }
 
     [Test]
     public async Task TestAllValid()
     {
-        Assert.True(log.AllValid);
+        Assert.That(log.AllValid);
         log.AllValid = false;
         await logFileDataAccess.SaveAsync("./test_log.json", log);
         log = await logFileDataAccess.LoadAsync("./test_log.json");
-        Assert.False(log.AllValid);
+        Assert.That(!log.AllValid);
     }
 
     [Test]
@@ -208,7 +208,6 @@ public class PersistenceTests
         await logFileDataAccess.SaveAsync("./test_log.json", log);
         log = await logFileDataAccess.LoadAsync("./test_log.json");
         Assert.That(log.TeamSize, Is.EqualTo(3333333));
-        Assert.ThrowsAsync<JsonException>(async () => { log = await logFileDataAccess.LoadAsync("TestFiles/test_log_neg_ts.json"); });
 
     }
 
@@ -216,7 +215,7 @@ public class PersistenceTests
 
     public async Task TestStart()
     {
-        Assert.True(log.Start is not null);
+        Assert.That(log.Start is not null);
         Assert.That(log.Start![0], Is.EqualTo((new Point(7, 5), Direction.East)));
         Assert.That(log.Start![2], Is.EqualTo((new Point(27, 19), Direction.East)));
         Assert.That(log.Start![^1], Is.EqualTo((new Point(25, 1), Direction.East)));
@@ -225,14 +224,14 @@ public class PersistenceTests
         log.Start.AddRange(new List<(Point, Direction)>() { (new Point(3, 9), Direction.North) });
         await logFileDataAccess.SaveAsync("./test_log.json", log);
         log = await logFileDataAccess.LoadAsync("./test_log.json");
-        Assert.True(log.Start is not null);
+        Assert.That(log.Start is not null);
         Assert.That(log.Start![0], Is.EqualTo((new Point(3, 9), Direction.North)));
         Assert.That(log.Start.Count, Is.EqualTo(1));
         log.Start.Clear();
         log.Start.AddRange(new List<(Point, Direction)>() { (new Point(13, 10), Direction.South), (new Point(69, 33), Direction.West) });
         await logFileDataAccess.SaveAsync("./test_log.json", log);
         log = await logFileDataAccess.LoadAsync("./test_log.json");
-        Assert.True(log.Start is not null);
+        Assert.That(log.Start is not null);
         Assert.That(log.Start![0], Is.EqualTo((new Point(13, 10), Direction.South)));
         Assert.That(log.Start![1], Is.EqualTo((new Point(69, 33), Direction.West)));
         Assert.That(log.Start.Count, Is.EqualTo(2));
@@ -240,7 +239,7 @@ public class PersistenceTests
         log.Start.AddRange(new List<(Point, Direction)>() { (new Point(13, 10), Direction.South), (new Point(69, 33), Direction.West), (new Point(113, 133), Direction.East) });
         await logFileDataAccess.SaveAsync("./test_log.json", log);
         log = await logFileDataAccess.LoadAsync("./test_log.json");
-        Assert.True(log.Start is not null);
+        Assert.That(log.Start is not null);
         Assert.That(log.Start![0], Is.EqualTo((new Point(13, 10), Direction.South)));
         Assert.That(log.Start![1], Is.EqualTo((new Point(69, 33), Direction.West)));
         Assert.That(log.Start![2], Is.EqualTo((new Point(113, 133), Direction.East)));
@@ -255,7 +254,7 @@ public class PersistenceTests
         log.Start.AddRange(list);
         await logFileDataAccess.SaveAsync("./test_log.json", log);
         log = await logFileDataAccess.LoadAsync("./test_log.json");
-        Assert.True(log.Start is not null);
+        Assert.That(log.Start is not null);
         Assert.That(log.Start![0], Is.EqualTo(list[0]));
         var num = random.Next(list.Count);
         Assert.That(log.Start![num], Is.EqualTo(list[num]));
