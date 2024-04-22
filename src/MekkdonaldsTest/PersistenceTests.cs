@@ -480,22 +480,21 @@ public class PersistenceTests
 
     public void TestConfig()
     {
-        Assert.That(config is not null);
-        Assert.That(config.MapFile is not null);
-        Assert.That(config.MapFile is string);
-        Assert.That(config.MapFile, Is.EqualTo("maps/random-32-32-20.map"));
-        Assert.That(config.AgentFile is not null);
-        Assert.That(config.AgentFile is string);
-        Assert.That(config.AgentFile, Is.EqualTo("agents/random_20.agents"));
-        Assert.That(config.TeamSize is int);
-        Assert.That(config.TeamSize, Is.EqualTo(20));
-        Assert.That(config.TaskFile is not null);
-        Assert.That(config.TaskFile is string);
-        Assert.That(config.TaskFile, Is.EqualTo("tasks/random-32-32-20.tasks"));
-        Assert.That(config.NumTasksReveal is int);
-        Assert.That(config.NumTasksReveal, Is.EqualTo(1));
-        Assert.That(config.TaskAssignmentStrategy is Strategy);
-        Assert.That(config.TaskAssignmentStrategy, Is.EqualTo(Strategy.RoundRobin));
+        Assert.Multiple(() =>
+        {
+            Assert.That(config is not null);
+            Assert.That(config!.MapFile is string);
+            Assert.That(config.MapFile, Is.EqualTo("maps/random-32-32-20.map"));
+            Assert.That(config.AgentFile is not null);
+            Assert.That(config.AgentFile is string);
+            Assert.That(config.AgentFile, Is.EqualTo("agents/random_20.agents"));
+            Assert.That(config.TeamSize, Is.EqualTo(20));
+            Assert.That(config.TaskFile is not null);
+            Assert.That(config.TaskFile is string);
+            Assert.That(config.TaskFile, Is.EqualTo("tasks/random-32-32-20.tasks"));
+            Assert.That(config.NumTasksReveal, Is.EqualTo(1));
+            Assert.That(config.TaskAssignmentStrategy, Is.EqualTo(Strategy.RoundRobin));
+        });
 
     }
 
