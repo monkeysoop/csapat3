@@ -231,6 +231,13 @@ public class Board
         return t;
     }
 
+    public bool Searchable(Point position)
+    {
+        CheckPosition(position);
+
+        return SearchMask[position.Y * Width + position.X] == SEARCHED;
+    }
+
     public bool SetSearchedIfEmpty(Point position)
     {
         CheckPosition(position);
