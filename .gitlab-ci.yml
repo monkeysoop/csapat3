@@ -19,9 +19,9 @@ pages:
   stage: deploy
   image: alpine
   script:
-    - apt-get -yq update
-    - apt-get -yq install graphviz
-    - apt-get -yq install doxygen
+    - apk update
+    - apk add doxygen
+    - apk add ttf-freefont graphviz
     - doxygen docs/Doxyfile
     - mv docs/html/ public/
   artifacts:
