@@ -55,11 +55,14 @@ public class PersistenceTests
 
     public void TestAgentsLoad()
     {
-        Assert.That(agents is not null);
-        Assert.That(agents!.All(x => x.Direction == Direction.North));
-        Assert.That(agents![0].Position, Is.EqualTo(new Point(7, 5)));
-        Assert.That(agents![agents.Count - 1].Position, Is.EqualTo(new Point(25, 1)));
-        Assert.That(agents![13].Position, Is.EqualTo(new Point(26, 24)));
+        Assert.Multiple(() =>
+        {
+            Assert.That(agents is not null);
+            Assert.That(agents!.All(x => x.Direction == Direction.North));
+            Assert.That(agents![0].Position, Is.EqualTo(new Point(7, 5)));
+            Assert.That(agents![agents.Count - 1].Position, Is.EqualTo(new Point(25, 1)));
+            Assert.That(agents![13].Position, Is.EqualTo(new Point(26, 24)));
+        });
     }
 
     [Test]
