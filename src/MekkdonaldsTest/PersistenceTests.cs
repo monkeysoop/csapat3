@@ -10,16 +10,16 @@ namespace Mekkdonalds.Test;
 
 public class PersistenceTests
 {
-    LogFile log;
-    LogFileDataAccess logFileDataAccess;
-    ConfigDataAccess configDataAccess;
-    Config config;
-    BoardFileDataAccess boardFileDataAccess;
-    Board board;
-    RobotsDataAccess robotsDataAccess;
-    List<Robot> agents;
-    PackagesDataAccess packagesDataAccess;
-    List<Package> tasks;
+    private LogFile log;
+    private LogFileDataAccess logFileDataAccess;
+    private ConfigDataAccess configDataAccess;
+    private Config config;
+    private BoardFileDataAccess boardFileDataAccess;
+    private Board board;
+    private RobotsDataAccess robotsDataAccess;
+    private List<Robot> agents;
+    private PackagesDataAccess packagesDataAccess;
+    private List<Package> tasks;
 
     [SetUp]
     public async Task Setup()
@@ -77,7 +77,7 @@ public class PersistenceTests
     {
         Assert.Multiple(async () =>
         {
-            Assert.IsTrue(log.AllValid);
+            Assert.That(log.AllValid is true);
             Assert.That(log.ActionModel, Is.EqualTo("MAPF_T"));
             Assert.That(log.TeamSize, Is.EqualTo(20));
             Assert.That(log.Start[0], Is.EqualTo((new Point(7, 5), Direction.East)));
