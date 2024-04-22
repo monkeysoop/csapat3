@@ -88,6 +88,8 @@ public class Board
 
 
     #region Public methods
+
+
     public bool TryMoveRobot(Point current_position, Point next_position)
     {
         CheckPosition(current_position);
@@ -275,6 +277,25 @@ public class Board
 
         return Data[y * Width + x];
     }
+    // only for testing
+    public int GetSearchMaskValue(int x, int y)
+    {
+        return SearchMask[y * Width + x];
+    }
+
+    public void SetSearchMaskValue(int x, int y, int value)
+    {
+        SearchMask[y * Width + x] = value;
+    }
+    public int GetRobotMaskValue(int x, int y)
+    {
+        return RobotMask[y * Width + x];
+    }
+
+    public void SetRobotMaskValue(int x, int y, int value)
+    {
+        RobotMask[y * Width + x] = value;
+    }
     #endregion
 
 
@@ -337,6 +358,7 @@ public class Board
             throw new System.Exception("already (un)reserved position: " + position + "\ncost: " + cost);
         }
     }
+
     #endregion
 }
 
