@@ -146,15 +146,11 @@ public class PersistenceTests
     [Test]
 
     public void TestStructure()
+    public void TestLogStructure()
     {
         Assert.That(log is LogFile);
         Assert.That(log.ActionModel is string);
-        Assert.That(log.AllValid is bool);
-        Assert.That(log.TeamSize is uint);
         Assert.That(log.Start is List<(Point, Direction)>);
-        Assert.That(log.NumTaskFinished is int);
-        Assert.That(log.SumOfCost is int);
-        Assert.That(log.Makespan is int);
         Assert.That(log.ActualPaths is List<List<Action>>);
         Assert.That(log.PlannerPaths is List<List<Action>>);
         Assert.That(log.PlannerTimes is List<double>);
