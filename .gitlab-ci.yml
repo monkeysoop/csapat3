@@ -14,16 +14,16 @@ tests:
     entrypoint: [""]
   script:
     - dotnet test
-    - if [ $? -ne 0 ]; then exit 1; fi
 
 pages:
   stage: deploy
-  image:
-    name: container-registry.pommalabs.xyz/pommalabs/docfx
-    entrypoint: [""]
+  image: alpine
   script:
-    - docfx docs/docfx.json
-    - mv docs/_site public
+    - apk update
+    - apk add doxygen
+    - apk add ttf-freefont graphviz
+    - doxygen docs/Doxyfile
+    - mv docs/html/ public/
   artifacts:
     paths:
       - public
