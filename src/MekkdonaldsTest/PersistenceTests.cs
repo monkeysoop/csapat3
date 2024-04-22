@@ -210,21 +210,24 @@ public class PersistenceTests
     }
 
     [Test]
-    public async Task TestTeamSize()
+    public void TestTeamSize()
     {
-        Assert.That(log.TeamSize, Is.EqualTo(20));
-        log.TeamSize = 69;
-        await logFileDataAccess.SaveAsync("./test_log.json", log);
-        log = await logFileDataAccess.LoadAsync("./test_log.json");
-        Assert.That(log.TeamSize, Is.EqualTo(69));
-        log.TeamSize = 0;
-        await logFileDataAccess.SaveAsync("./test_log.json", log);
-        log = await logFileDataAccess.LoadAsync("./test_log.json");
-        Assert.That(log.TeamSize, Is.EqualTo(0));
-        log.TeamSize = 3333333;
-        await logFileDataAccess.SaveAsync("./test_log.json", log);
-        log = await logFileDataAccess.LoadAsync("./test_log.json");
-        Assert.That(log.TeamSize, Is.EqualTo(3333333));
+        Assert.Multiple(async () =>
+        {
+            Assert.That(log.TeamSize, Is.EqualTo(20));
+            log.TeamSize = 69;
+            await logFileDataAccess.SaveAsync("./test_log.json", log);
+            log = await logFileDataAccess.LoadAsync("./test_log.json");
+            Assert.That(log.TeamSize, Is.EqualTo(69));
+            log.TeamSize = 0;
+            await logFileDataAccess.SaveAsync("./test_log.json", log);
+            log = await logFileDataAccess.LoadAsync("./test_log.json");
+            Assert.That(log.TeamSize, Is.EqualTo(0));
+            log.TeamSize = 3333333;
+            await logFileDataAccess.SaveAsync("./test_log.json", log);
+            log = await logFileDataAccess.LoadAsync("./test_log.json");
+            Assert.That(log.TeamSize, Is.EqualTo(3333333));
+        });
 
     }
 
