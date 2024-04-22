@@ -20,9 +20,12 @@ namespace Mekkdonalds.Simulation.Tests
             // Act
             Robot robot = new Robot(position, direction);
 
-            // Assert
-            Assert.That(position, Is.EqualTo(robot.Position));
-            Assert.That(direction, Is.EqualTo(robot.Direction));
+            Assert.Multiple(() =>
+            {
+                // Assert that position and direction match the robot's current position and direction
+                Assert.That(position, Is.EqualTo(robot.Position), "Position should match robot's position");
+                Assert.That(direction, Is.EqualTo(robot.Direction), "Direction should match robot's direction");
+            });
         }
 
         [Test]
@@ -45,9 +48,12 @@ namespace Mekkdonalds.Simulation.Tests
             // Act
             Package task = robot.RemoveTask();
 
-            // Assert
-            Assert.That(robot.Task, Is.Null);
-            Assert.That(new Point(1, 1), Is.EqualTo(task.Position));
+            Assert.Multiple(() =>
+            {
+                // Assert that robot has no task and task position is (1,1)
+                Assert.That(robot.Task, Is.Null, "Robot should have no task");
+                Assert.That(new Point(1, 1), Is.EqualTo(task.Position), "Task position should be (1,1)");
+            });
         }
 
         [Test]
@@ -60,9 +66,12 @@ namespace Mekkdonalds.Simulation.Tests
             // Act
             robot.AddTask(destination);
 
-            // Assert
-            Assert.That(robot.Task, Is.Not.Null);
-            Assert.That(destination, Is.EqualTo(robot.Task.Position));
+            Assert.Multiple(() =>
+            {
+                // Assert that robot has a task and destination matches task position
+                Assert.That(robot.Task, Is.Not.Null, "Robot should have a task");
+                Assert.That(destination, Is.EqualTo(robot.Task.Position), "Destination should match task position");
+            });
         }
 
         [Test]
@@ -75,11 +84,14 @@ namespace Mekkdonalds.Simulation.Tests
             // Act
             bool success = robot.TryStep(Action.F, board, 0);
 
-            // Assert
-            Assert.That(success, Is.True);
-            Assert.That(new Point(1, 0), Is.EqualTo(robot.Position));
-            Assert.That(Direction.East, Is.EqualTo(robot.Direction));
-            Assert.That(new List<Action> { Action.F }, Is.EqualTo(robot.History));
+            Assert.Multiple(() =>
+            {
+                // Assert that success is true, and robot's position, direction, and history are as expected
+                Assert.That(success, Is.True, "Success should be true");
+                Assert.That(new Point(1, 0), Is.EqualTo(robot.Position), "Position should be (1,0)");
+                Assert.That(Direction.East, Is.EqualTo(robot.Direction), "Direction should be East");
+                Assert.That(new List<Action> { Action.F }, Is.EqualTo(robot.History), "History should contain only Action.F");
+            });
         }
 
         [Test]
@@ -92,13 +104,14 @@ namespace Mekkdonalds.Simulation.Tests
             // Act
             bool success = robot.TryStep(Action.R, board, 0);
 
-            // Assert
-            Assert.That(success, Is.True);
-            Assert.That(new Point(0, 0), Is.EqualTo(robot.Position));
-            Assert.That(Direction.East, Is.EqualTo(robot.Direction));
-            Assert.That(new List<Action> { Action.R }, Is.EqualTo(robot.History));
+            Assert.Multiple(() =>
+            {
+                // Assert that success is true, and robot's position, direction, and history are as expected
+                Assert.That(success, Is.True, "Success should be true");
+                Assert.That(new Point(0, 0), Is.EqualTo(robot.Position), "Position should be (0,0)");
+                Assert.That(Direction.East, Is.EqualTo(robot.Direction), "Direction should be East");
+                Assert.That(new List<Action> { Action.R }, Is.EqualTo(robot.History), "History should contain only Action.R");
+            });
         }
-
-        // Add more tests for other actions and scenarios
     }
 }
