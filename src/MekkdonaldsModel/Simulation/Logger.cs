@@ -108,5 +108,25 @@ public class Logger
     /// <returns>A Task that represents the asynchronous save opertaion</returns>
     public async Task SaveAsync(ILogFileDataAccess access) => await access.SaveAsync(_fileName, _logFile);
 
+    public LogFile GetLogFile()
+    {
+        var l = LogFile.New;
+
+        l.ActualPaths.AddRange(_logFile.ActualPaths);
+        l.AllValid = _logFile.AllValid;
+        l.Errors.AddRange(_logFile.Errors);
+        l.Events.AddRange(_logFile.Events);
+        l.Makespan = _logFile.Makespan;
+        l.PlannerPaths.AddRange(_logFile.PlannerPaths);
+        l.PlannerTimes.AddRange(_logFile.PlannerTimes);
+        l.Start.AddRange(_logFile.Start);
+        l.SumOfCost = _logFile.SumOfCost;
+        l.NumTaskFinished = _logFile.NumTaskFinished;
+        l.TeamSize = _logFile.TeamSize;
+        l.Tasks.AddRange(_logFile.Tasks);
+
+        return l;
+    }
+
     private void LogEvent(int robotID, int taskID, int when, string eventName) => _logFile.Events[robotID - 1].Add((taskID - 1, when, eventName));
 }
