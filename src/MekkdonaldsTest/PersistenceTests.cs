@@ -455,11 +455,11 @@ public class PersistenceTests
     {
         Assert.ThrowsAsync<JsonException>(async () =>
         {
-            log = await logFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/samples/random_20_config.json");
+            log = await logFileDataAccess.LoadAsync("../../../../MekkdonaldsWPF/configs/random_20_config.json");
         });
         Assert.ThrowsAsync<JsonException>(async () =>
         {
-            config = await configDataAccess.Load("../../../../MekkdonaldsWPF/samples/random_20_log.json");
+            config = await configDataAccess.Load("../../../../MekkdonaldsWPF/logs/random_20_log.json");
         });
     }
 
