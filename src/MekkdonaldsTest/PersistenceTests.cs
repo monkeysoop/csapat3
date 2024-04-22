@@ -41,10 +41,13 @@ public class PersistenceTests
 
     public void TestTasksLoad()
     {
-        Assert.That(tasks is not null);
-        Assert.That(tasks![0].Position, Is.EqualTo(new Point(7, 22)));
-        Assert.That(tasks![^1].Position, Is.EqualTo(new Point(2, 26)));
-        Assert.That(tasks![13].Position, Is.EqualTo(new Point(23, 27)));
+        Assert.Multiple(() =>
+        {
+            Assert.That(tasks is not null);
+            Assert.That(tasks![0].Position, Is.EqualTo(new Point(7, 22)));
+            Assert.That(tasks![^1].Position, Is.EqualTo(new Point(2, 26)));
+            Assert.That(tasks![13].Position, Is.EqualTo(new Point(23, 27)));
+        });
 
     }
 
