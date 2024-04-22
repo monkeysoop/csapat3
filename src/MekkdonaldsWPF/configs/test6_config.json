@@ -1,0 +1,8 @@
+{
+  "mapFile": "samples/maps/test6.map",
+  "agentFile": "samples/agents/test6.agents",
+  "teamSize": 2,
+  "taskFile": "samples/tasks/test6.tasks",
+  "numTasksReveal": 10,
+  "taskAssignmentStrategy": "roundrobin"
+}
