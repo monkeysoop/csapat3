@@ -2,5 +2,5 @@
 
 public interface IConfigDataAccess
 {
-    public Task<Config> Load(string path);
+    public Task<Config> LoadAsync(string path);
 }
