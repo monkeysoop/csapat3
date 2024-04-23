@@ -2,7 +2,7 @@
     "actionModel": "MAPF_T", // robotmozgás szabályainak neve
     "AllValid": "No", // minden lépés ütközésmentes volt-e
     "teamSize": 2, // a robotok száma
-    "start": [ // a robotok kiindulási helye
+    "start": [ // a robotok kiindulási helye (y, x, dir)
         [
             15,
             10,
@@ -71,7 +71,7 @@
             "assigned"
         ]
     ],
-    "tasks": [ // feladatok listája ([melyik feladat, honnan, hova])
+    "tasks": [ // feladatok listája ([melyik feladat, y, x])
         [
             0,
             2,

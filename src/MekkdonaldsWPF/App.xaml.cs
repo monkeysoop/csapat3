@@ -1,25 +1,10 @@
-﻿using Microsoft.Win32;
-
-using System.Collections;
-using System.ComponentModel;
-
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Windows.Media.Imaging;
-
-using Brushes = System.Drawing.Brushes;
-using Point = System.Windows.Point;
-
-namespace Mekkdonalds;
+﻿namespace Mekkdonalds;
 
 /// <summary>
 /// Interaction logic for App.xaml
 /// </summary>
 public partial class App : Application
 {
-    private const double MARGIN = 0;
     private const double SIDELENGTH = 20;
 
     private int XLength;
@@ -31,11 +16,14 @@ public partial class App : Application
     private StartWindow? _startWindow;
     private ReplayWindow? _replayWindow;
     private ViewModel.ViewModel? _viewModel;
+
     private bool _ctrlDown;
     private Point _mousePos;
 
-    private ImageBrush _rectangel;
-    private ImageBrush _ellipse;
+    private ImageBrush _rectangle;
+    private readonly ImageBrush[] _ellipses = new ImageBrush[4];
+    private readonly Dictionary<Robot, Grid> _robots = [];
+    private readonly Dictionary<Robot, Grid> _targets = [];
 
     public App()
     {
@@ -43,7 +31,7 @@ public partial class App : Application
 
         DrawElements();
 
-        if (_rectangel is null || _ellipse is null)
+        if (_rectangle is null || _ellipses.Any(x => x is null))
             throw new System.Exception("Failed to load images");
     }
 
@@ -85,35 +73,58 @@ public partial class App : Application
     /// <summary>
     /// Opens a replay window
     /// </summary>
-    /// <returns>Wether to user want's to proceed with opening the window</returns>
+    /// <returns>Whether to user want's to proceed with opening the window</returns>
     private bool OpenReplay()
-    {
+    {        
         var fd = new OpenFileDialog()
         {
             Filter = "Json files (*.json)|*.json",
-            Title = "Log File"
+            Title = "Log File",
+            InitialDirectory = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "logs")
         };
 
-        if (fd.ShowDialog() is false)
-            return false;
+        if (fd.ShowDialog() is false) return false;
 
-        _viewModel = new ReplayViewModel(fd.FileName);
+        var logPath = fd.FileName;
+
+        fd = new OpenFileDialog()
+        {
+            Filter = "Map file (*.map)|*.map",
+            Title = "Map file",
+            InitialDirectory = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "maps")
+        };
+
+        if (fd.ShowDialog() is false) return false;
+
+        _viewModel = new ReplayViewModel(logPath, fd.FileName);
 
         _replayWindow = new ReplayWindow
         {
-            WindowState = WindowState.Maximized,
             DataContext = _viewModel
         };
 
-        _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_replayWindow.MapCanvas)); // UI elemts have to be updated with this call when it is called from another thread
+        _viewModel.Loaded += (_, _) => OnLoaded(_replayWindow, _replayWindow.MapCanvas);
+
+        _viewModel.Tick += OnTick;
         _viewModel.PropertyChanged += OnPropertyChanged;
 
-        _replayWindow.SizeChanged += (_, _) => { Calculate(_replayWindow.MapCanvas); Redraw(_replayWindow.MapCanvas); };
+        _replayWindow.SizeChanged += (_, _) => OnSizeChanged(_replayWindow.MapCanvas);
+
+        _replayWindow.KeyDown += OnKeyDown;
+
+        _replayWindow.KeyUp += OnKeyUp;
+
+        _replayWindow.ScrollViewer.PreviewMouseWheel += OnMouseWheel;
+
+        _replayWindow.ScrollViewer.MouseMove += OnMouseMove;
+
+        _replayWindow.ScrollViewer.ManipulationDelta += OnManipulationDelta;
+
+        _replayWindow.ScrollViewer.Cursor = Cursors.Hand;
 
         _replayWindow.Show();
 
-        Calculate(_replayWindow.MapCanvas);
-        Redraw(_replayWindow.MapCanvas);
+        DisplayLoading(_replayWindow);
 
         return true;
     }
@@ -121,78 +132,50 @@ public partial class App : Application
     /// <summary>
     /// Opens a simulation window
     /// </summary>
-    /// <returns>Wether to user want's to proceed with opening the window</returns>
+    /// <returns>Whether to user want's to proceed with opening the window</returns>
     private bool OpenSim()
     {
         var fd = new OpenFileDialog()
         {
             Filter = "Json file (*.json)|*.json",
-            Title = "Config file"
+            Title = "Config file",
+            InitialDirectory = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "configs")
         };
 
         if (fd.ShowDialog() is false) return false;
 
-        _viewModel = new SimulationViewModel(fd.FileName);
+        var algorithm = ControllerType.Astar;
+        
+        var configFile = fd.FileName;
+
+        if (_startWindow!.BFS.IsChecked!.Value) algorithm = ControllerType.BFS;
+        else if (_startWindow.DFS.IsChecked!.Value) algorithm = ControllerType.DFS;
+
+        _viewModel = new SimulationViewModel(configFile, algorithm);
 
         _simWindow = new SimulationWindow
         {
-            DataContext = _viewModel
+            DataContext = _viewModel,
         };
 
-        _viewModel.Loaded += (_, _) => Dispatcher.Invoke(() =>
-        {
-            Calculate(_simWindow.MapCanvas);
-            DrawGrid(_simWindow.MapCanvas);
-            Redraw(_simWindow.MapCanvas);
-            _simWindow.Cursor = Cursors.Arrow;
-        });
+        _simWindow.Title += $" - Simulation - {System.IO.Path.GetFileName(fd.FileName)}";
 
-        _viewModel.Tick += (_, _) => Dispatcher.Invoke(() => Redraw(_simWindow.MapCanvas));
+        _viewModel.Loaded += (_, _) => OnLoaded(_simWindow, _simWindow.MapCanvas);
+
+        _viewModel.Tick += OnTick;
         _viewModel.PropertyChanged += OnPropertyChanged;
 
-        _simWindow.SizeChanged += (_, _) => { Calculate(_simWindow.MapCanvas); Redraw(_simWindow.MapCanvas); };
+        _simWindow.SizeChanged += (_, _) => OnSizeChanged(_simWindow.MapCanvas);
 
-        _simWindow.KeyDown += (_, e) =>
-        {
-            if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
-            {
-                _ctrlDown = true;
-            }
-        };
+        _simWindow.KeyDown += OnKeyDown;
 
-        _simWindow.KeyUp += (_, e) =>
-        {
-            if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
-            {
-                _ctrlDown = false;
-            }
-        };
+        _simWindow.KeyUp += OnKeyUp;
 
-        _simWindow.ScrollViewer.PreviewMouseWheel += (_, e) =>
-        {
-            if (_ctrlDown)
-            {
-                if (e.Delta > 0)
-                    _viewModel.Zoom *= 1.1;
-                else
-                    _viewModel.Zoom /= 1.1;
-            }
+        _simWindow.ScrollViewer.PreviewMouseWheel += OnMouseWheel;
 
-            e.Handled = true;
-        };
+        _simWindow.ScrollViewer.MouseMove += OnMouseMove;
 
-        _simWindow.ScrollViewer.MouseMove += (x, e) =>
-        {
-            var p = e.GetPosition(x as IInputElement);
-
-            if (e.LeftButton is MouseButtonState.Pressed)
-            {
-                _simWindow.ScrollViewer.ScrollToHorizontalOffset(_simWindow.ScrollViewer.HorizontalOffset + (_mousePos.X - p.X));
-                _simWindow.ScrollViewer.ScrollToVerticalOffset(_simWindow.ScrollViewer.VerticalOffset + (_mousePos.Y - p.Y));
-            }
-
-            _mousePos = p;
-        };
+        _simWindow.ScrollViewer.ManipulationDelta += OnManipulationDelta;
 
         _simWindow.ScrollViewer.Cursor = Cursors.Hand;
 
@@ -201,6 +184,18 @@ public partial class App : Application
         DisplayLoading(_simWindow);
 
         return true;
+    }
+
+    private void OnTick(object? sender, EventArgs e)
+    {
+#if DEBUG
+        try
+        { Dispatcher.Invoke(Redraw); }
+        catch (TaskCanceledException)
+        { }
+#else
+        Dispatcher.Invoke(Redraw);
+#endif
     }
 
     private static void DisplayLoading(Window w)
@@ -216,24 +211,48 @@ public partial class App : Application
     /// <param name="c">The currently open window's canvas</param>
     private void Calculate(Canvas c)
     {
-        c.Children.Clear();
-
         var w = _viewModel!.Width;
         var h = _viewModel.Height;
 
         c.Width = XLength = w * Step;
         c.Height = YLength = h * Step;
+
+        var fontSize = 12 * Math.Sqrt(_viewModel.Zoom);
+
+        foreach (var g in _robots.Values)
+        {
+            g.Width = g.Height = Step - 2;
+            (g.Children[0] as TextBlock ?? throw new System.Exception()).FontSize = fontSize;
+        }
+
+        foreach (var g in _targets.Values)
+        {
+            g.Width = g.Height = Step;
+            (g.Children[0] as TextBlock ?? throw new System.Exception()).FontSize = fontSize;
+        }
     }
 
     /// <summary>
     /// Clears the canvas and redraws every element
     /// </summary>
     /// <param name="c">The currently open window's canvas</param>
-    private void Redraw(Canvas c)
+    private void Redraw()
     {
-        c.Children.Clear();
+        foreach (var r in _viewModel!.Robots)
+        {
+            _robots[r].Margin = new Thickness(1 + r.Position.X * Step, 1 + r.Position.Y * Step, 0, 0);
+            _robots[r].Background = _ellipses[(int)r.Direction];
 
-        DrawRobots(c);
+            if (r.Task is not null)
+            {
+                _targets[r].Margin = new Thickness(r.Task.Position.X * Step, r.Task.Position.Y * Step, 0, 0);
+                _targets[r].Visibility = Visibility.Visible;
+            }
+            else
+            {
+                _targets[r].Visibility = Visibility.Hidden;
+            }
+        }
     }
 
     /// <summary>
@@ -273,26 +292,21 @@ public partial class App : Application
     }
 
     /// <summary>
-    /// Draws the robots and their targets (if they have one) to the canvas
+    /// Creates the grids for the robots and their targets
     /// </summary>
-    /// <param name="c">The currently open window's canvas</param>
-    private void DrawRobots(Canvas c)
+    /// <param name="c"></param>
+    private void InitRobots(Canvas c)
     {
         var fontSize = 12 * Math.Sqrt(_viewModel!.Zoom);
 
-        foreach (var r in _viewModel.Robots)
+        foreach (var r in _viewModel!.Robots)
         {
-            Thickness t;
-
-            t.Left = MARGIN + 1 + r.Position.X * Step;
-            t.Top = MARGIN + 1 + r.Position.Y * Step;
-
             var grid = new Grid
             {
                 Width = Step - 2,
                 Height = Step - 2,
-                Margin = t,
-                Background = _ellipse
+                Margin = new Thickness(1 + r.Position.X * Step, 1 + r.Position.Y * Step, 0, 0),
+                Background = _ellipses[(int)r.Direction]
             };
 
             grid.Children.Add(new TextBlock()
@@ -303,69 +317,13 @@ public partial class App : Application
                 FontSize = fontSize
             });
 
-            c.Children.Add(grid);
-
-            switch (r.Direction)
-            {
-                case Direction.North:
-                    c.Children.Add(new Line()
-                    {
-                        Stroke = System.Windows.Media.Brushes.Red,
-                        StrokeThickness = 3,
-                        X1 = MARGIN + r.Position.X * Step + Step / 2,
-                        Y1 = MARGIN + r.Position.Y * Step + 1,
-                        X2 = MARGIN + r.Position.X * Step + Step / 2,
-                        Y2 = MARGIN + r.Position.Y * Step + 1 + 7 * _viewModel.Zoom
-                    });
-                    break;
-                case Direction.East:
-                    c.Children.Add(new Line()
-                    {
-                        Stroke = System.Windows.Media.Brushes.Red,
-                        StrokeThickness = 3,
-                        X1 = MARGIN + (r.Position.X + 1) * Step - 1 - 7 * _viewModel.Zoom,
-                        Y1 = MARGIN + r.Position.Y * Step + Step / 2,
-                        X2 = MARGIN + (r.Position.X + 1) * Step - 1,
-                        Y2 = MARGIN + r.Position.Y * Step + Step / 2
-                    });
-                    break;
-                case Direction.South:
-                    c.Children.Add(new Line()
-                    {
-                        Stroke = System.Windows.Media.Brushes.Red,
-                        StrokeThickness = 3,
-                        X1 = MARGIN + r.Position.X * Step + Step / 2,
-                        Y1 = MARGIN + (r.Position.Y + 1) * Step - 1 - 7 * _viewModel.Zoom,
-                        X2 = MARGIN + r.Position.X * Step + Step / 2,
-                        Y2 = MARGIN + (r.Position.Y + 1) * Step - 1
-                    });
-                    break;
-                case Direction.West:
-                    c.Children.Add(new Line()
-                    {
-                        Stroke = System.Windows.Media.Brushes.Red,
-                        StrokeThickness = 3,
-                        X1 = MARGIN + r.Position.X * Step + 1 + 7 * _viewModel.Zoom,
-                        Y1 = MARGIN + r.Position.Y * Step + Step / 2,
-                        X2 = MARGIN + r.Position.X * Step + 1,
-                        Y2 = MARGIN + r.Position.Y * Step + Step / 2
-                    });
-                    break;
-                default:
-                    throw new System.Exception();
-            }
-
-            if (r.Task is null) continue;
-
-            t.Left = MARGIN + r.Task.Position.X * Step;
-            t.Top = MARGIN + r.Task.Position.Y * Step;
+            _robots[r] = grid;
 
             grid = new Grid
             {
                 Width = Step,
                 Height = Step,
-                Margin = t,
-                Background = _rectangel
+                Background = _rectangle
             };
 
             grid.Children.Add(new TextBlock()
@@ -376,10 +334,44 @@ public partial class App : Application
                 FontSize = fontSize
             });
 
+            if (r.Task is not null)
+            {
+                grid.Margin = new Thickness(r.Task.Position.X * Step, r.Task.Position.Y * Step, 0, 0);
+                grid.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                grid.Visibility = Visibility.Hidden;
+            }
+
             c.Children.Add(grid);
+
+            _targets[r] = grid;
+        }
+
+        foreach (var g in _robots.Values)
+        {
+            c.Children.Add(g);
         }
     }
 
+    private static void RotateBitmap(ref Bitmap bmp, float angle)
+    {
+        Bitmap tempBmp = new(bmp.Width, bmp.Height);
+        using var g = Graphics.FromImage(tempBmp);
+
+        g.TranslateTransform(bmp.Width / 2, bmp.Height / 2);
+        g.RotateTransform(angle);
+        g.TranslateTransform(-bmp.Width / 2, -bmp.Height / 2);
+        g.DrawImage(bmp, new PointF(0, 0));
+
+        bmp.Dispose(); //dispose old bitmap
+        bmp = tempBmp; //assign new bitmap to reference
+    }
+
+    /// <summary>
+    /// Draws the images used for the robots and their targets
+    /// </summary>
     private void DrawElements()
     {
         {
@@ -397,44 +389,144 @@ public partial class App : Application
             r.CacheOption = BitmapCacheOption.OnLoad;
             r.EndInit();
 
-            _rectangel = new ImageBrush(r);
+            _rectangle = new ImageBrush(r);
         }
 
         {
-            using var bm = new Bitmap(500, 500);
+            var bm = new Bitmap(500, 500);
             using var g = Graphics.FromImage(bm);
 
-            g.FillEllipse(new SolidBrush(System.Drawing.Color.FromArgb(9, 194, 248)), 0, 0, 500, 500);
+            g.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(9, 194, 248)), 0, 250, 500, 250);
+            g.FillPie(new SolidBrush(System.Drawing.Color.FromArgb(9, 194, 248)), 0, 0, 500, 500, 180, 180);
+            // eyes
+            //g.FillEllipse(Brushes.Black, 150, 80, 75, 75);
+            //g.FillEllipse(Brushes.Black, 275, 80, 75, 75);
 
-            using var memory = new MemoryStream();
-            bm.Save(memory, ImageFormat.Png);
-            memory.Position = 0;
-            var r = new BitmapImage();
-            r = new BitmapImage();
-            r.BeginInit();
-            r.StreamSource = memory;
-            r.CacheOption = BitmapCacheOption.OnLoad;
-            r.EndInit();
+            for (int i = 0; i < 4; i++)
+            {
+                using var memory = new MemoryStream();
+                bm.Save(memory, ImageFormat.Png);
+                memory.Position = 0;
+                var r = new BitmapImage();
+                r.BeginInit();
+                r.StreamSource = memory;
+                r.CacheOption = BitmapCacheOption.OnLoad;
+                r.EndInit();
 
-            _ellipse = new ImageBrush(r);
+                _ellipses[i] = new ImageBrush(r);
+
+                RotateBitmap(ref bm, 90);
+            }
+
+            bm.Dispose();
         }
     }
 
     #endregion
 
-    /// <summary>
-    /// Redraws the canvas when the zoom property changes
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    #region Event Handlers    
     private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         switch (e.PropertyName)
         {
             case "Zoom":
                 Calculate(_replayWindow?.MapCanvas ?? _simWindow?.MapCanvas ?? throw new System.Exception());
-                Redraw(_replayWindow?.MapCanvas ?? _simWindow!.MapCanvas);
+                Redraw();
                 break;
         }
     }
+
+    private void OnKeyDown(object sender, KeyEventArgs e)
+    {
+        switch (e.Key)
+        {
+            case Key.LeftCtrl:
+            case Key.RightCtrl:
+                _ctrlDown = true;
+                break;
+            case Key.Escape:
+                Current.Shutdown();
+                break;
+            case Key.Space:
+                _viewModel?.Toggle();
+                break;
+
+        }
+    }
+
+    private void OnKeyUp(object sender, KeyEventArgs e)
+    {
+        if (e.Key is Key.LeftCtrl || e.Key is Key.RightCtrl)
+        {
+            _ctrlDown = false;
+        }
+    }
+
+    private void OnMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        if (_ctrlDown)
+        {
+            if (e.Delta > 0)
+                _viewModel!.Zoom *= 1.1;
+            else
+                _viewModel!.Zoom /= 1.1;
+        }
+
+        e.Handled = true;
+    }
+
+    private void OnMouseMove(object sender, MouseEventArgs e)
+    {
+        if (sender is not IInputElement ie) return;
+
+        var p = e.GetPosition(ie);
+
+        if (e.LeftButton is MouseButtonState.Pressed)
+        {
+            if (_simWindow is not null)
+            {
+                _simWindow.ScrollViewer.ScrollToHorizontalOffset(_simWindow.ScrollViewer.HorizontalOffset + (_mousePos.X - p.X));
+                _simWindow.ScrollViewer.ScrollToVerticalOffset(_simWindow.ScrollViewer.VerticalOffset + (_mousePos.Y - p.Y));
+            }
+            else if (_replayWindow is not null)
+            {
+                _replayWindow.ScrollViewer.ScrollToHorizontalOffset(_replayWindow.ScrollViewer.HorizontalOffset + (_mousePos.X - p.X));
+                _replayWindow.ScrollViewer.ScrollToVerticalOffset(_replayWindow.ScrollViewer.VerticalOffset + (_mousePos.Y - p.Y));
+            }
+        }
+
+        _mousePos = p;
+    }
+
+    private void OnManipulationDelta(object? sender, ManipulationDeltaEventArgs e)
+    {
+        // Pinching in
+        if (e.DeltaManipulation.Scale.X < 1.0 || e.DeltaManipulation.Scale.Y < 1.0)
+            _viewModel!.Zoom /= 1.1;
+
+        // Pinching out
+        else if (e.DeltaManipulation.Scale.X > 1.0 || e.DeltaManipulation.Scale.Y > 1.0)
+            _viewModel!.Zoom *= 1.1;
+
+        e.Handled = true;
+    }
+
+    private void OnSizeChanged(Canvas canvas)
+    {
+        Calculate(canvas);
+        Redraw();
+    }
+
+    private void OnLoaded(Window window, Canvas canvas)
+    {
+        Dispatcher.Invoke(() =>
+        {
+            Calculate(canvas);
+            DrawGrid(canvas);
+            InitRobots(canvas);
+            Redraw();
+            window.Cursor = Cursors.Arrow;
+        });
+    }
+    #endregion
 }

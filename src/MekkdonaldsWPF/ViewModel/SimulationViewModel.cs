@@ -1,15 +1,12 @@
-﻿using Mekkdonalds.Persistence;
-using Mekkdonalds.Simulation.Controller;
-
-namespace Mekkdonalds.ViewModel;
+﻿namespace Mekkdonalds.ViewModel;
 
 internal class SimulationViewModel : ViewModel
 {
     private readonly SimulationController SimController;
 
-    public SimulationViewModel(string path) : base()
+    public SimulationViewModel(string path, ControllerType algorithm) : base()
     {
-        Controller = SimController = new(path, new ConfigDataAccess(), new BoardFileDataAccess(), new RobotsDataAccess(), new PackagesDataAccess());
+        Controller = SimController = new(path, SimDataAccess.Instance, algorithm);
 
         SimController.Loaded += (_, _) => OnLoaded(this);
         SimController.Tick += (_, _) => OnTick(this);

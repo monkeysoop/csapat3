@@ -3,22 +3,88 @@ skinparam classAttributeIconSize 0
 
 
 package "View" {
-    class App {}
+    class App {
+        -SIDELENGTH : double {const}
+        -XLength : int
+        -YLength : int
+        -Step : int {readonly}
+        -_simWindow : SimulationWindow?
+        -_replayWindow : ReplayWindow?
+        -_startWindow : StartWindow?
+        -_viewModel : ViewModel?
+        -_ctrlDown : bool
+        -_mousePos : Point
+        -_rectanle : ImageBrush
+        -_ellipses : Ellipse*
+        -_robots : Dictonary<Robot, Grid>
+        -_targets : Dictonary<Robot, Grid>
+        +App()        
+        -OnStartup(sender : object, e : StartupEventArgs)
+        -ReplayButton_Click(sender : object, e : RoutedEventArgs)
+        -SimButton_Click(sender : object, e : RoutedEventArgs)
+        -DisposeStartWindow()
+        -OpenReplay() : bool
+        -OpenSim() : bool
+        {static} -DisplayLoading(w : Window)
+        -Calculate(c : Canvas)
+        -Redraw()
+        -DrawGrid(c : Canvas)
+        -InitRobots(c : Canvas)
+        -DrawElements()
+    }
     class SimulationWindow {}
     class ReplayWindow {}
 }
 
+interface ICommand {}
+interface INotifyPropertyChanged {}
+
 package "ViewModel" {
-    class ViewModelBase <<abstract>> {}
-    class SimulationWindowViewModel {
-        +Play : ICommand
-        +ChangeTarget : ICommand
+
+    ViewModelBase <|-- ViewModel
+    ViewModel <|-- SimulationViewModel
+    ViewModel <|-- ReplayViewModel
+
+    class DelegateCommand {
+        -_execute : Action<object?> {readonly}
+        -_canExecute : Predicate<object?>?
+        +CanExecuteChanged : EventHandler?
+        +Predicate : Predicate<object?>?
+        +DelegateCommand(execute : Action<object?>, canExecute : Predicate<object?>?)
+        +CanExecute(parameter : object?) : bool
+        +Execute(parameter : object?)
+        +RaiseCanExecuteChanged()
     }
-    class ReplayWindowViewModel {
+
+    class ViewModelBase <<abstract>> {
+        +PropertyChanged : PropertyChangedEventHandler?
+        +OnPropertyChanged(propertyName : string?)
+    }
+    class ViewModel {
+        #Controller : Controller
+        -_zoom : double
+        +Width : int {readonly}
+        +Height : int {readonly}
+        +Zoom : double
+        +Robots : Robot* {readonly}
+        +Walls : Wall* {readonly}
+        +Tick : EventHandler?
+        +Loaded : EventHandler?
+        #OnLoaded(sender : object?)
+        #OnTick(sender : object?)
+    }
+    class SimulationViewModel {
+        - SimController : SimulationController
+        +SimulationViewModel(path : string)
+    }
+    class ReplayViewModel {
+        -RepController : ReplayController {readonly}
+        +CurrentTime : int
+        +ReplayLength : int
+        +TimeLabel : string
         +Play : ICommand
         +Pause : ICommand
-        +Resume : ICommand
-        +Jump : ICommand
+        +ReplayViewModel(path : string)
     }
 }
 
@@ -56,72 +122,110 @@ package "Persistence" {
 
 package "Simulation" {    
 
-    class Controller <<abstract>> {}
+    class Controller <<abstract>> {
+        #_robots : Robot*
+        #_walls : Wall*
+        #Timer : Timer
+        -_interval : TimeSpan
+        #_board : Board
+        +Width : int {readonly}
+        +Height : int {readonly}
+        +Robots : Robot* {readonly}
+        +Walls : Wall* {readonly}
+        +Tick : EventHandler?
+        +Loaded : EventHandler?
+        +Controller()
+        #OnTick(state : object?) {abstract}
+        #OnLoaded(sender : object?)
+        #CallTick(sender : object?)
+        +ChangeSpeed(speed : double)
+    }
 
     class ReplayController {}
 
     class SimulationController <<abstract>> {
-        #Board : Board
-        #Robots : Robot*
-        #CalculatedPaths : Dictonary<Robot, Action*>
-        +SimulationController(b : Board, r : Robot*)
-        #CalculatePath() {async, abstract}
-        +MoveRobots() {async?}
-        -Check(i, j : int) : bool
-    }
-    class Replayer {
-        +Robots : Robot*
-        +PlayBackSpeed : int
-        +Scheduler : Timer
-        +TimeStamp : int
-        +Replayer(path : string)
-        +Pause()
-        +Resume()
-        +Jump(t : int)
+        -_pathFinder : IAssigner
+        +SimulationController(path : string)
+        -Load(path : string) {async}
+        -LoadWalls()
+        #OnTick(state : object?) {override}
     }
 
-    class Simulator {
-        +Tasks : Task*
-        +Robots : Robot*
-        +Tick : EventHandler
-        +SumCost : AtomicInteger
-        +SumTime : AtomicInteger
-        +Scheduler : Timer
-        +SimulationEnded : EventHandler
-        +Simulator(path : string)
-        +ChangeTarget(r : Robot, t : Point)
-        -OnTick(sender : object?, e : EventArgs)
+    SimulationController "1" *-- "-_assigner" IAssigner
+
+    class PathFinder <<abstract>> {
+        ~CalculatePath(board : Board, start : Point, direction : int, end : Point) : bool x Action*
+        {static}-TracePath(parents : int[], width : int, start : Point, end : Point) : Action*
+        #FindPath(board : Board, start : Point, direction : int, end : Point) : bool x int[] {abstract}
+        {static}#ManhatteanDistance(start : Point, end : Point) : int
+        {static}#MaxTurnsRequired(start : Point, direction : Point, end : Point) : int
     }
 
-    class DFSController {}
+    class DFS {
+        #FindPath(board : Board, start : Point, direction : int, end : Point) : bool x int[] {override}
+    }
 
-    interface IMapObject {}
+    class BFS {
+        #FindPath(board : Board, start : Point, direction : int, end : Point) : bool x int[] {override}
+    }
 
-    class Wall {}
+    class Astar {
+        {static}-HeapInsert(heap : Step[], length : int, item : Step)
+        {static}-HeapRemove(heap : Step[], length : int) : Step
+        #FindPath(board : Board, start : Point, direction : int, end : Point) : bool x int[] {override}
+    }
+
+    interface IAssigner {
+        +Init(type : ControllerType, board : Board, robots : Robot*, packages : Package*)
+        +Step()
+    }
+
+    Assigner "1" *-- "-_pathFinder" PathFinder
+    Assigner "0..*" o-- "-_robots" Robot
+
+    class Assigner {
+        -_packages : Queue<Package>
+        -Paths : Dictionary<Robot, Path>
+        -_board : Board
+        +Init(type : ControllerType, board : Board, robots : Robot*, packages : Package*)
+        +Step()
+        -Assign(r : Robot)
+    }
+
+    class Wall {
+        +Position : Point {readonly}
+        +Wall(x : Point)
+    }
 
     class Robot {
+        {static}-IDCounter : int
         +Id : int {readonly}
         +Start : Point {readonly}
         +Position : Point
         +Direction : Direction
-        +Task : Task
-        +History : Action*
-        +Robot(x, y, i, j : int, wh : Simulator)
-        +Robot(x, y, i, j : int, wh : Replayer)
+        +Task : Package?
+        +History : Action* {readonly}
+        +Robot(position : Point, direction : Direction)
         +Step(a : Action)
-        +Jump(t: int)
-        +Assign(task : Task)
-        +ChangeTarget()
+        +AddTask(p : Point?)
     }
 
-    class Task {
-        +Id : int {readonly}
-        +Goal : Point {readonly}
-        +Assigned : bool {readonly}
-        +Robot : Robot? {readonly}
-        ~Assign(r : Robot)
-        ~Unassign()
+    Robot "0..*" o-- "-_history" Action
+
+    class Package {        
+        +Postition : Point {readonly}
+        +Package(p : Point)
     }
+
+    class Path {
+        -_ind : int
+        +Target : Point {readonly}
+        +IsOver : bool {readonly}
+        ~Next() : Action
+        ~this[int i] : Action {operator}
+    }
+
+    Path "0..*" o-- "-l" Action
 
     enum Action {
         F, R, C, W, T
@@ -132,26 +236,6 @@ package "Simulation" {
 
         {static}+ClockWise() : Direction {extension}
         {static}+CounterClockWise() : Direction {extension}
-    }
-
-    class Event <<abstract>> {
-        +TaskId : int
-        +Step : int
-    }
-    
-    class AssignmentEvent {
-        +ToString() : string {override}
-    }
-
-    class FinishedEvent {
-        +ToString() : string {override}
-    }
-
-    class Error {
-        +R1Id : int {readonly}
-        +R2Id : int {readonly}
-        +Step : int {readonly}
-        +Type : string {readonly}
     }
 }
 
@@ -165,40 +249,21 @@ package "Tests" {
 App o-- SimulationWindow
 App o-- ReplayWindow
 
-ViewModelBase <|-up- SimulationWindowViewModel
-ViewModelBase <|-up- ReplayWindowViewModel
+ICommand <|-- DelegateCommand
+INotifyPropertyChanged <|-- ViewModelBase
 
-SimulationWindow o-- SimulationWindowViewModel
-ReplayWindow o-- ReplayWindowViewModel
+ReplayViewModel -- DelegateCommand
 
-SimulationWindowViewModel o-down- Simulator
-ReplayWindowViewModel o-down- Replayer
-
-Simulator -right- SimulationTests : tests <
-Replayer -right- ReplayTests : tests <
-Robot -right- BotTests : tests <
-
-Simulator o-up- Config
-Simulator o-up- Board
-Simulator o-up- LogFile
-
-Replayer o-up- LogFile
-
-IMapObject <|-up- Wall
-IMapObject <|-- Robot
-IMapObject <|-- Task
-
-Event <|-down- AssignmentEvent
-Event <|-down- FinishedEvent
+SimulationWindow o-- SimulationViewModel
+ReplayWindow o-- ReplayViewModel
 
 Controller <|-down- SimulationController
 Controller <|-down- ReplayController
-SimulationController <|-down- DFSController
 
-Simulator -- SimulationController
-Replayer -- SimulationController
+IAssigner <|-- Assigner
 
-SimulationController -- Robot : > controls
-ReplayController -- Robot : > controls
+PathFinder <|-- DFS
+PathFinder <|-- BFS
+PathFinder <|-- Astar
 
 @enduml

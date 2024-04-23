@@ -7,17 +7,42 @@
         xmlns:viewmodel="clr-namespace:Mekkdonalds.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:SimulationViewModel}"
         mc:Ignorable="d"
         Title="Mekkdonalds" Width="1540" Height="800">
+    <Window.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+    </Window.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="80*"/>
-            <ColumnDefinition Width="20*"/>
-        </Grid.ColumnDefinitions>
-        <ScrollViewer x:Name="ScrollViewer" Grid.Column="0" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
-            <Canvas x:Name="MapCanvas" Margin="5,5,5,5"/>            
-        </ScrollViewer>
-        <Grid Grid.Column="1">
-            <Slider Value="{Binding Zoom}" Minimum="0.1" Maximum="3" VerticalAlignment="Bottom" Margin="10,0,45,5"/>
-            <Label Content="{Binding ZoomLabel}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80*"/>
+                <ColumnDefinition Width="20*"/>
+            </Grid.ColumnDefinitions>
+            <ScrollViewer x:Name="ScrollViewer" Grid.Column="0" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" PanningMode="Both">
+                <Canvas x:Name="MapCanvas" Margin="5,5,5,5"/>
+            </ScrollViewer>
+            <Grid Grid.Column="1">
+                <Label Content="{Binding ZoomLabel}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Button Width="35" Height="35" Margin="10,0,0,0" HorizontalAlignment="Left"
+                    Command="{Binding Play}" Style="{StaticResource ButtonStyle}"
+                    Content="▶" FontSize="20"
+                    />
+            <Button Width="35" Height="35" Margin="50,0,0,0" HorizontalAlignment="Left"
+                    Command="{Binding Pause}" Style="{StaticResource ButtonStyle}"
+                    Content="❚❚" FontSize="20"
+                    />
+            <Button Width="35" Height="35" Margin="90,0,0,0" HorizontalAlignment="Left"
+                    Command="{Binding Forward}" FontWeight="Bold" Style="{StaticResource ButtonStyle}"
+                    Content="↻" FontSize="25"
+                    />
         </Grid>
     </Grid>
 </Window>

@@ -1,0 +1,8 @@
+{
+  "mapFile": "maps/mouse_17_17.map",
+  "agentFile": "agents/mouse_20.agents",
+  "teamSize": 20,
+  "taskFile": "tasks/mouse_75.tasks",
+  "numTasksReveal": 1,
+  "taskAssignmentStrategy": "roundrobin"
+}

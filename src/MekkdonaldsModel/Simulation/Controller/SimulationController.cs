@@ -1,53 +1,65 @@
-﻿namespace Mekkdonalds.Simulation.Controller;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Mekkdonalds.Simulation.Controller;
 
 public sealed class SimulationController : Controller
 {
 #pragma warning disable CA1859
     private readonly IAssigner _pathFinder;
 #pragma warning restore
+    [NotNull]
+    private Logger _logger;
+    private readonly ILogFileDataAccess _logFileDataAccess;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="path">Path of the config file</param>
-    /// <param name="ca"></param>
-    /// <param name="ba"></param>
-    /// <param name="ra"></param>
-    /// <param name="pa"></param>
-    public SimulationController(string path, IConfigDataAccess ca, IBoardDataAccess ba, IRobotsDataAccess ra, IPackagesDataAccess pa)
+    public SimulationController(string path, ISimDataAccess da, ControllerType algorithm)
     {
         _pathFinder = new Assigner.Assigner();
-        Load(path, ca, ba, ra, pa);
+        Load(path, da, algorithm);
+
+        _logFileDataAccess = da.LDA;
+
+        _pathFinder.Ended += OnEnded;
     }
 
-    private async void Load(string path, IConfigDataAccess da, IBoardDataAccess ba, IRobotsDataAccess ra, IPackagesDataAccess pa)
+    private void OnEnded(object? sender, EventArgs e)
     {
-        var config = await da.Load(path);
+        Timer.Change(Timeout.Infinite, Timeout.Infinite);
 
-        var b = await ba.LoadAsync(config.MapFile);
-        _board = b; // for some reason it only sets board this way ????????
-
-        _robots.AddRange(await ra.LoadAsync(config.AgentFile, _board.Width - 2, _board.Height - 2));
-
-        _pathFinder.Init(ControllerType.BFS, b, _robots, await pa.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2));
-
-        LoadWalls();
-
-        OnLoaded(this);
+        SaveLog();
     }
 
-    private void LoadWalls()
+    private async void Load(string path, ISimDataAccess da, ControllerType algorithm)
     {
-        for (int y = 0; y < _board.Height; y++)
+        await Task.Run(async () =>
         {
-            for (int x = 0; x < _board.Width; x++)
-            {
-                if (_board.GetValue(x, y) is Board.WALL)
-                {
-                    _walls.Add(new(x, y));
-                }
-            }
-        }
+            var config = await da.CDA.Load(path);
+
+            _logger = new Logger(config.MapFile.Split('/')[^1].Replace(".map", ""));
+
+            var b = await da.BDA.LoadAsync(config.MapFile);
+            _board = b; // for some reason it only sets board this way ????????
+
+            _robots.AddRange(await da.RDA.LoadAsync(config.AgentFile, _board.Width - 2, _board.Height - 2));
+            _logger.LogStarts(_robots);
+
+            var tasks = await da.PDA.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2);
+            _logger.LogTasks(tasks);
+
+            _pathFinder.Init(algorithm, b, _robots, tasks, _logger);
+
+            LoadWalls();
+
+            OnLoaded(this);
+        });
+    }
+
+    private async void SaveLog()
+    {
+        _logger.LogActualPaths(_robots);
+
+        _logger.LogReplayLength(_pathFinder.TimeStamp + 1);
+
+        await _logger.SaveAsync(_logFileDataAccess);
     }
 
     protected override void OnTick(object? state)
@@ -55,5 +67,10 @@ public sealed class SimulationController : Controller
         _pathFinder.Step();
 
         CallTick(this);
+    }
+
+    public override void StepForward()
+    {
+        if (!IsPlaying) OnTick(null);
     }
 }

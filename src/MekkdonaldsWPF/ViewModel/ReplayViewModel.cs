@@ -1,42 +1,27 @@
-﻿using Mekkdonalds.Simulation.Controller;
-
-namespace Mekkdonalds.ViewModel;
+﻿namespace Mekkdonalds.ViewModel;
 
 internal class ReplayViewModel : ViewModel
 {
     private readonly ReplayController RepController;
     private int _currentTime;
-    private int _replayLength;
 
     #region Properties
 
     public int CurrentTime
     {
-        get => _currentTime;
+        get => RepController.TimeStamp;
         set
         {
-            if (_currentTime != value)
+            if (CurrentTime != value)
             {
-                _currentTime = value;
+                RepController.JumpTo(value);
                 OnPropertyChanged(nameof(CurrentTime));
                 OnPropertyChanged(nameof(TimeLabel)); 
             }
         }
     }
 
-    public int ReplayLength
-    {
-        get => _replayLength;
-        private set
-        {
-            if (_replayLength != value)
-            {
-                _replayLength = value;
-                OnPropertyChanged(nameof(ReplayLength));
-                OnPropertyChanged(nameof(TimeLabel));
-            }
-        }
-    }
+    public int ReplayLength => RepController.Length;
 
     public string TimeLabel
     {
@@ -56,22 +41,38 @@ internal class ReplayViewModel : ViewModel
 
     #region Commands
 
-    public ICommand Play { get; }
-    public ICommand Pause { get; }
+    public ICommand Backward { get; }
 
     #endregion
 
-    public ReplayViewModel(string logPath)
+    public ReplayViewModel(string logPath, string mapPath)
     {
-        Controller = RepController = new ReplayController(logPath, "");
+        var da = new ReplayDataAccess()
+        {
+            BDA = new BoardFileDataAccess(),
+            LDA = new LogFileDataAccess()
+        };
 
-        Controller.Tick += (_, _) => OnTick(this);
+        Controller = RepController = new ReplayController(logPath, mapPath, da);
 
-        ReplayLength = 180;
+        RepController.Tick += OnTick;
+        RepController.Loaded += OnLoaded;
 
-        Play = new DelegateCommand(_ => { });
-        Pause = new DelegateCommand(_ => { });
+        Backward = new DelegateCommand(_ => RepController.StepBackward());
+    }
 
-        Zoom = 2;
+    private void OnLoaded(object? sender, EventArgs e)
+    {
+        OnPropertyChanged(nameof(CurrentTime));
+        OnPropertyChanged(nameof(ReplayLength));
+        OnPropertyChanged(nameof(TimeLabel));
+        OnLoaded(this);
+    }
+
+    private void OnTick(object? sender, EventArgs e)
+    {
+        OnPropertyChanged(nameof(CurrentTime));
+        OnPropertyChanged(nameof(TimeLabel));
+        OnTick(this);
     }
 }

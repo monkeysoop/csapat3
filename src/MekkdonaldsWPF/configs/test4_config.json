@@ -1,0 +1,8 @@
+{
+  "mapFile": "maps/test4.map",
+  "agentFile": "agents/test4.agents",
+  "teamSize": 1,
+  "taskFile": "tasks/test4.tasks",
+  "numTasksReveal": 10,
+  "taskAssignmentStrategy": "roundrobin"
+}

@@ -18,8 +18,26 @@ public static class DirectionMethods
     ];
 
     public static Point GetOffset(this Direction direction) => position_offsets[(int)direction];
+
     public static Point GetNewOffsetPoint(this Direction direction, Point point) => new Point(point.X + position_offsets[(int)direction].X, point.Y + position_offsets[(int)direction].Y);
+
     public static Direction ClockWise(this Direction original) => (Direction)(((int)original + 1) % 4);
 
     public static Direction CounterClockWise(this Direction original) => (Direction)((3 + (int)original) % 4);
+
+    public static Direction Opposite(this Direction original) => (Direction)((2 + (int)original) % 4);
+
+    public static Direction StringToDirection(string original)
+    {
+        return original switch
+        {
+            "N" => Direction.North,
+            "E" => Direction.East,
+            "S" => Direction.South,
+            "W" => Direction.West,
+            _ => throw new ArgumentException(),
+        };
+    }
+
+
 }
