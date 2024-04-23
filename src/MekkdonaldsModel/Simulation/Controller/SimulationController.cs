@@ -53,7 +53,7 @@ public sealed class SimulationController : Controller
         });
     }
 
-    private async void SaveLog()
+    public async void SaveLog()
     {
         _logger.LogActualPaths(_robots);
 

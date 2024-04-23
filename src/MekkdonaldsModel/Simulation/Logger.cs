@@ -44,7 +44,11 @@ public class Logger
     /// Logs the paths actually taken by the robots based on their history
     /// </summary>
     /// <param name="robots">List of robots</param>
-    public void LogActualPaths(IEnumerable<Robot> robots) => _logFile.ActualPaths.AddRange(robots.Select(r => r.History.ToList()));
+    public void LogActualPaths(IEnumerable<Robot> robots)
+    {
+        _logFile.ActualPaths.ForEach(x => x.Clear());
+        _logFile.ActualPaths.AddRange(robots.Select(r => r.History.ToList()));
+    }
 
     /// <summary>
     /// Logs the planned path to the currently assigned task

@@ -27,6 +27,7 @@
                 <Canvas x:Name="MapCanvas" Margin="5,5,5,5"/>
             </ScrollViewer>
             <Grid Grid.Column="1">
+                <Button Margin="50,0,50,0" Height="40" Content="Save log"/>
                 <Label Content="{Binding ZoomLabel}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,0"/>
             </Grid>
         </Grid>

@@ -2,13 +2,17 @@
 
 internal class SimulationViewModel : ViewModel
 {
-    private readonly SimulationController SimController;
+    private readonly SimulationController SimulationController;
+
+    public ICommand LogSave { get; }
 
     public SimulationViewModel(string path, ControllerType algorithm) : base()
     {
-        Controller = SimController = new(path, SimDataAccess.Instance, algorithm);
+        Controller = SimulationController = new(path, SimDataAccess.Instance, algorithm);
 
-        SimController.Loaded += (_, _) => OnLoaded(this);
-        SimController.Tick += (_, _) => OnTick(this);
+        SimulationController.Loaded += (_, _) => OnLoaded(this);
+        SimulationController.Tick += (_, _) => OnTick(this);
+
+        LogSave = new DelegateCommand(_ => SimulationController.SaveLog());
     }
 }
