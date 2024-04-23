@@ -32,7 +32,7 @@ public sealed class SimulationController : Controller
     {
         await Task.Run(async () =>
         {
-            var config = await da.CDA.Load(path);
+            var config = await da.CDA.LoadAsync(path);
 
             _logger = new Logger(config.MapFile.Split('/')[^1].Replace(".map", ""));
 
