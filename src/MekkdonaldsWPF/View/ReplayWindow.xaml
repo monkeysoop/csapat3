@@ -123,7 +123,8 @@
                     Content="↻" FontSize="25" FontWeight="Bold"
                     />
             <Slider Margin="170,0,100,0" VerticalAlignment="Center" Value="{Binding CurrentTime}" Maximum="{Binding ReplayLength}" Style="{StaticResource Horizontal_Slider}"/>
-            <Label Content="{Binding TimeLabel}" VerticalAlignment="Center" HorizontalAlignment="Right" Width="80" HorizontalContentAlignment="Right" Margin="0,0,10,0"/>
+            <TextBox VerticalAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Width="40" Margin="0,0,50,0" Text="{Binding TimeLabel, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="{Binding LengthLabel}" VerticalAlignment="Center" HorizontalAlignment="Right" Width="40" HorizontalContentAlignment="Right" Margin="0,0,10,0"/>
         </Grid>
     </Grid>
 </Window>

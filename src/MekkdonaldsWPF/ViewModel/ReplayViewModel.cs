@@ -3,7 +3,6 @@
 internal class ReplayViewModel : ViewModel
 {
     private readonly ReplayController RepController;
-    private int _currentTime;
 
     #region Properties
 
@@ -25,17 +24,32 @@ internal class ReplayViewModel : ViewModel
 
     public string TimeLabel
     {
-        get
+        get => CurrentTime.ToString();
+        set
         {
-            var m = CurrentTime / 60;
-            var s = CurrentTime % 60;
-
-            var mm = ReplayLength / 60;
-            var ms = ReplayLength % 60;
-
-            return $"{(m < 10 ? "0" : "")}{m}:{(s < 10 ? "0" : "")}{s}/{(mm < 10 ? "0" : "")}{mm}:{(ms < 10 ? "0" : "")}{ms}";
+            if (int.TryParse(value, out var time))
+            {
+                if (time < 0)
+                {
+                    CurrentTime = 0;
+                }
+                else if (time > ReplayLength)
+                {
+                    CurrentTime = ReplayLength;
+                }
+                else if (time != CurrentTime)
+                {
+                    CurrentTime = time;
+                }
+            }
+            else
+            {
+                OnPropertyChanged(nameof(TimeLabel));
+            }
         }
     }
+
+    public string LengthLabel => $"/{ReplayLength}";
 
     #endregion
 
@@ -65,6 +79,7 @@ internal class ReplayViewModel : ViewModel
     {
         OnPropertyChanged(nameof(CurrentTime));
         OnPropertyChanged(nameof(ReplayLength));
+        OnPropertyChanged(nameof(LengthLabel));
         OnPropertyChanged(nameof(TimeLabel));
         OnLoaded(this);
     }
