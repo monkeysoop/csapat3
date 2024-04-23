@@ -2,18 +2,33 @@
 
 public sealed class SimulationController : Controller
 {
-    private Assigner.Assigner? _pathFinder;
+    private Assigner.Assigner? _assigner;
+
+    private readonly ConcurrentDictionary<Robot, Path> _paths = [];
+    private readonly PathFinder _pathFinder = new Astar();
 
     private Logger _logger;
     private readonly ILogFileDataAccess _logFileDataAccess;
 
-    public SimulationController(string path, ISimDataAccess da, ControllerType algorithm, Type type)
+    private int cost_counter = 0;
+    public int TimeStamp { get { return cost_counter; } }
+
+
+    public SimulationController(string path, ISimDataAccess da, ControllerType algorithm, Type assigner)
     {
-        Load(path, da, algorithm, type);
+        Load(path, da, algorithm, assigner);
 
         _logFileDataAccess = da.LDA;
 
         _logger = new Logger("default");
+
+        _pathFinder = algorithm switch
+        {
+            ControllerType.Astar => new Astar(),
+            ControllerType.BFS => new BFS(),
+            ControllerType.DFS => new DFS(),
+            _ => throw new NotImplementedException()
+        };
     }
 
     private void OnEnded(object? sender, EventArgs e)
@@ -23,7 +38,7 @@ public sealed class SimulationController : Controller
         SaveLog();
     }
 
-    private async void Load(string path, ISimDataAccess da, ControllerType algorithm, Type type)
+    private async void Load(string path, ISimDataAccess da, ControllerType algorithm, Type assigner)
     {
         await Task.Run(async () =>
         {
@@ -40,18 +55,23 @@ public sealed class SimulationController : Controller
             var tasks = await da.PDA.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2);
             _logger.LogTasks(tasks);
 
-            if (!type.IsSubclassOf(typeof(Assigner.Assigner)))
+            if (!assigner.IsSubclassOf(typeof(Assigner.Assigner)))
             {
-                throw new ArgumentException("Type must be a subclass of Assigner", nameof(type));
+                throw new ArgumentException("Type must be a subclass of Assigner", nameof(assigner));
             }
 
-            if (type.GetConstructor([typeof(ControllerType), typeof(Board), typeof(IEnumerable<Package>), typeof(IEnumerable<Robot>)]) is null)
+            if (assigner.GetConstructor([typeof(ControllerType), typeof(Board), typeof(IEnumerable<Package>), typeof(IEnumerable<Robot>)]) is null)
             {
-                throw new ArgumentException("Type must have a constructor with a single string parameter", nameof(type));
+                throw new ArgumentException("Type must have a constructor with a single string parameter", nameof(assigner));
             }
 
-            _pathFinder = (Assigner.Assigner)Activator.CreateInstance(type, algorithm, b, tasks, _robots, _logger)!;
-            _pathFinder.Ended += OnEnded;
+            _assigner = (Assigner.Assigner)Activator.CreateInstance(assigner, algorithm, b, tasks, _robots)!;
+            _assigner.Ended += OnEnded;
+
+            foreach (var r in _robots)
+            {
+                Assign(r);
+            }
 
             LoadWalls();
 
@@ -63,14 +83,14 @@ public sealed class SimulationController : Controller
     {
         _logger.LogActualPaths(_robots);
 
-        _logger.LogReplayLength(_pathFinder.TimeStamp + 1);
+        _logger.LogReplayLength(_assigner.TimeStamp + 1);
 
         await _logger.SaveAsync(_logFileDataAccess);
     }
 
     protected override void OnTick(object? state)
     {
-        _pathFinder.Step();
+        Step();
 
         CallTick(this);
     }
@@ -78,5 +98,138 @@ public sealed class SimulationController : Controller
     public override void StepForward()
     {
         if (!IsPlaying) OnTick(null);
+    }
+
+    private void Step()
+    {
+        lock (_board)
+        {
+            if (_assigner!.NoPackage && _paths.All(x => x.Value.IsOver))
+            {
+                foreach (var robot in _robots.Where(r => r.Task is not null))
+                {
+                    robot.RemoveTask();
+                }
+
+                OnEnded(this, EventArgs.Empty);
+                return;
+            }
+
+            foreach (Robot robot in _robots)
+            {
+                if (!_paths.TryGetValue(robot, out Path? path))
+                {
+                    // sometimes this is caused by pathfinding taking too long and it times out
+                    throw new System.Exception("");
+                }
+
+                if (path is null)
+                {
+                    throw new System.Exception("");
+                }
+
+                if (path.IsOver)
+                {
+                    if (robot.Task != null)
+                    {
+                        _logger.LogPlannerPaths(robot.ID, path);
+                        _logger.LogFinish(robot.ID, robot.Task!.ID, TimeStamp);
+                    }
+
+                    if (!_paths.TryRemove(robot, out var _))
+                    {
+                        throw new System.Exception("");
+                    }
+
+                    path = Assign(robot);
+                }
+
+                if (!path.IsOver)
+                {
+                    Action action = path.PeekNext();
+
+                    if (robot.TryStep(action, _board, cost_counter))
+                    {
+                        path.Increment();
+                    }
+                    else
+                    {
+                        Free(robot, path);
+                        _board.Reserve(robot.Position, cost_counter + 1);
+                    }
+                }
+                else
+                {
+                    // this could happen if the next task is at the same position as the robot which is assigned to
+                    _board.UnReserve(robot.Position, cost_counter);
+                }
+            }
+
+            cost_counter++;
+        }
+    }
+
+    private Path Assign(Robot robot)
+    {
+        Package? task = null;
+        Point? task_pos = null;
+        bool found;
+        List<Action> actions = [Action.W];
+
+        if (_assigner!.Peek(out Package? package))
+        {
+            (found, actions) = _pathFinder.CalculatePath(_board, robot.Position, (int)robot.Direction, package.Position, cost_counter);
+
+            if (found)
+            {
+                task = package;
+                task_pos = package.Position;
+                _assigner.Get(out _);
+                _logger.LogAssignment(robot.ID, package.ID, TimeStamp);
+            }
+            else
+            {
+                _board.Reserve(robot.Position, cost_counter + 1);
+            }
+
+        }
+        else
+        {
+            // no package
+            _board.Reserve(robot.Position, cost_counter + 1);
+        }
+
+        robot.AddTask(task);
+
+        Path path = new(actions, task_pos);
+
+        if (!_paths.TryAdd(robot, path))
+        {
+            throw new System.Exception("");
+        }
+
+        return path;
+    }
+
+    private void Free(Robot robot, Path path)
+    {
+        if (!path.FreeAllReserved(_board, robot.Position, robot.Direction, cost_counter))
+        {
+            throw new System.Exception("");
+        }
+
+        if (!_paths.TryRemove(robot, out var _))
+        {
+            throw new System.Exception("");
+        }
+
+        if (!_paths.TryAdd(robot, new Path([], null)))
+        {
+            throw new System.Exception("");
+        }
+
+        Package package = robot.RemoveTask();
+
+        _assigner!.Return(package);
     }
 }

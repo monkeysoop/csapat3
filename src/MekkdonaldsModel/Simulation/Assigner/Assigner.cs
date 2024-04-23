@@ -1,20 +1,19 @@
 ﻿namespace Mekkdonalds.Simulation.Assigner;
 
-public abstract class Assigner
+public abstract class Assigner(ControllerType type, Board board, IEnumerable<Package> packages, IEnumerable<Robot> robots)
 {
-    protected readonly IEnumerable<Package> _packages;
-    protected Board _board;
+    protected readonly IEnumerable<Package> _packages = packages;
+    protected readonly IEnumerable<Robot> _robots = robots;
+    protected Board _board = board;
 
-    protected Assigner(ControllerType type, Board board, IEnumerable<Package> packages, IEnumerable<Robot> robots)
-    {
-        _board = board;
-        _packages = new ConcurrentQueue<Package>(packages);
-        TimeStamp = 0;
-    }
-
-    public int TimeStamp { get; }
+    public virtual bool NoPackage { get; }
+    public int TimeStamp { get; } = 0;
     public event EventHandler? Ended;
-    public abstract void Step();
+
+    public abstract bool Peek(out Package? package);
+    public abstract void Get(out Package? package);
+
+    public virtual void Return(Package package) { }
 
     protected void CallEnded(object? caller, EventArgs e) => Ended?.Invoke(caller, e);
 }
