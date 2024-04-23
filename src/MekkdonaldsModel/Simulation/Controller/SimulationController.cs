@@ -1,24 +1,19 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace Mekkdonalds.Simulation.Controller;
+﻿namespace Mekkdonalds.Simulation.Controller;
 
 public sealed class SimulationController : Controller
 {
-#pragma warning disable CA1859
-    private readonly IAssigner _pathFinder;
-#pragma warning restore
-    [NotNull]
+    private Assigner.Assigner? _pathFinder;
+
     private Logger _logger;
     private readonly ILogFileDataAccess _logFileDataAccess;
 
-    public SimulationController(string path, ISimDataAccess da, ControllerType algorithm)
+    public SimulationController(string path, ISimDataAccess da, ControllerType algorithm, Type type)
     {
-        _pathFinder = new Assigner.Assigner();
-        Load(path, da, algorithm);
+        Load(path, da, algorithm, type);
 
         _logFileDataAccess = da.LDA;
 
-        _pathFinder.Ended += OnEnded;
+        _logger = new Logger("default");
     }
 
     private void OnEnded(object? sender, EventArgs e)
@@ -28,7 +23,7 @@ public sealed class SimulationController : Controller
         SaveLog();
     }
 
-    private async void Load(string path, ISimDataAccess da, ControllerType algorithm)
+    private async void Load(string path, ISimDataAccess da, ControllerType algorithm, Type type)
     {
         await Task.Run(async () =>
         {
@@ -45,7 +40,18 @@ public sealed class SimulationController : Controller
             var tasks = await da.PDA.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2);
             _logger.LogTasks(tasks);
 
-            _pathFinder.Init(algorithm, b, _robots, tasks, _logger);
+            if (!type.IsSubclassOf(typeof(Assigner.Assigner)))
+            {
+                throw new ArgumentException("Type must be a subclass of Assigner", nameof(type));
+            }
+
+            if (type.GetConstructor([typeof(ControllerType), typeof(Board), typeof(IEnumerable<Package>), typeof(IEnumerable<Robot>)]) is null)
+            {
+                throw new ArgumentException("Type must have a constructor with a single string parameter", nameof(type));
+            }
+
+            _pathFinder = (Assigner.Assigner)Activator.CreateInstance(type, algorithm, b, tasks, _robots, _logger)!;
+            _pathFinder.Ended += OnEnded;
 
             LoadWalls();
 
@@ -53,7 +59,7 @@ public sealed class SimulationController : Controller
         });
     }
 
-    private async void SaveLog()
+    public async void SaveLog()
     {
         _logger.LogActualPaths(_robots);
 
