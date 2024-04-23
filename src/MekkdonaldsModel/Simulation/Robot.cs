@@ -123,4 +123,9 @@ public sealed class Robot(Point position, Direction direction)
                 throw new System.Exception("");
         }
     }
+
+    public static void ResetIDCounter()
+    {
+        IDCounter = 1;
+    }
 }

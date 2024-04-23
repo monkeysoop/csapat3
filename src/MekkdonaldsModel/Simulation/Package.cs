@@ -9,4 +9,9 @@ public sealed class Package(Point p)
     public Point Position { get; } = p;
 
     public Package(int x, int y) : this(new Point(x, y)) { }
+
+    public static void ResetIDCounter()
+    {
+        IDCounter = 1;
+    }
 }
