@@ -4,6 +4,7 @@ public class Logger
 {
     private readonly LogFile _logFile;
     private readonly string _fileName;
+
     public Logger(string mapName)
     {
         _logFile = LogFile.New;
@@ -34,6 +35,7 @@ public class Logger
         if (_logFile.Start.Count > 0) throw new InvalidOperationException("Starts have already been set");
 
         _logFile.Start.AddRange(robots.Select(r => (r.Position, r.Direction)));
+        _logFile.TeamSize = _logFile.Start.Count;
         _logFile.Events.AddRange(robots.Select(r => new List<(int, int, string)>()));
         _logFile.PlannerPaths.AddRange(robots.Select(r => new List<Action>()));
     }
