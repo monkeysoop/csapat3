@@ -1,6 +1,8 @@
-﻿namespace Mekkdonalds.Simulation.Assigner;
+﻿using System.Diagnostics.CodeAnalysis;
 
-public abstract class Assigner(ControllerType type, Board board, IEnumerable<Package> packages, IEnumerable<Robot> robots)
+namespace Mekkdonalds.Simulation.Assigner;
+
+public abstract class Assigner(Board board, IEnumerable<Package> packages, IEnumerable<Robot> robots)
 {
     protected readonly IEnumerable<Package> _packages = packages;
     protected readonly IEnumerable<Robot> _robots = robots;
@@ -10,8 +12,8 @@ public abstract class Assigner(ControllerType type, Board board, IEnumerable<Pac
     public int TimeStamp { get; } = 0;
     public event EventHandler? Ended;
 
-    public abstract bool Peek(out Package? package);
-    public abstract void Get(out Package? package);
+    public abstract bool Peek([MaybeNullWhen(false)] out Package package);
+    public abstract bool Get([MaybeNullWhen(false)] out Package package);
 
     public virtual void Return(Package package) { }
 

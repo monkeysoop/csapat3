@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Simulation.PathFinding;
 
-internal abstract class PathFinder
+public abstract class PathFinder
 {
     protected static readonly Point[] nexts_offsets = [
         new(0, -1),
@@ -9,7 +9,7 @@ internal abstract class PathFinder
         new(-1, 0)
     ];
 
-    internal (bool, List<Action>) CalculatePath(Board board, Point start_position, int start_direction, Point end_position, int start_cost)
+    public (bool, List<Action>) CalculatePath(Board board, Point start_position, int start_direction, Point end_position, int start_cost)
     {
         bool found;
         int[] parents_data;

@@ -1,4 +1,6 @@
-﻿namespace Mekkdonalds;
+﻿using Mekkdonalds.Simulation.PathFinding;
+
+namespace Mekkdonalds;
 
 /// <summary>
 /// Interaction logic for App.xaml
@@ -144,12 +146,12 @@ public partial class App : Application
 
         if (fd.ShowDialog() is false) return false;
 
-        var algorithm = ControllerType.Astar;
+        var algorithm = typeof(Astar);
         
         var configFile = fd.FileName;
 
-        if (_startWindow!.BFS.IsChecked!.Value) algorithm = ControllerType.BFS;
-        else if (_startWindow.DFS.IsChecked!.Value) algorithm = ControllerType.DFS;
+        if (_startWindow!.BFS.IsChecked!.Value) algorithm = typeof(BFS);
+        else if (_startWindow.DFS.IsChecked!.Value) algorithm = typeof(DFS);
 
         _viewModel = new SimulationViewModel(configFile, algorithm);
 

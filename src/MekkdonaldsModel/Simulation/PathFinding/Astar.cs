@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Simulation.PathFinding;
 
-internal sealed class Astar : PathFinder
+public sealed class Astar : PathFinder
 {
     protected override (bool, int[], int[]) FindPath(Board board, Point start_position, int start_direction, Point end_position, int start_cost)
     {

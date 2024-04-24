@@ -14,21 +14,25 @@ public sealed class SimulationController : Controller
     public int TimeStamp { get { return cost_counter; } }
 
 
-    public SimulationController(string path, ISimDataAccess da, ControllerType algorithm, Type assigner)
+    public SimulationController(string path, ISimDataAccess da, Type assigner, Type pathfinder)
     {
-        Load(path, da, algorithm, assigner);
+        _logger = new Logger("default");
+
+        Load(path, da, assigner);
 
         _logFileDataAccess = da.LDA;
 
-        _logger = new Logger("default");
-
-        _pathFinder = algorithm switch
+        if (!pathfinder.IsSubclassOf(typeof(PathFinder)))
         {
-            ControllerType.Astar => new Astar(),
-            ControllerType.BFS => new BFS(),
-            ControllerType.DFS => new DFS(),
-            _ => throw new NotImplementedException()
-        };
+            throw new ArgumentException("Type must be a subclass of PathFinder", nameof(pathfinder));
+        }
+
+        if (pathfinder.GetConstructor([]) is null)
+        {
+            throw new ArgumentException("Type must have a constructor parameter without parameters", nameof(pathfinder));
+        }
+
+        _pathFinder = (PathFinder)Activator.CreateInstance(pathfinder)!;
     }
 
     private void OnEnded(object? sender, EventArgs e)
@@ -38,7 +42,7 @@ public sealed class SimulationController : Controller
         SaveLog();
     }
 
-    private async void Load(string path, ISimDataAccess da, ControllerType algorithm, Type assigner)
+    private async void Load(string path, ISimDataAccess da, Type assigner)
     {
         await Task.Run(async () =>
         {
@@ -60,18 +64,15 @@ public sealed class SimulationController : Controller
                 throw new ArgumentException("Type must be a subclass of Assigner", nameof(assigner));
             }
 
-            if (assigner.GetConstructor([typeof(ControllerType), typeof(Board), typeof(IEnumerable<Package>), typeof(IEnumerable<Robot>)]) is null)
+            if (assigner.GetConstructor([typeof(Board), typeof(IEnumerable<Package>), typeof(IEnumerable<Robot>)]) is null)
             {
-                throw new ArgumentException("Type must have a constructor with a single string parameter", nameof(assigner));
+                throw new ArgumentException($"Type must have a constructor with a {typeof(Board)}, a {typeof(IEnumerable<Package>)} and a {typeof(IEnumerable<Robot>)} parameter", nameof(assigner));
             }
 
-            _assigner = (Assigner.Assigner)Activator.CreateInstance(assigner, algorithm, b, tasks, _robots)!;
+            _assigner = (Assigner.Assigner)Activator.CreateInstance(assigner, b, tasks, _robots)!;
             _assigner.Ended += OnEnded;
 
-            foreach (var r in _robots)
-            {
-                Assign(r);
-            }
+            foreach (var r in _robots) Assign(r);            
 
             LoadWalls();
 

@@ -8,9 +8,9 @@ internal class SimulationViewModel : ViewModel
 
     public ICommand LogSave { get; }
 
-    public SimulationViewModel(string path, ControllerType algorithm) : base()
+    public SimulationViewModel(string path, Type pathfinder) : base()
     {
-        Controller = SimulationController = new(path, SimDataAccess.Instance, algorithm, typeof(RoundRobinAssigner));
+        Controller = SimulationController = new(path, SimDataAccess.Instance, typeof(RoundRobinAssigner), pathfinder);
 
         SimulationController.Loaded += (_, _) => OnLoaded(this);
         SimulationController.Tick += (_, _) => OnTick(this);
