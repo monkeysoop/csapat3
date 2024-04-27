@@ -59,15 +59,16 @@ internal class ReplayViewModel : ViewModel
 
     #endregion
 
-    public ReplayViewModel(string logPath, string mapPath)
+    public ReplayViewModel(string logPath, string mapPath) : base(new ReplayController(logPath, mapPath, ReplayDataAccess.Instance))
     {
-        var da = new ReplayDataAccess()
+        if (Controller is not ReplayController controller)
         {
-            BDA = new BoardFileDataAccess(),
-            LDA = new LogFileDataAccess()
-        };
-
-        Controller = RepController = new ReplayController(logPath, mapPath, da);
+            throw new ArgumentException("Controller is not a ReplayController");
+        }
+        else
+        {
+            RepController = controller;
+        }
 
         RepController.Tick += OnTick;
         RepController.Loaded += OnLoaded;
@@ -81,6 +82,7 @@ internal class ReplayViewModel : ViewModel
         OnPropertyChanged(nameof(ReplayLength));
         OnPropertyChanged(nameof(LengthLabel));
         OnPropertyChanged(nameof(TimeLabel));
+
         OnLoaded(this);
     }
 
@@ -88,6 +90,7 @@ internal class ReplayViewModel : ViewModel
     {
         OnPropertyChanged(nameof(CurrentTime));
         OnPropertyChanged(nameof(TimeLabel));
+
         OnTick(this);
     }
 }

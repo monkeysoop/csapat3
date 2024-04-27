@@ -28,7 +28,15 @@
             </ScrollViewer>
             <Grid Grid.Column="1">
                 <Button Margin="50,0,50,0" Height="40" Content="Save log"/>
-                <Label Content="{Binding ZoomLabel}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+                <!--#region Speed control-->
+                <Label Content="{Binding SpeedLabel}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,70,0"/>
+                <Button VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="25" Width="25" Margin="0,0,40,0"
+                        Padding="0" Content="-" FontSize="20" Style="{StaticResource ButtonStyle}"
+                        Command="{Binding SpeedDown}"/>
+                <Button VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="25" Width="25" Margin="0,0,10,0"
+                        Padding="0" Content="+" FontSize="20" Style="{StaticResource ButtonStyle}"
+                        Command="{Binding SpeedUp}"/>
+                <!--#endregion-->
             </Grid>
         </Grid>
         <Grid Grid.Row="1">

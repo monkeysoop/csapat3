@@ -10,6 +10,7 @@ public abstract class Controller
     protected Board _board;
 
     public bool IsPlaying { get; protected set;}
+    public double Speed { get; private set; } = 1;
 
     public int Width => _board.Width;
     public int Height => _board.Height;
@@ -64,6 +65,7 @@ public abstract class Controller
             throw new ArgumentException("Speed must be positive", nameof(speed));
         }
         Timer.Change(TimeSpan.Zero, Interval / speed);
+        Speed = speed;
     }
 
     public void Play()
