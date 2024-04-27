@@ -77,7 +77,7 @@ public partial class App : Application
     /// </summary>
     /// <returns>Whether to user want's to proceed with opening the window</returns>
     private bool OpenReplay()
-    {        
+    {
         var fd = new OpenFileDialog()
         {
             Filter = "Json files (*.json)|*.json",
@@ -147,7 +147,7 @@ public partial class App : Application
         if (fd.ShowDialog() is false) return false;
 
         var algorithm = typeof(Astar);
-        
+
         var configFile = fd.FileName;
 
         if (_startWindow!.BFS.IsChecked!.Value) algorithm = typeof(BFS);
@@ -186,18 +186,6 @@ public partial class App : Application
         DisplayLoading(_simWindow);
 
         return true;
-    }
-
-    private void OnTick(object? sender, EventArgs e)
-    {
-#if DEBUG
-        try
-        { Dispatcher.Invoke(Redraw); }
-        catch (TaskCanceledException)
-        { }
-#else
-        Dispatcher.Invoke(Redraw);
-#endif
     }
 
     private static void DisplayLoading(Window w)
@@ -426,7 +414,20 @@ public partial class App : Application
 
     #endregion
 
-    #region Event Handlers    
+    #region Event Handlers
+
+    private void OnTick(object? sender, EventArgs e)
+    {
+#if DEBUG
+        try
+        { Dispatcher.Invoke(Redraw); }
+        catch (TaskCanceledException)
+        { }
+#else
+        Dispatcher.Invoke(Redraw);
+#endif
+    }
+
     private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         switch (e.PropertyName)
