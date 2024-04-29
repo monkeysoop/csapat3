@@ -177,7 +177,7 @@ public sealed class SimulationController : Controller
         bool found;
         List<Action> actions = [Action.W];
 
-        if (_assigner!.Peek(out Package? package))
+        if (_assigner!.Peek(robot, out Package? package))
         {
             (found, actions) = _pathFinder.CalculatePath(_board, robot.Position, (int)robot.Direction, package.Position, cost_counter);
 
@@ -185,7 +185,7 @@ public sealed class SimulationController : Controller
             {
                 task = package;
                 task_pos = package.Position;
-                _assigner.Get(out _);
+                _assigner.Get(robot, out _);
                 _logger.LogAssignment(robot.ID, package.ID, TimeStamp);
             }
             else
