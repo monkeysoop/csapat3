@@ -22,6 +22,8 @@ public partial class App : Application
     private bool _ctrlDown;
     private Point _mousePos;
 
+    private Robot? _selectedRobot;
+
     private ImageBrush _rectangle;
     private readonly ImageBrush[] _ellipses = new ImageBrush[4];
     private readonly Dictionary<Robot, Grid> _robots = [];
@@ -153,7 +155,9 @@ public partial class App : Application
         if (_startWindow!.BFS.IsChecked!.Value) algorithm = typeof(BFS);
         else if (_startWindow.DFS.IsChecked!.Value) algorithm = typeof(DFS);
 
-        _viewModel = new SimulationViewModel(configFile, algorithm);
+        var simulationViewModel = new SimulationViewModel(configFile, algorithm);
+
+        _viewModel = simulationViewModel;
 
         _simWindow = new SimulationWindow
         {
@@ -175,6 +179,17 @@ public partial class App : Application
 
         _simWindow.ScrollViewer.PreviewMouseWheel += OnMouseWheel;
 
+        _simWindow.ScrollViewer.MouseDoubleClick += (_, e) =>
+        {
+            Point p = e.GetPosition(_simWindow.MapCanvas);
+            Debug.WriteLine($"{Math.Floor(p.X / Step)}, {Math.Floor(p.Y / Step)}");
+            if (_selectedRobot is not null)
+            {
+                Robot r = _selectedRobot;
+                Task.Run(() => simulationViewModel.AssignTask(r, (int)Math.Floor(p.X / Step), (int)Math.Floor(p.Y / Step)));
+                _selectedRobot = null;
+            }
+        };
         _simWindow.ScrollViewer.MouseMove += OnMouseMove;
 
         _simWindow.ScrollViewer.ManipulationDelta += OnManipulationDelta;
@@ -318,6 +333,8 @@ public partial class App : Application
                 VerticalAlignment = VerticalAlignment.Center,
                 FontSize = fontSize
             });
+
+            grid.MouseDown += (_, _) => _selectedRobot = r;
 
             _robots[r] = grid;
 

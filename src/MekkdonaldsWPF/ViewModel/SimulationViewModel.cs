@@ -17,4 +17,9 @@ internal class SimulationViewModel : ViewModel
 
         LogSave = new DelegateCommand(_ => SimulationController.SaveLog());
     }
+
+    internal void AssignTask(Robot selectedRobot, int x, int y)
+    {
+        SimulationController.Assign(selectedRobot, new(x, y));
+    }
 }
