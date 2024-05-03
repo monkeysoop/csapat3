@@ -1,13 +1,11 @@
 ﻿namespace Mekkdonalds.ViewModel;
 
-internal abstract class ViewModel : ViewModelBase
+internal abstract class ViewModel(Controller controller) : ViewModelBase
 {
     private const double MINZOOM = .3;
     private const double MAXZOOM = 2;
 
-#pragma warning disable CS8618 // :)
-    protected Controller Controller;
-#pragma warning restore CS8618
+    protected Controller Controller = controller;
 
     private double _zoom = 1;
 
@@ -28,12 +26,12 @@ internal abstract class ViewModel : ViewModelBase
 
                 _zoom = value;
                 OnPropertyChanged(nameof(Zoom));
-                OnPropertyChanged(nameof(ZoomLabel));
+                OnPropertyChanged(nameof(SpeedLabel));
             }
         }
     }
 
-    public string ZoomLabel => $"{Zoom:0.##}x";
+    public string SpeedLabel => $"{Controller.Speed:##.##}x";
 
     /// <summary>
     /// Robots present on the grid
@@ -48,10 +46,13 @@ internal abstract class ViewModel : ViewModelBase
     public ICommand Pause { get; private set; } = new DelegateCommand(_ => { });
     public ICommand Forward { get; private set; } = new DelegateCommand(_ => { });
 
+    public ICommand SpeedDown { get; private set; } = new DelegateCommand(_ => { });
+    public ICommand SpeedUp { get; private set; } = new DelegateCommand(_ => { });
+
     #endregion
 
     /// <summary>
-    /// Eventhandler thats called each time the grid gets updated
+    /// Event handler that's called each time the grid gets updated
     /// </summary>
     public event EventHandler? Tick;
     public event EventHandler? Loaded;
@@ -61,14 +62,26 @@ internal abstract class ViewModel : ViewModelBase
         Play = new DelegateCommand(_ => Controller.Play());
         Pause = new DelegateCommand(_ => Controller.Pause());
         Forward = new DelegateCommand(_ => Controller.StepForward());
+        SpeedDown = new DelegateCommand(_ => ChangeSpeed(Controller.Speed * .8));
+        SpeedUp = new DelegateCommand(_ => ChangeSpeed(Controller.Speed * 1.25));
+
         OnPropertyChanged(nameof(Play));
         OnPropertyChanged(nameof(Pause));
         OnPropertyChanged(nameof(Forward));
+        OnPropertyChanged(nameof(SpeedDown));
+        OnPropertyChanged(nameof(SpeedUp));
+
         Loaded?.Invoke(sender, EventArgs.Empty);
     }
 
+    private void ChangeSpeed(double speed)
+    {
+        Controller.ChangeSpeed(speed);
+        OnPropertyChanged(nameof(SpeedLabel));
+    }
+
     /// <summary>
-    /// Calls the tick event based on the models evnt handler
+    /// Calls the tick event based on the models event handler
     /// </summary>
     /// <param name="sender"></param>
     protected void OnTick(object? sender)

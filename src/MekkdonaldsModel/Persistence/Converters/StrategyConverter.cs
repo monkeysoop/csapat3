@@ -7,7 +7,7 @@ public class StrategyConverter : JsonConverter<Strategy>
 {
     public override Strategy Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        var strategy = reader.GetString();
+        string? strategy = reader.GetString();
 
         return strategy switch
         {

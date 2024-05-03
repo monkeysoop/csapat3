@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Mekkdonalds.Simulation;
+﻿namespace Mekkdonalds.Simulation;
 
 public class Path(List<Action> path, Point? target)
 {

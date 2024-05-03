@@ -3,7 +3,6 @@
 internal class ReplayViewModel : ViewModel
 {
     private readonly ReplayController RepController;
-    private int _currentTime;
 
     #region Properties
 
@@ -16,7 +15,7 @@ internal class ReplayViewModel : ViewModel
             {
                 RepController.JumpTo(value);
                 OnPropertyChanged(nameof(CurrentTime));
-                OnPropertyChanged(nameof(TimeLabel)); 
+                OnPropertyChanged(nameof(TimeLabel));
             }
         }
     }
@@ -25,17 +24,32 @@ internal class ReplayViewModel : ViewModel
 
     public string TimeLabel
     {
-        get
+        get => CurrentTime.ToString();
+        set
         {
-            var m = CurrentTime / 60;
-            var s = CurrentTime % 60;
-
-            var mm = ReplayLength / 60;
-            var ms = ReplayLength % 60;
-
-            return $"{(m < 10 ? "0" : "")}{m}:{(s < 10 ? "0" : "")}{s}/{(mm < 10 ? "0" : "")}{mm}:{(ms < 10 ? "0" : "")}{ms}";
+            if (int.TryParse(value, out var time))
+            {
+                if (time < 0)
+                {
+                    CurrentTime = 0;
+                }
+                else if (time > ReplayLength)
+                {
+                    CurrentTime = ReplayLength;
+                }
+                else if (time != CurrentTime)
+                {
+                    CurrentTime = time;
+                }
+            }
+            else
+            {
+                OnPropertyChanged(nameof(TimeLabel));
+            }
         }
     }
+
+    public string LengthLabel => $"/{ReplayLength}";
 
     #endregion
 
@@ -45,15 +59,16 @@ internal class ReplayViewModel : ViewModel
 
     #endregion
 
-    public ReplayViewModel(string logPath, string mapPath)
+    public ReplayViewModel(string logPath, string mapPath) : base(new ReplayController(logPath, mapPath, ReplayDataAccess.Instance))
     {
-        var da = new ReplayDataAccess()
+        if (Controller is not ReplayController controller)
         {
-            BDA = new BoardFileDataAccess(),
-            LDA = new LogFileDataAccess()
-        };
-
-        Controller = RepController = new ReplayController(logPath, mapPath, da);
+            throw new ArgumentException("Controller is not a ReplayController");
+        }
+        else
+        {
+            RepController = controller;
+        }
 
         RepController.Tick += OnTick;
         RepController.Loaded += OnLoaded;
@@ -65,7 +80,9 @@ internal class ReplayViewModel : ViewModel
     {
         OnPropertyChanged(nameof(CurrentTime));
         OnPropertyChanged(nameof(ReplayLength));
+        OnPropertyChanged(nameof(LengthLabel));
         OnPropertyChanged(nameof(TimeLabel));
+
         OnLoaded(this);
     }
 
@@ -73,6 +90,7 @@ internal class ReplayViewModel : ViewModel
     {
         OnPropertyChanged(nameof(CurrentTime));
         OnPropertyChanged(nameof(TimeLabel));
+
         OnTick(this);
     }
 }

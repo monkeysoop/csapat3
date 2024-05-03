@@ -9,17 +9,17 @@ public class RobotTests
     public void Constructor_SetsPositionAndDirection()
     {
         // Arrange
-        Point position = new Point(1, 2);
+        Point position = new(1, 2);
         Direction direction = Direction.East;
 
         // Act
-        Robot robot = new Robot(position, direction);
+        Robot robot = new(position, direction);
 
         Assert.Multiple(() =>
         {
             // Assert that position and direction match the robot's current position and direction
-            Assert.That(position, Is.EqualTo(robot.Position), "Position should match robot's position");
-            Assert.That(direction, Is.EqualTo(robot.Direction), "Direction should match robot's direction");
+            Assert.That(robot.Position, Is.EqualTo(position), "Position should match robot's position");
+            Assert.That(robot.Direction, Is.EqualTo(direction), "Direction should match robot's direction");
         });
     }
 
@@ -27,7 +27,7 @@ public class RobotTests
     public void RemoveTask_ThrowsExceptionWhenNoTask()
     {
         // Arrange
-        Robot robot = new Robot(new Point(0, 0), Direction.North);
+        Robot robot = new(new Point(0, 0), Direction.North);
 
         // Act & Assert
         Assert.That(() => robot.RemoveTask(), Throws.Exception.TypeOf<System.Exception>());
@@ -37,7 +37,7 @@ public class RobotTests
     public void RemoveTask_RemovesTask()
     {
         // Arrange
-        Robot robot = new Robot(new Point(0, 0), Direction.North);
+        Robot robot = new(new Point(0, 0), Direction.North);
         robot.AddTask(new Point(1, 1));
 
         // Act
@@ -47,7 +47,7 @@ public class RobotTests
         {
             // Assert that robot has no task and task position is (1,1)
             Assert.That(robot.Task, Is.Null, "Robot should have no task");
-            Assert.That(new Point(1, 1), Is.EqualTo(task.Position), "Task position should be (1,1)");
+            Assert.That(task.Position, Is.EqualTo(new Point(1, 1)), "Task position should be (1,1)");
         });
     }
 
@@ -55,26 +55,24 @@ public class RobotTests
     public void AddTask_AddsTask()
     {
         // Arrange
-        Robot robot = new Robot(new Point(0, 0), Direction.North);
-        Point destination = new Point(1, 1);
+        Robot robot = new(new Point(0, 0), Direction.North);
+        Point destination = new(1, 1);
 
         // Act
         robot.AddTask(destination);
 
-        Assert.Multiple(() =>
-        {
-            // Assert that robot has a task and destination matches task position
-            Assert.That(robot.Task, Is.Not.Null, "Robot should have a task");
-            Assert.That(destination, Is.EqualTo(robot.Task.Position), "Destination should match task position");
-        });
+        // Assert that robot has a task and destination matches task position
+        Assert.That(robot.Task, Is.Not.Null, "Robot should have a task");
+        Assert.That(robot.Task.Position, Is.EqualTo(destination), "Destination should match task position");
+        
     }
 
     [Test]
     public void TryStep_MovesRobotForward()
     {
         // Arrange
-        Robot robot = new Robot(new Point(0, 0), Direction.East);
-        Board board = new Board(10, 10);
+        Robot robot = new(new Point(0, 0), Direction.East);
+        Board board = new(10, 10);
 
         // Act
         bool success = robot.TryStep(Action.F, board, 0);
@@ -83,9 +81,9 @@ public class RobotTests
         {
             // Assert that success is true, and robot's position, direction, and history are as expected
             Assert.That(success, Is.True, "Success should be true");
-            Assert.That(new Point(1, 0), Is.EqualTo(robot.Position), "Position should be (1,0)");
-            Assert.That(Direction.East, Is.EqualTo(robot.Direction), "Direction should be East");
-            Assert.That(new List<Action> { Action.F }, Is.EqualTo(robot.History), "History should contain only Action.F");
+            Assert.That(robot.Position, Is.EqualTo(new Point(1, 0)), "Position should be (1,0)");
+            Assert.That(robot.Direction, Is.EqualTo(Direction.East), "Direction should be East");
+            Assert.That(robot.History, Is.EqualTo(new List<Action> { Action.F }), "History should contain only Action.F");
         });
     }
 
@@ -93,8 +91,8 @@ public class RobotTests
     public void TryStep_RotatesRobotClockwise()
     {
         // Arrange
-        Robot robot = new Robot(new Point(0, 0), Direction.North);
-        Board board = new Board(10, 10);
+        Robot robot = new(new Point(0, 0), Direction.North);
+        Board board = new(10, 10);
 
         // Act
         bool success = robot.TryStep(Action.R, board, 0);
@@ -103,9 +101,9 @@ public class RobotTests
         {
             // Assert that success is true, and robot's position, direction, and history are as expected
             Assert.That(success, Is.True, "Success should be true");
-            Assert.That(new Point(0, 0), Is.EqualTo(robot.Position), "Position should be (0,0)");
-            Assert.That(Direction.East, Is.EqualTo(robot.Direction), "Direction should be East");
-            Assert.That(new List<Action> { Action.R }, Is.EqualTo(robot.History), "History should contain only Action.R");
+            Assert.That(robot.Position, Is.EqualTo(new Point(0, 0)), "Position should be (0,0)");
+            Assert.That(robot.Direction, Is.EqualTo(Direction.East), "Direction should be East");
+            Assert.That(robot.History, Is.EqualTo(new List<Action> { Action.R }), "History should contain only Action.R");
         });
     }
 }

@@ -4,15 +4,15 @@ public class PackagesDataAccess : IPackagesDataAccess
 {
     public async Task<List<Package>> LoadAsync(string path, int width, int height)
     {
-        var packages = new List<Package>();
+        List<Package> packages = [];
 
-        using var sr = new StreamReader(path);
+        using StreamReader sr = new(path);
 
         _ = await sr.ReadLineAsync();
 
         while (!sr.EndOfStream)
         {
-            var line = await sr.ReadLineAsync() ?? throw new PackagesDataException();
+            string line = await sr.ReadLineAsync() ?? throw new PackagesDataException();
 
             if (!int.TryParse(line, out var pos) || pos < 0 || pos >= height * width)
             {

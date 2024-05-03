@@ -12,7 +12,7 @@ internal class EventConverter : JsonConverter<List<List<(int, int, string)>>>
             throw new JsonException();
         }
 
-        var list = new List<List<(int, int, string)>>();
+        List<List<(int, int, string)>> list = [];
 
         while (reader.Read())
         {
@@ -53,7 +53,7 @@ internal class EventConverter : JsonConverter<List<List<(int, int, string)>>>
             throw new JsonException();
         }
 
-        var list = new List<(int, int, string)>();
+        List<(int, int, string)> list = [];
 
         while (reader.Read())
         {

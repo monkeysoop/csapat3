@@ -9,8 +9,6 @@ public class BoardFileDataAccess : IBoardDataAccess
     public const char WALL_CHAR = '@';
     #endregion
 
-
-
     public async Task<Board> LoadAsync(string path)
     {
         try
@@ -49,7 +47,7 @@ public class BoardFileDataAccess : IBoardDataAccess
                     {
                         data[y, x] = EMPTY;
                     }
-                    else 
+                    else
                     {
                         data[y, x] = WALL;
                     }

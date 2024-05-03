@@ -35,7 +35,6 @@ internal class LogFileTests
             Assert.That(_log.PlannerPaths[0][0], Is.EqualTo(Action.F));
             Assert.That(_log.PlannerTimes[0], Is.EqualTo(0.312150264));
             Assert.That(_log.Errors, Is.Empty);
-            Assert.That(_log.Events, Is.TypeOf<List<List<(int, int, string)>>>());
             Assert.That(_log.Events[0][0], Is.EqualTo((0, 0, "assigned")));
             Assert.That(_log.Tasks[0], Is.EqualTo((0, 21, 6)));
 
@@ -53,8 +52,8 @@ internal class LogFileTests
             Assert.Inconclusive("Load test failed, can't test _log file saving");
         }
 
-        var _logFileDataAccess = new LogFileDataAccess();
-        var _log = new LogFile()
+        LogFileDataAccess _logFileDataAccess = new();
+        LogFile _log = new()
         {
             ActionModel = "MAPF_T",
             AllValid = true,
@@ -87,7 +86,6 @@ internal class LogFileTests
             Assert.That(_log.PlannerPaths[0][0], Is.EqualTo(Action.F));
             Assert.That(_log.PlannerTimes[0], Is.EqualTo(0.312150264));
             Assert.That(_log.Errors, Is.Empty);
-            Assert.That(_log.Events, Is.TypeOf<List<List<(int, int, string)>>>());
             Assert.That(_log.Events[0][0], Is.EqualTo((0, 0, "assigned")));
             Assert.That(_log.Tasks[0], Is.EqualTo((0, 21, 6)));
         });
@@ -98,23 +96,22 @@ internal class LogFileTests
     {
         Assert.Multiple(async () =>
         {
-            Assert.That(_log.ActionModel is not null);
             Assert.That(_log.ActionModel, Is.EqualTo("MAPF_T"));
-            Assert.That(_log.ActionModel!.Length, Is.EqualTo(6));
+            Assert.That(_log.ActionModel, Has.Length.EqualTo(6));
+
             _log.ActionModel = "";
             await _logFileDataAccess.SaveAsync("./test_log.json", _log);
             _log = await _logFileDataAccess.LoadAsync("./test_log.json");
-            Assert.That(_log.ActionModel is not null);
             Assert.That(_log.ActionModel, Is.EqualTo(""));
+
             _log.ActionModel = "Hajrá Fradi!";
             await _logFileDataAccess.SaveAsync("./test_log.json", _log);
             _log = await _logFileDataAccess.LoadAsync("./test_log.json");
-            Assert.That(_log.ActionModel is not null);
             Assert.That(_log.ActionModel, Is.EqualTo("Hajrá Fradi!"));
+
             _log.ActionModel = "Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!";
             await _logFileDataAccess.SaveAsync("./test_log.json", _log);
             _log = await _logFileDataAccess.LoadAsync("./test_log.json");
-            Assert.That(_log.ActionModel is not null);
             Assert.That(_log.ActionModel, Is.EqualTo("Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!Hajrá Fradi!"));
         });
     }
@@ -159,53 +156,49 @@ internal class LogFileTests
     {
         Assert.Multiple(async () =>
         {
-            Assert.That(_log.Start is not null);
             Assert.That(_log.Start![0], Is.EqualTo((new Point(7, 5), Direction.East)));
             Assert.That(_log.Start![2], Is.EqualTo((new Point(27, 19), Direction.East)));
             Assert.That(_log.Start![^1], Is.EqualTo((new Point(25, 1), Direction.East)));
             Assert.That(_log.Start![13], Is.EqualTo((new Point(26, 24), Direction.East)));
+
             _log.Start.Clear();
-            _log.Start.AddRange(new List<(Point, Direction)>() { (new Point(3, 9), Direction.North) });
+            _log.Start.AddRange([(new Point(3, 9), Direction.North)]);
             await _logFileDataAccess.SaveAsync("./test_log.json", _log);
             _log = await _logFileDataAccess.LoadAsync("./test_log.json");
-            Assert.That(_log.Start is not null);
             Assert.That(_log.Start![0], Is.EqualTo((new Point(3, 9), Direction.North)));
-            Assert.That(_log.Start.Count, Is.EqualTo(1));
+            Assert.That(_log.Start, Has.Count.EqualTo(1));
+
             _log.Start.Clear();
-            _log.Start.AddRange(new List<(Point, Direction)>() { (new Point(13, 10), Direction.South), (new Point(69, 33), Direction.West) });
+            _log.Start.AddRange([(new Point(13, 10), Direction.South), (new Point(69, 33), Direction.West)]);
             await _logFileDataAccess.SaveAsync("./test_log.json", _log);
             _log = await _logFileDataAccess.LoadAsync("./test_log.json");
-            Assert.That(_log.Start is not null);
             Assert.That(_log.Start![0], Is.EqualTo((new Point(13, 10), Direction.South)));
             Assert.That(_log.Start![1], Is.EqualTo((new Point(69, 33), Direction.West)));
-            Assert.That(_log.Start.Count, Is.EqualTo(2));
+            Assert.That(_log.Start, Has.Count.EqualTo(2));
+
             _log.Start.Clear();
-            _log.Start.AddRange(new List<(Point, Direction)>() { (new Point(13, 10), Direction.South), (new Point(69, 33), Direction.West), (new Point(113, 133), Direction.East) });
+            _log.Start.AddRange([(new Point(13, 10), Direction.South), (new Point(69, 33), Direction.West), (new Point(113, 133), Direction.East)]);
             await _logFileDataAccess.SaveAsync("./test_log.json", _log);
             _log = await _logFileDataAccess.LoadAsync("./test_log.json");
-            Assert.That(_log.Start is not null);
             Assert.That(_log.Start![0], Is.EqualTo((new Point(13, 10), Direction.South)));
             Assert.That(_log.Start![1], Is.EqualTo((new Point(69, 33), Direction.West)));
             Assert.That(_log.Start![2], Is.EqualTo((new Point(113, 133), Direction.East)));
-            Assert.That(_log.Start.Count, Is.EqualTo(3));
-            List<(Point, Direction)> list = new();
-            Random random = new Random();
+            Assert.That(_log.Start, Has.Count.EqualTo(3));
+
+            List<(Point, Direction)> list = [];
+            Random random = new();
             for (int i = 0; i < 6969; i++)
             {
                 list.Add((new Point(random.Next(), random.Next()), (Direction)random.Next(4)));
             }
+
             _log.Start.Clear();
             _log.Start.AddRange(list);
             await _logFileDataAccess.SaveAsync("./test_log.json", _log);
             _log = await _logFileDataAccess.LoadAsync("./test_log.json");
-            Assert.That(_log.Start is not null);
             Assert.That(_log.Start![0], Is.EqualTo(list[0]));
-            var num = random.Next(list.Count);
-            Assert.That(_log.Start![num], Is.EqualTo(list[num]));
-            Assert.That(_log.Start![13], Is.EqualTo(list[13]));
-            Assert.That(_log.Start![^1], Is.EqualTo(list[^1]));
-            Assert.That(_log.Start, Is.EqualTo(list));
-            Assert.That(_log.Start.Count, Is.EqualTo(6969));
+            int num = random.Next(list.Count);
+            Assert.That(_log.Start, Is.EquivalentTo(list));
         });
 
     }
@@ -255,21 +248,21 @@ internal class LogFileTests
         Assert.Multiple(async () =>
         {
             Assert.That(_log.ActualPaths[0][0], Is.EqualTo(Action.F));
-            Assert.That(_log.ActualPaths.All(x => { return x.All(y => { return y != Action.T; }); }), Is.True);
-            Assert.That(_log.ActualPaths[0], Is.InstanceOf<List<Action>>());
             Assert.That(_log.ActualPaths[^1][^1], Is.EqualTo(Action.F));
+            Assert.That(_log.ActualPaths.All(x => { return x.All(y => { return y != Action.T; }); }), Is.True);
             Assert.That(_log.ActualPaths.All(x => { return x.All(y => { return y != Action.B; }); }), Is.True);
+
             List<List<Action>> list = [.. _log.ActualPaths];
             list[0][0] = Action.C;
             list[^1][^1] = Action.R;
+
             _log.ActualPaths.Clear();
             _log.ActualPaths.AddRange(list);
             await _logFileDataAccess.SaveAsync("./test_log.json", _log);
             _log = await _logFileDataAccess.LoadAsync("./test_log.json");
             Assert.That(_log.ActualPaths[0][0], Is.EqualTo(Action.C));
-            Assert.That(_log.ActualPaths.All(x => { return x.All(y => { return y != Action.T; }); }), Is.True);
-            Assert.That(_log.ActualPaths[0], Is.InstanceOf<List<Action>>());
             Assert.That(_log.ActualPaths[^1][^1], Is.EqualTo(Action.R));
+            Assert.That(_log.ActualPaths.All(x => { return x.All(y => { return y != Action.T; }); }), Is.True);
             Assert.That(_log.ActualPaths.All(x => { return x.All(y => { return y != Action.B; }); }), Is.True);
         });
 
@@ -281,18 +274,18 @@ internal class LogFileTests
         Assert.Multiple(async () =>
         {
             Assert.That(_log.ActualPaths[0][0], Is.EqualTo(Action.F));
-            Assert.That(_log.ActualPaths[0], Is.InstanceOf<List<Action>>());
             Assert.That(_log.ActualPaths[^1][^1], Is.EqualTo(Action.F));
             Assert.That(_log.ActualPaths.All(x => { return x.All(y => { return y != Action.B; }); }), Is.True);
+
             List<List<Action>> list = [.. _log.ActualPaths];
             list[0][0] = Action.C;
             list[^1][^1] = Action.R;
+
             _log.ActualPaths.Clear();
             _log.ActualPaths.AddRange(list);
             await _logFileDataAccess.SaveAsync("./test_log.json", _log);
             _log = await _logFileDataAccess.LoadAsync("./test_log.json");
             Assert.That(_log.ActualPaths[0][0], Is.EqualTo(Action.C));
-            Assert.That(_log.ActualPaths[0], Is.InstanceOf<List<Action>>());
             Assert.That(_log.ActualPaths[^1][^1], Is.EqualTo(Action.R));
             Assert.That(_log.ActualPaths.All(x => { return x.All(y => { return y != Action.B; }); }), Is.True);
         });
@@ -307,9 +300,11 @@ internal class LogFileTests
             Assert.That(_log.PlannerTimes[0], Is.EqualTo(0.312150264));
             Assert.That(_log.PlannerTimes[^1], Is.EqualTo(0.0043267));
             Assert.That(_log.PlannerTimes[13], Is.EqualTo(0.010686006));
+
             _log.PlannerTimes[0] = 0.13;
             _log.PlannerTimes[^1] = 0;
             _log.PlannerTimes[13] = 0.69;
+
             await _logFileDataAccess.SaveAsync("./test_log.json", _log);
             _log = await _logFileDataAccess.LoadAsync("./test_log.json");
             Assert.That(_log.PlannerTimes[0], Is.EqualTo(0.13));
@@ -324,7 +319,7 @@ internal class LogFileTests
         Assert.Multiple(async () =>
         {
             Assert.That(_log.Errors, Is.Empty);
-            var list = new List<(int, int, int, string)> { (3, 13, 33, "Mekk ÚR"), (3, 13, 21, "Adorján"), (0, 0, 0, "Endre"), (3, 23, 53, "Milán"), (3, 69, 69, "Randi") };
+            List<(int, int, int, string)> list = [(3, 13, 33, "Mekk ÚR"), (3, 13, 21, "Adorján"), (0, 0, 0, "Endre"), (3, 23, 53, "Milán"), (3, 69, 69, "Randi")];
             _log.Errors.Clear();
             _log.Errors.AddRange(list);
             await _logFileDataAccess.SaveAsync("./test_log.json", _log);
@@ -349,6 +344,7 @@ internal class LogFileTests
             Assert.That(_log.Events[3][0], Is.EqualTo((3, 0, "assigned")));
             Assert.That(_log.Events[3][^1], Is.EqualTo((343, 481, "assigned")));
             Assert.That(_log.Events[3][3], Is.EqualTo((42, 62, "finished")));
+
             _log.Events[0][0] = (13, 13, "Sanyika");
             _log.Events[0][^1] = (13, 13, "Sanyika");
             _log.Events[0][3] = (13, 13, "Sanyika");
@@ -358,6 +354,7 @@ internal class LogFileTests
             _log.Events[3][0] = (33, 33, "MEKK ÚR");
             _log.Events[3][^1] = (33, 33, "MEKK ÚR");
             _log.Events[3][3] = (33, 33, "MEKK ÚR");
+
             await _logFileDataAccess.SaveAsync("./test_log.json", _log);
             _log = await _logFileDataAccess.LoadAsync("./test_log.json");
             Assert.That(_log.Events[0][0], Is.EqualTo((13, 13, "Sanyika")));

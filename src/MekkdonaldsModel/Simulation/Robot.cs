@@ -2,19 +2,11 @@
 
 public sealed class Robot(Point position, Direction direction)
 {
-    private static readonly Point[] position_offsets = [
-        new(0, -1),
-        new(1, 0),
-        new(0, 1),
-        new(-1, 0)
-    ];
     private static int IDCounter = 1;
 
 
     private readonly List<Action> _history = [];
     public int ID { get; } = IDCounter++;
-
-    //public Point Position = position;
 
     /// <summary>
     /// Current position of the robot
@@ -40,7 +32,8 @@ public sealed class Robot(Point position, Direction direction)
         if (Task == null)
         {
             throw new System.Exception("");
-        } else
+        }
+        else
         {
             Package t = Task;
             Task = null;

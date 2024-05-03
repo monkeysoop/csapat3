@@ -79,8 +79,8 @@ public partial class App : Application
     /// </summary>
     /// <returns>Whether to user want's to proceed with opening the window</returns>
     private bool OpenReplay()
-    {        
-        var fd = new OpenFileDialog()
+    {
+        OpenFileDialog fd = new()
         {
             Filter = "Json files (*.json)|*.json",
             Title = "Log File",
@@ -89,7 +89,7 @@ public partial class App : Application
 
         if (fd.ShowDialog() is false) return false;
 
-        var logPath = fd.FileName;
+        string logPath = fd.FileName;
 
         fd = new OpenFileDialog()
         {
@@ -139,7 +139,7 @@ public partial class App : Application
     /// <returns>Whether to user want's to proceed with opening the window</returns>
     private bool OpenSim()
     {
-        var fd = new OpenFileDialog()
+        OpenFileDialog fd = new()
         {
             Filter = "Json file (*.json)|*.json",
             Title = "Config file",
@@ -148,14 +148,14 @@ public partial class App : Application
 
         if (fd.ShowDialog() is false) return false;
 
-        var algorithm = typeof(Astar);
-        
-        var configFile = fd.FileName;
+        Type algorithm = typeof(Astar);
+
+        string configFile = fd.FileName;
 
         if (_startWindow!.BFS.IsChecked!.Value) algorithm = typeof(BFS);
         else if (_startWindow.DFS.IsChecked!.Value) algorithm = typeof(DFS);
 
-        var simulationViewModel = new SimulationViewModel(configFile, algorithm);
+        SimulationViewModel simulationViewModel = new(configFile, algorithm);
 
         _viewModel = simulationViewModel;
 
@@ -181,12 +181,12 @@ public partial class App : Application
 
         _simWindow.ScrollViewer.MouseDoubleClick += (_, e) =>
         {
-            Point p = e.GetPosition(_simWindow.MapCanvas);
-            Debug.WriteLine($"{Math.Floor(p.X / Step)}, {Math.Floor(p.Y / Step)}");
+            Point point = e.GetPosition(_simWindow.MapCanvas);
+
             if (_selectedRobot is not null)
             {
                 Robot r = _selectedRobot;
-                Task.Run(() => simulationViewModel.AssignTask(r, (int)Math.Floor(p.X / Step), (int)Math.Floor(p.Y / Step)));
+                Task.Run(() => simulationViewModel.AssignTask(r, (int)Math.Floor(point.X / Step), (int)Math.Floor(point.Y / Step)));
                 _selectedRobot = null;
             }
         };
@@ -203,18 +203,6 @@ public partial class App : Application
         return true;
     }
 
-    private void OnTick(object? sender, EventArgs e)
-    {
-#if DEBUG
-        try
-        { Dispatcher.Invoke(Redraw); }
-        catch (TaskCanceledException)
-        { }
-#else
-        Dispatcher.Invoke(Redraw);
-#endif
-    }
-
     private static void DisplayLoading(Window w)
     {
         w.Cursor = Cursors.Wait;
@@ -228,21 +216,21 @@ public partial class App : Application
     /// <param name="c">The currently open window's canvas</param>
     private void Calculate(Canvas c)
     {
-        var w = _viewModel!.Width;
-        var h = _viewModel.Height;
+        int w = _viewModel!.Width;
+        int h = _viewModel.Height;
 
         c.Width = XLength = w * Step;
         c.Height = YLength = h * Step;
 
-        var fontSize = 12 * Math.Sqrt(_viewModel.Zoom);
+        double fontSize = 12 * Math.Sqrt(_viewModel.Zoom);
 
-        foreach (var g in _robots.Values)
+        foreach (Grid g in _robots.Values)
         {
             g.Width = g.Height = Step - 2;
             (g.Children[0] as TextBlock ?? throw new System.Exception()).FontSize = fontSize;
         }
 
-        foreach (var g in _targets.Values)
+        foreach (Grid g in _targets.Values)
         {
             g.Width = g.Height = Step;
             (g.Children[0] as TextBlock ?? throw new System.Exception()).FontSize = fontSize;
@@ -255,7 +243,7 @@ public partial class App : Application
     /// <param name="c">The currently open window's canvas</param>
     private void Redraw()
     {
-        foreach (var r in _viewModel!.Robots)
+        foreach (Robot r in _viewModel!.Robots)
         {
             _robots[r].Margin = new Thickness(1 + r.Position.X * Step, 1 + r.Position.Y * Step, 0, 0);
             _robots[r].Background = _ellipses[(int)r.Direction];
@@ -278,28 +266,28 @@ public partial class App : Application
     /// <param name="c">The currently open window's canvas</param>
     private void DrawGrid(Canvas c)
     {
-        using var bm = new Bitmap(Step * _viewModel!.Width * 2, Step * _viewModel.Height * 2);
-        using var g = Graphics.FromImage(bm);
+        using Bitmap bm = new(Step * _viewModel!.Width * 2, Step * _viewModel.Height * 2);
+        using Graphics g = Graphics.FromImage(bm);
 
-        for (var i = 0; i <= _viewModel.Width; i++)
+        for (int i = 0; i <= _viewModel.Width; i++)
         {
             g.DrawLine(Pens.Black, i * Step * 2, 0, i * Step * 2, YLength * 2);
         }
 
-        for (var i = 0; i <= _viewModel.Height; i++)
+        for (int i = 0; i <= _viewModel.Height; i++)
         {
             g.DrawLine(Pens.Black, 0, i * Step * 2, XLength * 2, i * Step * 2);
         }
 
-        foreach (var w in _viewModel!.Walls)
+        foreach (Wall w in _viewModel!.Walls)
         {
             g.FillRectangle(Brushes.Black, w.Position.X * Step * 2, w.Position.Y * Step * 2, Step * 2, Step * 2);
         }
 
-        using var memory = new MemoryStream();
+        using MemoryStream memory = new();
         bm.Save(memory, ImageFormat.Png);
         memory.Position = 0;
-        var r = new BitmapImage();
+        BitmapImage r = new();
         r.BeginInit();
         r.StreamSource = memory;
         r.CacheOption = BitmapCacheOption.OnLoad;
@@ -314,11 +302,11 @@ public partial class App : Application
     /// <param name="c"></param>
     private void InitRobots(Canvas c)
     {
-        var fontSize = 12 * Math.Sqrt(_viewModel!.Zoom);
+        double fontSize = 12 * Math.Sqrt(_viewModel!.Zoom);
 
-        foreach (var r in _viewModel!.Robots)
+        foreach (Robot r in _viewModel!.Robots)
         {
-            var grid = new Grid
+            Grid grid = new()
             {
                 Width = Step - 2,
                 Height = Step - 2,
@@ -368,7 +356,7 @@ public partial class App : Application
             _targets[r] = grid;
         }
 
-        foreach (var g in _robots.Values)
+        foreach (Grid g in _robots.Values)
         {
             c.Children.Add(g);
         }
@@ -377,7 +365,7 @@ public partial class App : Application
     private static void RotateBitmap(ref Bitmap bmp, float angle)
     {
         Bitmap tempBmp = new(bmp.Width, bmp.Height);
-        using var g = Graphics.FromImage(tempBmp);
+        using Graphics g = Graphics.FromImage(tempBmp);
 
         g.TranslateTransform(bmp.Width / 2, bmp.Height / 2);
         g.RotateTransform(angle);
@@ -394,15 +382,15 @@ public partial class App : Application
     private void DrawElements()
     {
         {
-            using var bm = new Bitmap(500, 500);
-            using var g = Graphics.FromImage(bm);
+            using Bitmap bm = new(500, 500);
+            using Graphics g = Graphics.FromImage(bm);
 
             g.FillRectangle(Brushes.Orange, 0, 0, 500, 500);
 
-            using var memory = new MemoryStream();
+            using MemoryStream memory = new();
             bm.Save(memory, ImageFormat.Png);
             memory.Position = 0;
-            var r = new BitmapImage();
+            BitmapImage r = new();
             r.BeginInit();
             r.StreamSource = memory;
             r.CacheOption = BitmapCacheOption.OnLoad;
@@ -412,8 +400,8 @@ public partial class App : Application
         }
 
         {
-            var bm = new Bitmap(500, 500);
-            using var g = Graphics.FromImage(bm);
+            Bitmap bm = new(500, 500);
+            using Graphics g = Graphics.FromImage(bm);
 
             g.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(9, 194, 248)), 0, 250, 500, 250);
             g.FillPie(new SolidBrush(System.Drawing.Color.FromArgb(9, 194, 248)), 0, 0, 500, 500, 180, 180);
@@ -423,10 +411,10 @@ public partial class App : Application
 
             for (int i = 0; i < 4; i++)
             {
-                using var memory = new MemoryStream();
+                using MemoryStream memory = new();
                 bm.Save(memory, ImageFormat.Png);
                 memory.Position = 0;
-                var r = new BitmapImage();
+                BitmapImage r = new();
                 r.BeginInit();
                 r.StreamSource = memory;
                 r.CacheOption = BitmapCacheOption.OnLoad;
@@ -443,7 +431,20 @@ public partial class App : Application
 
     #endregion
 
-    #region Event Handlers    
+    #region Event Handlers
+
+    private void OnTick(object? sender, EventArgs e)
+    {
+#if DEBUG
+        try
+        { Dispatcher.Invoke(Redraw); }
+        catch (TaskCanceledException)
+        { }
+#else
+        Dispatcher.Invoke(Redraw);
+#endif
+    }
+
     private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         switch (e.PropertyName)
@@ -498,7 +499,7 @@ public partial class App : Application
     {
         if (sender is not IInputElement ie) return;
 
-        var p = e.GetPosition(ie);
+        Point p = e.GetPosition(ie);
 
         if (e.LeftButton is MouseButtonState.Pressed)
         {

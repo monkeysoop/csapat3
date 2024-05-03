@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Mekkdonalds.Simulation;
+﻿namespace Mekkdonalds.Simulation;
 
 public class Logger
 {
@@ -46,7 +44,11 @@ public class Logger
     /// Logs the paths actually taken by the robots based on their history
     /// </summary>
     /// <param name="robots">List of robots</param>
-    public void LogActualPaths(IEnumerable<Robot> robots) => _logFile.ActualPaths.AddRange(robots.Select(r => r.History.ToList()));
+    public void LogActualPaths(IEnumerable<Robot> robots)
+    {
+        _logFile.ActualPaths.ForEach(x => x.Clear());
+        _logFile.ActualPaths.AddRange(robots.Select(r => r.History.ToList()));
+    }
 
     /// <summary>
     /// Logs the planned path to the currently assigned task
@@ -128,7 +130,7 @@ public class Logger
     /// <returns>A log file equivalent to the one used by the logger</returns>
     public LogFile GetLogFile()
     {
-        var l = LogFile.New;
+        LogFile l = LogFile.New;
 
         l.ActualPaths.AddRange(_logFile.ActualPaths);
         l.AllValid = _logFile.AllValid;

@@ -12,7 +12,7 @@ public class StartPosConverter : JsonConverter<List<(Point, Direction)>>
             throw new JsonException();
         }
 
-        var list = new List<(Point, Direction)>();
+        List<(Point, Direction)> list = [];
 
         while (reader.Read())
         {
@@ -43,7 +43,7 @@ public class StartPosConverter : JsonConverter<List<(Point, Direction)>>
 
     private static (Point, Direction) ReadValue(ref Utf8JsonReader reader)
     {
-        var p = new Point();
+        Point p = new();
         var d = Direction.North;
         int i = 0;
 
