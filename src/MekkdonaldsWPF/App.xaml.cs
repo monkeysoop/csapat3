@@ -155,7 +155,10 @@ public partial class App : Application
         if (_startWindow!.BFS.IsChecked!.Value) algorithm = typeof(BFS);
         else if (_startWindow.DFS.IsChecked!.Value) algorithm = typeof(DFS);
 
-        SimulationViewModel simulationViewModel = new(configFile, algorithm);
+        int simulationLength = int.Parse(_startWindow.Length.Text);
+        double speed = double.Parse(_startWindow.Speed.Text);
+
+        SimulationViewModel simulationViewModel = new(configFile, algorithm, simulationLength, speed);
 
         _viewModel = simulationViewModel;
 

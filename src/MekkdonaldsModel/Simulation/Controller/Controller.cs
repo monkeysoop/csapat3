@@ -5,7 +5,7 @@ public abstract class Controller
     protected List<Robot> _robots;
     protected List<Wall> _walls;
     protected Timer Timer;
-    private readonly TimeSpan Interval;
+    protected TimeSpan Interval { get; private set; }
 
     protected Board _board;
 
@@ -22,15 +22,17 @@ public abstract class Controller
     public event EventHandler? Tick;
     public event EventHandler? Loaded;
 
-    public Controller()
+    protected Controller(double speed)
     {
         _robots = [];
         _walls = [];
 
         _board = new(0, 0);
-        Interval = TimeSpan.FromMilliseconds(200);
+        Interval = TimeSpan.FromSeconds(speed);
         Timer = new Timer(OnTick, null, Timeout.Infinite, Timeout.Infinite);
     }
+
+    protected Controller() : this(.2) { }
 
     protected abstract void OnTick(object? state);
 
