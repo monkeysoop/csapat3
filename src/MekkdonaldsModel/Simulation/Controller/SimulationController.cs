@@ -72,7 +72,7 @@ public sealed class SimulationController : Controller
             _assigner = (Assigner.Assigner)Activator.CreateInstance(assigner, b, tasks, _robots)!;
             _assigner.Ended += OnEnded;
 
-            foreach (var r in _robots) Assign(r);            
+            foreach (var r in _robots) Assign(r);
 
             LoadWalls();
 
@@ -84,7 +84,7 @@ public sealed class SimulationController : Controller
     {
         _logger.LogActualPaths(_robots);
 
-        _logger.LogReplayLength(_assigner.TimeStamp + 1);
+        _logger.LogReplayLength(_assigner!.TimeStamp + 1);
 
         await _logger.SaveAsync(_logFileDataAccess);
     }
@@ -177,7 +177,7 @@ public sealed class SimulationController : Controller
         bool found;
         List<Action> actions = [Action.W];
 
-        if (_assigner!.Peek(out Package? package))
+        if (_assigner!.Peek(robot, out Package? package))
         {
             (found, actions) = _pathFinder.CalculatePath(_board, robot.Position, (int)robot.Direction, package.Position, cost_counter);
 
@@ -185,7 +185,7 @@ public sealed class SimulationController : Controller
             {
                 task = package;
                 task_pos = package.Position;
-                _assigner.Get(out _);
+                _assigner.Get(robot, out _);
                 _logger.LogAssignment(robot.ID, package.ID, TimeStamp);
             }
             else
@@ -232,5 +232,40 @@ public sealed class SimulationController : Controller
         Package package = robot.RemoveTask();
 
         _assigner!.Return(package);
+    }
+
+    public void Assign(Robot robot, Point target)
+    {
+        if (_paths.TryGetValue(robot, out Path? path) && !path.IsOver) Free(robot, path);
+
+        _paths.TryRemove(robot, out _);
+
+        Package? task = null;
+        bool found;
+        List<Action> actions;
+
+        (found, actions) = _pathFinder.CalculatePath(_board, robot.Position, (int)robot.Direction, target, cost_counter);
+
+        if (found)
+        {
+            task = new Package(target);
+
+            _logger.LogAssignment(robot.ID, task.ID, TimeStamp);
+        }
+        else
+        {
+            _board.Reserve(robot.Position, cost_counter + 1);
+        }
+
+        robot.AddTask(task);
+
+        path = new(actions, target);
+
+        if (!_paths.TryAdd(robot, path))
+        {
+            throw new System.Exception("");
+        }
+
+        CallTick(this);
     }
 }

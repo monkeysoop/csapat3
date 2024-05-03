@@ -12,8 +12,8 @@ public abstract class Assigner(Board board, IEnumerable<Package> packages, IEnum
     public int TimeStamp { get; } = 0;
     public event EventHandler? Ended;
 
-    public abstract bool Peek([MaybeNullWhen(false)] out Package package);
-    public abstract bool Get([MaybeNullWhen(false)] out Package package);
+    public abstract bool Peek(Robot robot, [MaybeNullWhen(false)] out Package package);
+    public abstract bool Get(Robot robot, [MaybeNullWhen(false)] out Package package);
 
     public virtual void Return(Package package) { }
 

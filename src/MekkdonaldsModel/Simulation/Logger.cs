@@ -1,4 +1,6 @@
-﻿namespace Mekkdonalds.Simulation;
+﻿using System.Threading.Tasks;
+
+namespace Mekkdonalds.Simulation;
 
 public class Logger
 {
@@ -104,7 +106,13 @@ public class Logger
     }
 
     /// <summary>
-    /// 
+    /// Logs a single task
+    /// </summary>
+    /// <param name="package">Task to log</param>
+    public void LogTask(Package package) => _logFile.Tasks.Add((_logFile.Tasks.Count, package.Position.Y - 1, package.Position.X - 1));
+
+    /// <summary>
+    /// Logs a collection of tasks
     /// </summary>
     /// <param name="tasks">Collection of tasks</param>
     public void LogTasks(IEnumerable<Package> tasks) => _logFile.Tasks.AddRange(tasks.Select((t, i) => (i, t.Position.Y - 1, t.Position.X - 1)));
@@ -115,13 +123,13 @@ public class Logger
     /// Saves the logged data to a log file
     /// </summary>
     /// <param name="access">The type data access to use</param>
-    /// <returns>A Task that represents the asynchronous save opertaion</returns>
+    /// <returns>A Task that represents the asynchronous save operation</returns>
     public async Task SaveAsync(ILogFileDataAccess access) => await access.SaveAsync(_fileName, _logFile);
 
     /// <summary>
     /// Creates a deep copy of the log file
     /// </summary>
-    /// <returns>An equivalent log file</returns>
+    /// <returns>A log file equivalent to the one used by the logger</returns>
     public LogFile GetLogFile()
     {
         var l = LogFile.New;
