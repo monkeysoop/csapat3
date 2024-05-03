@@ -10,11 +10,12 @@ public sealed class SimulationController : Controller
     private Logger _logger;
     private readonly ILogFileDataAccess _logFileDataAccess;
 
-    private int cost_counter = 0;
-    public int TimeStamp { get { return cost_counter; } }
+    private readonly double Length;
+
+    public int TimeStamp { get; private set; }
 
 
-    public SimulationController(string path, ISimDataAccess da, Type assigner, Type pathfinder)
+    public SimulationController(string path, ISimDataAccess da, Type assigner, Type pathfinder, int length, double speed) : base(speed)
     {
         _logger = new Logger("default");
 
@@ -33,6 +34,15 @@ public sealed class SimulationController : Controller
         }
 
         _pathFinder = (PathFinder)Activator.CreateInstance(pathfinder)!;
+
+        if (length == -1)
+        {
+            Length = double.PositiveInfinity;
+        }
+        else
+        {
+            Length = length;
+        }
     }
 
     private void OnEnded(object? sender, EventArgs e)
@@ -72,7 +82,7 @@ public sealed class SimulationController : Controller
             _assigner = (Assigner.Assigner)Activator.CreateInstance(assigner, b, tasks, _robots)!;
             _assigner.Ended += OnEnded;
 
-            foreach (var r in _robots) Assign(r);
+            foreach (Robot r in _robots) Assign(r);
 
             LoadWalls();
 
@@ -105,9 +115,9 @@ public sealed class SimulationController : Controller
     {
         lock (_board)
         {
-            if (_assigner!.NoPackage && _paths.All(x => x.Value.IsOver))
+            if (_assigner!.NoPackage && _paths.All(x => x.Value.IsOver) || TimeStamp >= Length)
             {
-                foreach (var robot in _robots.Where(r => r.Task is not null))
+                foreach (Robot? robot in _robots.Where(r => r.Task is not null))
                 {
                     robot.RemoveTask();
                 }
@@ -149,24 +159,24 @@ public sealed class SimulationController : Controller
                 {
                     Action action = path.PeekNext();
 
-                    if (robot.TryStep(action, _board, cost_counter))
+                    if (robot.TryStep(action, _board, TimeStamp))
                     {
                         path.Increment();
                     }
                     else
                     {
                         Free(robot, path);
-                        _board.Reserve(robot.Position, cost_counter + 1);
+                        _board.Reserve(robot.Position, TimeStamp + 1);
                     }
                 }
                 else
                 {
                     // this could happen if the next task is at the same position as the robot which is assigned to
-                    _board.UnReserve(robot.Position, cost_counter);
+                    _board.UnReserve(robot.Position, TimeStamp);
                 }
             }
 
-            cost_counter++;
+            TimeStamp++;
         }
     }
 
@@ -179,7 +189,7 @@ public sealed class SimulationController : Controller
 
         if (_assigner!.Peek(robot, out Package? package))
         {
-            (found, actions) = _pathFinder.CalculatePath(_board, robot.Position, (int)robot.Direction, package.Position, cost_counter);
+            (found, actions) = _pathFinder.CalculatePath(_board, robot.Position, (int)robot.Direction, package.Position, TimeStamp);
 
             if (found)
             {
@@ -190,14 +200,14 @@ public sealed class SimulationController : Controller
             }
             else
             {
-                _board.Reserve(robot.Position, cost_counter + 1);
+                _board.Reserve(robot.Position, TimeStamp + 1);
             }
 
         }
         else
         {
             // no package
-            _board.Reserve(robot.Position, cost_counter + 1);
+            _board.Reserve(robot.Position, TimeStamp + 1);
         }
 
         robot.AddTask(task);
@@ -214,7 +224,7 @@ public sealed class SimulationController : Controller
 
     private void Free(Robot robot, Path path)
     {
-        if (!path.FreeAllReserved(_board, robot.Position, robot.Direction, cost_counter))
+        if (!path.FreeAllReserved(_board, robot.Position, robot.Direction, TimeStamp))
         {
             throw new System.Exception("");
         }
@@ -244,7 +254,7 @@ public sealed class SimulationController : Controller
         bool found;
         List<Action> actions;
 
-        (found, actions) = _pathFinder.CalculatePath(_board, robot.Position, (int)robot.Direction, target, cost_counter);
+        (found, actions) = _pathFinder.CalculatePath(_board, robot.Position, (int)robot.Direction, target, TimeStamp);
 
         if (found)
         {
@@ -254,7 +264,7 @@ public sealed class SimulationController : Controller
         }
         else
         {
-            _board.Reserve(robot.Position, cost_counter + 1);
+            _board.Reserve(robot.Position, TimeStamp + 1);
         }
 
         robot.AddTask(task);
