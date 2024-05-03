@@ -7,7 +7,7 @@ public class YesNoConverter : JsonConverter<bool>
 {
     public override bool Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        var yesorno = reader.GetString();
+        string? yesorno = reader.GetString();
 
         return yesorno switch
         {

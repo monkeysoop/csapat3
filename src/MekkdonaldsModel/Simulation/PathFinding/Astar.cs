@@ -6,7 +6,7 @@ public sealed class Astar : PathFinder
     {
         Step[] heap = new Step[5 * board.Height * board.Width];
         int heap_length = 0;
-        
+
         int[] heap_hashmap = new int[board.Height * board.Width];
 
         int[] costs = new int[board.Height * board.Width]; // all items are automatically set to 0
@@ -27,20 +27,21 @@ public sealed class Astar : PathFinder
 
             costs[start_position.Y * board.Width + start_position.X] = start_cost;
             parents[start_position.Y * board.Width + start_position.X] = start_direction;
-        } else
+        }
+        else
         {
             throw new System.Exception("start position is blocked by a WALL");
         }
 
 
         int backward_direction = (start_direction + 2) % 4;
-        Point backward_offset = nexts_offsets[backward_direction];
+        Point backward_offset = nextOffsets[backward_direction];
         Point backward_next_position = new(start_position.X + backward_offset.X,
                                            start_position.Y + backward_offset.Y);
         int backward_cost = start_cost + 3;
         int backward_heuristic = backward_cost +
                                  MaxTurnsRequired(backward_next_position, backward_offset, end_position) +
-                                 ManhattenDistance(backward_next_position, end_position);
+                                 ManhattanDistance(backward_next_position, end_position);
 
         if (board.SetSearchedIfEmptyBackward(start_position, backward_next_position, backward_cost))
         {
@@ -65,16 +66,16 @@ public sealed class Astar : PathFinder
             if (ComparePoints(current_step.Position, end_position))
             {
                 found = true;
-            } 
+            }
             else
             {
                 int forward_direction = current_step.Direction;
                 int left_direction = (current_step.Direction + 3) % 4;
                 int right_direction = (current_step.Direction + 1) % 4;
 
-                Point forward_offset = nexts_offsets[forward_direction];
-                Point left_offset = nexts_offsets[left_direction];
-                Point right_offset = nexts_offsets[right_direction];
+                Point forward_offset = nextOffsets[forward_direction];
+                Point left_offset = nextOffsets[left_direction];
+                Point right_offset = nextOffsets[right_direction];
 
                 Point forward_next_position = new(current_step.Position.X + forward_offset.X,
                                                   current_step.Position.Y + forward_offset.Y);
@@ -91,15 +92,15 @@ public sealed class Astar : PathFinder
 
                 int forward_heuristic = forward_cost +
                                         MaxTurnsRequired(forward_next_position, forward_offset, end_position) +
-                                        ManhattenDistance(forward_next_position, end_position);
+                                        ManhattanDistance(forward_next_position, end_position);
 
                 int left_heuristic = left_cost +
                                      MaxTurnsRequired(left_next_position, left_offset, end_position) +
-                                     ManhattenDistance(left_next_position, end_position);
+                                     ManhattanDistance(left_next_position, end_position);
 
                 int right_heuristic = right_cost +
                                       MaxTurnsRequired(right_next_position, right_offset, end_position) +
-                                      ManhattenDistance(right_next_position, end_position);
+                                      ManhattanDistance(right_next_position, end_position);
 
 
                 if (board.SetSearchedIfEmptyForward(forward_next_position, forward_cost))
@@ -165,7 +166,7 @@ public sealed class Astar : PathFinder
                     costs[right_next_position.Y * board.Width + right_next_position.X] = right_cost;
                     parents[right_next_position.Y * board.Width + right_next_position.X] = right_direction;
                 }
-                
+
             }
         }
         return (found, parents, costs);

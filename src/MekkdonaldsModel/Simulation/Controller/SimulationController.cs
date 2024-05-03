@@ -46,17 +46,17 @@ public sealed class SimulationController : Controller
     {
         await Task.Run(async () =>
         {
-            var config = await da.CDA.LoadAsync(path);
+            Config config = await da.CDA.LoadAsync(path);
 
             _logger = new Logger(config.MapFile.Split('/')[^1].Replace(".map", ""));
 
-            var b = await da.BDA.LoadAsync(config.MapFile);
+            Board b = await da.BDA.LoadAsync(config.MapFile);
             _board = b; // for some reason it only sets board this way ????????
 
             _robots.AddRange(await da.RDA.LoadAsync(config.AgentFile, _board.Width - 2, _board.Height - 2));
             _logger.LogStarts(_robots);
 
-            var tasks = await da.PDA.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2);
+            List<Package> tasks = await da.PDA.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2);
             _logger.LogTasks(tasks);
 
             if (!assigner.IsSubclassOf(typeof(Assigner.Assigner)))
@@ -137,7 +137,7 @@ public sealed class SimulationController : Controller
                         _logger.LogFinish(robot.ID, robot.Task!.ID, TimeStamp);
                     }
 
-                    if (!_paths.TryRemove(robot, out var _))
+                    if (!_paths.TryRemove(robot, out _))
                     {
                         throw new System.Exception("");
                     }
@@ -219,7 +219,7 @@ public sealed class SimulationController : Controller
             throw new System.Exception("");
         }
 
-        if (!_paths.TryRemove(robot, out var _))
+        if (!_paths.TryRemove(robot, out _))
         {
             throw new System.Exception("");
         }

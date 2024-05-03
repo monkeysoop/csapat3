@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Mekkdonalds.Simulation;
+﻿namespace Mekkdonalds.Simulation;
 
 public class Logger
 {
@@ -132,7 +130,7 @@ public class Logger
     /// <returns>A log file equivalent to the one used by the logger</returns>
     public LogFile GetLogFile()
     {
-        var l = LogFile.New;
+        LogFile l = LogFile.New;
 
         l.ActualPaths.AddRange(_logFile.ActualPaths);
         l.AllValid = _logFile.AllValid;

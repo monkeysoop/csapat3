@@ -35,13 +35,13 @@ public sealed class BFS : PathFinder
 
 
         int backward_direction = (start_direction + 2) % 4;
-        Point backward_offset = nexts_offsets[backward_direction];
+        Point backward_offset = nextOffsets[backward_direction];
         Point backward_next_position = new(start_position.X + backward_offset.X,
                                            start_position.Y + backward_offset.Y);
         int backward_cost = start_cost + 3;
         int backward_heuristic = backward_cost +
                                  MaxTurnsRequired(backward_next_position, backward_offset, end_position) +
-                                 ManhattenDistance(backward_next_position, end_position);
+                                 ManhattanDistance(backward_next_position, end_position);
 
         if (board.SetSearchedIfEmptyBackward(start_position, backward_next_position, backward_cost))
         {
@@ -73,9 +73,9 @@ public sealed class BFS : PathFinder
                 int left_direction = (current_step.Direction + 3) % 4;
                 int right_direction = (current_step.Direction + 1) % 4;
 
-                Point forward_offset = nexts_offsets[forward_direction];
-                Point left_offset = nexts_offsets[left_direction];
-                Point right_offset = nexts_offsets[right_direction];
+                Point forward_offset = nextOffsets[forward_direction];
+                Point left_offset = nextOffsets[left_direction];
+                Point right_offset = nextOffsets[right_direction];
 
                 Point forward_next_position = new(current_step.Position.X + forward_offset.X,
                                                   current_step.Position.Y + forward_offset.Y);

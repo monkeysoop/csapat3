@@ -13,7 +13,7 @@ public class PathConverter : JsonConverter<List<List<Action>>>
         {
             throw new JsonException();
         }
-        var list = new List<List<Action>>();
+        List<List<Action>> list = [];
         string str;
         while (reader.Read())
         {
@@ -24,7 +24,7 @@ public class PathConverter : JsonConverter<List<List<Action>>>
             if (reader.TokenType == JsonTokenType.String)
             {
                 str = reader.GetString() ?? throw new JsonException();
-                var arr = str.Trim().Split(",").Select(x => (Action)Enum.Parse(typeof(Action), x)).ToList();
+                List<Action> arr = str.Trim().Split(",").Select(x => (Action)Enum.Parse(typeof(Action), x)).ToList();
                 list.Add(arr);
             }
         }

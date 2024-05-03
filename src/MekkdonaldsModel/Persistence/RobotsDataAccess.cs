@@ -4,7 +4,7 @@ public class RobotsDataAccess : IRobotsDataAccess
 {
     public async Task<List<Robot>> LoadAsync(string path, int width, int height)
     {
-        var robots = new List<Robot>();
+        List<Robot> robots = [];
 
         using StreamReader sr = new(path);
 
@@ -12,7 +12,7 @@ public class RobotsDataAccess : IRobotsDataAccess
 
         while (!sr.EndOfStream)
         {
-            var line = await sr.ReadLineAsync() ?? throw new RobotsDataException();
+            string line = await sr.ReadLineAsync() ?? throw new RobotsDataException();
 
             if (!int.TryParse(line, out var pos) || pos < 0 || pos >= height * width)
             {

@@ -9,10 +9,10 @@ public class WallTests
         // Arrange
         int x = 5;
         int y = 10;
-        Point position = new Point(x, y);
+        Point position = new(x, y);
 
         // Act
-        Wall wall = new Wall(position);
+        Wall wall = new(position);
 
         // Assert
         Assert.That(position, Is.EqualTo(wall.Position));
@@ -26,7 +26,7 @@ public class WallTests
         int y = 7;
 
         // Act
-        Wall wall = new Wall(x, y);
+        Wall wall = new(x, y);
 
         // Assert
         Assert.That(new Point(x, y), Is.EqualTo(wall.Position));
@@ -38,7 +38,7 @@ public class WallTests
     public void TestWallConstructorWithValidCoordinates(int x, int y)
     {
         // Act
-        Wall wall = new Wall(x, y);
+        Wall wall = new(x, y);
 
         // Assert
         Assert.That(new Point(x, y), Is.EqualTo(wall.Position));
@@ -48,7 +48,7 @@ public class WallTests
     public void TestWallPositionImmutable()
     {
         // Arrange
-        Wall wall = new Wall(5, 10);
+        Wall wall = new(5, 10);
         Point initialPosition = wall.Position;
 
         // Act

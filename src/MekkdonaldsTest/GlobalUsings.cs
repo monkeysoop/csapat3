@@ -1,6 +1,6 @@
-global using NUnit.Framework;
-global using Mekkdonalds.Simulation;
 global using Mekkdonalds.Persistence;
-global using Mekkdonalds;
-global using Mekkdonalds.Exception;
+global using Mekkdonalds.Simulation;
+
+global using NUnit.Framework;
+
 global using System.Drawing;

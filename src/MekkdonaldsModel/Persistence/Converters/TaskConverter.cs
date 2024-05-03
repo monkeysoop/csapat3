@@ -12,7 +12,7 @@ internal class TaskConverter : JsonConverter<List<(int, int, int)>>
             throw new JsonException();
         }
 
-        var list = new List<(int, int, int)>();
+        List<(int, int, int)> list = [];
 
         while (reader.Read())
         {

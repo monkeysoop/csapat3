@@ -15,7 +15,7 @@ internal class ReplayViewModel : ViewModel
             {
                 RepController.JumpTo(value);
                 OnPropertyChanged(nameof(CurrentTime));
-                OnPropertyChanged(nameof(TimeLabel)); 
+                OnPropertyChanged(nameof(TimeLabel));
             }
         }
     }

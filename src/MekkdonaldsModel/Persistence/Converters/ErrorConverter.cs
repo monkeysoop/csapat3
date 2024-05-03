@@ -12,7 +12,7 @@ internal class ErrorConverter : JsonConverter<List<(int, int, int, string)>>
             throw new JsonException();
         }
 
-        var list = new List<(int, int, int, string)>();
+        List<(int, int, int, string)> list = [];
 
         while (reader.Read())
         {

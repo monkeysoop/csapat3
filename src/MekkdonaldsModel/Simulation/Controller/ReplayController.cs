@@ -19,11 +19,11 @@ public sealed class ReplayController : Controller
         {
             _board = await da.BDA.LoadAsync(mapPath);
 
-            var log = await da.LDA.LoadAsync(logPath);
+            LogFile log = await da.LDA.LoadAsync(logPath);
 
             foreach (var (p, d) in log.Start)
             {
-                var r = new Robot(p, d);
+                Robot r = new(p, d);
                 Paths[r] = [];
                 Targets[r] = [];
                 _robots.Add(r);
@@ -34,13 +34,13 @@ public sealed class ReplayController : Controller
                 Paths[_robots[i]].AddRange(log.ActualPaths[i]);
             }
 
-            var width = Width - 2;
+            int width = Width - 2;
 
             int start;
 
             for (int i = 0; i < log.Events.Count; i++)
             {
-                var r = _robots[i];
+                Robot r = _robots[i];
 
                 start = 0;
 
@@ -52,8 +52,8 @@ public sealed class ReplayController : Controller
                             start = t;
                             break;
                         case "finished":
-                            var pos = log.Tasks.First(x => x.Item1 == task);
-                            var p = new Point(pos.Item3 + 1, pos.Item2 + 1);
+                            (int, int, int) pos = log.Tasks.First(x => x.Item1 == task);
+                            Point p = new(pos.Item3 + 1, pos.Item2 + 1);
                             Targets[r][start, t] = p;
                             break;
                         default:
@@ -98,7 +98,7 @@ public sealed class ReplayController : Controller
                     {
                         try
                         {
-                            var a = Paths[r][t];
+                            Action a = Paths[r][t];
                             r.Step(a.Reverse());
                         }
                         catch (System.Exception) { }
@@ -110,7 +110,7 @@ public sealed class ReplayController : Controller
                     {
                         try
                         {
-                            var a = Paths[r][t];
+                            Action a = Paths[r][t];
                             r.Step(a);
                         }
                         catch (System.Exception) { }

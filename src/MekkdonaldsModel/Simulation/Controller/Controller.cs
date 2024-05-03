@@ -9,7 +9,7 @@ public abstract class Controller
 
     protected Board _board;
 
-    public bool IsPlaying { get; protected set;}
+    public bool IsPlaying { get; protected set; }
     public double Speed { get; private set; } = 1;
 
     public int Width => _board.Width;
@@ -53,7 +53,7 @@ public abstract class Controller
             for (int x = 0; x < _board.Width; x++)
             {
                 if (_board.GetValue(x, y) is Board.WALL)
-                    _walls.Add(new(x, y));                
+                    _walls.Add(new(x, y));
             }
         }
     }

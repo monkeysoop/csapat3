@@ -2,7 +2,7 @@
 
 public abstract class PathFinder
 {
-    protected static readonly Point[] nexts_offsets = [
+    protected static readonly Point[] nextOffsets = [
         new(0, -1),
         new(1, 0),
         new(0, 1),
@@ -26,7 +26,7 @@ public abstract class PathFinder
         {
             return (false, new List<Action>());
         }
-    }    
+    }
 
     private static List<Action> TracePath(int[] parents_board, int[] costs_board, Board board, Point start, Point end)
     {
@@ -38,7 +38,7 @@ public abstract class PathFinder
 
         while (!ComparePoints(current_position, start))
         {
-            Point next_offset = nexts_offsets[current_direction];
+            Point next_offset = nextOffsets[current_direction];
 
             Point next_position = new(current_position.X + next_offset.X,
                                       current_position.Y + next_offset.Y);
@@ -115,58 +115,48 @@ public abstract class PathFinder
         return first.X == second.X && first.Y == second.Y;
     }
 
-    protected static int ManhattenDistance(Point start, Point end)
+    protected static int ManhattanDistance(Point start, Point end)
     {
         return Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y);
     }
 
     protected static int MaxTurnsRequired(Point position, Point direction, Point end)
     {
-        int diff_x = end.X - position.X;
-        int diff_y = end.Y - position.Y;
-        int dot_product = diff_x * direction.X + diff_y * direction.Y;
+        int diffX = end.X - position.X;
+        int diffY = end.Y - position.Y;
+        int dotProduct = diffX * direction.X + diffY * direction.Y;
 
-        if (diff_x == 0 && diff_y == 0)
+        if (diffX == 0 && diffY == 0)
         {
             return 0;
-        } else if (dot_product * dot_product == (diff_x * diff_x + diff_y * diff_y) * 1) // note that direction is a unitvector so its length is 1
+        }
+        else if (dotProduct * dotProduct == (diffX * diffX + diffY * diffY) * 1) // note that direction is a unit vector so its length is 1
         {
             return 0;
-        } else if (dot_product * dot_product == -1 * (diff_x * diff_x + diff_y * diff_y) * 1) // note that direction is a unitvector so its length is 1
+        }
+        else if (dotProduct * dotProduct == -1 * (diffX * diffX + diffY * diffY) * 1) // note that direction is a unit vector so its length is 1
         {
             return 2;
-        } else if (dot_product > 0)
+        }
+        else if (dotProduct > 0)
         {
             return 1;
-        } else if (dot_product < 0)
+        }
+        else if (dotProduct < 0)
         {
             return 2;
-        } else if (dot_product == 0)
+        }
+        else if (dotProduct == 0)
         {
             return 1;
-        } else
+        }
+        else
         {
             throw new ArgumentException();
         }
-
-        //if (dot_product > 0 || (diff_x == 0 && diff_y == 0))
-        //{
-        //    return 0;
-        //} else if (dot_product * dot_product != -1 * (diff_x * diff_x + diff_y * diff_y) * 1) // note that direction is a unitvector so its length is 1
-        //{
-        //    return 1;
-        //} else
-        //{
-        //    //Debug.WriteLine("position:" + position);
-        //    //Debug.WriteLine("end:" + end);
-        //    //Debug.WriteLine("direction:" + direction);
-        //    //Debug.WriteLine("diff:" + new Point(diff_x, diff_y));
-        //    //Debug.WriteLine("dot product:" + dot_product);
-        //    return 2;
-        //}
     }
 
-    protected static void CheckHeap(Step[] heap, int length, int[] heap_hashmap, int width)
+    protected static void CheckHeap(Step[] heap, int length, int[] heapHashMap, int width)
     {
         for (int i = 1; i < length; i++)
         {
@@ -179,49 +169,45 @@ public abstract class PathFinder
 
         for (int i = 0; i < length; i++)
         {
-            if (heap_hashmap[heap[i].Position.Y * width + heap[i].Position.X] != i)
+            if (heapHashMap[heap[i].Position.Y * width + heap[i].Position.X] != i)
             {
-                //for (int j = 0; j < length; j++)
-                //{
-                //    Debug.WriteLine("j: " + j + "\t" + heap[j].Position + "\t" + heap[j].Direction + "\t" + heap_hashmap[heap[j].Position.Y * width + heap[j].Position.X]);
-                //}
-                throw new System.Exception("error in heap hashmap!");
+                throw new System.Exception("error in heap hash map!");
             }
         }
     }
 
-    protected static void HeapInsert(Step[] heap, int length, Step item, int[] heap_hashmap, int width)
+    protected static void HeapInsert(Step[] heap, int length, Step item, int[] heapHashMap, int width)
     {
         heap[length] = item;
-        heap_hashmap[item.Position.Y * width + item.Position.X] = length;
+        heapHashMap[item.Position.Y * width + item.Position.X] = length;
 
         int index = length;
         int root_index = (index - 1) / 2;
 
 
-        // <= is used (instead of <), because it makes the newer Step with same value prefered, 
+        // <= is used (instead of <), because it makes the newer Step with same value preferred, 
         // which usually leads to finding the solution quicker.
         while (index > 0 && heap[index].Heuristic <= heap[root_index].Heuristic)
         {
-            int hashmap_index = heap[index].Position.Y * width + heap[index].Position.X;
-            int hashmap_root_index = heap[root_index].Position.Y * width + heap[root_index].Position.X;
+            int hashMapIndex = heap[index].Position.Y * width + heap[index].Position.X;
+            int hashMapRootIndex = heap[root_index].Position.Y * width + heap[root_index].Position.X;
 
             // swap
             (heap[root_index], heap[index]) = (heap[index], heap[root_index]);
-            (heap_hashmap[hashmap_root_index], heap_hashmap[hashmap_index]) = (heap_hashmap[hashmap_index], heap_hashmap[hashmap_root_index]);
+            (heapHashMap[hashMapRootIndex], heapHashMap[hashMapIndex]) = (heapHashMap[hashMapIndex], heapHashMap[hashMapRootIndex]);
 
             index = root_index;
             root_index = (index - 1) / 2;
         }
     }
 
-    protected static Step HeapRemoveMin(Step[] heap, int length, int[] heap_hashmap, int width)
+    protected static Step HeapRemoveMin(Step[] heap, int length, int[] heapHashMap, int width)
     {
-        Step min_item = heap[0];
-        heap_hashmap[heap[0].Position.Y * width + heap[0].Position.X] = -1;
+        Step minItem = heap[0];
+        heapHashMap[heap[0].Position.Y * width + heap[0].Position.X] = -1;
 
         heap[0] = heap[length - 1];
-        heap_hashmap[heap[length - 1].Position.Y * width + heap[length - 1].Position.X] = 0;
+        heapHashMap[heap[length - 1].Position.Y * width + heap[length - 1].Position.X] = 0;
 
         length--; // this is only local!!!
 
@@ -237,12 +223,12 @@ public abstract class PathFinder
 
         while (left_child_index < length && heap[next_child_index].Heuristic < heap[index].Heuristic)
         {
-            int hashmap_index = heap[index].Position.Y * width + heap[index].Position.X;
-            int hashmap_next_child_index = heap[next_child_index].Position.Y * width + heap[next_child_index].Position.X;
+            int hashMapIndex = heap[index].Position.Y * width + heap[index].Position.X;
+            int hashMapNextChildIndex = heap[next_child_index].Position.Y * width + heap[next_child_index].Position.X;
 
             // swap
             (heap[next_child_index], heap[index]) = (heap[index], heap[next_child_index]);
-            (heap_hashmap[hashmap_next_child_index], heap_hashmap[hashmap_index]) = (heap_hashmap[hashmap_index], heap_hashmap[hashmap_next_child_index]);
+            (heapHashMap[hashMapNextChildIndex], heapHashMap[hashMapIndex]) = (heapHashMap[hashMapIndex], heapHashMap[hashMapNextChildIndex]);
 
             index = next_child_index;
             left_child_index = 2 * index + 1;
@@ -255,21 +241,18 @@ public abstract class PathFinder
             }
         }
 
-        return min_item;
+        return minItem;
     }
 
-    protected static void UpdateHeapItem(Step[] heap, int length, Step item, int[] heap_hashmap, int width)
+    protected static void UpdateHeapItem(Step[] heap, int length, Step item, int[] heapHashMap, int width)
     {
-        int index = heap_hashmap[item.Position.Y * width + item.Position.X];
+        int index = heapHashMap[item.Position.Y * width + item.Position.X];
+
         if (index >= length || index < 0)
         {
-            //Debug.WriteLine("index: " + index);
-            //for (int i = 0; i < length; i++)
-            //{
-            //    Debug.WriteLine("i: " + i + "\t" + heap[i].Position + "\t" + heap[i].Direction + "\t" + heap_hashmap[heap[i].Position.Y * width + heap[i].Position.X]);
-            //}
             throw new System.Exception("invalid index, item not in heap");
         }
+
         if (heap[index].Heuristic < item.Heuristic)
         {
             // cascade up item
@@ -286,12 +269,12 @@ public abstract class PathFinder
 
             while (left_child_index < length && heap[next_child_index].Heuristic < heap[index].Heuristic)
             {
-                int hashmap_index = heap[index].Position.Y * width + heap[index].Position.X;
-                int hashmap_next_child_index = heap[next_child_index].Position.Y * width + heap[next_child_index].Position.X;
+                int hashMapIndex = heap[index].Position.Y * width + heap[index].Position.X;
+                int hashMapNextChildIndex = heap[next_child_index].Position.Y * width + heap[next_child_index].Position.X;
 
                 // swap
                 (heap[next_child_index], heap[index]) = (heap[index], heap[next_child_index]);
-                (heap_hashmap[hashmap_next_child_index], heap_hashmap[hashmap_index]) = (heap_hashmap[hashmap_index], heap_hashmap[hashmap_next_child_index]);
+                (heapHashMap[hashMapNextChildIndex], heapHashMap[hashMapIndex]) = (heapHashMap[hashMapIndex], heapHashMap[hashMapNextChildIndex]);
 
                 index = next_child_index;
                 left_child_index = 2 * index + 1;
@@ -312,16 +295,16 @@ public abstract class PathFinder
 
             int root_index = (index - 1) / 2;
 
-            // <= is used (instead of <), because it makes the newer Step with same value prefered, 
+            // <= is used (instead of <), because it makes the newer Step with same value preferred, 
             // which usually leads to finding the solution quicker.
             while (index > 0 && heap[index].Heuristic <= heap[root_index].Heuristic)
             {
-                int hashmap_index = heap[index].Position.Y * width + heap[index].Position.X;
-                int hashmap_root_index = heap[root_index].Position.Y * width + heap[root_index].Position.X;
+                int hashMapIndex = heap[index].Position.Y * width + heap[index].Position.X;
+                int hashMapRootIndex = heap[root_index].Position.Y * width + heap[root_index].Position.X;
 
                 // swap
                 (heap[root_index], heap[index]) = (heap[index], heap[root_index]);
-                (heap_hashmap[hashmap_root_index], heap_hashmap[hashmap_index]) = (heap_hashmap[hashmap_index], heap_hashmap[hashmap_root_index]);
+                (heapHashMap[hashMapRootIndex], heapHashMap[hashMapIndex]) = (heapHashMap[hashMapIndex], heapHashMap[hashMapRootIndex]);
 
                 index = root_index;
                 root_index = (index - 1) / 2;
