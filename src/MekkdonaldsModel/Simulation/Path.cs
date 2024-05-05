@@ -42,11 +42,11 @@ public class Path(List<Action> path, Point? target)
         return _path[_ind++];
     }
 
-    internal bool FreeAllReserved(Board board, Point current_position, Direction current_direction, int current_cost)
+    internal bool FreeAllReserved(Board board, Point current_position, Direction currentDirection, int current_cost)
     {
         // this does not deal with timeout (Action.T) even if it is "planned"
         Point position = current_position;
-        Direction direction = current_direction;
+        Direction direction = currentDirection;
         int cost = current_cost;
 
         while (!IsOver)

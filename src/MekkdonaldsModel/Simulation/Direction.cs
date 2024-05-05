@@ -10,16 +10,18 @@ public enum Direction
 
 public static class DirectionMethods
 {
-    private static readonly Point[] position_offsets = [
+    private static readonly Point[] _positionOffsets = [
         new(0, -1),
         new(1, 0),
         new(0, 1),
         new(-1, 0)
     ];
 
-    public static Point GetOffset(this Direction direction) => position_offsets[(int)direction];
+    public static Point GetOffset(this Direction direction) => _positionOffsets[(int)direction];
 
-    public static Point GetNewOffsetPoint(this Direction direction, Point point) => new(point.X + position_offsets[(int)direction].X, point.Y + position_offsets[(int)direction].Y);
+    public static Point GetOffset(this int direction) => _positionOffsets[direction];
+
+    public static Point GetNewOffsetPoint(this Direction direction, Point point) => new(point.X + _positionOffsets[(int)direction].X, point.Y + _positionOffsets[(int)direction].Y);
 
     public static Direction ClockWise(this Direction original) => (Direction)(((int)original + 1) % 4);
 
@@ -27,7 +29,7 @@ public static class DirectionMethods
 
     public static Direction Opposite(this Direction original) => (Direction)((2 + (int)original) % 4);
 
-    public static Direction StringToDirection(string direction)
+    public static Direction Parse(string direction)
     {
         return direction switch
         {

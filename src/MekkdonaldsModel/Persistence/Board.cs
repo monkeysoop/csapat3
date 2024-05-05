@@ -41,16 +41,6 @@ public class Board
         RobotMask = new int[Height * Width];
         ReservationTable = new byte[Height * Width * MaxPathLength]; // lots and lots of memory
 
-        //for (int i = 0; i < Height * Width; i++)
-        //{
-        //    Data[i] = EMPTY;
-        //    SearchMask[i] = NOT_SEARCHED;
-        //    RobotMask[i] = EMPTY;
-        //    for (int j = 0; j < MaxPathLength; j++)
-        //    {
-        //        ReservationTable[i * MaxPathLength + j] = EMPTY;
-        //    }
-        //}
         AddBorder();
     }
 
@@ -65,15 +55,6 @@ public class Board
         RobotMask = new int[Height * Width];
         ReservationTable = new byte[Height * Width * MaxPathLength]; // lots and lots of memory
 
-        //for (int i = 0; i < Height * Width; i++)
-        //{
-        //    SearchMask[i] = NOT_SEARCHED;
-        //    RobotMask[i] = EMPTY;
-        //    for (int j = 0; j < MaxPathLength; j++)
-        //    {
-        //        ReservationTable[i * MaxPathLength + j] = EMPTY;
-        //    }
-        //}
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
@@ -90,15 +71,15 @@ public class Board
     #region Public methods
 
 
-    public bool TryMoveRobot(Point current_position, Point next_position)
+    public bool TryMoveRobot(Point currentPosition, Point nextPosition)
     {
-        CheckPosition(current_position);
-        CheckPosition(next_position);
+        CheckPosition(currentPosition);
+        CheckPosition(nextPosition);
 
-        if (RobotMask[next_position.Y * Width + next_position.X] == EMPTY)
+        if (RobotMask[nextPosition.Y * Width + nextPosition.X] == EMPTY)
         {
-            RobotMask[current_position.Y * Width + current_position.X] = EMPTY;
-            RobotMask[next_position.Y * Width + next_position.X] = OCCUPIED;
+            RobotMask[currentPosition.Y * Width + currentPosition.X] = EMPTY;
+            RobotMask[nextPosition.Y * Width + nextPosition.X] = OCCUPIED;
             return true;
         }
         return false;
@@ -138,94 +119,94 @@ public class Board
         ReservationTable[(position.Y * Width + position.X) * MaxPathLength + ((cost + MaxPathLength) % MaxPathLength)] = OCCUPIED;
     }
 
-    public bool NotReservedForward(Point next_position, int cost)
+    public bool NotReservedForward(Point nextPosition, int cost)
     {
-        CheckPosition(next_position);
+        CheckPosition(nextPosition);
         CheckCost(cost);
 
-        return (ReservationTable[(next_position.Y * Width + next_position.X) * MaxPathLength + (cost % MaxPathLength)] == EMPTY);
+        return (ReservationTable[(nextPosition.Y * Width + nextPosition.X) * MaxPathLength + (cost % MaxPathLength)] == EMPTY);
     }
 
-    public bool NotReservedLeftRight(Point current_position, Point next_position, int cost)
+    public bool NotReservedLeftRight(Point currentPosition, Point nextPosition, int cost)
     {
-        CheckPosition(current_position);
-        CheckPosition(next_position);
+        CheckPosition(currentPosition);
+        CheckPosition(nextPosition);
         CheckCost(cost - 1);
 
-        return (ReservationTable[(next_position.Y * Width + next_position.X) * MaxPathLength + (cost % MaxPathLength)] == EMPTY) &&
-               (ReservationTable[(current_position.Y * Width + current_position.X) * MaxPathLength + ((cost + MaxPathLength - 1) % MaxPathLength)] == EMPTY);
+        return (ReservationTable[(nextPosition.Y * Width + nextPosition.X) * MaxPathLength + (cost % MaxPathLength)] == EMPTY) &&
+               (ReservationTable[(currentPosition.Y * Width + currentPosition.X) * MaxPathLength + ((cost + MaxPathLength - 1) % MaxPathLength)] == EMPTY);
     }
 
-    public bool SetSearchedIfEmptyForward(Point next_position, int cost)
+    public bool SetSearchedIfEmptyForward(Point nextPosition, int cost)
     {
-        CheckPosition(next_position);
+        CheckPosition(nextPosition);
         CheckCost(cost);
 
-        bool t = (Data[next_position.Y * Width + next_position.X] == EMPTY) &&
-                 (RobotMask[next_position.Y * Width + next_position.X] == EMPTY) && // this is needed, because the reservation table cant really be set when a robot finishes a task and doesnt immediatly get a new one
-                 (SearchMask[next_position.Y * Width + next_position.X] == NOT_SEARCHED) &&
-                 (ReservationTable[(next_position.Y * Width + next_position.X) * MaxPathLength + (cost % MaxPathLength)] == EMPTY);
+        bool t = (Data[nextPosition.Y * Width + nextPosition.X] == EMPTY) &&
+                 (RobotMask[nextPosition.Y * Width + nextPosition.X] == EMPTY) && // this is needed, because the reservation table cant really be set when a robot finishes a task and doesn't immediately get a new one
+                 (SearchMask[nextPosition.Y * Width + nextPosition.X] == NOT_SEARCHED) &&
+                 (ReservationTable[(nextPosition.Y * Width + nextPosition.X) * MaxPathLength + (cost % MaxPathLength)] == EMPTY);
 
         if (t)
         {
-            SearchMask[next_position.Y * Width + next_position.X] = SEARCHED;
+            SearchMask[nextPosition.Y * Width + nextPosition.X] = SEARCHED;
         }
 
         return t;
     }
 
-    public bool SetSearchedIfEmptyLeftRight(Point current_position, Point next_position, int cost)
+    public bool SetSearchedIfEmptyLeftRight(Point currentPosition, Point nextPosition, int cost)
     {
-        CheckPosition(current_position);
-        CheckPosition(next_position);
+        CheckPosition(currentPosition);
+        CheckPosition(nextPosition);
         CheckCost(cost - 1);
 
-        bool t = (Data[next_position.Y * Width + next_position.X] == EMPTY) &&
-                 (RobotMask[next_position.Y * Width + next_position.X] == EMPTY) && // this is needed, because the reservation table cant really be set when a robot finishes a task and doesnt immediatly get a new one
-                 (SearchMask[next_position.Y * Width + next_position.X] == NOT_SEARCHED) &&
-                 (ReservationTable[(current_position.Y * Width + current_position.X) * MaxPathLength + ((cost + MaxPathLength - 1) % MaxPathLength)] == EMPTY) &&
-                 (ReservationTable[(next_position.Y * Width + next_position.X) * MaxPathLength + ((cost) % MaxPathLength)] == EMPTY);
+        bool t = (Data[nextPosition.Y * Width + nextPosition.X] == EMPTY) &&
+                 (RobotMask[nextPosition.Y * Width + nextPosition.X] == EMPTY) && // this is needed, because the reservation table cant really be set when a robot finishes a task and doesn't immediately get a new one
+                 (SearchMask[nextPosition.Y * Width + nextPosition.X] == NOT_SEARCHED) &&
+                 (ReservationTable[(currentPosition.Y * Width + currentPosition.X) * MaxPathLength + ((cost + MaxPathLength - 1) % MaxPathLength)] == EMPTY) &&
+                 (ReservationTable[(nextPosition.Y * Width + nextPosition.X) * MaxPathLength + ((cost) % MaxPathLength)] == EMPTY);
 
         if (t)
         {
-            SearchMask[next_position.Y * Width + next_position.X] = SEARCHED;
+            SearchMask[nextPosition.Y * Width + nextPosition.X] = SEARCHED;
         }
 
         return t;
     }
 
-    public bool SetSearchedIfEmptyBackward(Point current_position, Point next_position, int cost)
+    public bool SetSearchedIfEmptyBackward(Point currentPosition, Point nextPosition, int cost)
     {
-        CheckPosition(current_position);
-        CheckPosition(next_position);
+        CheckPosition(currentPosition);
+        CheckPosition(nextPosition);
         CheckCost(cost - 2);
 
         bool t = //(Data[current_position.Y * Width + current_position.X] == EMPTY) && this is checked by SetSearchedIfEmptyStart and exception is thrown if needed
-                 (Data[next_position.Y * Width + next_position.X] == EMPTY) &&
-                 (RobotMask[next_position.Y * Width + next_position.X] == EMPTY) && // this is needed, because the reservation table cant really be set when a robot finishes a task and doesnt immediatly get a new one
-                 (SearchMask[next_position.Y * Width + next_position.X] == NOT_SEARCHED) &&
+                 (Data[nextPosition.Y * Width + nextPosition.X] == EMPTY) &&
+                 (RobotMask[nextPosition.Y * Width + nextPosition.X] == EMPTY) && // this is needed, because the reservation table cant really be set when a robot finishes a task and doesn't immediately get a new one
+                 (SearchMask[nextPosition.Y * Width + nextPosition.X] == NOT_SEARCHED) &&
                  //(ReservationTable[(current_position.Y * Width + current_position.X) * MaxPathLength + ((cost + MaxPathLength - 2) % MaxPathLength)] == EMPTY) &&
-                 (ReservationTable[(current_position.Y * Width + current_position.X) * MaxPathLength + ((cost + MaxPathLength - 1) % MaxPathLength)] == EMPTY) &&
-                 (ReservationTable[(next_position.Y * Width + next_position.X) * MaxPathLength + ((cost) % MaxPathLength)] == EMPTY);
+                 (ReservationTable[(currentPosition.Y * Width + currentPosition.X) * MaxPathLength + ((cost + MaxPathLength - 1) % MaxPathLength)] == EMPTY) &&
+                 (ReservationTable[(nextPosition.Y * Width + nextPosition.X) * MaxPathLength + ((cost) % MaxPathLength)] == EMPTY);
 
         if (t)
         {
-            SearchMask[next_position.Y * Width + next_position.X] = SEARCHED;
+            SearchMask[nextPosition.Y * Width + nextPosition.X] = SEARCHED;
         }
 
         return t;
     }
 
-    public bool SetSearchedIfEmptyStart(Point current_position, int cost)
+    public bool SetSearchedIfEmptyStart(Point currentPosition, int cost)
     {
-        CheckPosition(current_position);
+        CheckPosition(currentPosition);
         CheckCost(cost);
 
-        bool t = (Data[current_position.Y * Width + current_position.X] == EMPTY);
+        bool t = (Data[currentPosition.Y * Width + currentPosition.X] == EMPTY);
 
         if (t)
         {
-            SearchMask[current_position.Y * Width + current_position.X] = SEARCHED;
+            SearchMask[currentPosition.Y * Width + currentPosition.X] = SEARCHED;
         }
 
         return t;

@@ -72,7 +72,7 @@ public class StartPosConverter : JsonConverter<List<(Point, Direction)>>
             }
             else if (reader.TokenType == JsonTokenType.String)
             {
-                d = DirectionMethods.StringToDirection(reader.GetString() ?? throw new JsonException());
+                d = DirectionMethods.Parse(reader.GetString() ?? throw new JsonException());
             }
         }
 

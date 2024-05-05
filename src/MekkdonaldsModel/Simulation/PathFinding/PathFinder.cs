@@ -2,123 +2,91 @@
 
 public abstract class PathFinder
 {
-    protected static readonly Point[] nextOffsets = [
-        new(0, -1),
-        new(1, 0),
-        new(0, 1),
-        new(-1, 0)
-    ];
 
-    public (bool, List<Action>) CalculatePath(Board board, Point start_position, int start_direction, Point end_position, int start_cost)
+    public (bool, List<Action>) CalculatePath(Board board, Point startPosition, int startDirection, Point endPosition, int startCost)
     {
         bool found;
-        int[] parents_data;
-        int[] costs_data;
+        int[] parentsData;
+        int[] costsData;
 
-        (found, parents_data, costs_data) = FindPath(board, start_position, start_direction, end_position, start_cost);
+        (found, parentsData, costsData) = FindPath(board, startPosition, startDirection, endPosition, startCost);
         board.ClearMask();
 
         if (found)
         {
-            return (true, TracePath(parents_data, costs_data, board, start_position, end_position));
+            return (true, TracePath(parentsData, costsData, board, startPosition, endPosition));
         }
         else
         {
-            return (false, new List<Action>());
+            return (false, []);
         }
     }
 
-    private static List<Action> TracePath(int[] parents_board, int[] costs_board, Board board, Point start, Point end)
+    private static List<Action> TracePath(int[] parentsBoard, int[] costsBoard, Board board, Point start, Point end)
     {
         List<Action> path = [];
 
 
-        Point current_position = end;
-        int current_direction = (parents_board[current_position.Y * board.Width + current_position.X] + 2) % 4;
+        Point currentPosition = end;
+        int currentDirection = (parentsBoard[currentPosition.Y * board.Width + currentPosition.X] + 2) % 4;
 
-        while (!ComparePoints(current_position, start))
+        while (currentPosition != start)
         {
-            Point next_offset = nextOffsets[current_direction];
+            Point nextOffset = currentDirection.GetOffset();
 
-            Point next_position = new(current_position.X + next_offset.X,
-                                      current_position.Y + next_offset.Y);
+            Point nextPosition = new(currentPosition.X + nextOffset.X,
+                                      currentPosition.Y + nextOffset.Y);
 
-            int next_direction = (parents_board[next_position.Y * board.Width + next_position.X] + 2) % 4;
+            int nextDirection = (parentsBoard[nextPosition.Y * board.Width + nextPosition.X] + 2) % 4;
 
-            int diff = current_direction - next_direction;
+            int diff = currentDirection - nextDirection;
 
 
             path.Add(Action.F);
             switch (diff)
             {
                 case -3:
-                    path.Add(Action.R);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 1);
-                    board.Reserve(current_position, costs_board[current_position.Y * board.Width + current_position.X]);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 2); // for stopping robots clipping trough each other
-                    break;
-                case -2:
-                    path.Add(Action.R);
-                    path.Add(Action.R);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 1);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 2);
-                    board.Reserve(current_position, costs_board[current_position.Y * board.Width + current_position.X]);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 3); // for stopping robots clipping trough each other
-                    break;
-                case -1:
-                    path.Add(Action.C);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 1);
-                    board.Reserve(current_position, costs_board[current_position.Y * board.Width + current_position.X]);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 2); // for stopping robots clipping trough each other
-                    break;
-                case 0:
-                    board.Reserve(current_position, costs_board[current_position.Y * board.Width + current_position.X]);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 1); // for stopping robots clipping trough each other
-                    break;
                 case 1:
                     path.Add(Action.R);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 1);
-                    board.Reserve(current_position, costs_board[current_position.Y * board.Width + current_position.X]);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 2); // for stopping robots clipping trough each other
+                    board.Reserve(nextPosition, costsBoard[nextPosition.Y * board.Width + nextPosition.X] + 1);
+                    board.Reserve(currentPosition, costsBoard[currentPosition.Y * board.Width + currentPosition.X]);
+                    board.Reserve(nextPosition, costsBoard[nextPosition.Y * board.Width + nextPosition.X] + 2); // for stopping robots clipping trough each other
                     break;
+                case -2:
                 case 2:
                     path.Add(Action.R);
                     path.Add(Action.R);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 1);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 2);
-                    board.Reserve(current_position, costs_board[current_position.Y * board.Width + current_position.X]);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 3); // for stopping robots clipping trough each other
+                    board.Reserve(nextPosition, costsBoard[nextPosition.Y * board.Width + nextPosition.X] + 1);
+                    board.Reserve(nextPosition, costsBoard[nextPosition.Y * board.Width + nextPosition.X] + 2);
+                    board.Reserve(currentPosition, costsBoard[currentPosition.Y * board.Width + currentPosition.X]);
+                    board.Reserve(nextPosition, costsBoard[nextPosition.Y * board.Width + nextPosition.X] + 3); // for stopping robots clipping trough each other
                     break;
+                case -1:
                 case 3:
                     path.Add(Action.C);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 1);
-                    board.Reserve(current_position, costs_board[current_position.Y * board.Width + current_position.X]);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 2); // for stopping robots clipping trough each other
+                    board.Reserve(nextPosition, costsBoard[nextPosition.Y * board.Width + nextPosition.X] + 1);
+                    board.Reserve(currentPosition, costsBoard[currentPosition.Y * board.Width + currentPosition.X]);
+                    board.Reserve(nextPosition, costsBoard[nextPosition.Y * board.Width + nextPosition.X] + 2); // for stopping robots clipping trough each other
+                    break;
+                case 0:
+                    board.Reserve(currentPosition, costsBoard[currentPosition.Y * board.Width + currentPosition.X]);
+                    board.Reserve(nextPosition, costsBoard[nextPosition.Y * board.Width + nextPosition.X] + 1); // for stopping robots clipping trough each other
                     break;
             }
 
-            current_position = next_position;
-            current_direction = next_direction;
+            currentPosition = nextPosition;
+            currentDirection = nextDirection;
         }
-        board.Reserve(start, costs_board[start.Y * board.Width + start.X]);
-        //board.Reserve(end, costs_board[end.Y * board.Width + end.X] + 1);
+        board.Reserve(start, costsBoard[start.Y * board.Width + start.X]);
 
         path.Reverse();
 
         return path;
     }
 
-    protected abstract (bool, int[], int[]) FindPath(Board board, Point start_position, int start_direction, Point end_position, int start_cost);
+    protected abstract (bool, int[], int[]) FindPath(Board board, Point start_position, int startDirection, Point end_position, int start_cost);
 
-    protected static bool ComparePoints(Point first, Point second) // == is overloaded
-    {
-        return first.X == second.X && first.Y == second.Y;
-    }
-
-    protected static int ManhattanDistance(Point start, Point end)
-    {
-        return Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y);
-    }
+    protected static int ManhattanDistance(Point start, Point end) => Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y);
 
     protected static int MaxTurnsRequired(Point position, Point direction, Point end)
     {
@@ -152,7 +120,7 @@ public abstract class PathFinder
         }
         else
         {
-            throw new ArgumentException();
+            throw new InvalidOperationException();
         }
     }
 
@@ -212,32 +180,32 @@ public abstract class PathFinder
         length--; // this is only local!!!
 
         int index = 0;
-        int left_child_index = 1;
-        int right_child_index = 2;
+        int leftChildIndex = 1;
+        int rightChildIndex = 2;
 
-        int next_child_index = left_child_index;
-        if (right_child_index < length && heap[right_child_index].Heuristic < heap[left_child_index].Heuristic)
+        int nextChildIndex = leftChildIndex;
+        if (rightChildIndex < length && heap[rightChildIndex].Heuristic < heap[leftChildIndex].Heuristic)
         {
-            next_child_index = right_child_index;
+            nextChildIndex = rightChildIndex;
         }
 
-        while (left_child_index < length && heap[next_child_index].Heuristic < heap[index].Heuristic)
+        while (leftChildIndex < length && heap[nextChildIndex].Heuristic < heap[index].Heuristic)
         {
             int hashMapIndex = heap[index].Position.Y * width + heap[index].Position.X;
-            int hashMapNextChildIndex = heap[next_child_index].Position.Y * width + heap[next_child_index].Position.X;
+            int hashMapNextChildIndex = heap[nextChildIndex].Position.Y * width + heap[nextChildIndex].Position.X;
 
             // swap
-            (heap[next_child_index], heap[index]) = (heap[index], heap[next_child_index]);
+            (heap[nextChildIndex], heap[index]) = (heap[index], heap[nextChildIndex]);
             (heapHashMap[hashMapNextChildIndex], heapHashMap[hashMapIndex]) = (heapHashMap[hashMapIndex], heapHashMap[hashMapNextChildIndex]);
 
-            index = next_child_index;
-            left_child_index = 2 * index + 1;
-            right_child_index = 2 * index + 2;
+            index = nextChildIndex;
+            leftChildIndex = 2 * index + 1;
+            rightChildIndex = 2 * index + 2;
 
-            next_child_index = left_child_index;
-            if (right_child_index < length && heap[right_child_index].Heuristic < heap[left_child_index].Heuristic)
+            nextChildIndex = leftChildIndex;
+            if (rightChildIndex < length && heap[rightChildIndex].Heuristic < heap[leftChildIndex].Heuristic)
             {
-                next_child_index = right_child_index;
+                nextChildIndex = rightChildIndex;
             }
         }
 
@@ -258,32 +226,32 @@ public abstract class PathFinder
             // cascade up item
             heap[index] = item;
 
-            int left_child_index = 2 * index + 1;
-            int right_child_index = 2 * index + 2;
+            int leftChildIndex = 2 * index + 1;
+            int rightChildIndex = 2 * index + 2;
 
-            int next_child_index = left_child_index;
-            if (right_child_index < length && heap[right_child_index].Heuristic < heap[left_child_index].Heuristic)
+            int nextChildIndex = leftChildIndex;
+            if (rightChildIndex < length && heap[rightChildIndex].Heuristic < heap[leftChildIndex].Heuristic)
             {
-                next_child_index = right_child_index;
+                nextChildIndex = rightChildIndex;
             }
 
-            while (left_child_index < length && heap[next_child_index].Heuristic < heap[index].Heuristic)
+            while (leftChildIndex < length && heap[nextChildIndex].Heuristic < heap[index].Heuristic)
             {
                 int hashMapIndex = heap[index].Position.Y * width + heap[index].Position.X;
-                int hashMapNextChildIndex = heap[next_child_index].Position.Y * width + heap[next_child_index].Position.X;
+                int hashMapNextChildIndex = heap[nextChildIndex].Position.Y * width + heap[nextChildIndex].Position.X;
 
                 // swap
-                (heap[next_child_index], heap[index]) = (heap[index], heap[next_child_index]);
+                (heap[nextChildIndex], heap[index]) = (heap[index], heap[nextChildIndex]);
                 (heapHashMap[hashMapNextChildIndex], heapHashMap[hashMapIndex]) = (heapHashMap[hashMapIndex], heapHashMap[hashMapNextChildIndex]);
 
-                index = next_child_index;
-                left_child_index = 2 * index + 1;
-                right_child_index = 2 * index + 2;
+                index = nextChildIndex;
+                leftChildIndex = 2 * index + 1;
+                rightChildIndex = 2 * index + 2;
 
-                next_child_index = left_child_index;
-                if (right_child_index < length && heap[right_child_index].Heuristic < heap[left_child_index].Heuristic)
+                nextChildIndex = leftChildIndex;
+                if (rightChildIndex < length && heap[rightChildIndex].Heuristic < heap[leftChildIndex].Heuristic)
                 {
-                    next_child_index = right_child_index;
+                    nextChildIndex = rightChildIndex;
                 }
             }
 
@@ -293,21 +261,21 @@ public abstract class PathFinder
             // cascade down item
             heap[index] = item;
 
-            int root_index = (index - 1) / 2;
+            int rootIndex = (index - 1) / 2;
 
             // <= is used (instead of <), because it makes the newer Step with same value preferred, 
             // which usually leads to finding the solution quicker.
-            while (index > 0 && heap[index].Heuristic <= heap[root_index].Heuristic)
+            while (index > 0 && heap[index].Heuristic <= heap[rootIndex].Heuristic)
             {
                 int hashMapIndex = heap[index].Position.Y * width + heap[index].Position.X;
-                int hashMapRootIndex = heap[root_index].Position.Y * width + heap[root_index].Position.X;
+                int hashMapRootIndex = heap[rootIndex].Position.Y * width + heap[rootIndex].Position.X;
 
                 // swap
-                (heap[root_index], heap[index]) = (heap[index], heap[root_index]);
+                (heap[rootIndex], heap[index]) = (heap[index], heap[rootIndex]);
                 (heapHashMap[hashMapRootIndex], heapHashMap[hashMapIndex]) = (heapHashMap[hashMapIndex], heapHashMap[hashMapRootIndex]);
 
-                index = root_index;
-                root_index = (index - 1) / 2;
+                index = rootIndex;
+                rootIndex = (index - 1) / 2;
             }
         }
     }

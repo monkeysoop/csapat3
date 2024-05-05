@@ -6,7 +6,6 @@ public class BoardFileDataAccess : IBoardDataAccess
     public const int EMPTY = 0;
     public const int WALL = 1;
     public const char EMPTY_CHAR = '.';
-    public const char WALL_CHAR = '@';
     #endregion
 
     public async Task<Board> LoadAsync(string path)

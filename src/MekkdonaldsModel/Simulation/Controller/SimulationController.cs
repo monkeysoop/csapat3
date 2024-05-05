@@ -5,7 +5,7 @@ public sealed class SimulationController : Controller
     private Assigner.Assigner? _assigner;
 
     private readonly ConcurrentDictionary<Robot, Path> _paths = [];
-    private readonly PathFinder _pathFinder = new Astar();
+    private readonly PathFinder _pathFinder = new AStar();
 
     private Logger _logger;
     private readonly ILogFileDataAccess _logFileDataAccess;

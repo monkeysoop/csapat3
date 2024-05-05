@@ -148,7 +148,7 @@ public partial class App : Application
 
         if (fd.ShowDialog() is false) return false;
 
-        Type algorithm = typeof(Astar);
+        Type algorithm = typeof(AStar);
 
         string configFile = fd.FileName;
 
