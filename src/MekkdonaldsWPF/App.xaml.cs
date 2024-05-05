@@ -36,7 +36,11 @@ public partial class App : Application
         DrawElements();
 
         if (_rectangle is null || _ellipses.Any(x => x is null))
-            throw new System.Exception("Failed to load images");
+        {
+            var ex = new System.Exception("Failed to load images");
+            Exception(this, ex);
+            throw ex;
+        }
     }
 
     private void OnStartup(object sender, StartupEventArgs e)
@@ -100,7 +104,15 @@ public partial class App : Application
 
         if (fd.ShowDialog() is false) return false;
 
-        _viewModel = new ReplayViewModel(logPath, fd.FileName);
+        try
+        {
+            _viewModel = new ReplayViewModel(logPath, fd.FileName);
+        }
+        catch (System.Exception ex)
+        {
+            Exception(this, ex);
+            return false;
+        }
 
         _replayWindow = new ReplayWindow
         {
@@ -158,7 +170,17 @@ public partial class App : Application
         int simulationLength = int.Parse(_startWindow.Length.Text);
         double speed = double.Parse(_startWindow.Speed.Text);
 
-        SimulationViewModel simulationViewModel = new(configFile, algorithm, simulationLength, speed);
+        SimulationViewModel simulationViewModel;
+
+        try
+        {
+            simulationViewModel = new(configFile, algorithm, simulationLength, speed);
+        }
+        catch (System.Exception ex)
+        {
+            Exception(this, ex);
+            return false;
+        }
 
         _viewModel = simulationViewModel;
 
@@ -173,6 +195,7 @@ public partial class App : Application
 
         _viewModel.Tick += OnTick;
         _viewModel.PropertyChanged += OnPropertyChanged;
+        _viewModel.Exception += Exception;
 
         _simWindow.SizeChanged += (_, _) => OnSizeChanged(_simWindow.MapCanvas);
 
@@ -552,4 +575,9 @@ public partial class App : Application
         });
     }
     #endregion
+
+    private static void Exception(object? _, System.Exception exception)
+    {
+        MessageBox.Show(exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+    }
 }
