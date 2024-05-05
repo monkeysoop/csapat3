@@ -19,6 +19,8 @@ public abstract class Controller
 
     public IReadOnlyList<Wall> Walls => _walls.AsReadOnly();
 
+    public event EventHandler<System.Exception>? Exception;
+
     public event EventHandler? Tick;
     public event EventHandler? Loaded;
 
@@ -29,7 +31,17 @@ public abstract class Controller
 
         _board = new(0, 0);
         Interval = TimeSpan.FromSeconds(speed);
-        Timer = new Timer(OnTick, null, Timeout.Infinite, Timeout.Infinite);
+        Timer = new Timer((e) =>
+        {
+            try
+            {
+                OnTick(e);
+            }
+            catch (System.Exception ex)
+            {
+                OnException(this, ex);
+            }
+        }, null, Timeout.Infinite, Timeout.Infinite);
     }
 
     protected Controller() : this(.2) { }
@@ -58,6 +70,11 @@ public abstract class Controller
                     _walls.Add(new(x, y));
             }
         }
+    }
+
+    protected void OnException(object? sender, System.Exception e)
+    {
+        Exception?.Invoke(sender, e);
     }
 
     public void ChangeSpeed(double speed)
