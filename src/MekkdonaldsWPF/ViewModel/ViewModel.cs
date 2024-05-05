@@ -1,11 +1,11 @@
 ﻿namespace Mekkdonalds.ViewModel;
 
-internal abstract class ViewModel(Controller controller) : ViewModelBase
+internal abstract class ViewModel : ViewModelBase
 {
     private const double MINZOOM = .3;
     private const double MAXZOOM = 2;
 
-    protected Controller Controller = controller;
+    protected Controller Controller;
 
     private double _zoom = 1;
 
@@ -56,6 +56,15 @@ internal abstract class ViewModel(Controller controller) : ViewModelBase
     /// </summary>
     public event EventHandler? Tick;
     public event EventHandler? Loaded;
+    public event EventHandler<System.Exception>? Exception;
+
+    protected ViewModel(Controller controller)
+    {
+        Controller = controller;
+        Controller.Exception += OnException;
+    }
+
+    private void OnException(object? sender, System.Exception e) => Exception?.Invoke(sender, e);
 
     protected void OnLoaded(object? sender)
     {

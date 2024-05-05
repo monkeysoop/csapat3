@@ -87,6 +87,13 @@ public sealed class SimulationController : Controller
             LoadWalls();
 
             OnLoaded(this);
+            
+        }).ContinueWith(t =>
+        {
+            if (t.IsFaulted)
+            {
+                OnException(this, t.Exception);
+            }
         });
     }
 
