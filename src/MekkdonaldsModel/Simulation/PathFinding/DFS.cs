@@ -1,7 +1,7 @@
 ﻿namespace Mekkdonalds.Simulation.PathFinding;
 
 public sealed class DFS : PathFinder
-{    
+{
     protected override (bool, int[], int[]) FindPath(Board board, Point startPosition, int startDirection, Point endPosition, int startCost)
     {
         // this depth first search uses heuristics to hopefully find a correct path quicker
@@ -71,19 +71,6 @@ public sealed class DFS : PathFinder
                     int forwardCost = currentCost + 1;
                     int leftCost = currentCost + 2;
                     int rightCost = currentCost + 2;
-
-                    //int heuristic1 = forwardCost +
-                    //                 MaxTurnsRequired(forwardNextPosition, forwardOffset, endPosition) +
-                    //                 ManhattenDistance(forwardNextPosition, endPosition);
-                    //
-                    //int heuristic2 = leftCost +
-                    //                 MaxTurnsRequired(leftNextPosition, leftOffset, endPosition) +
-                    //                 ManhattenDistance(leftNextPosition, endPosition);
-                    //
-                    //int heuristic3 = rightCost +
-                    //                 MaxTurnsRequired(rightNextPosition, rightOffset, endPosition) +
-                    //                 ManhattenDistance(rightNextPosition, endPosition);
-
 
                     if (board.SetSearchedIfEmptyLeftRight(currentStep.Position, leftNextPosition, leftCost))
                     {
