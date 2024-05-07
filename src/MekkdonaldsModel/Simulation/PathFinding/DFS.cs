@@ -96,43 +96,6 @@ public sealed class DFS : PathFinder
                         costs[forwardNextPosition.Y * board.Width + forwardNextPosition.X] = forwardCost;
                         parents[forwardNextPosition.Y * board.Width + forwardNextPosition.X] = forwardDirection;
                     }
-
-
-                    //int indexOffset1 = 2;
-                    //int indexOffset2 = 1;
-                    //int indexOffset3 = 0;
-                    //
-                    //if (heuristic1 > heuristic2)
-                    //{
-                    //    int t = heuristic1;
-                    //    heuristic1 = heuristic2;
-                    //    heuristic2 = t;
-                    //    indexOffset1 = 1;
-                    //    indexOffset2 = 2;
-                    //}
-                    //if (heuristic1 > heuristic3)
-                    //{
-                    //    int t = heuristic1;
-                    //    heuristic1 = heuristic3;
-                    //    heuristic3 = t;
-                    //    indexOffset3 = indexOffset1;
-                    //    indexOffset1 = 0;
-                    //}
-                    //if (heuristic2 > heuristic3)
-                    //{
-                    //    int t = heuristic2;
-                    //    heuristic2 = heuristic3;
-                    //    heuristic3 = t;
-                    //    int tt = indexOffset2;
-                    //    indexOffset2 = indexOffset3;
-                    //    indexOffset3 = tt;
-                    //}
-                    //
-                    //stack[stackIndex + indexOffset1] = new Step(forwardNextPosition, forwardDirection, heuristic1);
-                    //stack[stackIndex + indexOffset2] = new Step(leftNextPosition, leftDirection, heuristic2);
-                    //stack[stackIndex + indexOffset3] = new Step(rightNextPosition, rightDirection, heuristic3);
-                    //
-                    //stackIndex += 3;
                 }
             }
         }
