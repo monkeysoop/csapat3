@@ -5,14 +5,28 @@ public sealed class ReplayController : Controller
     private readonly ConcurrentDictionary<Robot, List<Action>> Paths = [];
     private readonly ConcurrentDictionary<Robot, IntervalTree<Point?>> Targets = [];
 
-    public int TimeStamp { get; private set; }
+    /// <summary>
+    /// Length of the replay
+    /// </summary>
     public int Length { get; private set; }
 
+    /// <summary>
+    /// constructor for the replay controller
+    /// </summary>
+    /// <param name="logPath">path to the log file</param> 
+    /// <param name="mapPath"> path to the map file</param>
+    /// <param name="da">data access object</param> 
     public ReplayController(string logPath, string mapPath, IReplayDataAccess da)
     {
         Load(logPath, mapPath, da);
     }
 
+    /// <summary>
+    /// loads the log and map files
+    /// </summary>
+    /// <param name="logPath"> path to the log file</param>
+    /// <param name="mapPath">path to the map file</param> 
+    /// <param name="da">data access object</param> 
     private async void Load(string logPath, string mapPath, IReplayDataAccess da)
     {
         await Task.Run(async () =>
@@ -70,6 +84,11 @@ public sealed class ReplayController : Controller
         });
     }
 
+    /// <summary>
+    /// implementation of the OnTick method
+    /// method to be called on each tick
+    /// </summary>
+    /// <param name="state">state</param>
     protected override void OnTick(object? state)
     {
         if (TimeStamp >= Length)
@@ -82,6 +101,11 @@ public sealed class ReplayController : Controller
         StepForward();
     }
 
+    /// <summary>
+    /// jumps to a specific time
+    /// </summary>
+    /// <param name="time">time to jump to</param> 
+    /// <exception cref="ArgumentOutOfRangeException"> throws an exception if the time is out of bounds</exception>
     public void JumpTo(int time)
     {
         if (time < 0 || time > Length) throw new ArgumentOutOfRangeException(nameof(time), "Time must be between 0 and the length of the replay");
@@ -124,11 +148,16 @@ public sealed class ReplayController : Controller
         CallTick(this);
     }
 
+    /// <summary>
+    /// implementation of the StepForward method
+    /// </summary>
     public override void StepForward()
     {
         JumpTo(TimeStamp + 1);
     }
-
+    /// <summary>
+    /// method to step backward
+    /// </summary>
     public void StepBackward()
     {
         JumpTo(TimeStamp - 1);
