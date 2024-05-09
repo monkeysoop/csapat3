@@ -10,6 +10,8 @@ public sealed class SimulationController : Controller
     private Logger _logger;
     private readonly ILogFileDataAccess _logFileDataAccess;
 
+    private CancellationTokenSource? _cancellationTokenSource;
+
     private readonly double Length;
 
     public int TimeStamp { get; private set; }
@@ -108,11 +110,13 @@ public sealed class SimulationController : Controller
 
     protected override void OnTick(object? state)
     {
-        var cancellationTokenSource = new CancellationTokenSource();
+        _cancellationTokenSource = new CancellationTokenSource();
 
         var task = Task.Run(() =>
         {
             List<Robot>.Enumerator enumerator = _robots.GetEnumerator();
+
+            Robot robot;
 
             lock (_board)
             {
@@ -120,9 +124,9 @@ public sealed class SimulationController : Controller
                 {
                     if (_assigner!.NoPackage && _paths.All(x => x.Value.IsOver) || TimeStamp >= Length)
                     {
-                        foreach (Robot? robot in _robots.Where(r => r.Task is not null))
+                        foreach (var r in _robots.Where(r => r.Task is not null))
                         {
-                            robot.RemoveTask();
+                            r.RemoveTask();
                         }
 
                         OnEnded(this, EventArgs.Empty);
@@ -131,16 +135,11 @@ public sealed class SimulationController : Controller
 
                     while (enumerator.MoveNext())
                     {
-                        Robot robot = enumerator.Current;
+                        robot = enumerator.Current;
 
                         if (!_paths.TryGetValue(robot, out Path? path))
                         {
                             // sometimes this is caused by pathfinding taking too long and it times out
-                            throw new System.Exception("");
-                        }
-
-                        if (path is null)
-                        {
                             throw new System.Exception("");
                         }
 
@@ -180,14 +179,15 @@ public sealed class SimulationController : Controller
                             _board.UnReserve(robot.Position, TimeStamp);
                         }
 
-                        cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                        _cancellationTokenSource.Token.ThrowIfCancellationRequested();
                     }
                 }
                 catch (OperationCanceledException)
                 {
+                    Debug.WriteLine("Timeout");
                     while (enumerator.MoveNext())
                     {
-                        Robot robot = enumerator.Current;
+                        robot = enumerator.Current;
 
                         robot.TryStep(Action.T, _board, TimeStamp);
 
@@ -197,6 +197,7 @@ public sealed class SimulationController : Controller
                         }
 
                         path.Alter(Action.T);
+                        path.Increment();
                     }
                 }
                 finally
@@ -206,9 +207,15 @@ public sealed class SimulationController : Controller
                     CallTick(this);
                 }
             }
-        }, cancellationTokenSource.Token);
+        }, _cancellationTokenSource.Token).ContinueWith(t =>
+        {
+            if (t.IsFaulted)
+            {
+                OnException(this, t.Exception);
+            }
+        });
 
-        cancellationTokenSource.CancelAfter(Interval.Milliseconds);
+        _cancellationTokenSource.CancelAfter(Interval.Milliseconds);
     }
 
     public override void StepForward()

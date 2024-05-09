@@ -5,7 +5,10 @@ public abstract class Controller
     protected List<Robot> _robots;
     protected List<Wall> _walls;
     protected Timer Timer;
-    protected TimeSpan Interval { get; private set; }
+
+    private readonly TimeSpan _interval;
+
+    protected TimeSpan Interval => _interval / Speed;
 
     protected Board _board;
 
@@ -30,7 +33,8 @@ public abstract class Controller
         _walls = [];
 
         _board = new(0, 0);
-        Interval = TimeSpan.FromSeconds(speed);
+        _interval = TimeSpan.FromSeconds(speed);
+
         Timer = new Timer((e) =>
         {
             try
@@ -83,20 +87,28 @@ public abstract class Controller
         {
             throw new ArgumentException("Speed must be positive", nameof(speed));
         }
-        Timer.Change(TimeSpan.Zero, Interval / speed);
+
         Speed = speed;
+
+        if (IsPlaying) Timer.Change(TimeSpan.Zero, Interval);
     }
 
-    public void Play()
+    public virtual void Play()
     {
-        Timer.Change(TimeSpan.Zero, Interval);
-        IsPlaying = true;
+        if (!IsPlaying)
+        {
+            Timer.Change(TimeSpan.Zero, Interval);
+            IsPlaying = true;
+        }
     }
 
-    public void Pause()
+    public virtual void Pause()
     {
-        Timer.Change(Timeout.Infinite, Timeout.Infinite);
-        IsPlaying = false;
+        if (IsPlaying)
+        {
+            Timer.Change(Timeout.Infinite, Timeout.Infinite);
+            IsPlaying = false;
+        }
     }
 
     public abstract void StepForward();
