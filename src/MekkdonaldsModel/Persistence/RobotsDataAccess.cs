@@ -2,6 +2,14 @@
 
 public class RobotsDataAccess : IRobotsDataAccess
 {
+    /// <summary>
+    /// loads the robots from the file
+    /// </summary>
+    /// <param name="path"> path to the file</param>
+    /// <param name="width"> width of the board</param>
+    /// <param name="height"> height of the board</param>
+    /// <returns>a task that represents the loading operation. The task result contains the list of robots</returns> 
+    /// <exception cref="RobotsDataException">thrown when the data is invalid</exception> 
     public async Task<List<Robot>> LoadAsync(string path, int width, int height)
     {
         List<Robot> robots = [];
