@@ -2,6 +2,14 @@
 
 public class PackagesDataAccess : IPackagesDataAccess
 {
+    /// <summary>
+    /// loads the packages from a file
+    /// </summary>
+    /// <param name="path">path to the file</param> 
+    /// <param name="width">width of the board</param> 
+    /// <param name="height">height of the board</param> 
+    /// <returns>a task that represents the loading operation. The task result contains the list of packages</returns> 
+    /// <exception cref="PackagesDataException">thrown when the data is invalid</exception> 
     public async Task<List<Package>> LoadAsync(string path, int width, int height)
     {
         List<Package> packages = [];
