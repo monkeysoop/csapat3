@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Simulation;
 
-public class Path(List<Action> path, Point? target)
+public class Path(IEnumerable<Action> path, Point? target)
 {
     private readonly List<Action> _path = [.. path];
 
@@ -76,5 +76,10 @@ public class Path(List<Action> path, Point? target)
         // needs to remove the reservation at the end
 
         return true;
+    }
+
+    internal void Alter(Action t)
+    {
+        _path.Insert(_ind, t);
     }
 }

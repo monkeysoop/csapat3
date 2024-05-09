@@ -108,83 +108,112 @@ public sealed class SimulationController : Controller
 
     protected override void OnTick(object? state)
     {
-        Step();
+        var cancellationTokenSource = new CancellationTokenSource();
 
-        CallTick(this);
+        var task = Task.Run(() =>
+        {
+            List<Robot>.Enumerator enumerator = _robots.GetEnumerator();
+
+            lock (_board)
+            {
+                try
+                {
+                    if (_assigner!.NoPackage && _paths.All(x => x.Value.IsOver) || TimeStamp >= Length)
+                    {
+                        foreach (Robot? robot in _robots.Where(r => r.Task is not null))
+                        {
+                            robot.RemoveTask();
+                        }
+
+                        OnEnded(this, EventArgs.Empty);
+                        return;
+                    }
+
+                    while (enumerator.MoveNext())
+                    {
+                        Robot robot = enumerator.Current;
+
+                        if (!_paths.TryGetValue(robot, out Path? path))
+                        {
+                            // sometimes this is caused by pathfinding taking too long and it times out
+                            throw new System.Exception("");
+                        }
+
+                        if (path is null)
+                        {
+                            throw new System.Exception("");
+                        }
+
+                        if (path.IsOver)
+                        {
+                            if (robot.Task != null)
+                            {
+                                _logger.LogPlannerPaths(robot.ID, path);
+                                _logger.LogFinish(robot.ID, robot.Task!.ID, TimeStamp);
+                            }
+
+                            if (!_paths.TryRemove(robot, out _))
+                            {
+                                throw new System.Exception("");
+                            }
+
+                            path = Assign(robot);
+                        }
+
+                        if (!path.IsOver)
+                        {
+                            Action action = path.PeekNext();
+
+                            if (robot.TryStep(action, _board, TimeStamp))
+                            {
+                                path.Increment();
+                            }
+                            else
+                            {
+                                Free(robot, path);
+                                _board.Reserve(robot.Position, TimeStamp + 1);
+                            }
+                        }
+                        else
+                        {
+                            // this could happen if the next task is at the same position as the robot which is assigned to
+                            _board.UnReserve(robot.Position, TimeStamp);
+                        }
+
+                        cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    while (enumerator.MoveNext())
+                    {
+                        Robot robot = enumerator.Current;
+
+                        robot.TryStep(Action.T, _board, TimeStamp);
+
+                        if (!_paths.TryGetValue(robot, out Path? path))
+                        {
+                            throw new System.Exception("Robot's path has been deleted");
+                        }
+
+                        path.Alter(Action.T);
+                    }
+                }
+                finally
+                {
+                    TimeStamp++;
+                    enumerator.Dispose();
+                    CallTick(this);
+                }
+            }
+        }, cancellationTokenSource.Token);
+
+        cancellationTokenSource.CancelAfter(Interval.Milliseconds);
     }
 
     public override void StepForward()
     {
         if (!IsPlaying) OnTick(null);
-    }
-
-    private void Step()
-    {
-        lock (_board)
-        {
-            if (_assigner!.NoPackage && _paths.All(x => x.Value.IsOver) || TimeStamp >= Length)
-            {
-                foreach (Robot? robot in _robots.Where(r => r.Task is not null))
-                {
-                    robot.RemoveTask();
-                }
-
-                OnEnded(this, EventArgs.Empty);
-                return;
-            }
-
-            foreach (Robot robot in _robots)
-            {
-                if (!_paths.TryGetValue(robot, out Path? path))
-                {
-                    // sometimes this is caused by pathfinding taking too long and it times out
-                    throw new System.Exception("");
-                }
-
-                if (path is null)
-                {
-                    throw new System.Exception("");
-                }
-
-                if (path.IsOver)
-                {
-                    if (robot.Task != null)
-                    {
-                        _logger.LogPlannerPaths(robot.ID, path);
-                        _logger.LogFinish(robot.ID, robot.Task!.ID, TimeStamp);
-                    }
-
-                    if (!_paths.TryRemove(robot, out _))
-                    {
-                        throw new System.Exception("");
-                    }
-
-                    path = Assign(robot);
-                }
-
-                if (!path.IsOver)
-                {
-                    Action action = path.PeekNext();
-
-                    if (robot.TryStep(action, _board, TimeStamp))
-                    {
-                        path.Increment();
-                    }
-                    else
-                    {
-                        Free(robot, path);
-                        _board.Reserve(robot.Position, TimeStamp + 1);
-                    }
-                }
-                else
-                {
-                    // this could happen if the next task is at the same position as the robot which is assigned to
-                    _board.UnReserve(robot.Position, TimeStamp);
-                }
-            }
-
-            TimeStamp++;
-        }
     }
 
     private Path Assign(Robot robot)
