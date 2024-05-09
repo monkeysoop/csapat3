@@ -12,9 +12,16 @@ public sealed class SimulationController : Controller
 
     private readonly double Length;
 
-    public int TimeStamp { get; private set; }
-
-
+    /// <summary>
+    /// constructor for the simulation controller
+    /// </summary>
+    /// <param name="path">path to the config file</param> 
+    /// <param name="da">data access object</param> 
+    /// <param name="assigner">type of assigner</param> 
+    /// <param name="pathfinder"> type of pathfinder</param>
+    /// <param name="length">length of the simulation</param> 
+    /// <param name="speed"> speed of the simulation</param>
+    /// <exception cref="ArgumentException">thrown when the type is not a subclass of Assigner or PathFinder</exception> 
     public SimulationController(string path, ISimDataAccess da, Type assigner, Type pathfinder, int length, double speed) : base(speed)
     {
         _logger = new Logger("default");
@@ -44,7 +51,11 @@ public sealed class SimulationController : Controller
             Length = length;
         }
     }
-
+    /// <summary>
+    /// method to be called on end of simulation
+    /// </summary>
+    /// <param name="sender">sender object</param> 
+    /// <param name="e"></param>
     private void OnEnded(object? sender, EventArgs e)
     {
         Timer.Change(Timeout.Infinite, Timeout.Infinite);
@@ -52,6 +63,13 @@ public sealed class SimulationController : Controller
         SaveLog();
     }
 
+    /// <summary>
+    /// loads the config file
+    /// </summary>
+    /// <param name="path">path to the config file</param> 
+    /// <param name="da"> data access object</param>
+    /// <param name="assigner"> type of assigner</param> 
+    /// <exception cref="ArgumentException"> thrown when the type is not a subclass of Assigner</exception>
     private async void Load(string path, ISimDataAccess da, Type assigner)
     {
         await Task.Run(async () =>
@@ -87,7 +105,7 @@ public sealed class SimulationController : Controller
             LoadWalls();
 
             OnLoaded(this);
-            
+
         }).ContinueWith(t =>
         {
             if (t.IsFaulted)
@@ -96,7 +114,9 @@ public sealed class SimulationController : Controller
             }
         });
     }
-
+    /// <summary>
+    /// saves the log
+    /// </summary>
     public async void SaveLog()
     {
         _logger.LogActualPaths(_robots);
@@ -105,7 +125,10 @@ public sealed class SimulationController : Controller
 
         await _logger.SaveAsync(_logFileDataAccess);
     }
-
+    /// <summary>
+    /// implementation of the OnTick method
+    /// </summary>
+    /// <param name="state"></param>
     protected override void OnTick(object? state)
     {
         Step();
@@ -113,11 +136,18 @@ public sealed class SimulationController : Controller
         CallTick(this);
     }
 
+    /// <summary>
+    /// implementation of the StepForward method
+    /// </summary>
     public override void StepForward()
     {
         if (!IsPlaying) OnTick(null);
     }
 
+    /// <summary>
+    /// method for taking a step in the simulation
+    /// </summary>
+    /// <exception cref="System.Exception">to be thrown when the path is null</exception> 
     private void Step()
     {
         lock (_board)
@@ -186,7 +216,12 @@ public sealed class SimulationController : Controller
             TimeStamp++;
         }
     }
-
+    /// <summary>
+    /// Assigns a task to a robot
+    /// </summary>
+    /// <param name="robot">robot to assign the task to</param> 
+    /// <returns> the path to the task</returns>
+    /// <exception cref="System.Exception">to be thrown when the path is null</exception> 
     private Path Assign(Robot robot)
     {
         Package? task = null;
@@ -228,7 +263,12 @@ public sealed class SimulationController : Controller
 
         return path;
     }
-
+    /// <summary>
+    /// frees a robot
+    /// </summary>
+    /// <param name="robot">the robot to free</param> 
+    /// <param name="path">the path to free</param> 
+    /// <exception cref="System.Exception">to be thrown when the path is not free</exception> 
     private void Free(Robot robot, Path path)
     {
         if (!path.FreeAllReserved(_board, robot.Position, robot.Direction, TimeStamp))
@@ -251,6 +291,12 @@ public sealed class SimulationController : Controller
         _assigner!.Return(package);
     }
 
+    /// <summary>
+    /// Assigns a robot to a target
+    /// </summary>
+    /// <param name="robot">robot to assign</param> 
+    /// <param name="target">target to assign to</param> 
+    /// <exception cref="System.Exception">to be thrown when the path is not free</exception> 
     public void Assign(Robot robot, Point target)
     {
         if (_paths.TryGetValue(robot, out Path? path) && !path.IsOver) Free(robot, path);
