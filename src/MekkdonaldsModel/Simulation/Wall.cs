@@ -1,15 +1,19 @@
 ﻿namespace Mekkdonalds.Simulation;
 
+/// <summary>
+/// Wall in the simulation
+/// </summary>
+/// <param name="x">Coordinate of the wall</param> 
 public sealed class Wall(Point x)
 {
     /// <summary>
-    /// position of the wall
+    /// Position of the wall
     /// </summary>
     public Point Position { get; } = x;
     /// <summary>
-    /// constructor for the wall
+    /// Constructor for the wall
     /// </summary>
-    /// <param name="x">x coordinate of the wall</param> 
-    /// <param name="y">y coordinate of the wall</param> 
+    /// <param name="x">X coordinate of the wall</param> 
+    /// <param name="y">Y coordinate of the wall</param> 
     public Wall(int x, int y) : this(new(x, y)) { }
 }

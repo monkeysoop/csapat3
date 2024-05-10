@@ -3,7 +3,9 @@
 using System.Text.Json.Serialization;
 
 namespace Mekkdonalds.Persistence;
-
+/// <summary>
+/// Configuration for the simulation
+/// </summary>
 public class Config
 {
     /// <summary>
@@ -19,7 +21,7 @@ public class Config
     /// </summary>
     public required string TaskFile { get; set; }
     /// <summary>
-    /// number of robots
+    /// Number of robots
     /// </summary>
     public int TeamSize { get; set; }
     /// <summary>
@@ -27,7 +29,7 @@ public class Config
     /// </summary>
     public int NumTasksReveal { get; set; }
     /// <summary>
-    /// strategy for task assignment
+    /// Strategy for task assignment
     /// </summary>
 
     [JsonConverter(typeof(StrategyConverter))]

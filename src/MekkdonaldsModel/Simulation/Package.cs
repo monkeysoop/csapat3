@@ -1,11 +1,14 @@
 ﻿namespace Mekkdonalds.Simulation;
-
+/// <summary>
+/// Package in the simulation
+/// </summary>
+/// <param name="p">The position of the package</param> 
 public sealed class Package(Point p)
 {
     private static int IDCounter = 1;
 
     /// <summary>
-    /// id of the package
+    /// Id of the package
     /// </summary>
     public int ID { get; } = IDCounter++;
 
@@ -15,14 +18,14 @@ public sealed class Package(Point p)
     public Point Position { get; } = p;
 
     /// <summary>
-    /// package constructor
+    /// Package constructor
     /// </summary>
-    /// <param name="x">x coordinate of the package</param>  
-    /// <param name="y">y coordinate of the package</param> 
+    /// <param name="x">X coordinate of the package</param>  
+    /// <param name="y">Y coordinate of the package</param> 
     public Package(int x, int y) : this(new Point(x, y)) { }
 
     /// <summary>
-    /// resets the ID counter to 1
+    /// Resets the ID counter to 1
     /// </summary>
     public static void ResetIDCounter()
     {

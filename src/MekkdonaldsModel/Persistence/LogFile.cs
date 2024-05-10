@@ -5,22 +5,24 @@ using System.Text.Json.Serialization;
 using Action = Mekkdonalds.Simulation.Action;
 
 namespace Mekkdonalds.Persistence;
-
+/// <summary>
+/// Log file for the simulation
+/// </summary>
 public class LogFile
 {
     /// <summary>
-    /// action model used in the replay
+    /// Action model used in the replay
     /// </summary>
     public required string ActionModel { get; set; }
 
     /// <summary>
-    /// whether all the actions are valid
+    /// Whether all the actions are valid
     /// </summary>
     [JsonConverter(typeof(YesNoConverter))]
     public bool AllValid { get; set; }
 
     /// <summary>
-    /// team size
+    /// Team size
     /// </summary>
     public int TeamSize { get; set; }
     /// <summary>
@@ -31,17 +33,17 @@ public class LogFile
     public required List<(Point, Direction)> Start { get; init; }
 
     /// <summary>
-    /// number of tasks finished
+    /// Number of tasks finished
     /// </summary>
     public int NumTaskFinished { get; set; }
 
     /// <summary>
-    /// total cost of the actions
+    /// Total cost of the actions
     /// </summary>
     public int SumOfCost { get; set; }
 
     /// <summary>
-    /// length of the replay
+    /// Length of the replay
     /// </summary>
     public int Makespan { get; set; }
 
@@ -56,11 +58,11 @@ public class LogFile
     [JsonConverter(typeof(PathConverter))]
     public required List<List<Action>> PlannerPaths { get; init; }
     /// <summary>
-    /// times taken by the planner to plan the paths
+    /// Times taken by the planner to plan the paths
     /// </summary>
     public required List<double> PlannerTimes { get; init; }
     /// <summary>
-    /// errors encountered during the replay
+    /// Errors encountered during the replay
     /// </summary>
     [JsonConverter(typeof(ErrorConverter))]
     public required List<(int, int, int, string)> Errors { get; init; }

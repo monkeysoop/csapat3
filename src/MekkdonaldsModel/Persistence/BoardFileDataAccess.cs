@@ -1,5 +1,7 @@
 ﻿namespace Mekkdonalds.Persistence;
-
+/// <summary>
+/// Data access for the board
+/// </summary>
 public class BoardFileDataAccess : IBoardDataAccess
 {
     #region Constants
@@ -8,11 +10,11 @@ public class BoardFileDataAccess : IBoardDataAccess
     public const char EMPTY_CHAR = '.';
     #endregion
     /// <summary>
-    /// loads the board from the file
+    /// Loads the board from the file
     /// </summary>
-    /// <param name="path"> path to the file</param>
-    /// <returns>task that represents the loading operation. The task result contains the board</returns> 
-    /// <exception cref="BoardDataException">to be thrown when the data is incorrect</exception> 
+    /// <param name="path"> Path to the file</param>
+    /// <returns>Task that represents the loading operation. The task result contains the board</returns> 
+    /// <exception cref="BoardDataException">To be thrown when the data is incorrect</exception> 
     public async Task<Board> LoadAsync(string path)
     {
         try
@@ -66,12 +68,12 @@ public class BoardFileDataAccess : IBoardDataAccess
         }
     }
     /// <summary>
-    /// saves the board to the file
+    /// Saves the board to the file
     /// </summary>
-    /// <param name="path">path to the file</param> 
-    /// <param name="board"> board to save</param>
-    /// <returns>task that represents the saving operation</returns> 
-    /// <exception cref="NotImplementedException">thrown when the method is not implemented</exception> 
+    /// <param name="path">Path to the file</param> 
+    /// <param name="board"> Board to save</param>
+    /// <returns>Task that represents the saving operation</returns> 
+    /// <exception cref="NotImplementedException">Thrown when the method is not implemented</exception> 
     public async Task SaveAsync(string path, Board board)
     {
         await Task.Delay(0);

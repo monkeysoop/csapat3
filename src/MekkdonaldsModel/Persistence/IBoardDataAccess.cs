@@ -1,5 +1,7 @@
 ﻿namespace Mekkdonalds.Persistence;
-
+/// <summary>
+/// Interface for the board data access
+/// </summary>
 public interface IBoardDataAccess
 {
     /// <summary>

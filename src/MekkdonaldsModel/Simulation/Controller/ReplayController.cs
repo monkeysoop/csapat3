@@ -1,5 +1,8 @@
 ﻿namespace Mekkdonalds.Simulation.Controller;
 
+/// <summary>
+/// The controller for the replay
+/// </summary>
 public sealed class ReplayController : Controller
 {
     private readonly ConcurrentDictionary<Robot, List<Action>> Paths = [];
@@ -11,22 +14,22 @@ public sealed class ReplayController : Controller
     public int Length { get; private set; }
 
     /// <summary>
-    /// constructor for the replay controller
+    /// Constructor for the replay controller
     /// </summary>
-    /// <param name="logPath">path to the log file</param> 
-    /// <param name="mapPath"> path to the map file</param>
-    /// <param name="da">data access object</param> 
+    /// <param name="logPath">Path to the log file</param> 
+    /// <param name="mapPath"> Path to the map file</param>
+    /// <param name="da">Data access object</param> 
     public ReplayController(string logPath, string mapPath, IReplayDataAccess da)
     {
         Load(logPath, mapPath, da);
     }
 
     /// <summary>
-    /// loads the log and map files
+    /// Loads the log and map files
     /// </summary>
-    /// <param name="logPath"> path to the log file</param>
-    /// <param name="mapPath">path to the map file</param> 
-    /// <param name="da">data access object</param> 
+    /// <param name="logPath"> Path to the log file</param>
+    /// <param name="mapPath">Path to the map file</param> 
+    /// <param name="da">Data access object</param> 
     private async void Load(string logPath, string mapPath, IReplayDataAccess da)
     {
         await Task.Run(async () =>
@@ -85,10 +88,10 @@ public sealed class ReplayController : Controller
     }
 
     /// <summary>
-    /// implementation of the OnTick method
-    /// method to be called on each tick
+    /// Implementation of the OnTick method
+    /// Method to be called on each tick
     /// </summary>
-    /// <param name="state">state</param>
+    /// <param name="state">State</param>
     protected override void OnTick(object? state)
     {
         if (TimeStamp >= Length)
@@ -102,10 +105,10 @@ public sealed class ReplayController : Controller
     }
 
     /// <summary>
-    /// jumps to a specific time
+    /// Jumps to a specific time
     /// </summary>
-    /// <param name="time">time to jump to</param> 
-    /// <exception cref="ArgumentOutOfRangeException"> throws an exception if the time is out of bounds</exception>
+    /// <param name="time">Time to jump to</param> 
+    /// <exception cref="ArgumentOutOfRangeException"> Throws an exception if the time is out of bounds</exception>
     public void JumpTo(int time)
     {
         if (time < 0 || time > Length) throw new ArgumentOutOfRangeException(nameof(time), "Time must be between 0 and the length of the replay");
@@ -149,14 +152,14 @@ public sealed class ReplayController : Controller
     }
 
     /// <summary>
-    /// implementation of the StepForward method
+    /// Implementation of the StepForward method
     /// </summary>
     public override void StepForward()
     {
         JumpTo(TimeStamp + 1);
     }
     /// <summary>
-    /// method to step backward
+    /// Method to step backward
     /// </summary>
     public void StepBackward()
     {
