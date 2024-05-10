@@ -1,5 +1,7 @@
 ﻿namespace Mekkdonalds.Persistence;
-
+/// <summary>
+/// Interface for the log file data access
+/// </summary>
 public interface ILogFileDataAccess
 {
     /// <summary>
