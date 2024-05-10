@@ -44,17 +44,17 @@ public abstract class Controller
     public IReadOnlyList<Wall> Walls => _walls.AsReadOnly();
 
     /// <summary>
-    /// The event to be called when an exception is thrown
+    /// The event that occurs when an exception is thrown
     /// </summary>
     public event EventHandler<System.Exception>? Exception;
 
     /// <summary>
-    /// The event to be called on each tick
+    /// The event that occurs on each tick
     /// </summary>
     public event EventHandler? Tick;
 
     /// <summary>
-    /// Event to be called when the controller is loaded
+    /// Event that occurs when the controller is loaded
     /// </summary>
     public event EventHandler? Loaded;
 
