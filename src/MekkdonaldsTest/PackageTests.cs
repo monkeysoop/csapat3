@@ -16,20 +16,18 @@ public class PackageTests
         Package package2 = new(position);
 
         // Assert
-        //Assert.Multiple(() =>
-        //{
-        //    // Assert that the Point (x, y) is equal to package.Position
-        //    Assert.That(new Point(x, y), Is.EqualTo(package.Position), "Point (x, y) should match package position");
-        //    Package.ResetIDCounter();
-        //    // Assert that the ID 1 is equal to package.ID
-        //    Assert.That(package.ID, Is.EqualTo(1), "ID 1 should match package ID");
+        Assert.Multiple(() =>
+        {
+            // Assert that the Point (x, y) is equal to package.Position
+            Assert.That(new Point(x, y), Is.EqualTo(package.Position), "Point (x, y) should match package position");
 
-        //    // Assert that the position is equal to package2.Position
-        //    Assert.That(position, Is.EqualTo(package2.Position), "Position should match package2 position");
+            // Assert that the position is equal to package2.Position
+            Assert.That(position, Is.EqualTo(package2.Position), "Position should match package2 position");
 
-        //    // Assert that the ID 2 is equal to package2.ID
-        //    Assert.That(package2.ID, Is.EqualTo(2), "ID 2 should match package2 ID");
-        //});
+            // Assert that the ID of the second package is the ID of the first package plus 1
+            Assert.That(package2.ID, Is.EqualTo(package.ID + 1), "ID of the second package should be one more than the first package's ID");
+        });
+
 
     }
 
@@ -53,7 +51,7 @@ public class PackageTests
         Point initialPosition = package.Position;
 
         // Act
-        // Attempt to modify the Position property (megint readonlyxddd)
+        // Attempt to modify the Position property (readonly (:)
 
         // Assert
         Assert.That(initialPosition, Is.EqualTo(package.Position));
