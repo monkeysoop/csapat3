@@ -17,7 +17,7 @@ public class IntervalTree<TValue> : IntervalTree<uint, TValue>
             throw new ArgumentException($"{nameof(from)} must be less than or equal to {nameof(to)}");
     }
 
-    public new TValue? Query(int key)
+    public TValue? Query(int key)
     {
         if (key < 0)
             throw new ArgumentException($"{nameof(key)} must be non-negative");
