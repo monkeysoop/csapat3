@@ -15,7 +15,7 @@ public sealed class ReplayController : Controller
     public int Length { get; private set; }
 
     /// <summary>
-    /// Initializes a new <see cref="Controller"> that handles replaying a simulation.
+    /// Initializes a new <see cref="Controller"/> that handles replaying a simulation.
     /// </summary>
     /// <param name="logPath">Path of the log file</param>
     /// <param name="mapPath">Path of the map file (will not be checked for size match, collisions, etc.)</param>

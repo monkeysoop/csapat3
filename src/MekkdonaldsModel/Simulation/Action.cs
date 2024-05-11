@@ -12,7 +12,7 @@ public enum Action
     B
 }
 /// <summary>
-/// Extension methods for the <see cref="Action"> enum
+/// Extension methods for the <see cref="Action"/> enum
 /// </summary>
 public static class ActionMethods
 {

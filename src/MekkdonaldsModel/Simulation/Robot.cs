@@ -2,15 +2,24 @@
 
 /// <summary>
 /// Robot in the simulation
-/// </summary>
-/// <param name="position">The position of the robot</param> 
-/// <param name="direction">The direction the robot is facing</param> 
-public sealed class Robot(Point position, Direction direction)
+/// </summary>  
+public sealed class Robot
 {
     private static int IDCounter = 1;
 
-
     private readonly List<Action> _history = [];
+
+    /// <summary>
+    /// Creates a new robot
+    /// </summary>  
+    /// <param name="position">The position of the robot</param> 
+    /// <param name="direction">The direction the robot is facing</param> 
+    public Robot(Point position, Direction direction)
+    {
+        Position = position;
+        Direction = direction;
+    }
+
     /// <summary>
     /// Id of the robot
     /// </summary>
@@ -19,12 +28,12 @@ public sealed class Robot(Point position, Direction direction)
     /// <summary>
     /// Current position of the robot
     /// </summary>
-    public Point Position { get; private set; } = position;
+    public Point Position { get; private set; }
 
     /// <summary>
     /// The direction the robot is currently facing
     /// </summary>
-    public Direction Direction { get; private set; } = direction;
+    public Direction Direction { get; private set; }
 
     /// <summary>
     /// Task currently assigned to the robot

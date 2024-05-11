@@ -12,7 +12,7 @@ public enum Direction
 }
 
 /// <summary>
-/// Extension methods for the <see cref="Direction"> enum
+/// Extension methods for the <see cref="Direction"/> enum
 /// </summary>
 public static class DirectionMethods
 {

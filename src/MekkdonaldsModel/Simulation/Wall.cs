@@ -2,14 +2,23 @@
 
 /// <summary>
 /// Wall in the simulation
-/// </summary>
-/// <param name="x">Coordinate of the wall</param> 
-public sealed class Wall(Point x)
+/// </summary> 
+public sealed class Wall
 {
     /// <summary>
     /// Position of the wall
     /// </summary>
-    public Point Position { get; } = x;
+    public Point Position { get; }
+
+    /// <summary>
+    /// Creates a new wall
+    /// </summary>
+    /// <param name="x">Coordinate of the wall</param> 
+    public Wall(Point x)
+    {
+        Position = x;
+    }
+
     /// <summary>
     /// Creates a new wall
     /// </summary>
