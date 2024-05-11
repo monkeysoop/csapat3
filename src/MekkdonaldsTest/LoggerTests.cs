@@ -62,6 +62,8 @@ internal class LoggerTests
             )),
         ];
 
+        _logger.LogStarts(rs); // this will create the necessary lists
+
         rs.ForEach(robot =>
             Enumerable.Range(0, Random.Shared.Next(5, 20)).ToList().ForEach(_ =>
                 robot.Step(RandomAction)
@@ -69,6 +71,40 @@ internal class LoggerTests
         );
 
         _logger.LogActualPaths(rs);
+
+        Assert.That(
+            _logger.GetLogFile().ActualPaths,
+            Is.EquivalentTo(rs.Select(robot => robot.History))
+        );
+    }
+
+    [Test]
+    public void LogActualPathTest()
+    {
+        List<Robot> rs =
+        [
+            .. Enumerable.Range(0, 10).Select(_ =>
+                new Robot(
+                    new(Random.Shared.Next(30), Random.Shared.Next(30)),
+                    (Direction)Random.Shared.Next(4)
+            ))
+        ];
+
+        _logger.LogStarts(rs); // this will create the necessary lists
+
+        rs.ForEach(robot =>
+            Enumerable.Range(0, Random.Shared.Next(5, 20)).ToList().ForEach(_ =>
+                            robot.Step(RandomAction)
+            )
+        );
+
+        for (int i = 0; i < rs.Count; i++)
+        {
+            for (int j = 0; j < rs[i].History.Count; j++)
+            {
+                _logger.LogActualPath(i + 1, rs[i].History[j]);
+            }
+        }
 
         Assert.That(
             _logger.GetLogFile().ActualPaths,
@@ -88,6 +124,29 @@ internal class LoggerTests
         for (int i = 0; i < count; i++)
         {
             _logger.LogPlannerPaths(i + 1, paths[i]);
+        }
+
+        Assert.That(
+            _logger.GetLogFile().PlannerPaths,
+            Is.EqualTo(paths.Select(p => p.PlannedPath))
+        );
+    }
+
+    [Test]
+    public void LogPlannerPathTest()
+    {
+        int count = Random.Shared.Next(1, 2000);
+        List<Robot> rs = [.. Enumerable.Repeat(new Robot(new(0, 0), Direction.East), count)];
+        _logger.LogStarts(rs); // this will create the necessary lists
+
+        List<Simulation.Path> paths = rs.Select(_ => new Simulation.Path([.. Enumerable.Range(0, Random.Shared.Next(20)).Select(x => RandomAction)], default)).ToList();
+
+        for (int i = 0; i < count; i++)
+        {
+            for (int j = 0; j < paths[i].PlannedPath.Count; j++)
+            {
+                _logger.LogPlannerPaths(i + 1, paths[i].PlannedPath[j]);
+            }
         }
 
         Assert.That(
