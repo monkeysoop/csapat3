@@ -1,4 +1,6 @@
-﻿namespace Mekkdonalds.Simulation.PathFinding;
+﻿#define NO_CHECK_HEAP
+
+namespace Mekkdonalds.Simulation.PathFinding;
 
 public abstract class PathFinder
 {
@@ -94,11 +96,15 @@ public abstract class PathFinder
         int diffY = end.Y - position.Y;
         int dotProduct = diffX * direction.X + diffY * direction.Y;
 
-        if (diffX == 0 && diffY == 0)
+        if (dotProduct > 0)
         {
-            return 0;
+            return 1;
         }
-        else if (dotProduct * dotProduct == (diffX * diffX + diffY * diffY) * 1) // note that direction is a unit vector so its length is 1
+        else if (dotProduct < 0)
+        {
+            return 2;
+        } 
+        else if ((diffX == 0 && diffY == 0) || dotProduct * dotProduct == (diffX * diffX + diffY * diffY) * 1) // note that direction is a unit vector so its length is 1
         {
             return 0;
         }
@@ -106,26 +112,15 @@ public abstract class PathFinder
         {
             return 2;
         }
-        else if (dotProduct > 0)
+        else // dotProduct == 0
         {
             return 1;
-        }
-        else if (dotProduct < 0)
-        {
-            return 2;
-        }
-        else if (dotProduct == 0)
-        {
-            return 1;
-        }
-        else
-        {
-            throw new InvalidOperationException();
         }
     }
 
     protected static void CheckHeap(Step[] heap, int length, int[] heapHashMap, int width)
     {
+#if CHECK_HEAP
         for (int i = 1; i < length; i++)
         {
             int root_index = (i - 1) / 2;
@@ -154,6 +149,7 @@ public abstract class PathFinder
                 throw new System.Exception("error in heap hash map!");
             }
         }
+#endif
     }
 
     protected static void HeapInsert(Step[] heap, int length, Step item, int[] heapHashMap, int width)
