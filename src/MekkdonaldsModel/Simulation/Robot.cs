@@ -147,11 +147,4 @@ public sealed class Robot(Point position, Direction direction)
                 throw new System.Exception("");
         }
     }
-    /// <summary>
-    /// Resets the ID counter
-    /// </summary>
-    public static void ResetIDCounter()
-    {
-        IDCounter = 1;
-    }
 }

@@ -1,5 +1,8 @@
 ﻿namespace Mekkdonalds.ViewModel;
 
+/// <summary>
+/// Base class for all view models using <see cref="Mekkdonalds.Simulation.Controller.Controller"/>"/>
+/// </summary>
 internal abstract class ViewModel : ViewModelBase
 {
     private const double MINZOOM = .3;
