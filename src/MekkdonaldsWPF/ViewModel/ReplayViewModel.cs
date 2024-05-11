@@ -1,11 +1,17 @@
 ﻿namespace Mekkdonalds.ViewModel;
 
+/// <summary>
+/// ViewModel for the replay view using an instance of <see cref="ReplayController"/>."/>
+/// </summary>
 internal class ReplayViewModel : ViewModel
 {
     private readonly ReplayController RepController;
 
     #region Properties
 
+    /// <summary>
+    /// Current time in the replay.
+    /// </summary>
     public int CurrentTime
     {
         get => RepController.TimeStamp;
@@ -20,8 +26,14 @@ internal class ReplayViewModel : ViewModel
         }
     }
 
+    /// <summary>
+    /// Length of the replay.
+    /// </summary>
     public int ReplayLength => RepController.Length;
 
+    /// <summary>
+    /// Bindable string of the current time in the replay.
+    /// </summary>
     public string TimeLabel
     {
         get => CurrentTime.ToString();
@@ -49,16 +61,28 @@ internal class ReplayViewModel : ViewModel
         }
     }
 
+    /// <summary>
+    /// Formatted string of the length of the replay.
+    /// </summary>
     public string LengthLabel => $"/{ReplayLength}";
 
     #endregion
 
     #region Commands
 
+    /// <summary>
+    /// Command to step backward in the replay.
+    /// </summary>
     public ICommand Backward { get; }
 
     #endregion
 
+    /// <summary>
+    /// Creates a new instance of <see cref="ReplayViewModel"/>.
+    /// </summary>
+    /// <param name="logPath"></param>
+    /// <param name="mapPath"></param>
+    /// <exception cref="ArgumentException"></exception>
     public ReplayViewModel(string logPath, string mapPath) : base(new ReplayController(logPath, mapPath, ReplayDataAccess.Instance))
     {
         if (Controller is not ReplayController controller)

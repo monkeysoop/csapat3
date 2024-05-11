@@ -15,7 +15,7 @@ public sealed class ReplayController : Controller
     public int Length { get; private set; }
 
     /// <summary>
-    /// Initializes a new <c>Controller</c> that handles replaying a simulation.
+    /// Initializes a new <see cref="Controller"/> that handles replaying a simulation.
     /// </summary>
     /// <param name="logPath">Path of the log file</param>
     /// <param name="mapPath">Path of the map file (will not be checked for size match, collisions, etc.)</param>
@@ -35,10 +35,10 @@ public sealed class ReplayController : Controller
 
             foreach (var (p, d) in log.Start)
             {
-                Robot r = new(p, d);
-                Paths[r] = [];
-                Targets[r] = [];
-                _robots.Add(r);
+                Robot robot = new(p, d);
+                Paths[robot] = [];
+                Targets[robot] = [];
+                _robots.Add(robot);
             }
 
             for (int i = 0; i < log.ActualPaths.Count; i++)
@@ -52,7 +52,7 @@ public sealed class ReplayController : Controller
 
             for (int i = 0; i < log.Events.Count; i++)
             {
-                Robot r = _robots[i];
+                Robot robot = _robots[i];
 
                 start = 0;
 
@@ -65,8 +65,8 @@ public sealed class ReplayController : Controller
                             break;
                         case "finished":
                             (int, int, int) pos = log.Tasks.First(x => x.Item1 == task);
-                            Point p = new(pos.Item3 + 1, pos.Item2 + 1);
-                            Targets[r][start, t] = p;
+                            Point point = new(pos.Item3 + 1, pos.Item2 + 1);
+                            Targets[robot][start, t] = point;
                             start = -1;
                             break;
                         default:
@@ -106,9 +106,9 @@ public sealed class ReplayController : Controller
 
         lock (this)
         {
-            foreach (var r in _robots)
+            foreach (var robot in _robots)
             {
-                r.AddTask(Targets[r][time]);
+                robot.AddTask(Targets[robot][time]);
 
                 if (Math.Sign(time - TimeStamp) == -1)
                 {
@@ -116,8 +116,8 @@ public sealed class ReplayController : Controller
                     {
                         try
                         {
-                            Action a = Paths[r][t];
-                            r.Step(a.Reverse());
+                            Action action = Paths[robot][t];
+                            robot.Step(action.Reverse());
                         }
                         catch (System.Exception) { }
                     }
@@ -128,8 +128,8 @@ public sealed class ReplayController : Controller
                     {
                         try
                         {
-                            Action a = Paths[r][t];
-                            r.Step(a);
+                            Action action = Paths[robot][t];
+                            robot.Step(action);
                         }
                         catch (System.Exception) { }
                     }

@@ -23,15 +23,15 @@ public sealed class SimulationController : Controller
     public event EventHandler? Ended;
 
     /// <summary>
-    /// Initializes a new <c>Controller</c> that handles a simulation.
+    /// Initializes a new <see cref="Controller"/> that handles a simulation.
     /// </summary>
     /// <param name="path">Path of the configuration file</param>
     /// <param name="dataAccess">Preferred data access classes</param>
-    /// <param name="assigner">Class that will handle the assignment of packages (has to implement the <c>Assigner</c> abstract class)</param>
-    /// <param name="pathFinder">Class that will handle the path planning of robots (has to implement the <c>PathFinder</c> abstract class)</param>
+    /// <param name="assigner">Class that will handle the assignment of packages (has to implement the <see cref="Assigner.Assigner"/> abstract class)</param>
+    /// <param name="pathFinder">Class that will handle the path planning of robots (has to implement the <see cref="PathFinder"/> abstract class)</param>
     /// <param name="speed">Intervals of simulation steps (in seconds)</param>
     /// <param name="length">Desired length of the simulation</param>
-    /// <exception cref="ArgumentException">Gets thrown when the <paramref name="pathFinder"/> is not a subclass of <c>PathFinder</c></exception>
+    /// <exception cref="ArgumentException">Gets thrown when the <paramref name="pathFinder"/> is not a subclass of <see cref="PathFinder"/></exception>
     public SimulationController(string path, ISimDataAccess dataAccess, Type assigner, Type pathFinder, double speed, int length) : base(speed)
     {
         _logger = new Logger("default");
@@ -63,14 +63,14 @@ public sealed class SimulationController : Controller
     }
 
     /// <summary>
-    /// Initializes a new <c>Controller</c> that handles a simulation.
+    /// Initializes a new <see cref="Controller"/> that handles a simulation.
     /// </summary>
     /// <param name="path">Path of the configuration file</param>
     /// <param name="dataAccess">Preferred data access classes</param>
-    /// <param name="assigner">Class that will handle the assignment of packages (has to implement the <c>Assigner</c> abstract class)</param>
-    /// <param name="pathFinder">Class that will handle the path planning of robots (has to implement the <c>PathFinder</c> abstract class)</param>
+    /// <param name="assigner">Class that will handle the assignment of packages (has to implement the <see cref="Assigner.Assigner"/> abstract class)</param>
+    /// <param name="pathFinder">Class that will handle the path planning of robots (has to implement the <see cref="PathFinder"/> abstract class)</param>
     /// <param name="speed">Intervals of simulation steps (in seconds)</param>
-    /// <exception cref="ArgumentException">Gets thrown when the pathFinder is not a subclass of <c>PathFinder</c></exception>
+    /// <exception cref="ArgumentException">Gets thrown when the <paramref name="pathFinder"/> is not a subclass of <see cref="PathFinder"/></exception>
     public SimulationController(string path, ISimDataAccess dataAccess, Type assigner, Type pathFinder, double speed) : this(path, dataAccess, assigner, pathFinder, speed, -1) { }
 
     private void OnEnded()
@@ -90,8 +90,8 @@ public sealed class SimulationController : Controller
 
             _logger = new Logger(config.MapFile.Split('/')[^1].Replace(".map", ""));
 
-            Board b = await da.BoardDataAccess.LoadAsync(config.MapFile);
-            _board = b; // for some reason it only sets board this way ????????
+            Board board = await da.BoardDataAccess.LoadAsync(config.MapFile);
+            _board = board; // for some reason it only sets board this way ????????
 
             _robots.AddRange(await da.RobotsDataAccess.LoadAsync(config.AgentFile, _board.Width - 2, _board.Height - 2));
             _logger.LogStarts(_robots);
@@ -109,9 +109,9 @@ public sealed class SimulationController : Controller
                 throw new ArgumentException($"Type must have a constructor with a {typeof(Board)}, a {typeof(IEnumerable<Package>)} and a {typeof(IEnumerable<Robot>)} parameter", nameof(assigner));
             }
 
-            _assigner = (Assigner.Assigner)Activator.CreateInstance(assigner, b, tasks, _robots)!;
+            _assigner = (Assigner.Assigner)Activator.CreateInstance(assigner, board, tasks, _robots)!;
 
-            foreach (Robot r in _robots) Assign(r);
+            foreach (Robot robot in _robots) Assign(robot);
 
             LoadWalls();
 
@@ -157,7 +157,7 @@ public sealed class SimulationController : Controller
                     if (_assigner!.NoPackage && _paths.All(x => x.Value.IsOver) || TimeStamp >= _length)
                     {
                         IsOver = true;
-                        foreach (var r in _robots.Where(r => r.Task is not null))
+                        foreach (Robot r in _robots.Where(r => r.Task is not null))
                         {
                             Package task = r.RemoveTask();
                             _logger.LogFinish(r.ID, task.ID, TimeStamp);

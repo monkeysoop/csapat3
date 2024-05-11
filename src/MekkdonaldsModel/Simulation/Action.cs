@@ -1,6 +1,6 @@
 ﻿namespace Mekkdonalds.Simulation;
 /// <summary>
-/// Enum for the actions the robot can take
+/// Actions that can be taken by a robot
 /// </summary>
 public enum Action
 {
@@ -12,15 +12,15 @@ public enum Action
     B
 }
 /// <summary>
-/// Methods for the actions
+/// Extension methods for the <see cref="Action"/> enum
 /// </summary>
 public static class ActionMethods
 {
     /// <summary>
-    /// Reverses the action
+    /// Get the opposite action of an action
     /// </summary>
     /// <param name="action"> The action to reverse</param>
-    /// <returns> The opposite action</returns>
+    /// <returns>The opposite action</returns>
     public static Action Reverse(this Action action) => action switch
     {
         Action.F => Action.B,

@@ -2,6 +2,9 @@
 
 namespace Mekkdonalds.ViewModel;
 
+/// <summary>
+/// ViewModel for the simulation view using an instance of <see cref="SimulationController"/>."/>
+/// </summary>
 internal class SimulationViewModel : ViewModel
 {
     private readonly SimulationController _simulationController;

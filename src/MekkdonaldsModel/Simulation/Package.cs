@@ -1,9 +1,9 @@
 ﻿namespace Mekkdonalds.Simulation;
+
 /// <summary>
 /// Package in the simulation
-/// </summary>
-/// <param name="p">The position of the package</param> 
-public sealed class Package(Point p)
+/// </summary> 
+public sealed class Package
 {
     private static int IDCounter = 1;
 
@@ -15,7 +15,16 @@ public sealed class Package(Point p)
     /// <summary>
     /// Position of the package
     /// </summary>
-    public Point Position { get; } = p;
+    public Point Position { get; }
+
+    /// <summary>
+    /// Creates a new package
+    /// </summary>
+    /// <param name="p">The position of the package</param> 
+    public Package(Point p)
+    {
+        Position = p;
+    }
 
     /// <summary>
     /// Package constructor
