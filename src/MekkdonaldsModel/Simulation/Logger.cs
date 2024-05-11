@@ -60,7 +60,7 @@ public class Logger
     /// <param name="iD"></param>
     /// <param name="action"></param>
     /// <exception cref="NotImplementedException"></exception>
-    internal void LogActualPath(int iD, Action action)
+    public void LogActualPath(int iD, Action action)
     {
         _logFile.ActualPaths[iD - 1].Add(action);
     }
