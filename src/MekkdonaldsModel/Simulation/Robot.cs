@@ -123,7 +123,7 @@ public sealed class Robot(Point position, Direction direction)
             case Action.T:
                 board.UnReserve(Position, cost_counter);
                 board.Reserve(Position, cost_counter + 1);
-                _history.Add(a);
+                _history.Add(Action.W);
                 return false;
             default:
                 throw new System.Exception("");
