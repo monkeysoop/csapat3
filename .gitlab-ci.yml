@@ -22,6 +22,11 @@ pages:
     - apk update
     - apk add doxygen
     - apk add ttf-freefont graphviz
+    - apk add curl openjdk8-jre fontconfig
+    - curl -o plantuml.jar -L "http://github.com/plantuml/plantuml/releases/latest/download/plantuml.jar"
+    - java -Djava.awt.headless=true -jar plantuml.jar -o "../docs/images/" uml/class.pu -svg -charset UTF-8
+    - java -Djava.awt.headless=true -jar plantuml.jar -o "../docs/images/" uml/component.pu -svg -charset UTF-8
+    - java -Djava.awt.headless=true -jar plantuml.jar -o "../docs/images/" uml/usecase.pu -svg -charset UTF-8
     - doxygen docs/Doxyfile
     - mv docs/html/ public/
   artifacts:
@@ -29,3 +34,4 @@ pages:
       - public
   only:
     - master
+    - docs
