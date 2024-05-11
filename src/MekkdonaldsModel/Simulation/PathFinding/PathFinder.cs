@@ -4,7 +4,15 @@ namespace Mekkdonalds.Simulation.PathFinding;
 
 public abstract class PathFinder
 {
-
+    /// <summary>
+    /// Finds a path from start and start direction to end position and reserves it
+    /// </summary>
+    /// <param name="board">The board where it searches</param>
+    /// <param name="startPosition">Robot's starting position</param>
+    /// <param name="startDirection">Robot's starting direction</param>
+    /// <param name="endPosition">Target's position</param>
+    /// <param name="startCost">Used for the the start time in the reservation table</param>
+    /// <returns>Returns true and the path if it finds any otherwise false and an empty path</returns>
     public (bool, List<Action>) CalculatePath(Board board, Point startPosition, int startDirection, Point endPosition, int startCost)
     {
         bool found;
@@ -24,6 +32,15 @@ public abstract class PathFinder
         }
     }
 
+    /// <summary>
+    /// Given 2 arrays representing the parents and the arrival time for each node it traces back and reserves the path from end to start
+    /// </summary>
+    /// <param name="parentsBoard">array representing the direction to the searched parent nodes</param>
+    /// <param name="costsBoard">array representing the expected arrival time for each searched position</param>
+    /// <param name="board">The board where it searched</param>
+    /// <param name="start">Robot's starting position</param>
+    /// <param name="end">Target's position</param>
+    /// <returns>The array of the actions to take in the correct order (start -> end)</returns>
     private static List<Action> TracePath(int[] parentsBoard, int[] costsBoard, Board board, Point start, Point end)
     {
         List<Action> path = [];
@@ -85,11 +102,33 @@ public abstract class PathFinder
 
         return path;
     }
-
+    
+    /// <summary>
+    /// Finds a path from start and start direction to end position
+    /// </summary>
+    /// <param name="board">The board where it searches</param>
+    /// <param name="start_position">Robot's starting position</param>
+    /// <param name="startDirection">Robot's starting direction</param>
+    /// <param name="end_position">Target's position</param>
+    /// <param name="start_cost">Used for the the start time in the reservation table</param>
+    /// <returns>Returns true if it finds a path otherwise false and 2 arrays first for parents data and second for the expected arrival times </returns>
     protected abstract (bool, int[], int[]) FindPath(Board board, Point start_position, int startDirection, Point end_position, int start_cost);
 
+    /// <summary>
+    /// Returns the Manhattan distance between 2 points (the order of the 2 points doesn't matter)
+    /// </summary>
+    /// <param name="start">First point</param>
+    /// <param name="end">Second point</param>
+    /// <returns>the sum of the absolute differences between the 2 point's coordinates</returns>
     protected static int ManhattanDistance(Point start, Point end) => Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y);
 
+    /// <summary>
+    /// Heuristic used for approximating the number of turn steps
+    /// </summary>
+    /// <param name="position">Robot's current position</param>
+    /// <param name="direction">Robot's current direction</param>
+    /// <param name="end">Target's position</param>
+    /// <returns>The heuristic value</returns>
     protected static int MaxTurnsRequired(Point position, Point direction, Point end)
     {
         int diffX = end.X - position.X;
@@ -118,6 +157,14 @@ public abstract class PathFinder
         }
     }
 
+    /// <summary>
+    /// Checks if the heap up to the given length has the properties of a minimum heap, also checks if the heap hash map (maps 2D coordinates to their position in the heap)
+    /// </summary>
+    /// <param name="heap">Buffered array of the min heap</param>
+    /// <param name="length">The number of items inside the buffer</param>
+    /// <param name="heapHashMap">A hash map that maps 2d coordinates to their index inside the buffer</param>
+    /// <param name="width">Used because heap and heap hash map is flattened 2D arrays</param>
+    /// <exception cref="System.Exception">Thrown if the heap or the heap hash map is bad</exception>
     protected static void CheckHeap(Step[] heap, int length, int[] heapHashMap, int width)
     {
 #if CHECK_HEAP
@@ -152,6 +199,14 @@ public abstract class PathFinder
 #endif
     }
 
+    /// <summary>
+    /// Inserts an item into the given minimum heap while keeping its properties
+    /// </summary>
+    /// <param name="heap">Buffered array of the min heap</param>
+    /// <param name="length">The number of items inside the buffer</param>
+    /// <param name="item">The item to be inserted</param>
+    /// <param name="heapHashMap">A hash map that maps 2d coordinates to their index inside the buffer</param>
+    /// <param name="width">Used because heap and heap hash map is flattened 2D arrays</param>
     protected static void HeapInsert(Step[] heap, int length, Step item, int[] heapHashMap, int width)
     {
         CheckHeap(heap, length, heapHashMap, width);
@@ -179,6 +234,14 @@ public abstract class PathFinder
         CheckHeap(heap, length + 1, heapHashMap, width);
     }
 
+    /// <summary>
+    /// Removes an item from the minimum heap while keeping its properties
+    /// </summary>
+    /// <param name="heap">Buffered array of the min heap</param>
+    /// <param name="length">The number of items inside the buffer</param>
+    /// <param name="heapHashMap">A hash map that maps 2d coordinates to their index inside the buffer</param>
+    /// <param name="width">Used because heap and heap hash map is flattened 2D arrays</param>
+    /// <returns>The minimum item</returns>
     protected static Step HeapRemoveMin(Step[] heap, int length, int[] heapHashMap, int width)
     {
         CheckHeap(heap, length, heapHashMap, width);
@@ -228,15 +291,26 @@ public abstract class PathFinder
         return minItem;
     }
 
+    /// <summary>
+    /// Updates the value of an item already inside the heap while keeping its properties
+    /// </summary>
+    /// <param name="heap">Buffered array of the min heap</param>
+    /// <param name="length">The number of items inside the buffer</param>
+    /// <param name="item">The item to be updated</param>
+    /// <param name="heapHashMap">A hash map that maps 2d coordinates to their index inside the buffer</param>
+    /// <param name="width">Used because heap and heap hash map is flattened 2D arrays</param>
+    /// <exception cref="System.Exception">Thrown if the item (to be updated) is not inside the heap</exception>
     protected static void UpdateHeapItem(Step[] heap, int length, Step item, int[] heapHashMap, int width)
     {
         CheckHeap(heap, length, heapHashMap, width);
         int index = heapHashMap[item.Position.Y * width + item.Position.X];
 
-        if (index >= length || index < 0)
+#if CHECK_HEAP
+        if (index < 0)
         {
             throw new System.Exception("invalid index, item not in heap");
         }
+#endif
 
         if (heap[index].Heuristic < item.Heuristic)
         {
