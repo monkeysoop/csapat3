@@ -38,16 +38,31 @@ public class Logger
         _logFile.TeamSize = _logFile.Start.Count;
         _logFile.Events.AddRange(robots.Select(r => new List<(int, int, string)>()));
         _logFile.PlannerPaths.AddRange(robots.Select(r => new List<Action>()));
+        _logFile.ActualPaths.AddRange(robots.Select(r => new List<Action>()));
     }
 
     /// <summary>
-    /// Logs the paths actually taken by the robots based on their history
+    /// Logs the paths actually taken by the robots based on their history (clears the ActualPaths list)
     /// </summary>
     /// <param name="robots">List of robots</param>
     public void LogActualPaths(IEnumerable<Robot> robots)
     {
-        _logFile.ActualPaths.ForEach(x => x.Clear());
-        _logFile.ActualPaths.AddRange(robots.Select(r => r.History.ToList()));
+        foreach (var robot in robots)
+        {
+            _logFile.ActualPaths[robot.ID - 1].Clear();
+            _logFile.ActualPaths[robot.ID - 1].AddRange(robot.History);
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="iD"></param>
+    /// <param name="action"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    internal void LogActualPath(int iD, Action action)
+    {
+        _logFile.ActualPaths[iD - 1].Add(action);
     }
 
     /// <summary>
