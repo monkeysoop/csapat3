@@ -117,7 +117,6 @@ public sealed class AStar : PathFinder
 
                 if (board.SetSearchedIfEmptyLeftRight(currentStep.Position, leftNextPosition, leftCost))
                 {
-                    
                     HeapInsert(heap, heapLength, new Step(leftNextPosition, leftDirection, leftHeuristic), heapHashMap, board.Width);
                     heapLength++;
                     

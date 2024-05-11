@@ -304,47 +304,57 @@ public class Board
     }
     private void CheckPosition(Point position)
     {
+#if DEBUG
         if (position.X < 0 || position.X >= Width || position.Y < 0 || position.Y >= Height)
         {
             Debug.WriteLine("invalid position: " + position);
             throw new System.Exception("invalid position" + position);
         }
+#endif
     }
 
     private void CheckPosition(int x, int y)
     {
+#if DEBUG
         if (x < 0 || x >= Width || y < 0 || y >= Height)
         {
             Debug.WriteLine("invalid position: " + new Point(x, y));
             throw new System.Exception("invalid position" + new Point(x, y));
         }
+#endif
     }
 
     private static void CheckCost(int cost)
     {
+#if DEBUG
         if (cost < 0)
         {
             Debug.WriteLine("invalid cost: " + cost);
             throw new System.Exception("invalid cost" + cost);
         }
+#endif
     }
 
     private static void CheckValue(int value)
     {
+#if DEBUG
         if (value != EMPTY && value != WALL)
         {
             Debug.WriteLine("invalid value: " + value);
             throw new System.Exception("invalid value" + value);
         }
+#endif
     }
 
     private void CheckReserve(Point position, int cost, int value)
     {
+#if DEBUG
         if (ReservationTable[(position.Y * Width + position.X) * MaxPathLength + ((cost + MaxPathLength) % MaxPathLength)] == value)
         {
             Debug.WriteLine("already (un)reserved position: " + position + "\ncost: " + cost);
             throw new System.Exception("already (un)reserved position: " + position + "\ncost: " + cost);
         }
+#endif
     }
 
     #endregion
