@@ -15,6 +15,7 @@ public sealed class SimulationController : Controller
     private readonly double _length;
 
     public int TimeStamp { get; private set; }
+    public bool IsOver { get; private set; }
 
     /// <summary>
     /// Occurs when the simulation has ended (all the task are completed or the desired length has been reached).
@@ -76,9 +77,9 @@ public sealed class SimulationController : Controller
     {
         Timer.Change(Timeout.Infinite, Timeout.Infinite);
 
-        Ended?.Invoke(this, EventArgs.Empty);
-
         SaveLog();
+
+        Ended?.Invoke(this, EventArgs.Empty);
     }
 
     private async void Load(string path, ISimDataAccess da, Type assigner)
@@ -130,24 +131,17 @@ public sealed class SimulationController : Controller
     /// </summary>
     public async void SaveLog()
     {
-        foreach (var r in _robots)
-        {
-            var count = r.History.Count;
-            while (r.History.Count < TimeStamp)
-            {
-                r.TryStep(Action.W, _board, count++);
-            }
-        }
-
         _logger.LogActualPaths(_robots);
 
-        _logger.LogReplayLength(TimeStamp + 1);
+        _logger.LogReplayLength(TimeStamp);
 
         await _logger.SaveAsync(_logFileDataAccess);
     }
 
     protected override void OnTick(object? state)
     {
+        if (IsOver) return;
+
         _cancellationTokenSource = new CancellationTokenSource();
 
         var task = Task.Run(() =>
@@ -162,9 +156,11 @@ public sealed class SimulationController : Controller
                 {
                     if (_assigner!.NoPackage && _paths.All(x => x.Value.IsOver) || TimeStamp >= _length)
                     {
+                        IsOver = true;
                         foreach (var r in _robots.Where(r => r.Task is not null))
                         {
-                            r.RemoveTask();
+                            Package task = r.RemoveTask();
+                            _logger.LogFinish(r.ID, task.ID, TimeStamp);
                         }
 
                         OnEnded();
@@ -185,9 +181,9 @@ public sealed class SimulationController : Controller
                         {
                             _logger.LogPlannerPaths(robot.ID, path);
 
-                            if (robot.Task != null)
+                            if (robot.Task is not null)
                             {
-                                _logger.LogFinish(robot.ID, robot.Task!.ID, TimeStamp);
+                                _logger.LogFinish(robot.ID, robot.Task.ID, TimeStamp);
                             }
 
                             if (!_paths.TryRemove(robot, out _))
@@ -210,12 +206,14 @@ public sealed class SimulationController : Controller
                             {
                                 Free(robot, path);
                                 _board.Reserve(robot.Position, TimeStamp + 1);
+                                robot.TryStep(Action.W, _board, TimeStamp);
                             }
                         }
                         else
                         {
                             // this could happen if the next task is at the same position as the robot which is assigned to
                             _board.UnReserve(robot.Position, TimeStamp);
+                            robot.TryStep(Action.W, _board, TimeStamp);
                         }
 
                         _cancellationTokenSource.Token.ThrowIfCancellationRequested();
@@ -306,6 +304,8 @@ public sealed class SimulationController : Controller
 
     private void Free(Robot robot, Path path)
     {
+        _logger.LogFinish(robot.ID, robot.Task!.ID, TimeStamp);
+
         if (!path.FreeAllReserved(_board, robot.Position, robot.Direction, TimeStamp))
         {
             throw new System.Exception("");
