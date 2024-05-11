@@ -219,30 +219,6 @@ public class Board
         return SearchMask[position.Y * Width + position.X] == SEARCHED;
     }
 
-    public bool SetSearchedIfEmpty(Point position)
-    {
-        CheckPosition(position);
-
-#if NO_BORDER_CHECK
-        bool t = Data[position.Y * Width + position.X] == EMPTY &&
-                 SearchMask[position.Y * Width + position.X] == NOT_SEARCHED &&
-                 RobotMask[position.Y * Width + position.X] == EMPTY;
-#else
-        bool t = position.X >= 0 &&
-                 position.X < Width &&
-                 position.Y >= 0 &&
-                 position.Y < Height &&
-                 Data[position.Y * Width + position.X] == EMPTY &&
-                 SearchMask[position.Y * Width + position.X] == NOT_SEARCHED;
-#endif
-        if (t)
-        {
-            SearchMask[position.Y * Width + position.X] = SEARCHED;
-        }
-
-        return t;
-    }
-
     public void ClearMask()
     {
         for (int i = 0; i < Height * Width; i++)
