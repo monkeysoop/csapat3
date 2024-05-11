@@ -12,44 +12,71 @@ public sealed class SimulationController : Controller
 
     private CancellationTokenSource? _cancellationTokenSource;
 
-    private readonly double Length;
+    private readonly double _length;
 
     public int TimeStamp { get; private set; }
 
+    /// <summary>
+    /// Occurs when the simulation has ended (all the task are completed or the desired length has been reached).
+    /// </summary>
+    public event EventHandler? Ended;
 
-    public SimulationController(string path, ISimDataAccess da, Type assigner, Type pathfinder, int length, double speed) : base(speed)
+    /// <summary>
+    /// Initializes a new <c>Controller</c> that handles a simulation.
+    /// </summary>
+    /// <param name="path">Path of the configuration file</param>
+    /// <param name="dataAccess">Preferred data access classes</param>
+    /// <param name="assigner">Class that will handle the assignment of packages (has to implement the <c>Assigner</c> abstract class)</param>
+    /// <param name="pathFinder">Class that will handle the path planning of robots (has to implement the <c>PathFinder</c> abstract class)</param>
+    /// <param name="speed">Intervals of simulation steps (in seconds)</param>
+    /// <param name="length">Desired length of the simulation</param>
+    /// <exception cref="ArgumentException">Gets thrown when the <paramref name="pathFinder"/> is not a subclass of <c>PathFinder</c></exception>
+    public SimulationController(string path, ISimDataAccess dataAccess, Type assigner, Type pathFinder, double speed, int length) : base(speed)
     {
         _logger = new Logger("default");
 
-        Load(path, da, assigner);
+        Load(path, dataAccess, assigner);
 
-        _logFileDataAccess = da.LDA;
+        _logFileDataAccess = dataAccess.LogFileDataAccess;
 
-        if (!pathfinder.IsSubclassOf(typeof(PathFinder)))
+        if (!pathFinder.IsSubclassOf(typeof(PathFinder)))
         {
-            throw new ArgumentException("Type must be a subclass of PathFinder", nameof(pathfinder));
+            throw new ArgumentException("Type must be a subclass of PathFinder", nameof(pathFinder));
         }
 
-        if (pathfinder.GetConstructor([]) is null)
+        if (pathFinder.GetConstructor([]) is null)
         {
-            throw new ArgumentException("Type must have a constructor parameter without parameters", nameof(pathfinder));
+            throw new ArgumentException("Type must have a constructor parameter without parameters", nameof(pathFinder));
         }
 
-        _pathFinder = (PathFinder)Activator.CreateInstance(pathfinder)!;
+        _pathFinder = (PathFinder)Activator.CreateInstance(pathFinder)!;
 
         if (length == -1)
         {
-            Length = double.PositiveInfinity;
+            _length = double.PositiveInfinity;
         }
         else
         {
-            Length = length;
+            _length = length;
         }
     }
 
-    private void OnEnded(object? sender, EventArgs e)
+    /// <summary>
+    /// Initializes a new <c>Controller</c> that handles a simulation.
+    /// </summary>
+    /// <param name="path">Path of the configuration file</param>
+    /// <param name="dataAccess">Preferred data access classes</param>
+    /// <param name="assigner">Class that will handle the assignment of packages (has to implement the <c>Assigner</c> abstract class)</param>
+    /// <param name="pathFinder">Class that will handle the path planning of robots (has to implement the <c>PathFinder</c> abstract class)</param>
+    /// <param name="speed">Intervals of simulation steps (in seconds)</param>
+    /// <exception cref="ArgumentException">Gets thrown when the pathFinder is not a subclass of <c>PathFinder</c></exception>
+    public SimulationController(string path, ISimDataAccess dataAccess, Type assigner, Type pathFinder, double speed) : this(path, dataAccess, assigner, pathFinder, speed, -1) { }
+
+    private void OnEnded()
     {
         Timer.Change(Timeout.Infinite, Timeout.Infinite);
+
+        Ended?.Invoke(this, EventArgs.Empty);
 
         SaveLog();
     }
@@ -58,17 +85,17 @@ public sealed class SimulationController : Controller
     {
         await Task.Run(async () =>
         {
-            Config config = await da.CDA.LoadAsync(path);
+            Config config = await da.ConfigDataAccess.LoadAsync(path);
 
             _logger = new Logger(config.MapFile.Split('/')[^1].Replace(".map", ""));
 
-            Board b = await da.BDA.LoadAsync(config.MapFile);
+            Board b = await da.BoardDataAccess.LoadAsync(config.MapFile);
             _board = b; // for some reason it only sets board this way ????????
 
-            _robots.AddRange(await da.RDA.LoadAsync(config.AgentFile, _board.Width - 2, _board.Height - 2));
+            _robots.AddRange(await da.RobotsDataAccess.LoadAsync(config.AgentFile, _board.Width - 2, _board.Height - 2));
             _logger.LogStarts(_robots);
 
-            List<Package> tasks = await da.PDA.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2);
+            List<Package> tasks = await da.PackagesDataAccess.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2);
             _logger.LogTasks(tasks);
 
             if (!assigner.IsSubclassOf(typeof(Assigner.Assigner)))
@@ -82,7 +109,6 @@ public sealed class SimulationController : Controller
             }
 
             _assigner = (Assigner.Assigner)Activator.CreateInstance(assigner, b, tasks, _robots)!;
-            _assigner.Ended += OnEnded;
 
             foreach (Robot r in _robots) Assign(r);
 
@@ -99,11 +125,23 @@ public sealed class SimulationController : Controller
         });
     }
 
+    /// <summary>
+    /// Saves the log of the simulation in the current state.
+    /// </summary>
     public async void SaveLog()
     {
+        foreach (var r in _robots)
+        {
+            var count = r.History.Count;
+            while (r.History.Count < TimeStamp)
+            {
+                r.TryStep(Action.W, _board, count++);
+            }
+        }
+
         _logger.LogActualPaths(_robots);
 
-        _logger.LogReplayLength(_assigner!.TimeStamp + 1);
+        _logger.LogReplayLength(TimeStamp + 1);
 
         await _logger.SaveAsync(_logFileDataAccess);
     }
@@ -122,14 +160,14 @@ public sealed class SimulationController : Controller
             {
                 try
                 {
-                    if (_assigner!.NoPackage && _paths.All(x => x.Value.IsOver) || TimeStamp >= Length)
+                    if (_assigner!.NoPackage && _paths.All(x => x.Value.IsOver) || TimeStamp >= _length)
                     {
                         foreach (var r in _robots.Where(r => r.Task is not null))
                         {
                             r.RemoveTask();
                         }
 
-                        OnEnded(this, EventArgs.Empty);
+                        OnEnded();
                         return;
                     }
 
@@ -145,9 +183,10 @@ public sealed class SimulationController : Controller
 
                         if (path.IsOver)
                         {
+                            _logger.LogPlannerPaths(robot.ID, path);
+
                             if (robot.Task != null)
                             {
-                                _logger.LogPlannerPaths(robot.ID, path);
                                 _logger.LogFinish(robot.ID, robot.Task!.ID, TimeStamp);
                             }
 
@@ -217,7 +256,7 @@ public sealed class SimulationController : Controller
 
         _cancellationTokenSource.CancelAfter(Interval.Milliseconds);
     }
-
+    
     public override void StepForward()
     {
         if (!IsPlaying) OnTick(null);
@@ -287,6 +326,12 @@ public sealed class SimulationController : Controller
         _assigner!.Return(package);
     }
 
+    /// <summary>
+    /// Assigns a task to the robot if the provided target is reachable.
+    /// </summary>
+    /// <param name="robot">Robot that get's the task assigned</param>
+    /// <param name="target">Location of the target [1..Width]x[1..Height]</param>
+    /// <exception cref="System.Exception"></exception>
     public void Assign(Robot robot, Point target)
     {
         if (_paths.TryGetValue(robot, out Path? path) && !path.IsOver) Free(robot, path);

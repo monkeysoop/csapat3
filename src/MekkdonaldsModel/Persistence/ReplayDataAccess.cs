@@ -2,9 +2,9 @@
 
 public class ReplayDataAccess : IReplayDataAccess
 {
-    public required IBoardDataAccess BDA { get; init; }
+    public required IBoardDataAccess BoardDataAccess { get; init; }
 
-    public required ILogFileDataAccess LDA { get; init; }
+    public required ILogFileDataAccess LogFileDataAccess { get; init; }
 
     private static ReplayDataAccess? _instance;
 
@@ -14,8 +14,8 @@ public class ReplayDataAccess : IReplayDataAccess
         {
             return _instance ??= new()
             {
-                BDA = new BoardFileDataAccess(),
-                LDA = new LogFileDataAccess()
+                BoardDataAccess = new BoardFileDataAccess(),
+                LogFileDataAccess = new LogFileDataAccess()
             };
         }
     }

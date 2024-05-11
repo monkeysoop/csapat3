@@ -4,11 +4,12 @@ namespace Mekkdonalds.ViewModel;
 
 internal class SimulationViewModel : ViewModel
 {
-    private readonly SimulationController SimulationController;
+    private readonly SimulationController _simulationController;
 
     public ICommand LogSave { get; }
+    public event EventHandler? Ended;
 
-    public SimulationViewModel(string path, Type pathfinder, int length, double speed) : base(new SimulationController(path, SimDataAccess.Instance, typeof(RoundRobinAssigner), pathfinder, length, speed))
+    public SimulationViewModel(string path, Type pathfinder, double speed, int length) : base(new SimulationController(path, SimDataAccess.Instance, typeof(RoundRobinAssigner), pathfinder,  speed, length))
     {
         if (Controller is not SimulationController controller)
         {
@@ -16,17 +17,18 @@ internal class SimulationViewModel : ViewModel
         }
         else
         {
-            SimulationController = controller;
+            _simulationController = controller;
+            _simulationController.Ended += (_, _) => Ended?.Invoke(this, EventArgs.Empty);
         }
 
-        SimulationController.Loaded += (_, _) => OnLoaded(this);
-        SimulationController.Tick += (_, _) => OnTick(this);
+        _simulationController.Loaded += (_, _) => OnLoaded(this);
+        _simulationController.Tick += (_, _) => OnTick(this);
 
-        LogSave = new DelegateCommand(_ => SimulationController.SaveLog());
+        LogSave = new DelegateCommand(_ => _simulationController.SaveLog());
     }
 
     internal void AssignTask(Robot selectedRobot, int x, int y)
     {
-        SimulationController.Assign(selectedRobot, new(x, y));
+        _simulationController.Assign(selectedRobot, new(x, y));
     }
 }

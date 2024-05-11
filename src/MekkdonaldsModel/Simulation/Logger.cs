@@ -51,11 +51,18 @@ public class Logger
     }
 
     /// <summary>
-    /// Logs the planned path to the currently assigned task
+    /// Logs the planned path of the currently assigned task
     /// </summary>
     /// <param name="robotID">Identifier of the robot</param>
     /// <param name="plannedPath">Planned path</param>
     public void LogPlannerPaths(int robotID, Path plannedPath) => _logFile.PlannerPaths[robotID - 1].AddRange(plannedPath.PlannedPath);
+
+    /// <summary>
+    /// Logs a single step of the planned path of the currently assigned task
+    /// </summary>
+    /// <param name="robotID">Identifier of the robot</param>
+    /// <param name="step">The step to be logged</param>
+    public void LogPlannerPaths(int robotID, Action step) => _logFile.PlannerPaths[robotID - 1].Add(step);
 
     /// <summary>
     /// Logs the time taken by the planner to assign to each robot

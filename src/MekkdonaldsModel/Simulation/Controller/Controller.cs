@@ -12,19 +12,45 @@ public abstract class Controller
 
     protected Board _board;
 
+    /// <summary>
+    /// Indicates the state of the controller, true if the controller is playing, false if it is paused.
+    /// </summary>
     public bool IsPlaying { get; protected set; }
+    /// <summary>
+    /// Speed of the controller, the time between each tick in seconds.
+    /// </summary>
     public double Speed { get; private set; } = 1;
 
+    /// <summary>
+    /// Width of the map.
+    /// </summary>
     public int Width => _board.Width;
+    /// <summary>
+    /// Height of the map.
+    /// </summary>
     public int Height => _board.Height;
 
+    /// <summary>
+    /// List of robots in the controlled by the controller.
+    /// </summary>
     public IReadOnlyList<Robot> Robots => _robots.AsReadOnly();
-
+    /// <summary>
+    /// List of walls on the map.
+    /// </summary>
     public IReadOnlyList<Wall> Walls => _walls.AsReadOnly();
 
+    /// <summary>
+    /// Occurs when the controller encounters an exception.
+    /// </summary>
     public event EventHandler<System.Exception>? Exception;
 
+    /// <summary>
+    /// Occurs when the controller ticks.
+    /// </summary>
     public event EventHandler? Tick;
+    /// <summary>
+    /// Occurs when the controller is loaded.
+    /// </summary>
     public event EventHandler? Loaded;
 
     protected Controller(double speed)
@@ -81,6 +107,11 @@ public abstract class Controller
         Exception?.Invoke(sender, e);
     }
 
+    /// <summary>
+    /// Sets the speed of the controller.
+    /// </summary>
+    /// <param name="speed">Multiple of the current speed</param>
+    /// <exception cref="ArgumentException">Gets thrown when the speed is non-positive</exception>
     public void ChangeSpeed(double speed)
     {
         if (speed <= 0)
@@ -93,6 +124,9 @@ public abstract class Controller
         if (IsPlaying) Timer.Change(TimeSpan.Zero, Interval);
     }
 
+    /// <summary>
+    /// Resumes the controller.
+    /// </summary>
     public virtual void Play()
     {
         if (!IsPlaying)
@@ -102,6 +136,9 @@ public abstract class Controller
         }
     }
 
+    /// <summary>
+    /// Stops the controller.
+    /// </summary>
     public virtual void Pause()
     {
         if (IsPlaying)
@@ -111,5 +148,8 @@ public abstract class Controller
         }
     }
 
+    /// <summary>
+    /// Steps the controller forward by one step.
+    /// </summary>
     public abstract void StepForward();
 }

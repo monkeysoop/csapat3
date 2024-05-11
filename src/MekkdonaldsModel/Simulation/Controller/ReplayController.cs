@@ -5,21 +5,33 @@ public sealed class ReplayController : Controller
     private readonly ConcurrentDictionary<Robot, List<Action>> Paths = [];
     private readonly ConcurrentDictionary<Robot, IntervalTree<Point?>> Targets = [];
 
+    /// <summary>
+    /// Which step the controller is currently at.
+    /// </summary>
     public int TimeStamp { get; private set; }
+    /// <summary>
+    /// Length of the replay.
+    /// </summary>
     public int Length { get; private set; }
 
-    public ReplayController(string logPath, string mapPath, IReplayDataAccess da)
+    /// <summary>
+    /// Initializes a new <c>Controller</c> that handles replaying a simulation.
+    /// </summary>
+    /// <param name="logPath">Path of the log file</param>
+    /// <param name="mapPath">Path of the map file (will not be checked for size match, collisions, etc.)</param>
+    /// <param name="dataAccess">Preferred data access classes</param>
+    public ReplayController(string logPath, string mapPath, IReplayDataAccess dataAccess)
     {
-        Load(logPath, mapPath, da);
+        Load(logPath, mapPath, dataAccess);
     }
 
-    private async void Load(string logPath, string mapPath, IReplayDataAccess da)
+    private async void Load(string logPath, string mapPath, IReplayDataAccess dataAccess)
     {
         await Task.Run(async () =>
         {
-            _board = await da.BDA.LoadAsync(mapPath);
+            _board = await dataAccess.BoardDataAccess.LoadAsync(mapPath);
 
-            LogFile log = await da.LDA.LoadAsync(logPath);
+            LogFile log = await dataAccess.LogFileDataAccess.LoadAsync(logPath);
 
             foreach (var (p, d) in log.Start)
             {
@@ -82,6 +94,11 @@ public sealed class ReplayController : Controller
         StepForward();
     }
 
+    /// <summary>
+    /// Jumps to a specific time in the replay.
+    /// </summary>
+    /// <param name="time">Timestamp to jump to</param>
+    /// <exception cref="ArgumentOutOfRangeException">Gets thrown when the <paramref name="time"/> is less then zero or greater then the length of the replay</exception>
     public void JumpTo(int time)
     {
         if (time < 0 || time > Length) throw new ArgumentOutOfRangeException(nameof(time), "Time must be between 0 and the length of the replay");
@@ -129,6 +146,9 @@ public sealed class ReplayController : Controller
         JumpTo(TimeStamp + 1);
     }
 
+    /// <summary>
+    /// Steps backward by one step.
+    /// </summary>
     public void StepBackward()
     {
         JumpTo(TimeStamp - 1);

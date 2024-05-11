@@ -174,7 +174,7 @@ public partial class App : Application
 
         try
         {
-            simulationViewModel = new(configFile, algorithm, simulationLength, speed);
+            simulationViewModel = new(configFile, algorithm, speed, simulationLength);
         }
         catch (System.Exception ex)
         {
@@ -183,6 +183,7 @@ public partial class App : Application
         }
 
         _viewModel = simulationViewModel;
+        simulationViewModel.Ended += OnEnded;
 
         _simWindow = new SimulationWindow
         {
@@ -573,6 +574,11 @@ public partial class App : Application
             Redraw();
             window.Cursor = Cursors.Arrow;
         });
+    }
+
+    private void OnEnded(object? sender, EventArgs e)
+    {
+        MessageBox.Show("Simulation ended", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
     }
     #endregion
 
