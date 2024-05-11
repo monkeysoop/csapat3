@@ -142,10 +142,23 @@ public abstract class PathFinder
                 throw new System.Exception("error in heap hash map!");
             }
         }
+
+        for (int i = 0; i < heapHashMap.Length; i++)
+        {
+            int y = (int)i / width;
+            int x = i % width;
+            int index = heapHashMap[i];
+        
+            if (heapHashMap[i] != -1 && heap[index].Position != new Point(x, y))
+            {
+                throw new System.Exception("error in heap hash map!");
+            }
+        }
     }
 
     protected static void HeapInsert(Step[] heap, int length, Step item, int[] heapHashMap, int width)
     {
+        CheckHeap(heap, length, heapHashMap, width);
         heap[length] = item;
         heapHashMap[item.Position.Y * width + item.Position.X] = length;
 
@@ -167,15 +180,21 @@ public abstract class PathFinder
             index = root_index;
             root_index = (index - 1) / 2;
         }
+        CheckHeap(heap, length + 1, heapHashMap, width);
     }
 
     protected static Step HeapRemoveMin(Step[] heap, int length, int[] heapHashMap, int width)
     {
+        CheckHeap(heap, length, heapHashMap, width);
         Step minItem = heap[0];
         heapHashMap[heap[0].Position.Y * width + heap[0].Position.X] = -1;
 
         heap[0] = heap[length - 1];
-        heapHashMap[heap[length - 1].Position.Y * width + heap[length - 1].Position.X] = 0;
+        if (length > 1) 
+        {
+            // it doesnt matter if heap stays the same if theres only 1 item (because heapLength), but setting heapHashMap matters
+            heapHashMap[heap[length - 1].Position.Y * width + heap[length - 1].Position.X] = 0;
+        }
 
         length--; // this is only local!!!
 
@@ -209,11 +228,13 @@ public abstract class PathFinder
             }
         }
 
+        CheckHeap(heap, length, heapHashMap, width); // length is decreased locally
         return minItem;
     }
 
     protected static void UpdateHeapItem(Step[] heap, int length, Step item, int[] heapHashMap, int width)
     {
+        CheckHeap(heap, length, heapHashMap, width);
         int index = heapHashMap[item.Position.Y * width + item.Position.X];
 
         if (index >= length || index < 0)
@@ -278,5 +299,6 @@ public abstract class PathFinder
                 rootIndex = (index - 1) / 2;
             }
         }
+        CheckHeap(heap, length, heapHashMap, width);
     }
 }
