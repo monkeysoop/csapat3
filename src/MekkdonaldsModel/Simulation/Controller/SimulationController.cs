@@ -15,7 +15,6 @@ public sealed class SimulationController : Controller
     private readonly double _length;
 
     public int TimeStamp { get; private set; }
-    public bool IsOver { get; private set; }
 
     /// <summary>
     /// Occurs when the simulation has ended (all the task are completed or the desired length has been reached).
@@ -27,16 +26,15 @@ public sealed class SimulationController : Controller
     /// </summary>
     /// <param name="path">Path of the configuration file</param>
     /// <param name="dataAccess">Preferred data access classes</param>
-    /// <param name="assigner">Class that will handle the assignment of packages (has to implement the <see cref="Assigner.Assigner"/> abstract class)</param>
     /// <param name="pathFinder">Class that will handle the path planning of robots (has to implement the <see cref="PathFinder"/> abstract class)</param>
     /// <param name="speed">Intervals of simulation steps (in seconds)</param>
     /// <param name="length">Desired length of the simulation</param>
     /// <exception cref="ArgumentException">Gets thrown when the <paramref name="pathFinder"/> is not a subclass of <see cref="PathFinder"/></exception>
-    public SimulationController(string path, ISimDataAccess dataAccess, Type assigner, Type pathFinder, double speed, int length) : base(speed)
+    public SimulationController(string path, ISimDataAccess dataAccess, Type pathFinder, double speed, int length) : base(speed)
     {
         _logger = new Logger("default");
 
-        Load(path, dataAccess, assigner);
+        Load(path, dataAccess);
 
         _logFileDataAccess = dataAccess.LogFileDataAccess;
 
@@ -67,11 +65,10 @@ public sealed class SimulationController : Controller
     /// </summary>
     /// <param name="path">Path of the configuration file</param>
     /// <param name="dataAccess">Preferred data access classes</param>
-    /// <param name="assigner">Class that will handle the assignment of packages (has to implement the <see cref="Assigner.Assigner"/> abstract class)</param>
     /// <param name="pathFinder">Class that will handle the path planning of robots (has to implement the <see cref="PathFinder"/> abstract class)</param>
     /// <param name="speed">Intervals of simulation steps (in seconds)</param>
     /// <exception cref="ArgumentException">Gets thrown when the <paramref name="pathFinder"/> is not a subclass of <see cref="PathFinder"/></exception>
-    public SimulationController(string path, ISimDataAccess dataAccess, Type assigner, Type pathFinder, double speed) : this(path, dataAccess, assigner, pathFinder, speed, -1) { }
+    public SimulationController(string path, ISimDataAccess dataAccess, Type pathFinder, double speed) : this(path, dataAccess, pathFinder, speed, -1) { }
 
     private void OnEnded()
     {
@@ -86,7 +83,7 @@ public sealed class SimulationController : Controller
         _cancellationTokenSource?.Cancel();
     }
 
-    private async void Load(string path, ISimDataAccess da, Type assigner)
+    private async void Load(string path, ISimDataAccess da)
     {
         await Task.Run(async () =>
         {
@@ -103,17 +100,7 @@ public sealed class SimulationController : Controller
             List<Package> tasks = await da.PackagesDataAccess.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2);
             _logger.LogTasks(tasks);
 
-            if (!assigner.IsSubclassOf(typeof(Assigner.Assigner)))
-            {
-                throw new ArgumentException("Type must be a subclass of Assigner", nameof(assigner));
-            }
-
-            if (assigner.GetConstructor([typeof(Board), typeof(IEnumerable<Package>), typeof(IEnumerable<Robot>)]) is null)
-            {
-                throw new ArgumentException($"Type must have a constructor with a {typeof(Board)}, a {typeof(IEnumerable<Package>)} and a {typeof(IEnumerable<Robot>)} parameter", nameof(assigner));
-            }
-
-            _assigner = (Assigner.Assigner)Activator.CreateInstance(assigner, board, tasks, _robots)!;
+            _assigner = config.GetAssigner(board, tasks, _robots);
 
             foreach (Robot robot in _robots) Assign(robot);
 
@@ -150,7 +137,7 @@ public sealed class SimulationController : Controller
 
         var task = Task.Run(() =>
         {
-            List<Robot>.Enumerator enumerator = _robots.GetEnumerator();
+            using List<Robot>.Enumerator enumerator = _robots.GetEnumerator();
 
             Robot robot;
 
