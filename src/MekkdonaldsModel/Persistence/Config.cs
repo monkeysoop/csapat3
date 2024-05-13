@@ -1,4 +1,5 @@
 ﻿using Mekkdonalds.Persistence.Converters;
+using Mekkdonalds.Simulation.Assigner;
 
 using System.Text.Json.Serialization;
 
@@ -37,4 +38,10 @@ public class Config
 
     [JsonConstructor]
     public Config() { }
+
+    internal Assigner? GetAssigner(Board board, List<Package> tasks, List<Robot> robots) => TaskAssignmentStrategy switch
+    {
+        Strategy.RoundRobin => new RoundRobinAssigner(board, tasks, robots),
+        _ => throw new NotImplementedException()
+    };
 }
