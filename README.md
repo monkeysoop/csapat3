@@ -59,4 +59,4 @@ Please make sure to update tests as appropriate.
 
 ## License
 
-![[MIT License]](https://img.shields.io/badge/License-MIT-yellow.svg)
+[![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)](/LICENSE)
