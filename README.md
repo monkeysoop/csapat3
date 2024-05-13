@@ -16,7 +16,7 @@ dotnet build
 
 ### Simulation
 
-![Simulation demo](/docs/usage/Simulation.gif)
+![Simulation demo](/docs/images/usage/Simulation.gif)
 
 There are a few options you can set in the main menu:
  - Number of steps: how many steps to simulate, defaults to -1 (all steps)
@@ -35,7 +35,7 @@ When the simulation ends, a log file is automatically created and the program ex
 
 ### Replay
 
-![Replay demo](/docs/usage/Replay.gif)
+![Replay demo](/docs/images/usage/Replay.gif)
 
 There are no options in the main menu for the replay function, you just click on the 'Open Replay' button.
 
