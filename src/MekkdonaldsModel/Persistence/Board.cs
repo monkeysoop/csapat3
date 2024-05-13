@@ -31,7 +31,7 @@ public class Board
 
     #region Constructors
     /// <summary>
-    /// creates an empty board with given width and height and adds a border around it (so sizes are +2)
+    /// Creates an empty board with given width and height and adds a border around it (so sizes are +2)
     /// </summary>
     /// <param name="height">The height of the board to be created not counting border (so -2 from the created height)</param>
     /// <param name="width">The width of the board to be created not counting border (so -2 from the created width)</param>
@@ -50,7 +50,7 @@ public class Board
     }
 
     /// <summary>
-    /// creates a board with given width and height and given data and adds a border around it (so sizes are +2)
+    /// Creates a board with given width and height and given data and adds a border around it (so sizes are +2)
     /// </summary>
     /// <param name="data">2D matrix where each item is either a wall or empty</param>
     /// <param name="height">The height of the board to be created not counting border (so -2 from the created height)</param>
@@ -101,7 +101,7 @@ public class Board
     }
 
     /// <summary>
-    /// un-reserves a position for a certain time, it wraps around so it is only effective for paths/times under the max path length
+    /// Un-reserves a position for a certain time, it wraps around so it is only effective for paths/times under the max path length
     /// </summary>
     /// <param name="position">Position of the reservation to be removed</param>
     /// <param name="cost">Time of the reservation to be removed</param>
@@ -114,7 +114,7 @@ public class Board
     }
 
     /// <summary>
-    /// reserves a position for a certain time, it wraps around so it is only effective for paths/times under the max path length
+    /// Reserves a position for a certain time, it wraps around so it is only effective for paths/times under the max path length
     /// </summary>
     /// <param name="position">Position of the reservation</param>
     /// <param name="cost">Time of the reservation</param>
@@ -268,30 +268,6 @@ public class Board
         CheckPosition(position);
 
         return SearchMask[position.Y * Width + position.X] == SEARCHED;
-    }
-
-    public bool SetSearchedIfEmpty(Point position)
-    {
-        CheckPosition(position);
-
-#if NO_BORDER_CHECK
-        bool t = Data[position.Y * Width + position.X] == EMPTY &&
-                 SearchMask[position.Y * Width + position.X] == NOT_SEARCHED &&
-                 RobotMask[position.Y * Width + position.X] == EMPTY;
-#else
-        bool t = position.X >= 0 &&
-                 position.X < Width &&
-                 position.Y >= 0 &&
-                 position.Y < Height &&
-                 Data[position.Y * Width + position.X] == EMPTY &&
-                 SearchMask[position.Y * Width + position.X] == NOT_SEARCHED;
-#endif
-        if (t)
-        {
-            SearchMask[position.Y * Width + position.X] = SEARCHED;
-        }
-
-        return t;
     }
 
     /// <summary>

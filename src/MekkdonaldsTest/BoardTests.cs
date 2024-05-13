@@ -86,40 +86,6 @@ public class BoardTests
     }
 
     [Test]
-    public void SetSearchedIfEmptyTest()
-    {
-        // Set an empty cell as searched
-        Point emptyPosition = new(5, 5);
-
-        // Assert that the cell was marked as searched
-        Assert.That(board.SetSearchedIfEmpty(emptyPosition), Is.True);
-
-        // Check if the same cell cannot be marked as searched again
-        bool isSearched = board.SetSearchedIfEmpty(emptyPosition);
-        Assert.That(isSearched, Is.False);
-    }
-
-    [Test]
-    public void ClearMaskTest()
-    {
-        // Mark some cells as searched
-        board.SetSearchedIfEmpty(new Point(5, 5));
-        board.SetSearchedIfEmpty(new Point(6, 6));
-
-        // Clear the search mask
-        board.ClearMask();
-
-        // Assert that all cells can be marked as searched again
-        for (int y = 1; y < 11; y++)
-        {
-            for (int x = 1; x < 11; x++)
-            {
-                Assert.That(board.SetSearchedIfEmpty(new Point(x, y)), Is.True);
-            }
-        }
-    }
-
-    [Test]
     public void SetValueOutOfBoundsTest()
     {
         // Assert that setting a value outside the board bounds throws an exception with the correct message

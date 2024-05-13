@@ -26,16 +26,15 @@ public sealed class SimulationController : Controller
     /// </summary>
     /// <param name="path">Path of the configuration file</param>
     /// <param name="dataAccess">Preferred data access classes</param>
-    /// <param name="assigner">Class that will handle the assignment of packages (has to implement the <see cref="Assigner.Assigner"/> abstract class)</param>
     /// <param name="pathFinder">Class that will handle the path planning of robots (has to implement the <see cref="PathFinder"/> abstract class)</param>
     /// <param name="speed">Intervals of simulation steps (in seconds)</param>
     /// <param name="length">Desired length of the simulation</param>
     /// <exception cref="ArgumentException">Gets thrown when the <paramref name="pathFinder"/> is not a subclass of <see cref="PathFinder"/></exception>
-    public SimulationController(string path, ISimDataAccess dataAccess, Type assigner, Type pathFinder, double speed, int length) : base(speed)
+    public SimulationController(string path, ISimDataAccess dataAccess, Type pathFinder, double speed, int length) : base(speed)
     {
         _logger = new Logger("default");
 
-        Load(path, dataAccess, assigner);
+        Load(path, dataAccess);
 
         _logFileDataAccess = dataAccess.LogFileDataAccess;
 
@@ -66,22 +65,25 @@ public sealed class SimulationController : Controller
     /// </summary>
     /// <param name="path">Path of the configuration file</param>
     /// <param name="dataAccess">Preferred data access classes</param>
-    /// <param name="assigner">Class that will handle the assignment of packages (has to implement the <see cref="Assigner.Assigner"/> abstract class)</param>
     /// <param name="pathFinder">Class that will handle the path planning of robots (has to implement the <see cref="PathFinder"/> abstract class)</param>
     /// <param name="speed">Intervals of simulation steps (in seconds)</param>
     /// <exception cref="ArgumentException">Gets thrown when the <paramref name="pathFinder"/> is not a subclass of <see cref="PathFinder"/></exception>
-    public SimulationController(string path, ISimDataAccess dataAccess, Type assigner, Type pathFinder, double speed) : this(path, dataAccess, assigner, pathFinder, speed, -1) { }
+    public SimulationController(string path, ISimDataAccess dataAccess, Type pathFinder, double speed) : this(path, dataAccess, pathFinder, speed, -1) { }
 
     private void OnEnded()
     {
+        _cancellationTokenSource?.TryReset();
+
         Timer.Change(Timeout.Infinite, Timeout.Infinite);
+
+        SaveLog();
 
         Ended?.Invoke(this, EventArgs.Empty);
 
-        SaveLog();
+        _cancellationTokenSource?.Cancel();
     }
 
-    private async void Load(string path, ISimDataAccess da, Type assigner)
+    private async void Load(string path, ISimDataAccess da)
     {
         await Task.Run(async () =>
         {
@@ -98,17 +100,7 @@ public sealed class SimulationController : Controller
             List<Package> tasks = await da.PackagesDataAccess.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2);
             _logger.LogTasks(tasks);
 
-            if (!assigner.IsSubclassOf(typeof(Assigner.Assigner)))
-            {
-                throw new ArgumentException("Type must be a subclass of Assigner", nameof(assigner));
-            }
-
-            if (assigner.GetConstructor([typeof(Board), typeof(IEnumerable<Package>), typeof(IEnumerable<Robot>)]) is null)
-            {
-                throw new ArgumentException($"Type must have a constructor with a {typeof(Board)}, a {typeof(IEnumerable<Package>)} and a {typeof(IEnumerable<Robot>)} parameter", nameof(assigner));
-            }
-
-            _assigner = (Assigner.Assigner)Activator.CreateInstance(assigner, board, tasks, _robots)!;
+            _assigner = config.GetAssigner(board, tasks, _robots);
 
             foreach (Robot robot in _robots) Assign(robot);
 
@@ -130,29 +122,22 @@ public sealed class SimulationController : Controller
     /// </summary>
     public async void SaveLog()
     {
-        foreach (Robot robot in _robots)
-        {
-            var count = robot.History.Count;
-            while (robot.History.Count < TimeStamp)
-            {
-                robot.TryStep(Action.W, _board, count++);
-            }
-        }
-
         _logger.LogActualPaths(_robots);
 
-        _logger.LogReplayLength(TimeStamp + 1);
+        _logger.LogReplayLength(TimeStamp);
 
         await _logger.SaveAsync(_logFileDataAccess);
     }
 
     protected override void OnTick(object? state)
     {
+        if (IsOver) return;
+
         _cancellationTokenSource = new CancellationTokenSource();
 
         var task = Task.Run(() =>
         {
-            List<Robot>.Enumerator enumerator = _robots.GetEnumerator();
+            using List<Robot>.Enumerator enumerator = _robots.GetEnumerator();
 
             Robot robot;
 
@@ -162,9 +147,11 @@ public sealed class SimulationController : Controller
                 {
                     if (_assigner!.NoPackage && _paths.All(x => x.Value.IsOver) || TimeStamp >= _length)
                     {
+                        IsOver = true;
                         foreach (Robot r in _robots.Where(r => r.Task is not null))
                         {
-                            r.RemoveTask();
+                            Package task = r.RemoveTask();
+                            _logger.LogFinish(r.ID, task.ID, TimeStamp);
                         }
 
                         OnEnded();
@@ -185,9 +172,9 @@ public sealed class SimulationController : Controller
                         {
                             _logger.LogPlannerPaths(robot.ID, path);
 
-                            if (robot.Task != null)
+                            if (robot.Task is not null)
                             {
-                                _logger.LogFinish(robot.ID, robot.Task!.ID, TimeStamp);
+                                _logger.LogFinish(robot.ID, robot.Task.ID, TimeStamp);
                             }
 
                             if (!_paths.TryRemove(robot, out _))
@@ -210,12 +197,14 @@ public sealed class SimulationController : Controller
                             {
                                 Free(robot, path);
                                 _board.Reserve(robot.Position, TimeStamp + 1);
+                                robot.TryStep(Action.W, _board, TimeStamp);
                             }
                         }
                         else
                         {
                             // this could happen if the next task is at the same position as the robot which is assigned to
                             _board.UnReserve(robot.Position, TimeStamp);
+                            robot.TryStep(Action.W, _board, TimeStamp);
                         }
 
                         _cancellationTokenSource.Token.ThrowIfCancellationRequested();
@@ -306,6 +295,8 @@ public sealed class SimulationController : Controller
 
     private void Free(Robot robot, Path path)
     {
+        _logger.LogFinish(robot.ID, robot.Task!.ID, TimeStamp);
+
         if (!path.FreeAllReserved(_board, robot.Position, robot.Direction, TimeStamp))
         {
             throw new System.Exception("");
@@ -365,5 +356,15 @@ public sealed class SimulationController : Controller
         }
 
         CallTick(this);
+    }
+
+    /// <summary>
+    /// Disposes the controller and stops the simulation.
+    /// </summary>
+    public void Dispose()
+    {
+        Timer.Dispose();
+        _cancellationTokenSource?.Dispose();
+        IsOver = true;
     }
 }

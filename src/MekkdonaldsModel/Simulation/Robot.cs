@@ -132,7 +132,7 @@ public sealed class Robot
             case Action.T:
                 board.UnReserve(Position, cost_counter);
                 board.Reserve(Position, cost_counter + 1);
-                _history.Add(a);
+                _history.Add(Action.W);
                 return false;
             default:
                 throw new System.Exception("");
@@ -155,5 +155,13 @@ public sealed class Robot
             default:
                 throw new System.Exception("");
         }
+    }
+
+    /// <summary>
+    /// Resets the ID counter to 1
+    /// </summary>
+    internal static void ResetIDCounter()
+    {
+        IDCounter = 1;
     }
 }

@@ -36,7 +36,7 @@ public sealed class Package
     /// <summary>
     /// Resets the ID counter to 1
     /// </summary>
-    public static void ResetIDCounter()
+    internal static void ResetIDCounter()
     {
         IDCounter = 1;
     }

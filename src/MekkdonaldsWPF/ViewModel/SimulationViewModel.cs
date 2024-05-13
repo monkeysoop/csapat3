@@ -12,7 +12,7 @@ internal class SimulationViewModel : ViewModel
     public ICommand LogSave { get; }
     public event EventHandler? Ended;
 
-    public SimulationViewModel(string path, Type pathfinder, double speed, int length) : base(new SimulationController(path, SimDataAccess.Instance, typeof(RoundRobinAssigner), pathfinder,  speed, length))
+    public SimulationViewModel(string path, Type pathfinder, double speed, int length) : base(new SimulationController(path, SimDataAccess.Instance, pathfinder,  speed, length))
     {
         if (Controller is not SimulationController controller)
         {
@@ -30,8 +30,13 @@ internal class SimulationViewModel : ViewModel
         LogSave = new DelegateCommand(_ => _simulationController.SaveLog());
     }
 
-    internal void AssignTask(Robot selectedRobot, int x, int y)
+    public void AssignTask(Robot selectedRobot, int x, int y)
     {
         _simulationController.Assign(selectedRobot, new(x, y));
+    }
+
+    public void Dispose()
+    {
+        _simulationController.Dispose();
     }
 }

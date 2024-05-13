@@ -67,6 +67,7 @@ public sealed class ReplayController : Controller
                             (int, int, int) pos = log.Tasks.First(x => x.Item1 == task);
                             Point point = new(pos.Item3 + 1, pos.Item2 + 1);
                             Targets[robot][start, t] = point;
+                            start = -1;
                             break;
                         default:
                             break;
@@ -143,6 +144,8 @@ public sealed class ReplayController : Controller
 
     public override void StepForward()
     {
+        if (TimeStamp >= Length) return;
+
         JumpTo(TimeStamp + 1);
     }
 
@@ -151,6 +154,8 @@ public sealed class ReplayController : Controller
     /// </summary>
     public void StepBackward()
     {
+        if (TimeStamp <= 0) return;
+
         JumpTo(TimeStamp - 1);
     }
 }
