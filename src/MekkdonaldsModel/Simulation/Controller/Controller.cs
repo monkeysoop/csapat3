@@ -7,13 +7,17 @@ public abstract class Controller
     protected Timer Timer;
 
     private readonly TimeSpan _interval;
+    /// <summary>
+    /// Represents the state of the controller, <see langword="true"/> if the action controlled by controller is over
+    /// </summary>
+    public bool IsOver { get; protected set; }
 
     protected TimeSpan Interval => _interval / Speed;
 
     protected Board _board;
 
     /// <summary>
-    /// Indicates the state of the controller, true if the controller is playing, false if it is paused.
+    /// Indicates the state of the controller, <see langword="true"/> if the controller is playing, <see langword="false"/> if it is paused.
     /// </summary>
     public bool IsPlaying { get; protected set; }
     /// <summary>
