@@ -1,12 +1,6 @@
 @startuml class
 skinparam classAttributeIconSize 0
-class "IntervalTree`1"<TValue> {
-    + <<new>> Add(from:int, to:int, value:TValue) : void
-    + <<new>> Query(key:int) : TValue?
-}
-class "IntervalTree`2"<T1,T2> {
-}
-"IntervalTree`2" "<int,TValue>" <|-- "IntervalTree`1"
+
 class App <<partial>> {
     - <<const>> SIDELENGTH : double = 20
     - XLength : int
@@ -16,13 +10,22 @@ class App <<partial>> {
     - _startWindow : StartWindow?
     - _replayWindow : ReplayWindow?
     - _viewModel : ViewModel.ViewModel?
+    - _mouseDoubleClickHandler : MouseButtonEventHandler?
+    - _onSizeChangedHandler : SizeChangedEventHandler?
+    - _onLoadedHandler : EventHandler?
+    - _loaded : bool
     - _ctrlDown : bool
     - _selectedRobot : Robot?
+    - _mousePos : Point
+    - _rectangle : ImageBrush
+    - _robots : Dictionary<Robot, Grid>
+    - _targets : Dictionary<Robot, Grid>
     + App()
-    - OnStartup(sender:object, e:StartupEventArgs) : void
+    - StartWindow() : void
     - ReplayButton_Click(sender:object, e:RoutedEventArgs) : void
     - SimButton_Click(sender:object, e:RoutedEventArgs) : void
     - DisposeStartWindow() : void
+    - DisposeWindow(window:object?) : void
     - OpenReplay() : bool
     - OpenSim() : bool
     - {static} DisplayLoading(w:Window) : void
@@ -41,15 +44,11 @@ class App <<partial>> {
     - OnManipulationDelta(sender:object?, e:ManipulationDeltaEventArgs) : void
     - OnSizeChanged(canvas:Canvas) : void
     - OnLoaded(window:Window, canvas:Canvas) : void
+    - OnEnded(sender:object?, e:EventArgs) : void
     - {static} Exception(_:object?, exception:System.Exception) : void
 }
-class "Dictionary`2"<T1,T2> {
-}
+
 Application <|-- App
-App --> "_mousePos" Point
-App --> "_rectangle" ImageBrush
-App o-> "_robots<Robot,Grid>" "Dictionary`2"
-App o-> "_targets<Robot,Grid>" "Dictionary`2"
 
 class Board {
     + <<const>> EMPTY : int = 0
@@ -66,8 +65,6 @@ class Board {
     + TryMoveRobot(currentPosition:Point, nextPosition:Point) : bool
     + UnReserve(position:Point, cost:int) : void
     + Reserve(position:Point, cost:int) : void
-    + UnReserveWithCheck(position:Point, cost:int) : void
-    + ReserveWithCheck(position:Point, cost:int) : void
     + NotReservedForward(nextPosition:Point, cost:int) : bool
     + NotReservedLeftRight(currentPosition:Point, nextPosition:Point, cost:int) : bool
     + SetSearchedIfEmptyForward(nextPosition:Point, cost:int) : bool
@@ -75,7 +72,6 @@ class Board {
     + SetSearchedIfEmptyBackward(currentPosition:Point, nextPosition:Point, cost:int) : bool
     + SetSearchedIfEmptyStart(currentPosition:Point, cost:int) : bool
     + Searchable(position:Point) : bool
-    + SetSearchedIfEmpty(position:Point) : bool
     + ClearMask() : void
     + SetValue(x:int, y:int, value:int) : void
     + GetValue(x:int, y:int) : int
@@ -88,16 +84,8 @@ class Board {
     - CheckPosition(x:int, y:int) : void
     - {static} CheckCost(cost:int) : void
     - {static} CheckValue(value:int) : void
-    - CheckReserve(position:Point, cost:int, value:int) : void
 }
-class BoardFileDataAccess {
-    + <<const>> EMPTY : int = 0
-    + <<const>> WALL : int = 1
-    + <<const>> EMPTY_CHAR : char = '.'
-    + <<async>> LoadAsync(path:string) : Task<Board>
-    + <<async>> SaveAsync(path:string, board:Board) : Task
-}
-IBoardDataAccess <|-- BoardFileDataAccess
+
 class Config {
     + <<required>> MapFile : string <<get>> <<set>>
     + <<required>> AgentFile : string <<get>> <<set>>
@@ -105,13 +93,11 @@ class Config {
     + TeamSize : int <<get>> <<set>>
     + NumTasksReveal : int <<get>> <<set>>
     + Config()
+    <<internal>> GetAssigner(board:Board, tasks:Package*, robots:Robot*) : Assigner?
 }
+
 Config --> "TaskAssignmentStrategy" Strategy
-class ConfigDataAccess {
-    + <<async>> LoadAsync(path:string) : Task<Config>
-}
-IConfigDataAccess <|-- ConfigDataAccess
-ConfigDataAccess o-> "SerializerOptions" JsonSerializerOptions
+
 interface IBoardDataAccess {
     <<internal>> LoadAsync(path:string) : Task<Board>
     <<internal>> SaveAsync(path:string, board:Board) : Task
@@ -124,72 +110,39 @@ interface ILogFileDataAccess {
     SaveAsync(path:string, logFile:LogFile) : Task
 }
 interface IPackagesDataAccess {
-    <<internal>> LoadAsync(path:string, width:int, height:int) : Task<List<Package>>
+    <<internal>> LoadAsync(path:string, width:int, height:int) : Package*
 }
 interface IReplayDataAccess {
 }
-IReplayDataAccess --> "BDA" IBoardDataAccess
-IReplayDataAccess --> "LDA" ILogFileDataAccess
+IReplayDataAccess --> "BoardDataAccess" IBoardDataAccess
+IReplayDataAccess --> "LogFileDataAccess" ILogFileDataAccess
 interface IRobotsDataAccess {
-    <<internal>> LoadAsync(path:string, width:int, height:int) : Task<List<Robot>>
+    <<internal>> LoadAsync(path:string, width:int, height:int) : Robot*
 }
 interface ISimDataAccess {
 }
-ISimDataAccess --> "CDA" IConfigDataAccess
-ISimDataAccess --> "BDA" IBoardDataAccess
-ISimDataAccess --> "PDA" IPackagesDataAccess
-ISimDataAccess --> "RDA" IRobotsDataAccess
-ISimDataAccess --> "LDA" ILogFileDataAccess
+ISimDataAccess --> "ConfigDataAccess" IConfigDataAccess
+ISimDataAccess --> "BoardDataAccess" IBoardDataAccess
+ISimDataAccess --> "PackagesDataAccess" IPackagesDataAccess
+ISimDataAccess --> "RobotsDataAccess" IRobotsDataAccess
+ISimDataAccess --> "LogFileDataAccess" ILogFileDataAccess
 class LogFile {
-    + <<required>> ActionModel : string <<get>> <<set>>
+    + ActionModel : string <<get>> <<set>>
+    + ActualPaths : Action*
     + AllValid : bool <<get>> <<set>>
+    + Errors : (int, int, int, string)*
+    + Events : (int, int, string)*
     + TeamSize : int <<get>> <<set>>
-    + NumTaskFinished : int <<get>> <<set>>
-    + SumOfCost : int <<get>> <<set>>
     + Makespan : int <<get>> <<set>>
+    + NumTaskFinished : int <<get>> <<set>>
+    + PlannerPaths : Action*
+    + PlannerTimes : double*
+    + Start : (Point, Direction)*
+    + SumOfCost : int <<get>> <<set>>
+    + Tasks : (int, int, int)*
     + LogFile()
 }
-class "List`1"<T> {
-}
-LogFile --> "Start<(Point, Direction)>" "List`1"
-LogFile --> "ActualPaths<List<Action>>" "List`1"
-LogFile --> "PlannerPaths<List<Action>>" "List`1"
-LogFile --> "PlannerTimes<double>" "List`1"
-LogFile --> "Errors<(int, int, int, string)>" "List`1"
-LogFile --> "Events<List<(int, int, string)>>" "List`1"
-LogFile --> "Tasks<(int, int, int)>" "List`1"
-LogFile --> "New" LogFile
-class LogFileDataAccess {
-    + <<async>> LoadAsync(path:string) : Task<LogFile>
-    + <<async>> SaveAsync(path:string, logFile:LogFile) : Task
-}
-ILogFileDataAccess <|-- LogFileDataAccess
-LogFileDataAccess o-> "SerializerOptions" JsonSerializerOptions
-class PackagesDataAccess {
-    + <<async>> LoadAsync(path:string, width:int, height:int) : Task<List<Package>>
-}
-IPackagesDataAccess <|-- PackagesDataAccess
-class ReplayDataAccess {
-    - {static} _instance : ReplayDataAccess?
-}
-IReplayDataAccess <|-- ReplayDataAccess
-ReplayDataAccess --> "BDA" IBoardDataAccess
-ReplayDataAccess --> "LDA" ILogFileDataAccess
-ReplayDataAccess --> "Instance" ReplayDataAccess
-class RobotsDataAccess {
-    + <<async>> LoadAsync(path:string, width:int, height:int) : Task<List<Robot>>
-}
-IRobotsDataAccess <|-- RobotsDataAccess
-class SimDataAccess {
-    - {static} _instance : SimDataAccess?
-}
-ISimDataAccess <|-- SimDataAccess
-SimDataAccess --> "CDA" IConfigDataAccess
-SimDataAccess --> "BDA" IBoardDataAccess
-SimDataAccess --> "PDA" IPackagesDataAccess
-SimDataAccess --> "RDA" IRobotsDataAccess
-SimDataAccess --> "LDA" ILogFileDataAccess
-SimDataAccess --> "Instance" SimDataAccess
+
 enum Action {
     F,
     R,
@@ -198,15 +151,18 @@ enum Action {
     T,
     B,
 }
+
 class ActionMethods <<static>> {
     + {static} Reverse(action:Action) : Action
 }
+
 enum Direction {
     North= 0,
     East= 1,
     South= 2,
     West= 3,
 }
+
 class DirectionMethods <<static>> {
     + {static} GetOffset(direction:Direction) : Point
     + {static} GetOffset(direction:int) : Point
@@ -214,23 +170,26 @@ class DirectionMethods <<static>> {
     + {static} ClockWise(original:Direction) : Direction
     + {static} CounterClockWise(original:Direction) : Direction
     + {static} Opposite(original:Direction) : Direction
-    + {static} Parse(direction:string) : Direction
+    <<internal>> {static} Parse(direction:string) : Direction
 }
+
 class Logger {
     - <<readonly>> _fileName : string
     + Logger(mapName:string)
     + SetActionModel(model:string) : void
     + SetTeamSize(size:int) : void
-    + LogStarts(robots:IEnumerable<Robot>) : void
-    + LogActualPaths(robots:IEnumerable<Robot>) : void
+    + LogStarts(robots:Robot*) : void
+    + LogActualPaths(robots:Robot*) : void
+    + LogActualPath(iD:int, action:Action) : void
     + LogPlannerPaths(robotID:int, plannedPath:Path) : void
+    + LogPlannerPaths(robotID:int, step:Action) : void
     + LogTime(time:double) : void
     + LogError(robot1:int, robot2:int, time:int, eventName:string) : void
     + LogError(time:int, eventName:string) : void
     + LogAssignment(robotID:int, taskID:int, when:int) : void
     + LogFinish(robotID:int, taskID:int, when:int) : void
     + LogTask(package:Package) : void
-    + LogTasks(tasks:IEnumerable<Package>) : void
+    + LogTasks(tasks:Package*) : void
     + LogReplayLength(length:int) : void
     + <<async>> SaveAsync(access:ILogFileDataAccess) : Task
     + GetLogFile() : LogFile
@@ -240,44 +199,44 @@ Logger --> "_logFile" LogFile
 class Package <<sealed>> {
     - {static} IDCounter : int = 1
     + ID : int <<get>>
+    + Position : Point <<get>>
+    + Package(p:Point)
     + Package(x:int, y:int)
-    + {static} ResetIDCounter() : void
+    <<internal>> {static} ResetIDCounter() : void
 }
-Package o-> "Position" Point
+
 class Path {
     - _ind : int = 0
+    + PlannedPath : Action* <<readonly>>
     + <<readonly>> Target : Point?
     + IsOver : bool <<get>>
+    + Path(path:Action*, target:Point?)
     <<internal>> PeekNext() : Action
     <<internal>> Increment() : void
     + Next() : Action
     <<internal>> FreeAllReserved(board:Board, current_position:Point, currentDirection:Direction, current_cost:int) : bool
+    <<internal>> Alter(t:Action) : void
 }
-class "List`1"<T> {
-}
-class "IReadOnlyList`1"<T> {
-}
-Path o-> "_path<Action>" "List`1"
-Path --> "PlannedPath<Action>" "IReadOnlyList`1"
+Path "0..*" o-- "_path" Action
+
 class Robot <<sealed>> {
     - {static} IDCounter : int = 1
+    + Robot(position:Point, direction:Direction)
     + ID : int <<get>>
+    + Position : Point <<get>>
+    + History : Action* <<readonly>>
     + RemoveTask() : Package
     + AddTask(p:Point?) : void
     + AddTask(p:Package?) : void
     + TryStep(a:Action, board:Board, cost_counter:int) : bool
     + Step(a:Action) : void
-    + {static} ResetIDCounter() : void
+    <<internal>> {static} ResetIDCounter() : void
 }
-class "List`1"<T> {
-}
-class "IReadOnlyList`1"<T> {
-}
-Robot o-> "_history<Action>" "List`1"
-Robot o-> "Position" Point
-Robot o-> "Direction" Direction
+
+Robot "0..*" o-- "_history" Action
+Robot --> "Direction" Direction
 Robot --> "Task" Package
-Robot --> "History<Action>" "IReadOnlyList`1"
+
 struct Step {
     + Direction : int <<get>> <<init>>
     + Heuristic : int <<get>> <<init>>
@@ -287,9 +246,10 @@ enum Strategy {
     RoundRobin,
 }
 class Wall <<sealed>> {
+    + Wall(x:Point)
     + Wall(x:int, y:int)
 }
-Wall o-> "Position" Point
+Wall --> "Position" Point
 class ReplayWindow <<partial>> {
     + ReplayWindow()
 }
@@ -302,39 +262,28 @@ class StartWindow <<partial>> {
     + StartWindow()
 }
 Window <|-- StartWindow
-class DelegateCommand {
-    - _canExecute : Predicate<object?>?
-    +  <<event>> CanExecuteChanged : EventHandler? 
-    + CanExecute(parameter:object?) : bool
-    + Execute(parameter:object?) : void
-    + RaiseCanExecuteChanged() : void
-}
-class "Action`1"<T> {
-}
-class "Predicate`1"<T> {
-}
-ICommand <|-- DelegateCommand
-DelegateCommand o-> "_execute<object?>" "Action`1"
-DelegateCommand --> "Predicate<object?>" "Predicate`1"
+
 class ReplayViewModel {
     + CurrentTime : int <<get>> <<set>>
     + ReplayLength : int <<get>>
     + TimeLabel : string <<get>> <<set>>
     + LengthLabel : string <<get>>
+    + Backward : ICommand
     + ReplayViewModel(logPath:string, mapPath:string)
     - OnLoaded(sender:object?, e:EventArgs) : void
     - OnTick(sender:object?, e:EventArgs) : void
 }
 ViewModel <|-- ReplayViewModel
 ReplayViewModel --> "RepController" ReplayController
-ReplayViewModel --> "Backward" ICommand
 class SimulationViewModel {
-    + SimulationViewModel(path:string, pathfinder:Type, length:int, speed:double)
-    <<internal>> AssignTask(selectedRobot:Robot, x:int, y:int) : void
+    +  <<event>> Ended : EventHandler? 
+    + LogSave : ICommand
+    + SimulationViewModel(path:string, pathfinder:Type, speed:double, length:int)
+    + AssignTask(selectedRobot:Robot, x:int, y:int) : void
+    + Dispose() : void
 }
 ViewModel <|-- SimulationViewModel
-SimulationViewModel --> "SimulationController" SimulationController
-SimulationViewModel --> "LogSave" ICommand
+SimulationViewModel --> "_simulationController" SimulationController
 abstract class ViewModel {
     - <<const>> MINZOOM : double = .3
     - <<const>> MAXZOOM : double = 2
@@ -343,9 +292,17 @@ abstract class ViewModel {
     + Height : int <<get>>
     + Zoom : double <<get>> <<set>>
     + SpeedLabel : string <<get>>
+    + IsOver : bool <<get>>
+    + Robots : Robot* <<readonly>>
+    + Walls : Wall* <<readonly>>
     +  <<event>> Tick : EventHandler? 
     +  <<event>> Loaded : EventHandler? 
     +  <<event>> Exception : EventHandler<System.Exception>? 
+    + Play : ICommand
+    + Pause : ICommand
+    + Forward : ICommand
+    + SpeedDown : ICommand
+    + SpeedUp : ICommand
     # ViewModel(controller:Controller)
     - OnException(sender:object?, e:System.Exception) : void
     # OnLoaded(sender:object?) : void
@@ -353,17 +310,9 @@ abstract class ViewModel {
     # OnTick(sender:object?) : void
     <<internal>> Toggle() : void
 }
-class "IReadOnlyList`1"<T> {
-}
 ViewModelBase <|-- ViewModel
 ViewModel --> "Controller" Controller
-ViewModel --> "Robots<Robot>" "IReadOnlyList`1"
-ViewModel --> "Walls<Wall>" "IReadOnlyList`1"
-ViewModel o-> "Play" ICommand
-ViewModel o-> "Pause" ICommand
-ViewModel o-> "Forward" ICommand
-ViewModel o-> "SpeedDown" ICommand
-ViewModel o-> "SpeedUp" ICommand
+
 abstract class ViewModelBase {
     +  <<event>> PropertyChanged : PropertyChangedEventHandler? 
     # <<virtual>> OnPropertyChanged(propertyName:string?) : void
@@ -371,36 +320,38 @@ abstract class ViewModelBase {
 INotifyPropertyChanged <|-- ViewModelBase
 abstract class Assigner {
     + <<virtual>> NoPackage : bool <<get>>
-    + TimeStamp : int <<get>> = 0
-    +  <<event>> Ended : EventHandler? 
+    # Assigner(board:Board, packages:Package*, robots:Robot*)
     + {abstract} Peek(robot:Robot, package:Package) : bool
     + {abstract} Get(robot:Robot, package:Package) : bool
     + <<virtual>> Return(package:Package) : void
-    # CallEnded(caller:object?, e:EventArgs) : void
 }
-class "IEnumerable`1"<T> {
-}
-Assigner o-> "_packages<Package>" "IEnumerable`1"
-Assigner o-> "_robots<Robot>" "IEnumerable`1"
-Assigner o-> "_board" Board
+
+Assigner --> "_board" Board
+Assigner "0..*" o-- "- _packages" Package
+Assigner "0..*" o-- "- _robots" Robot
+
 class RoundRobinAssigner {
+    - _packages : ConcurrentQueue<Package>
+    + RoundRobinAssigner(board:Board, packages:Package*, robots:Robot*)
     + <<override>> NoPackage : bool <<get>>
     + <<override>> Peek(_:Robot, package:Package) : bool
     + <<override>> Get(_:Robot, package:Package) : bool
     + <<override>> Return(package:Package) : void
 }
-class "IEnumerable`1"<T> {
-}
-class "ConcurrentQueue`1"<T> {
-}
+
 Assigner <|-- RoundRobinAssigner
-RoundRobinAssigner o-> "_packages<Package>" "ConcurrentQueue`1"
+
 abstract class Controller {
+    - _interval : TimeSpan
+    # Interval : TimeSpan <<get>>
+    # Timer : Timer
+    + IsOver : bool <<get>> <<protected set>>
     + IsPlaying : bool <<get>> <<protected set>>
     + Speed : double <<get>> = 1
     + Width : int <<get>>
     + Height : int <<get>>
-    + TimeStamp : int <<get>> <<protected set>>
+    + Robots : Robot* <<readonly>>
+    + Walls : Wall* <<readonly>>
     +  <<event>> Exception : EventHandler<System.Exception>? 
     +  <<event>> Tick : EventHandler? 
     +  <<event>> Loaded : EventHandler? 
@@ -412,71 +363,72 @@ abstract class Controller {
     # LoadWalls() : void
     # OnException(sender:object?, e:System.Exception) : void
     + ChangeSpeed(speed:double) : void
-    + Play() : void
-    + Pause() : void
+    + <<virtual>> Play() : void
+    + <<virtual>> Pause() : void
     + {abstract} StepForward() : void
 }
-class "List`1"<T> {
-}
-class "IReadOnlyList`1"<T> {
-}
-Controller --> "_robots<Robot>" "List`1"
-Controller --> "_walls<Wall>" "List`1"
-Controller --> "Timer" Timer
-Controller --> "Interval" TimeSpan
-Controller --> "_board" Board
-Controller --> "Robots<Robot>" "IReadOnlyList`1"
-Controller --> "Walls<Wall>" "IReadOnlyList`1"
+
+Controller "0..*" o-- "_robots" Robot
+Controller "0..*" o-- "_walls" Wall
+Controller --> "_interval" TimeSpan
+
 class ReplayController <<sealed>> {
+    - Paths : ConcurrentDictionary<Robot, Action*>
+    - Targets : ConcurrentDictionary<Robot, IntervalTree<Point>>
+    + TimeStamp : int <<get>>
     + Length : int <<get>>
-    + ReplayController(logPath:string, mapPath:string, da:IReplayDataAccess)
-    - <<async>> Load(logPath:string, mapPath:string, da:IReplayDataAccess) : void
+    + ReplayController(logPath:string, mapPath:string, dataAccess:IReplayDataAccess)
+    - <<async>> Load(logPath:string, mapPath:string, dataAccess:IReplayDataAccess) : void
     # <<override>> OnTick(state:object?) : void
     + JumpTo(time:int) : void
     + <<override>> StepForward() : void
     + StepBackward() : void
 }
-class "ConcurrentDictionary`2"<T1,T2> {
-}
+
 Controller <|-- ReplayController
-ReplayController o-> "Paths<Robot,List<Action>>" "ConcurrentDictionary`2"
-ReplayController o-> "Targets<Robot,IntervalTree<Point?>>" "ConcurrentDictionary`2"
+
 class SimulationController <<sealed>> {
     - _assigner : Assigner.Assigner?
-    - <<readonly>> Length : double
-    + SimulationController(path:string, da:ISimDataAccess, assigner:Type, pathfinder:Type, length:int, speed:double)
-    - OnEnded(sender:object?, e:EventArgs) : void
-    - <<async>> Load(path:string, da:ISimDataAccess, assigner:Type) : void
+    - _cancellationTokenSource : CancellationTokenSource?
+    - _paths : ConcurrentDictionary<Robot, Path>
+    - <<readonly>> _length : double
+    + TimeStamp : int <<get>>
+    +  <<event>> Ended : EventHandler? 
+    + SimulationController(path:string, dataAccess:ISimDataAccess, pathFinder:Type, speed:double, length:int)
+    + SimulationController(path:string, dataAccess:ISimDataAccess, pathFinder:Type, speed:double)
+    - OnEnded() : void
+    - <<async>> Load(path:string, da:ISimDataAccess) : void
     + <<async>> SaveLog() : void
     # <<override>> OnTick(state:object?) : void
     + <<override>> StepForward() : void
-    - Step() : void
     - Assign(robot:Robot) : Path
     - Free(robot:Robot, path:Path) : void
     + Assign(robot:Robot, target:Point) : void
-}
-class "ConcurrentDictionary`2"<T1,T2> {
+    + Dispose() : void
 }
 Controller <|-- SimulationController
-SimulationController o-> "_paths<Robot,Path>" "ConcurrentDictionary`2"
-SimulationController o-> "_pathFinder" PathFinder
+SimulationController o-- "_pathFinder" PathFinder
 SimulationController --> "_logger" Logger
 SimulationController --> "_logFileDataAccess" ILogFileDataAccess
+
 class AStar <<sealed>> {
     # <<override>> FindPath(board:Board, startPosition:Point, startDirection:int, endPosition:Point, startCost:int) : (bool, int[], int[])
 }
 PathFinder <|-- AStar
+
 class BFS <<sealed>> {
     # <<override>> FindPath(board:Board, startPosition:Point, startDirection:int, endPosition:Point, startCost:int) : (bool, int[], int[])
 }
 PathFinder <|-- BFS
+
 class DFS <<sealed>> {
     # <<override>> FindPath(board:Board, startPosition:Point, startDirection:int, endPosition:Point, startCost:int) : (bool, int[], int[])
 }
 PathFinder <|-- DFS
+
 abstract class PathFinder {
-    + CalculatePath(board:Board, startPosition:Point, startDirection:int, endPosition:Point, startCost:int) : (bool, List<Action>)
-    - {static} TracePath(parentsBoard:int[], costsBoard:int[], board:Board, start:Point, end:Point) : List<Action>
+    + CalculatePath(board:Board, startPosition:Point, startDirection:int, endPosition:Point, startCost:int) : (bool, Action*)
+    - {static} TracePath(parentsBoard:int[], costsBoard:int[], board:Board, start:Point, end:Point) : Action*
     # {abstract} FindPath(board:Board, start_position:Point, startDirection:int, end_position:Point, start_cost:int) : (bool, int[], int[])
     # {static} ManhattanDistance(start:Point, end:Point) : int
     # {static} MaxTurnsRequired(position:Point, direction:Point, end:Point) : int
