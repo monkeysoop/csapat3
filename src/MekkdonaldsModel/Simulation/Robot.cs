@@ -156,4 +156,12 @@ public sealed class Robot
                 throw new System.Exception("");
         }
     }
+
+    /// <summary>
+    /// Resets the ID counter to 1
+    /// </summary>
+    internal static void ResetIDCounter()
+    {
+        IDCounter = 1;
+    }
 }
