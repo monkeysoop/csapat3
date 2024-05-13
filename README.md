@@ -26,7 +26,7 @@ There are a few options you can set in the main menu:
 Then click on the 'Open Simulation' button and you will be asked to select a configuration file.
 
 Inside the simulation you have several options:
-- Bottom left (from left to right): start/continue simulation (also toggleable with spacebar); jump one step forward
+- Bottom left (from left to right): start/resume simulation (also toggleable with spacebar); jump one step forward
 - Bottom right: simulation speed changer
 - Middle right: you can save the current log at any time
 - Middle is the map of the warehouse with numbered robots and packages; you can zoom in with Ctrl+MouseWheel (or TouchPad)
@@ -44,6 +44,7 @@ MAKE SURE THAT THE MAP FILE IS THE WAREHOUSE LAYOUT FROM WHICH THE SIMULATION WA
 
 The replay function will then load the log file and visualize the robot movements and package deliveries according to the simulation steps.
 Within the replay function you have several options:
+- Bottom left (from left to right): step back; start/resume simulation (also toggleable with spacebar); step forward
 - Bottom middle: Progress bar, where you can grab the current position and move it to any point in time.
 - Bottom right (from bottom to top): current step / all steps (you can change the current step to jump to a specific step in the replay); speed changer.
 - Middle: map of the warehouse with numbered robots and packages; you can zoom in with Ctrl+MouseWheel (or TouchPad)
