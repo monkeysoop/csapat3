@@ -59,6 +59,9 @@ public abstract class Controller
 
     protected Controller(double speed)
     {
+        Robot.ResetIDCounter();
+        Package.ResetIDCounter();
+
         _robots = [];
         _walls = [];
 

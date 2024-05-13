@@ -75,11 +75,15 @@ public sealed class SimulationController : Controller
 
     private void OnEnded()
     {
+        _cancellationTokenSource?.TryReset();
+
         Timer.Change(Timeout.Infinite, Timeout.Infinite);
 
         SaveLog();
 
         Ended?.Invoke(this, EventArgs.Empty);
+
+        _cancellationTokenSource?.Cancel();
     }
 
     private async void Load(string path, ISimDataAccess da, Type assigner)
@@ -365,5 +369,15 @@ public sealed class SimulationController : Controller
         }
 
         CallTick(this);
+    }
+
+    /// <summary>
+    /// Disposes the controller and stops the simulation.
+    /// </summary>
+    public void Dispose()
+    {
+        Timer.Dispose();
+        _cancellationTokenSource?.Dispose();
+        IsOver = true;
     }
 }
