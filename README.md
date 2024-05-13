@@ -52,11 +52,11 @@ Within the replay function you have several options:
 
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first
+Merge requests are welcome. For major changes, please open an issue first
 to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+![[MIT License]](https://img.shields.io/badge/License-MIT-yellow.svg)
