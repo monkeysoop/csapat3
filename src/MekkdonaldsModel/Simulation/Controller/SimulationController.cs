@@ -10,79 +10,99 @@ public sealed class SimulationController : Controller
     private Logger _logger;
     private readonly ILogFileDataAccess _logFileDataAccess;
 
-    private readonly double Length;
+    private CancellationTokenSource? _cancellationTokenSource;
+
+    private readonly double _length;
 
     public int TimeStamp { get; private set; }
 
+    /// <summary>
+    /// Occurs when the simulation has ended (all the task are completed or the desired length has been reached).
+    /// </summary>
+    public event EventHandler? Ended;
 
-    public SimulationController(string path, ISimDataAccess da, Type assigner, Type pathfinder, int length, double speed) : base(speed)
+    /// <summary>
+    /// Initializes a new <see cref="Controller"/> that handles a simulation.
+    /// </summary>
+    /// <param name="path">Path of the configuration file</param>
+    /// <param name="dataAccess">Preferred data access classes</param>
+    /// <param name="pathFinder">Class that will handle the path planning of robots (has to implement the <see cref="PathFinder"/> abstract class)</param>
+    /// <param name="speed">Intervals of simulation steps (in seconds)</param>
+    /// <param name="length">Desired length of the simulation</param>
+    /// <exception cref="ArgumentException">Gets thrown when the <paramref name="pathFinder"/> is not a subclass of <see cref="PathFinder"/></exception>
+    public SimulationController(string path, ISimDataAccess dataAccess, Type pathFinder, double speed, int length) : base(speed)
     {
         _logger = new Logger("default");
 
-        Load(path, da, assigner);
+        Load(path, dataAccess);
 
-        _logFileDataAccess = da.LDA;
+        _logFileDataAccess = dataAccess.LogFileDataAccess;
 
-        if (!pathfinder.IsSubclassOf(typeof(PathFinder)))
+        if (!pathFinder.IsSubclassOf(typeof(PathFinder)))
         {
-            throw new ArgumentException("Type must be a subclass of PathFinder", nameof(pathfinder));
+            throw new ArgumentException("Type must be a subclass of PathFinder", nameof(pathFinder));
         }
 
-        if (pathfinder.GetConstructor([]) is null)
+        if (pathFinder.GetConstructor([]) is null)
         {
-            throw new ArgumentException("Type must have a constructor parameter without parameters", nameof(pathfinder));
+            throw new ArgumentException("Type must have a constructor parameter without parameters", nameof(pathFinder));
         }
 
-        _pathFinder = (PathFinder)Activator.CreateInstance(pathfinder)!;
+        _pathFinder = (PathFinder)Activator.CreateInstance(pathFinder)!;
 
         if (length == -1)
         {
-            Length = double.PositiveInfinity;
+            _length = double.PositiveInfinity;
         }
         else
         {
-            Length = length;
+            _length = length;
         }
     }
 
-    private void OnEnded(object? sender, EventArgs e)
+    /// <summary>
+    /// Initializes a new <see cref="Controller"/> that handles a simulation.
+    /// </summary>
+    /// <param name="path">Path of the configuration file</param>
+    /// <param name="dataAccess">Preferred data access classes</param>
+    /// <param name="pathFinder">Class that will handle the path planning of robots (has to implement the <see cref="PathFinder"/> abstract class)</param>
+    /// <param name="speed">Intervals of simulation steps (in seconds)</param>
+    /// <exception cref="ArgumentException">Gets thrown when the <paramref name="pathFinder"/> is not a subclass of <see cref="PathFinder"/></exception>
+    public SimulationController(string path, ISimDataAccess dataAccess, Type pathFinder, double speed) : this(path, dataAccess, pathFinder, speed, -1) { }
+
+    private void OnEnded()
     {
+        _cancellationTokenSource?.TryReset();
+
         Timer.Change(Timeout.Infinite, Timeout.Infinite);
 
         SaveLog();
+
+        Ended?.Invoke(this, EventArgs.Empty);
+
+        _cancellationTokenSource?.Cancel();
     }
 
-    private async void Load(string path, ISimDataAccess da, Type assigner)
+    private async void Load(string path, ISimDataAccess da)
     {
         await Task.Run(async () =>
         {
-            Config config = await da.CDA.LoadAsync(path);
+            Config config = await da.ConfigDataAccess.LoadAsync(path);
 
             _logger = new Logger(config.MapFile.Split('/')[^1].Replace(".map", ""));
 
-            Board b = await da.BDA.LoadAsync(config.MapFile);
-            _board = b; // for some reason it only sets board this way ????????
+            Board board = await da.BoardDataAccess.LoadAsync(config.MapFile);
+            _board = board; // for some reason it only sets board this way ????????
 
-            _robots.AddRange(await da.RDA.LoadAsync(config.AgentFile, _board.Width - 2, _board.Height - 2));
+            _robots.AddRange(await da.RobotsDataAccess.LoadAsync(config.AgentFile, _board.Width - 2, _board.Height - 2));
             _logger.LogStarts(_robots);
 
-            List<Package> tasks = await da.PDA.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2);
+            List<Package> tasks = await da.PackagesDataAccess.LoadAsync(config.TaskFile, _board.Width - 2, _board.Height - 2);
             _logger.LogTasks(tasks);
 
-            if (!assigner.IsSubclassOf(typeof(Assigner.Assigner)))
-            {
-                throw new ArgumentException("Type must be a subclass of Assigner", nameof(assigner));
-            }
+            _assigner = config.GetAssigner(board, tasks, _robots);
 
-            if (assigner.GetConstructor([typeof(Board), typeof(IEnumerable<Package>), typeof(IEnumerable<Robot>)]) is null)
-            {
-                throw new ArgumentException($"Type must have a constructor with a {typeof(Board)}, a {typeof(IEnumerable<Package>)} and a {typeof(IEnumerable<Robot>)} parameter", nameof(assigner));
-            }
-
-            _assigner = (Assigner.Assigner)Activator.CreateInstance(assigner, b, tasks, _robots)!;
-            _assigner.Ended += OnEnded;
-
-            foreach (Robot r in _robots) Assign(r);
+            foreach (Robot robot in _robots) Assign(robot);
 
             LoadWalls();
 
@@ -97,94 +117,138 @@ public sealed class SimulationController : Controller
         });
     }
 
+    /// <summary>
+    /// Saves the log of the simulation in the current state.
+    /// </summary>
     public async void SaveLog()
     {
         _logger.LogActualPaths(_robots);
 
-        _logger.LogReplayLength(_assigner!.TimeStamp + 1);
+        _logger.LogReplayLength(TimeStamp);
 
         await _logger.SaveAsync(_logFileDataAccess);
     }
 
     protected override void OnTick(object? state)
     {
-        Step();
+        if (IsOver) return;
 
-        CallTick(this);
+        _cancellationTokenSource = new CancellationTokenSource();
+
+        var task = Task.Run(() =>
+        {
+            using List<Robot>.Enumerator enumerator = _robots.GetEnumerator();
+
+            Robot robot;
+
+            lock (_board)
+            {
+                try
+                {
+                    if (_assigner!.NoPackage && _paths.All(x => x.Value.IsOver) || TimeStamp >= _length)
+                    {
+                        IsOver = true;
+                        foreach (Robot r in _robots.Where(r => r.Task is not null))
+                        {
+                            Package task = r.RemoveTask();
+                            _logger.LogFinish(r.ID, task.ID, TimeStamp);
+                        }
+
+                        OnEnded();
+                        return;
+                    }
+
+                    while (enumerator.MoveNext())
+                    {
+                        robot = enumerator.Current;
+
+                        if (!_paths.TryGetValue(robot, out Path? path))
+                        {
+                            // sometimes this is caused by pathfinding taking too long and it times out
+                            throw new System.Exception("");
+                        }
+
+                        if (path.IsOver)
+                        {
+                            _logger.LogPlannerPaths(robot.ID, path);
+
+                            if (robot.Task is not null)
+                            {
+                                _logger.LogFinish(robot.ID, robot.Task.ID, TimeStamp);
+                            }
+
+                            if (!_paths.TryRemove(robot, out _))
+                            {
+                                throw new System.Exception("");
+                            }
+
+                            path = Assign(robot);
+                        }
+
+                        if (!path.IsOver)
+                        {
+                            Action action = path.PeekNext();
+
+                            if (robot.TryStep(action, _board, TimeStamp))
+                            {
+                                path.Increment();
+                            }
+                            else
+                            {
+                                Free(robot, path);
+                                _board.Reserve(robot.Position, TimeStamp + 1);
+                                robot.TryStep(Action.W, _board, TimeStamp);
+                            }
+                        }
+                        else
+                        {
+                            // this could happen if the next task is at the same position as the robot which is assigned to
+                            _board.UnReserve(robot.Position, TimeStamp);
+                            robot.TryStep(Action.W, _board, TimeStamp);
+                        }
+
+                        _cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    Debug.WriteLine("Timeout");
+                    while (enumerator.MoveNext())
+                    {
+                        robot = enumerator.Current;
+
+                        robot.TryStep(Action.T, _board, TimeStamp);
+
+                        if (!_paths.TryGetValue(robot, out Path? path))
+                        {
+                            throw new System.Exception("Robot's path has been deleted");
+                        }
+
+                        path.Alter(Action.T);
+                        path.Increment();
+                    }
+                }
+                finally
+                {
+                    TimeStamp++;
+                    enumerator.Dispose();
+                    CallTick(this);
+                }
+            }
+        }, _cancellationTokenSource.Token).ContinueWith(t =>
+        {
+            if (t.IsFaulted)
+            {
+                OnException(this, t.Exception);
+            }
+        });
+
+        _cancellationTokenSource.CancelAfter(Interval.Milliseconds);
     }
-
+    
     public override void StepForward()
     {
         if (!IsPlaying) OnTick(null);
-    }
-
-    private void Step()
-    {
-        lock (_board)
-        {
-            if (_assigner!.NoPackage && _paths.All(x => x.Value.IsOver) || TimeStamp >= Length)
-            {
-                foreach (Robot? robot in _robots.Where(r => r.Task is not null))
-                {
-                    robot.RemoveTask();
-                }
-
-                OnEnded(this, EventArgs.Empty);
-                return;
-            }
-
-            foreach (Robot robot in _robots)
-            {
-                if (!_paths.TryGetValue(robot, out Path? path))
-                {
-                    // sometimes this is caused by pathfinding taking too long and it times out
-                    throw new System.Exception("");
-                }
-
-                if (path is null)
-                {
-                    throw new System.Exception("");
-                }
-
-                if (path.IsOver)
-                {
-                    if (robot.Task != null)
-                    {
-                        _logger.LogPlannerPaths(robot.ID, path);
-                        _logger.LogFinish(robot.ID, robot.Task!.ID, TimeStamp);
-                    }
-
-                    if (!_paths.TryRemove(robot, out _))
-                    {
-                        throw new System.Exception("");
-                    }
-
-                    path = Assign(robot);
-                }
-
-                if (!path.IsOver)
-                {
-                    Action action = path.PeekNext();
-
-                    if (robot.TryStep(action, _board, TimeStamp))
-                    {
-                        path.Increment();
-                    }
-                    else
-                    {
-                        Free(robot, path);
-                        _board.Reserve(robot.Position, TimeStamp + 1);
-                    }
-                }
-                else
-                {
-                    // this could happen if the next task is at the same position as the robot which is assigned to
-                    _board.UnReserve(robot.Position, TimeStamp);
-                }
-            }
-
-            TimeStamp++;
-        }
     }
 
     private Path Assign(Robot robot)
@@ -231,6 +295,8 @@ public sealed class SimulationController : Controller
 
     private void Free(Robot robot, Path path)
     {
+        _logger.LogFinish(robot.ID, robot.Task!.ID, TimeStamp);
+
         if (!path.FreeAllReserved(_board, robot.Position, robot.Direction, TimeStamp))
         {
             throw new System.Exception("");
@@ -251,6 +317,12 @@ public sealed class SimulationController : Controller
         _assigner!.Return(package);
     }
 
+    /// <summary>
+    /// Assigns a task to the robot if the provided target is reachable.
+    /// </summary>
+    /// <param name="robot">Robot that get's the task assigned</param>
+    /// <param name="target">Location of the target [1..Width]x[1..Height]</param>
+    /// <exception cref="System.Exception"></exception>
     public void Assign(Robot robot, Point target)
     {
         if (_paths.TryGetValue(robot, out Path? path) && !path.IsOver) Free(robot, path);
@@ -284,5 +356,15 @@ public sealed class SimulationController : Controller
         }
 
         CallTick(this);
+    }
+
+    /// <summary>
+    /// Disposes the controller and stops the simulation.
+    /// </summary>
+    public void Dispose()
+    {
+        Timer.Dispose();
+        _cancellationTokenSource?.Dispose();
+        IsOver = true;
     }
 }

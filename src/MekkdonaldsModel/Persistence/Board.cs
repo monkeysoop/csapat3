@@ -30,6 +30,11 @@ public class Board
 
 
     #region Constructors
+    /// <summary>
+    /// Creates an empty board with given width and height and adds a border around it (so sizes are +2)
+    /// </summary>
+    /// <param name="height">The height of the board to be created not counting border (so -2 from the created height)</param>
+    /// <param name="width">The width of the board to be created not counting border (so -2 from the created width)</param>
     public Board(int height, int width)
     {
         Height = height + 2;
@@ -44,6 +49,12 @@ public class Board
         AddBorder();
     }
 
+    /// <summary>
+    /// Creates a board with given width and height and given data and adds a border around it (so sizes are +2)
+    /// </summary>
+    /// <param name="data">2D matrix where each item is either a wall or empty</param>
+    /// <param name="height">The height of the board to be created not counting border (so -2 from the created height)</param>
+    /// <param name="width">The width of the board to be created not counting border (so -2 from the created width)</param>
     public Board(int[,] data, int height, int width)
     {
         Height = height + 2;
@@ -69,8 +80,12 @@ public class Board
 
 
     #region Public methods
-
-
+    /// <summary>
+    /// Tries to move a robot
+    /// </summary>
+    /// <param name="currentPosition">Current position of the robot</param>
+    /// <param name="nextPosition">Position to be moved into</param>
+    /// <returns>True if the move was successful false if couldn't move it because of another robot blocking its way</returns>
     public bool TryMoveRobot(Point currentPosition, Point nextPosition)
     {
         CheckPosition(currentPosition);
@@ -85,6 +100,11 @@ public class Board
         return false;
     }
 
+    /// <summary>
+    /// Un-reserves a position for a certain time, it wraps around so it is only effective for paths/times under the max path length
+    /// </summary>
+    /// <param name="position">Position of the reservation to be removed</param>
+    /// <param name="cost">Time of the reservation to be removed</param>
     public void UnReserve(Point position, int cost)
     {
         CheckPosition(position);
@@ -93,6 +113,11 @@ public class Board
         ReservationTable[(position.Y * Width + position.X) * MaxPathLength + ((cost + MaxPathLength) % MaxPathLength)] = EMPTY;
     }
 
+    /// <summary>
+    /// Reserves a position for a certain time, it wraps around so it is only effective for paths/times under the max path length
+    /// </summary>
+    /// <param name="position">Position of the reservation</param>
+    /// <param name="cost">Time of the reservation</param>
     public void Reserve(Point position, int cost)
     {
         CheckPosition(position);
@@ -101,24 +126,12 @@ public class Board
         ReservationTable[(position.Y * Width + position.X) * MaxPathLength + ((cost + MaxPathLength) % MaxPathLength)] = OCCUPIED;
     }
 
-    public void UnReserveWithCheck(Point position, int cost)
-    {
-        CheckPosition(position);
-        CheckCost(cost);
-        CheckReserve(position, cost, EMPTY);
-
-        ReservationTable[(position.Y * Width + position.X) * MaxPathLength + ((cost + MaxPathLength) % MaxPathLength)] = EMPTY;
-    }
-
-    public void ReserveWithCheck(Point position, int cost)
-    {
-        CheckPosition(position);
-        CheckCost(cost);
-        CheckReserve(position, cost, OCCUPIED);
-
-        ReservationTable[(position.Y * Width + position.X) * MaxPathLength + ((cost + MaxPathLength) % MaxPathLength)] = OCCUPIED;
-    }
-
+    /// <summary>
+    /// Checks if the next position for a given time is not reserved
+    /// </summary>
+    /// <param name="nextPosition">Next position</param>
+    /// <param name="cost">Time</param>
+    /// <returns>True if it's not reserved otherwise false</returns>
     public bool NotReservedForward(Point nextPosition, int cost)
     {
         CheckPosition(nextPosition);
@@ -127,6 +140,13 @@ public class Board
         return (ReservationTable[(nextPosition.Y * Width + nextPosition.X) * MaxPathLength + (cost % MaxPathLength)] == EMPTY);
     }
 
+    /// <summary>
+    /// Checks if the next position for a given time is not reserved and also it can stay for 1 more time step to turn towards the next position
+    /// </summary>
+    /// <param name="currentPosition">Current position</param>
+    /// <param name="nextPosition">Next position</param>
+    /// <param name="cost">Time</param>
+    /// <returns>True if it's not reserved both at the current and next position</returns>
     public bool NotReservedLeftRight(Point currentPosition, Point nextPosition, int cost)
     {
         CheckPosition(currentPosition);
@@ -137,6 +157,12 @@ public class Board
                (ReservationTable[(currentPosition.Y * Width + currentPosition.X) * MaxPathLength + ((cost + MaxPathLength - 1) % MaxPathLength)] == EMPTY);
     }
 
+    /// <summary>
+    /// Checks and sets the search mask searched if the next position for a given time is not reserved and is not a wall, not another stationary robot and wasn't searched before
+    /// </summary>
+    /// <param name="nextPosition">Next position</param>
+    /// <param name="cost">Time</param>
+    /// <returns>True if the next position is searchable otherwise false</returns>
     public bool SetSearchedIfEmptyForward(Point nextPosition, int cost)
     {
         CheckPosition(nextPosition);
@@ -155,6 +181,13 @@ public class Board
         return t;
     }
 
+    /// <summary>
+    /// Checks and sets the search mask searched if the next position for a given time is not reserved and the current position is not reserved for 1 turning step and is not a wall, not another stationary robot and wasn't searched before
+    /// </summary>
+    /// <param name="currentPosition">Current position</param>
+    /// <param name="nextPosition">Next position</param>
+    /// <param name="cost">Time</param>
+    /// <returns>True if the next position is searchable otherwise false</returns>
     public bool SetSearchedIfEmptyLeftRight(Point currentPosition, Point nextPosition, int cost)
     {
         CheckPosition(currentPosition);
@@ -175,6 +208,13 @@ public class Board
         return t;
     }
 
+    /// <summary>
+    /// Checks and sets the search mask searched if the next position for a given time is not reserved and the current position is not reserved for 1 turning step and is not a wall, not another stationary robot and wasn't searched before
+    /// </summary>
+    /// <param name="currentPosition">Current position</param>
+    /// <param name="nextPosition">Next position</param>
+    /// <param name="cost">Time</param>
+    /// <returns>True if the next position is searchable otherwise false</returns>
     public bool SetSearchedIfEmptyBackward(Point currentPosition, Point nextPosition, int cost)
     {
         CheckPosition(currentPosition);
@@ -197,6 +237,12 @@ public class Board
         return t;
     }
 
+    /// <summary>
+    /// Checks and sets the search mask searched if the current position (start) is not a wall
+    /// </summary>
+    /// <param name="currentPosition">Current position</param>
+    /// <param name="cost">Time</param>
+    /// <returns>True if the next position is searchable otherwise false</returns>
     public bool SetSearchedIfEmptyStart(Point currentPosition, int cost)
     {
         CheckPosition(currentPosition);
@@ -212,6 +258,11 @@ public class Board
         return t;
     }
 
+    /// <summary>
+    /// Checks if the given position has been marked as searched
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns></returns>
     public bool Searchable(Point position)
     {
         CheckPosition(position);
@@ -219,30 +270,9 @@ public class Board
         return SearchMask[position.Y * Width + position.X] == SEARCHED;
     }
 
-    public bool SetSearchedIfEmpty(Point position)
-    {
-        CheckPosition(position);
-
-#if NO_BORDER_CHECK
-        bool t = Data[position.Y * Width + position.X] == EMPTY &&
-                 SearchMask[position.Y * Width + position.X] == NOT_SEARCHED &&
-                 RobotMask[position.Y * Width + position.X] == EMPTY;
-#else
-        bool t = position.X >= 0 &&
-                 position.X < Width &&
-                 position.Y >= 0 &&
-                 position.Y < Height &&
-                 Data[position.Y * Width + position.X] == EMPTY &&
-                 SearchMask[position.Y * Width + position.X] == NOT_SEARCHED;
-#endif
-        if (t)
-        {
-            SearchMask[position.Y * Width + position.X] = SEARCHED;
-        }
-
-        return t;
-    }
-
+    /// <summary>
+    /// Clears the search mask to not searched
+    /// </summary>
     public void ClearMask()
     {
         for (int i = 0; i < Height * Width; i++)
@@ -289,6 +319,9 @@ public class Board
 
 
     #region Private methods
+    /// <summary>
+    /// Adds a 1 thick border (of type wall) around the map
+    /// </summary>
     private void AddBorder()
     {
         for (int y = 0; y < Height; y++)
@@ -304,49 +337,47 @@ public class Board
     }
     private void CheckPosition(Point position)
     {
+#if DEBUG
         if (position.X < 0 || position.X >= Width || position.Y < 0 || position.Y >= Height)
         {
             Debug.WriteLine("invalid position: " + position);
             throw new System.Exception("invalid position" + position);
         }
+#endif
     }
 
     private void CheckPosition(int x, int y)
     {
+#if DEBUG
         if (x < 0 || x >= Width || y < 0 || y >= Height)
         {
             Debug.WriteLine("invalid position: " + new Point(x, y));
             throw new System.Exception("invalid position" + new Point(x, y));
         }
+#endif
     }
 
     private static void CheckCost(int cost)
     {
+#if DEBUG
         if (cost < 0)
         {
             Debug.WriteLine("invalid cost: " + cost);
             throw new System.Exception("invalid cost" + cost);
         }
+#endif
     }
 
     private static void CheckValue(int value)
     {
+#if DEBUG
         if (value != EMPTY && value != WALL)
         {
             Debug.WriteLine("invalid value: " + value);
             throw new System.Exception("invalid value" + value);
         }
+#endif
     }
-
-    private void CheckReserve(Point position, int cost, int value)
-    {
-        if (ReservationTable[(position.Y * Width + position.X) * MaxPathLength + ((cost + MaxPathLength) % MaxPathLength)] == value)
-        {
-            Debug.WriteLine("already (un)reserved position: " + position + "\ncost: " + cost);
-            throw new System.Exception("already (un)reserved position: " + position + "\ncost: " + cost);
-        }
-    }
-
     #endregion
 }
 

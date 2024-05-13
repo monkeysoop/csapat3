@@ -1,12 +1,12 @@
 ﻿namespace Mekkdonalds.Simulation;
 
-public class Path(List<Action> path, Point? target)
+public class Path
 {
-    private readonly List<Action> _path = [.. path];
+    private readonly List<Action> _path;
 
     private int _ind = 0;
 
-    public readonly Point? Target = target;
+    public readonly Point? Target;
 
     public bool IsOver => _ind >= _path.Count;
 
@@ -15,6 +15,12 @@ public class Path(List<Action> path, Point? target)
     public Action? this[int i]
     {
         get => i >= _path.Count || i < 0 ? null : _path[i];
+    }
+
+    public Path(IEnumerable<Action> path, Point? target)
+    {
+        _path = [.. path];
+        Target = target;
     }
 
     internal Action PeekNext()
@@ -76,5 +82,10 @@ public class Path(List<Action> path, Point? target)
         // needs to remove the reservation at the end
 
         return true;
+    }
+
+    internal void Alter(Action t)
+    {
+        _path.Insert(_ind, t);
     }
 }

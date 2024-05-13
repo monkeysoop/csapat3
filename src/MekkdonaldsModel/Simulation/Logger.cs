@@ -38,24 +38,46 @@ public class Logger
         _logFile.TeamSize = _logFile.Start.Count;
         _logFile.Events.AddRange(robots.Select(r => new List<(int, int, string)>()));
         _logFile.PlannerPaths.AddRange(robots.Select(r => new List<Action>()));
+        _logFile.ActualPaths.AddRange(robots.Select(r => new List<Action>()));
     }
 
     /// <summary>
-    /// Logs the paths actually taken by the robots based on their history
+    /// Logs the paths actually taken by the robots based on their history (clears the ActualPaths list)
     /// </summary>
     /// <param name="robots">List of robots</param>
     public void LogActualPaths(IEnumerable<Robot> robots)
     {
-        _logFile.ActualPaths.ForEach(x => x.Clear());
-        _logFile.ActualPaths.AddRange(robots.Select(r => r.History.ToList()));
+        foreach (var robot in robots)
+        {
+            _logFile.ActualPaths[robot.ID - 1].Clear();
+            _logFile.ActualPaths[robot.ID - 1].AddRange(robot.History);
+        }
     }
 
     /// <summary>
-    /// Logs the planned path to the currently assigned task
+    /// 
+    /// </summary>
+    /// <param name="iD"></param>
+    /// <param name="action"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    public void LogActualPath(int iD, Action action)
+    {
+        _logFile.ActualPaths[iD - 1].Add(action);
+    }
+
+    /// <summary>
+    /// Logs the planned path of the currently assigned task
     /// </summary>
     /// <param name="robotID">Identifier of the robot</param>
     /// <param name="plannedPath">Planned path</param>
     public void LogPlannerPaths(int robotID, Path plannedPath) => _logFile.PlannerPaths[robotID - 1].AddRange(plannedPath.PlannedPath);
+
+    /// <summary>
+    /// Logs a single step of the planned path of the currently assigned task
+    /// </summary>
+    /// <param name="robotID">Identifier of the robot</param>
+    /// <param name="step">The step to be logged</param>
+    public void LogPlannerPaths(int robotID, Action step) => _logFile.PlannerPaths[robotID - 1].Add(step);
 
     /// <summary>
     /// Logs the time taken by the planner to assign to each robot

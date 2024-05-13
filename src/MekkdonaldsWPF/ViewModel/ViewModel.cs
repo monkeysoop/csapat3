@@ -1,5 +1,8 @@
 ﻿namespace Mekkdonalds.ViewModel;
 
+/// <summary>
+/// Base view model class for all view models using <see cref="Mekkdonalds.Simulation.Controller.Controller"/>"/>
+/// </summary>
 internal abstract class ViewModel : ViewModelBase
 {
     private const double MINZOOM = .3;
@@ -42,12 +45,33 @@ internal abstract class ViewModel : ViewModelBase
     /// </summary>
     public IReadOnlyList<Wall> Walls => Controller.Walls;
 
+    /// <summary>
+    /// Resumes the simulation / replay
+    /// </summary>
     public ICommand Play { get; private set; } = new DelegateCommand(_ => { });
+    /// <summary>
+    /// Pauses the simulation / replay
+    /// </summary>
     public ICommand Pause { get; private set; } = new DelegateCommand(_ => { });
+    /// <summary>
+    /// Makes one step forward in the simulation / replay
+    /// </summary>
     public ICommand Forward { get; private set; } = new DelegateCommand(_ => { });
 
+    /// <summary>
+    /// Decreases the speed of the simulation / replay
+    /// </summary>
     public ICommand SpeedDown { get; private set; } = new DelegateCommand(_ => { });
+
+    /// <summary>
+    /// Increases the speed of the simulation / replay
+    /// </summary>
     public ICommand SpeedUp { get; private set; } = new DelegateCommand(_ => { });
+
+    /// <summary>
+    /// Indicates if the simulation/replay is over
+    /// </summary>
+    public bool IsOver => Controller.IsOver;
 
     #endregion
 
