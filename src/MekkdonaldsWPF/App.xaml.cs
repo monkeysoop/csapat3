@@ -18,6 +18,11 @@ public partial class App : Application
     private StartWindow? _startWindow;
     private ReplayWindow? _replayWindow;
     private ViewModel.ViewModel? _viewModel;
+    private MouseButtonEventHandler? _mouseDoubleClickHandler;
+    private SizeChangedEventHandler? _onSizeChangedHandler;
+    private EventHandler? _onLoadedHandler;
+
+    private bool _loaded;
 
     private bool _ctrlDown;
     private Point _mousePos;
@@ -31,7 +36,7 @@ public partial class App : Application
 
     public App()
     {
-        Startup += OnStartup;
+        Startup += (_,_) => StartWindow();
 
         DrawElements();
 
@@ -43,7 +48,7 @@ public partial class App : Application
         }
     }
 
-    private void OnStartup(object sender, StartupEventArgs e)
+    private void StartWindow()
     {
         _startWindow = new StartWindow();
 
@@ -68,14 +73,75 @@ public partial class App : Application
     }
 
     /// <summary>
-    /// Closes the start window
+    /// Closes the start window. Only call this from the UI thread!
     /// </summary>
     private void DisposeStartWindow()
     {
-        _startWindow!.Close(); // can't be null
-        _startWindow.SimButton.Click -= SimButton_Click;
-        _startWindow.ReplayButton.Click -= ReplayButton_Click;
+        DisposeWindow(_startWindow);
         _startWindow = null;
+    }
+
+    /// <summary>
+    /// Disposes a window and removes all event handlers
+    /// </summary>
+    /// <param name="window">The window to dispose</param>
+    private void DisposeWindow(object? window)
+    {
+        _loaded = false;
+
+        if (window is StartWindow startWindow)
+        {
+            startWindow.Close();
+
+            startWindow.SimButton.Click -= SimButton_Click;
+            startWindow.ReplayButton.Click -= ReplayButton_Click;
+            return;
+        }
+
+        if (window is SimulationWindow simulationWindow)
+        {
+            try
+            {
+                simulationWindow.Close();
+            }
+            catch (InvalidOperationException ex) { if (!ex.Message.Contains("Cannot set Visibility to Visible")) throw; }
+
+            simulationWindow.SizeChanged -= _onSizeChangedHandler;
+            simulationWindow.KeyDown -= OnKeyDown;
+            simulationWindow.KeyUp -= OnKeyUp;
+            simulationWindow.ScrollViewer.PreviewMouseWheel -= OnMouseWheel;
+            simulationWindow.ScrollViewer.MouseMove -= OnMouseMove;
+            simulationWindow.ScrollViewer.ManipulationDelta -= OnManipulationDelta;
+            simulationWindow.ScrollViewer.MouseDoubleClick -= _mouseDoubleClickHandler!;
+            
+            if (_viewModel is SimulationViewModel simulationViewModel)
+            {
+                simulationViewModel.Exception -= Exception;
+                simulationViewModel.Loaded -= _onLoadedHandler;
+                simulationViewModel.Tick -= OnTick;
+                simulationViewModel.PropertyChanged -= OnPropertyChanged;
+                simulationViewModel.Ended -= OnEnded;
+            }
+        }
+        else if (window is ReplayWindow replayWindow)
+        {
+            replayWindow.Close();
+
+            replayWindow.SizeChanged -= _onSizeChangedHandler;
+            replayWindow.KeyDown -= OnKeyDown;
+            replayWindow.KeyUp -= OnKeyUp;
+            replayWindow.ScrollViewer.PreviewMouseWheel -= OnMouseWheel;
+            replayWindow.ScrollViewer.MouseMove -= OnMouseMove;
+            replayWindow.ScrollViewer.ManipulationDelta -= OnManipulationDelta;
+        }
+
+        _robots.Clear();
+        _targets.Clear();
+
+        //_viewModel = null;
+        _onSizeChangedHandler = null;
+        _onLoadedHandler = null;
+        _mouseDoubleClickHandler = null;
     }
 
     /// <summary>
@@ -119,12 +185,16 @@ public partial class App : Application
             DataContext = _viewModel
         };
 
-        _viewModel.Loaded += (_, _) => OnLoaded(_replayWindow, _replayWindow.MapCanvas);
+        _onLoadedHandler = (_, _) => OnLoaded(_replayWindow, _replayWindow.MapCanvas);
+
+        _viewModel.Loaded += _onLoadedHandler;
 
         _viewModel.Tick += OnTick;
         _viewModel.PropertyChanged += OnPropertyChanged;
 
-        _replayWindow.SizeChanged += (_, _) => OnSizeChanged(_replayWindow.MapCanvas);
+        _onSizeChangedHandler = (_, _) => OnSizeChanged(_replayWindow.MapCanvas);
+
+        _replayWindow.SizeChanged += _onSizeChangedHandler;
 
         _replayWindow.KeyDown += OnKeyDown;
 
@@ -192,13 +262,17 @@ public partial class App : Application
 
         _simWindow.Title += $" - Simulation - {System.IO.Path.GetFileName(fd.FileName)}";
 
-        _viewModel.Loaded += (_, _) => OnLoaded(_simWindow, _simWindow.MapCanvas);
+        _onLoadedHandler = (_, _) => OnLoaded(_simWindow, _simWindow.MapCanvas);
+
+        _viewModel.Loaded += _onLoadedHandler;
 
         _viewModel.Tick += OnTick;
         _viewModel.PropertyChanged += OnPropertyChanged;
         _viewModel.Exception += Exception;
 
-        _simWindow.SizeChanged += (_, _) => OnSizeChanged(_simWindow.MapCanvas);
+        _onSizeChangedHandler = (_, _) => OnSizeChanged(_simWindow.MapCanvas);
+
+        _simWindow.SizeChanged += _onSizeChangedHandler;
 
         _simWindow.KeyDown += OnKeyDown;
 
@@ -206,7 +280,9 @@ public partial class App : Application
 
         _simWindow.ScrollViewer.PreviewMouseWheel += OnMouseWheel;
 
-        _simWindow.ScrollViewer.MouseDoubleClick += (_, e) =>
+        _simWindow.Closing += (sender, e) => { simulationViewModel.Dispose(); DisposeWindow(sender); };
+
+        _mouseDoubleClickHandler = (_, e) =>
         {
             Point point = e.GetPosition(_simWindow.MapCanvas);
 
@@ -217,6 +293,9 @@ public partial class App : Application
                 _selectedRobot = null;
             }
         };
+
+        _simWindow.ScrollViewer.MouseDoubleClick += _mouseDoubleClickHandler;
+
         _simWindow.ScrollViewer.MouseMove += OnMouseMove;
 
         _simWindow.ScrollViewer.ManipulationDelta += OnManipulationDelta;
@@ -270,7 +349,9 @@ public partial class App : Application
     /// <param name="c">The currently open window's canvas</param>
     private void Redraw()
     {
-        foreach (Robot r in _viewModel!.Robots)
+        if (_viewModel is null) return;
+
+        foreach (Robot r in _viewModel.Robots)
         {
             _robots[r].Margin = new Thickness(1 + r.Position.X * Step, 1 + r.Position.Y * Step, 0, 0);
             _robots[r].Background = _ellipses[(int)r.Direction];
@@ -329,6 +410,9 @@ public partial class App : Application
     /// <param name="c"></param>
     private void InitRobots(Canvas c)
     {
+        _robots.Clear();
+        _targets.Clear();
+
         double fontSize = 12 * Math.Sqrt(_viewModel!.Zoom);
 
         foreach (Robot r in _viewModel!.Robots)
@@ -560,12 +644,15 @@ public partial class App : Application
 
     private void OnSizeChanged(Canvas canvas)
     {
+        if (!_loaded) return;
         Calculate(canvas);
         Redraw();
     }
 
     private void OnLoaded(Window window, Canvas canvas)
     {
+        _loaded = true;
+
         Dispatcher.Invoke(() =>
         {
             Calculate(canvas);
@@ -579,6 +666,8 @@ public partial class App : Application
     private void OnEnded(object? sender, EventArgs e)
     {
         MessageBox.Show("Simulation ended", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+
+        Dispatcher.Invoke(_simWindow!.Close);        
     }
     #endregion
 
