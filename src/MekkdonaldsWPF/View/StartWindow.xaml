@@ -18,7 +18,7 @@
             <TextBox Width="25" Height="20" Margin="100,0,0,0" HorizontalAlignment="Left"
                     x:Name="Length" Text="-1"/>
             <Label Content="Interval:" HorizontalAlignment="Right" Margin="0,0,85,0"/>
-            <TextBox Width="25" Height="20" Margin="0,0,60,0" HorizontalAlignment="Right"
+            <TextBox Width="25" Height="20" Margin="0,0,60,0" HorizontalAlignment="Right" ToolTip="Please use a dot as the decimal separator regardless of you Windows settings"
                     x:Name="Speed" Text="0.2"/>
             <Label Content="s" HorizontalAlignment="Right" Margin="0,0,48,0"/>
         </Grid>
