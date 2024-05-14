@@ -1,5 +1,7 @@
 ﻿using Mekkdonalds.Simulation.PathFinding;
 
+using System.Globalization;
+
 namespace Mekkdonalds;
 
 /// <summary>
@@ -238,7 +240,7 @@ public partial class App : Application
         else if (_startWindow.DFS.IsChecked!.Value) algorithm = typeof(DFS);
 
         int simulationLength = int.Parse(_startWindow.Length.Text);
-        double speed = double.Parse(_startWindow.Speed.Text);
+        double speed = double.Parse(_startWindow.Speed.Text, NumberStyles.Any, CultureInfo.InvariantCulture);
 
         SimulationViewModel simulationViewModel;
 
