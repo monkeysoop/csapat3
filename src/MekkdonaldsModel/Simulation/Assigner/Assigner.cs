@@ -2,182 +2,50 @@
 
 namespace Mekkdonalds.Simulation.Assigner;
 
-internal class Assigner : IAssigner
+/// <summary>
+/// Handles the logic behind which packages to assign to which robots.
+/// </summary>
+public abstract class Assigner
 {
-    private readonly ConcurrentQueue<Package> _packages = [];
-    private readonly ConcurrentDictionary<Robot, Path> _paths = [];
-    private readonly List<Robot> _robots = [];
-    private Board _board = new(0, 0);
-    private PathFinder _pathFinder = new Astar();
+    protected readonly IEnumerable<Package> _packages;
+    protected readonly IEnumerable<Robot> _robots;
+    protected Board _board;
 
-    private int cost_counter = 0;
-    public int TimeStamp { get { return cost_counter; } }
+    /// <summary>
+    /// <see langword="true"/> if there are no packages left in the assigner.
+    /// </summary>
+    public virtual bool NoPackage { get; }
 
-    public event EventHandler? Ended;
-
-    [NotNull]
-    private Logger? _logger;
-
-    public void Init(ControllerType algorithm, Board board, IEnumerable<Robot> robots, IEnumerable<Package> packages, Logger logger)
+    /// <summary>
+    /// Handles the logic behind which packages to assign to which robots.
+    /// </summary>
+    /// <param name="board">Map of the warehouse</param>
+    /// <param name="packages">Collection of the packages that will be assigned</param>
+    /// <param name="robots">Collection of the robots that are part of the simulation</param>
+    protected Assigner(Board board, IEnumerable<Package> packages, IEnumerable<Robot> robots)
     {
-        _logger = logger;
-
+        _packages = packages;
         _board = board;
-
-        foreach (Package package in packages)
-        {
-            _packages.Enqueue(package);
-        }
-
-        _pathFinder = algorithm switch
-        {
-            ControllerType.Astar => new Astar(),
-            ControllerType.BFS => new BFS(),
-            ControllerType.DFS => new DFS(),
-            _ => throw new NotImplementedException()
-        };
-
-        _robots.AddRange(robots);
-
-        foreach (Robot robot in _robots)
-        {
-            Assign(robot);
-        }
+        _robots = robots;
     }
 
-    public void Step()
-    {
-        lock (_board)
-        {
-            if (_packages.IsEmpty && _paths.All(x => x.Value.IsOver))
-            {
-                foreach (var robot in _robots.Where(r => r.Task is not null))
-                {
-                    robot.RemoveTask();
-                }
-
-                Ended?.Invoke(this, EventArgs.Empty);
-                return;
-            }
-
-            foreach (Robot robot in _robots)
-            {
-                Path? path;
-                if (!_paths.TryGetValue(robot, out path))
-                {
-                    // sometimes this is caused by pathfinding taking too long and it times out
-                    throw new System.Exception("");
-                }
-                if (path == null)
-                {
-                    throw new System.Exception("");
-                }
-
-                if (path.IsOver)
-                {
-                    if (robot.Task != null)
-                    {
-                        _logger.LogPlannerPaths(robot.ID, path);
-                        _logger.LogFinish(robot.ID, robot.Task!.ID, TimeStamp);
-                    }
-                    
-                    if (!_paths.TryRemove(robot, out var _))
-                    {
-                        throw new System.Exception("");
-                    }
-                    
-                    path = Assign(robot);
-                }
-
-                if (!path.IsOver)
-                {
-                    Action action = path.PeekNext();
-
-                    if (robot.TryStep(action, _board, cost_counter))
-                    {
-                        path.Increment();
-                    }
-                    else
-                    {
-                        Free(robot, path);
-                        _board.Reserve(robot.Position, cost_counter + 1);
-                    }
-                }
-                else
-                {
-                    // this could happen if the next task is at the same position as the robot which is assigned to
-                    _board.UnReserve(robot.Position, cost_counter);
-                }
-            }
-
-            cost_counter++;
-        }
-    }
-
-    private Path Assign(Robot robot)
-    {
-        Package? task = null;
-        Point? task_pos = null;
-        bool found = false;
-        List<Action> actions = [Action.W];
-
-        Package? package = null;
-        if (_packages.TryPeek(out package))
-        {
-            //Debug.Write(robot.ID + ": ");
-            (found, actions) = _pathFinder.CalculatePath(_board, robot.Position, (int)robot.Direction, package.Position, cost_counter);
-
-            if (found)
-            {
-                //Debug.WriteLine(robot.ID);
-                //foreach(Action action in actions)
-                //{
-                //    Debug.Write(action.ToString());
-                //}
-                //Debug.WriteLine("");
-                task = package;
-                task_pos = package.Position;
-                _packages.TryDequeue(out _);
-                _logger.LogAssignment(robot.ID, package.ID, TimeStamp);
-            }
-            else
-            {
-                _board.Reserve(robot.Position, cost_counter + 1);
-            }
-
-        }
-        else
-        {
-            // no package
-            _board.Reserve(robot.Position, cost_counter + 1);
-        }
-
-
-        robot.AddTask(task);
-        Path path = new Path(actions, task_pos);
-        if (!_paths.TryAdd(robot, path))
-        {
-            throw new System.Exception("");
-        }
-        
-        return path;
-    }
-
-    private void Free(Robot robot, Path path)
-    {
-        if (!path.FreeAllReserved(_board, robot.Position, robot.Direction, cost_counter))
-        {
-            throw new System.Exception("");
-        }
-        if (!_paths.TryRemove(robot, out var _))
-        {
-            throw new System.Exception("");
-        }
-        if (!_paths.TryAdd(robot, new Path(new List<Action>(), null)))
-        {
-            throw new System.Exception("");
-        }
-        Package package = robot.RemoveTask();
-        _packages.Enqueue(package);
-    }
+    /// <summary>
+    /// Peeks at the next package for the robot.
+    /// </summary>
+    /// <param name="robot">The robot whose next package to peek at</param>
+    /// <param name="package">Contains the package</param>
+    /// <returns>Returns <see langword="true"/> of the Peek was successful</returns>
+    public abstract bool Peek(Robot robot, [MaybeNullWhen(false)] out Package package);
+    /// <summary>
+    /// Gets the next package for the robot. (Does not call the robot's Assign method)
+    /// </summary>
+    /// <param name="robot">The robot whose package to get</param>
+    /// <param name="package">Contains the package</param>
+    /// <returns>Returns <see langword="true"/> of the getting the package was successful</returns>
+    public abstract bool Get(Robot robot, [MaybeNullWhen(false)] out Package package);
+    /// <summary>
+    /// Returns an uncompleted package to the assigner.
+    /// </summary>
+    /// <param name="package">The uncompleted package</param>
+    public virtual void Return(Package package) { }
 }

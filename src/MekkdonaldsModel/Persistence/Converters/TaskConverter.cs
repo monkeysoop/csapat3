@@ -5,6 +5,14 @@ namespace Mekkdonalds.Persistence.Converters;
 
 internal class TaskConverter : JsonConverter<List<(int, int, int)>>
 {
+    /// <summary>
+    /// custom json converter for Tasks
+    /// </summary>
+    /// <param name="reader">reader object</param> 
+    /// <param name="typeToConvert">type of the object to convert</param> 
+    /// <param name="options">options for the serializer</param> 
+    /// <returns>list of tuples (The type of Tasks)</returns> 
+    /// <exception cref="JsonException">throws exception if the json is not in the correct format</exception> 
     public override List<(int, int, int)> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType != JsonTokenType.StartArray)
@@ -12,7 +20,7 @@ internal class TaskConverter : JsonConverter<List<(int, int, int)>>
             throw new JsonException();
         }
 
-        var list = new List<(int, int, int)>();
+        List<(int, int, int)> list = [];
 
         while (reader.Read())
         {
@@ -26,7 +34,12 @@ internal class TaskConverter : JsonConverter<List<(int, int, int)>>
 
         throw new JsonException();
     }
-
+    /// <summary>
+    /// writes the task list to the json
+    /// </summary>
+    /// <param name="writer"> writer object</param>
+    /// <param name="value">task list as a list of tuples to be written to the json</param> 
+    /// <param name="options">options for the serializer</param> 
     public override void Write(Utf8JsonWriter writer, List<(int, int, int)> value, JsonSerializerOptions options)
     {
         writer.WriteStartArray();
@@ -40,7 +53,12 @@ internal class TaskConverter : JsonConverter<List<(int, int, int)>>
         }
         writer.WriteEndArray();
     }
-
+    /// <summary>
+    /// reads a single task value from the json
+    /// </summary>
+    /// <param name="reader">reader object</param>
+    /// <returns>a single task as a tuple</returns> 
+    /// <exception cref="JsonException">throws exception if the json is not in the correct format</exception> 
     private static (int, int, int) ReadValue(ref Utf8JsonReader reader)
     {
         int fst = 0, snd = 0, th = 0, i = 0, j = 0;

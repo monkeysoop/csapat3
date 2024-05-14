@@ -102,7 +102,15 @@
                 <Canvas x:Name="MapCanvas" Margin="5,5,5,5"/>
             </ScrollViewer>
             <Grid Grid.Column="1">
-                <Label Content="{Binding ZoomLabel}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+                <!--#region Speed control-->
+                <Label Content="{Binding SpeedLabel}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,70,0"/>
+                <Button VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="25" Width="25" Margin="0,0,40,0"
+                        Padding="0" Content="-" FontSize="20" Style="{StaticResource ButtonStyle}"
+                        Command="{Binding SpeedDown}"/>
+                <Button VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="25" Width="25" Margin="0,0,10,0"
+                        Padding="0" Content="+" FontSize="20" Style="{StaticResource ButtonStyle}"
+                        Command="{Binding SpeedUp}"/>
+                <!--#endregion-->
             </Grid>
         </Grid>
         <Grid Grid.Row="1" VerticalAlignment="Top">
@@ -123,7 +131,8 @@
                     Content="↻" FontSize="25" FontWeight="Bold"
                     />
             <Slider Margin="170,0,100,0" VerticalAlignment="Center" Value="{Binding CurrentTime}" Maximum="{Binding ReplayLength}" Style="{StaticResource Horizontal_Slider}"/>
-            <Label Content="{Binding TimeLabel}" VerticalAlignment="Center" HorizontalAlignment="Right" Width="80" HorizontalContentAlignment="Right" Margin="0,0,10,0"/>
+            <TextBox VerticalAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Width="40" Margin="0,0,50,0" Text="{Binding TimeLabel, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="{Binding LengthLabel}" VerticalAlignment="Center" HorizontalAlignment="Right" Width="40" HorizontalContentAlignment="Right" Margin="0,0,10,0"/>
         </Grid>
     </Grid>
 </Window>

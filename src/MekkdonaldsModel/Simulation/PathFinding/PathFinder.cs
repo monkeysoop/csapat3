@@ -1,173 +1,173 @@
-﻿namespace Mekkdonalds.Simulation.PathFinding;
+﻿#define NO_CHECK_HEAP
 
-internal abstract class PathFinder
+namespace Mekkdonalds.Simulation.PathFinding;
+
+public abstract class PathFinder
 {
-    protected static readonly Point[] nexts_offsets = [
-        new(0, -1),
-        new(1, 0),
-        new(0, 1),
-        new(-1, 0)
-    ];
-
-    internal (bool, List<Action>) CalculatePath(Board board, Point start_position, int start_direction, Point end_position, int start_cost)
+    /// <summary>
+    /// Finds a path from start and start direction to end position and reserves it
+    /// </summary>
+    /// <param name="board">The board where it searches</param>
+    /// <param name="startPosition">Robot's starting position</param>
+    /// <param name="startDirection">Robot's starting direction</param>
+    /// <param name="endPosition">Target's position</param>
+    /// <param name="startCost">Used for the the start time in the reservation table</param>
+    /// <returns>Returns true and the path if it finds any otherwise false and an empty path</returns>
+    public (bool, List<Action>) CalculatePath(Board board, Point startPosition, int startDirection, Point endPosition, int startCost)
     {
         bool found;
-        int[] parents_data;
-        int[] costs_data;
+        int[] parentsData;
+        int[] costsData;
 
-        (found, parents_data, costs_data) = FindPath(board, start_position, start_direction, end_position, start_cost);
+        (found, parentsData, costsData) = FindPath(board, startPosition, startDirection, endPosition, startCost);
         board.ClearMask();
 
         if (found)
         {
-            return (true, TracePath(parents_data, costs_data, board, start_position, end_position));
+            return (true, TracePath(parentsData, costsData, board, startPosition, endPosition));
         }
         else
         {
-            return (false, new List<Action>());
+            return (false, []);
         }
-    }    
+    }
 
-    private static List<Action> TracePath(int[] parents_board, int[] costs_board, Board board, Point start, Point end)
+    /// <summary>
+    /// Given 2 arrays representing the parents and the arrival time for each node it traces back and reserves the path from end to start
+    /// </summary>
+    /// <param name="parentsBoard">array representing the direction to the searched parent nodes</param>
+    /// <param name="costsBoard">array representing the expected arrival time for each searched position</param>
+    /// <param name="board">The board where it searched</param>
+    /// <param name="start">Robot's starting position</param>
+    /// <param name="end">Target's position</param>
+    /// <returns>The array of the actions to take in the correct order (start -> end)</returns>
+    private static List<Action> TracePath(int[] parentsBoard, int[] costsBoard, Board board, Point start, Point end)
     {
         List<Action> path = [];
 
 
-        Point current_position = end;
-        int current_direction = (parents_board[current_position.Y * board.Width + current_position.X] + 2) % 4;
+        Point currentPosition = end;
+        int currentDirection = (parentsBoard[currentPosition.Y * board.Width + currentPosition.X] + 2) % 4;
 
-        while (!ComparePoints(current_position, start))
+        while (currentPosition != start)
         {
-            Point next_offset = nexts_offsets[current_direction];
+            Point nextOffset = currentDirection.GetOffset();
 
-            Point next_position = new(current_position.X + next_offset.X,
-                                      current_position.Y + next_offset.Y);
+            Point nextPosition = new(currentPosition.X + nextOffset.X,
+                                      currentPosition.Y + nextOffset.Y);
 
-            int next_direction = (parents_board[next_position.Y * board.Width + next_position.X] + 2) % 4;
+            int nextDirection = (parentsBoard[nextPosition.Y * board.Width + nextPosition.X] + 2) % 4;
 
-            int diff = current_direction - next_direction;
+            int diff = currentDirection - nextDirection;
 
 
             path.Add(Action.F);
             switch (diff)
             {
                 case -3:
-                    path.Add(Action.R);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 1);
-                    board.Reserve(current_position, costs_board[current_position.Y * board.Width + current_position.X]);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 2); // for stopping robots clipping trough each other
-                    break;
-                case -2:
-                    path.Add(Action.R);
-                    path.Add(Action.R);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 1);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 2);
-                    board.Reserve(current_position, costs_board[current_position.Y * board.Width + current_position.X]);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 3); // for stopping robots clipping trough each other
-                    break;
-                case -1:
-                    path.Add(Action.C);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 1);
-                    board.Reserve(current_position, costs_board[current_position.Y * board.Width + current_position.X]);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 2); // for stopping robots clipping trough each other
-                    break;
-                case 0:
-                    board.Reserve(current_position, costs_board[current_position.Y * board.Width + current_position.X]);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 1); // for stopping robots clipping trough each other
-                    break;
                 case 1:
                     path.Add(Action.R);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 1);
-                    board.Reserve(current_position, costs_board[current_position.Y * board.Width + current_position.X]);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 2); // for stopping robots clipping trough each other
+                    board.Reserve(nextPosition, costsBoard[nextPosition.Y * board.Width + nextPosition.X] + 1);
+                    board.Reserve(currentPosition, costsBoard[currentPosition.Y * board.Width + currentPosition.X]);
+                    board.Reserve(nextPosition, costsBoard[nextPosition.Y * board.Width + nextPosition.X] + 2); // for stopping robots clipping trough each other
                     break;
+                case -2:
                 case 2:
                     path.Add(Action.R);
                     path.Add(Action.R);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 1);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 2);
-                    board.Reserve(current_position, costs_board[current_position.Y * board.Width + current_position.X]);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 3); // for stopping robots clipping trough each other
+                    board.Reserve(nextPosition, costsBoard[nextPosition.Y * board.Width + nextPosition.X] + 1);
+                    board.Reserve(nextPosition, costsBoard[nextPosition.Y * board.Width + nextPosition.X] + 2);
+                    board.Reserve(currentPosition, costsBoard[currentPosition.Y * board.Width + currentPosition.X]);
+                    board.Reserve(nextPosition, costsBoard[nextPosition.Y * board.Width + nextPosition.X] + 3); // for stopping robots clipping trough each other
                     break;
+                case -1:
                 case 3:
                     path.Add(Action.C);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 1);
-                    board.Reserve(current_position, costs_board[current_position.Y * board.Width + current_position.X]);
-                    board.Reserve(next_position, costs_board[next_position.Y * board.Width + next_position.X] + 2); // for stopping robots clipping trough each other
+                    board.Reserve(nextPosition, costsBoard[nextPosition.Y * board.Width + nextPosition.X] + 1);
+                    board.Reserve(currentPosition, costsBoard[currentPosition.Y * board.Width + currentPosition.X]);
+                    board.Reserve(nextPosition, costsBoard[nextPosition.Y * board.Width + nextPosition.X] + 2); // for stopping robots clipping trough each other
+                    break;
+                case 0:
+                    board.Reserve(currentPosition, costsBoard[currentPosition.Y * board.Width + currentPosition.X]);
+                    board.Reserve(nextPosition, costsBoard[nextPosition.Y * board.Width + nextPosition.X] + 1); // for stopping robots clipping trough each other
                     break;
             }
 
-            current_position = next_position;
-            current_direction = next_direction;
+            currentPosition = nextPosition;
+            currentDirection = nextDirection;
         }
-        board.Reserve(start, costs_board[start.Y * board.Width + start.X]);
-        //board.Reserve(end, costs_board[end.Y * board.Width + end.X] + 1);
+        board.Reserve(start, costsBoard[start.Y * board.Width + start.X]);
 
         path.Reverse();
 
         return path;
     }
+    
+    /// <summary>
+    /// Finds a path from start and start direction to end position
+    /// </summary>
+    /// <param name="board">The board where it searches</param>
+    /// <param name="start_position">Robot's starting position</param>
+    /// <param name="startDirection">Robot's starting direction</param>
+    /// <param name="end_position">Target's position</param>
+    /// <param name="start_cost">Used for the the start time in the reservation table</param>
+    /// <returns>Returns true if it finds a path otherwise false and 2 arrays first for parents data and second for the expected arrival times </returns>
+    protected abstract (bool, int[], int[]) FindPath(Board board, Point start_position, int startDirection, Point end_position, int start_cost);
 
-    protected abstract (bool, int[], int[]) FindPath(Board board, Point start_position, int start_direction, Point end_position, int start_cost);
+    /// <summary>
+    /// Returns the Manhattan distance between 2 points (the order of the 2 points doesn't matter)
+    /// </summary>
+    /// <param name="start">First point</param>
+    /// <param name="end">Second point</param>
+    /// <returns>the sum of the absolute differences between the 2 point's coordinates</returns>
+    protected static int ManhattanDistance(Point start, Point end) => Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y);
 
-    protected static bool ComparePoints(Point first, Point second) // == is overloaded
-    {
-        return first.X == second.X && first.Y == second.Y;
-    }
-
-    protected static int ManhattenDistance(Point start, Point end)
-    {
-        return Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y);
-    }
-
+    /// <summary>
+    /// Heuristic used for approximating the number of turn steps
+    /// </summary>
+    /// <param name="position">Robot's current position</param>
+    /// <param name="direction">Robot's current direction</param>
+    /// <param name="end">Target's position</param>
+    /// <returns>The heuristic value</returns>
     protected static int MaxTurnsRequired(Point position, Point direction, Point end)
     {
-        int diff_x = end.X - position.X;
-        int diff_y = end.Y - position.Y;
-        int dot_product = diff_x * direction.X + diff_y * direction.Y;
+        int diffX = end.X - position.X;
+        int diffY = end.Y - position.Y;
+        int dotProduct = diffX * direction.X + diffY * direction.Y;
 
-        if (diff_x == 0 && diff_y == 0)
-        {
-            return 0;
-        } else if (dot_product * dot_product == (diff_x * diff_x + diff_y * diff_y) * 1) // note that direction is a unitvector so its length is 1
-        {
-            return 0;
-        } else if (dot_product * dot_product == -1 * (diff_x * diff_x + diff_y * diff_y) * 1) // note that direction is a unitvector so its length is 1
-        {
-            return 2;
-        } else if (dot_product > 0)
+        if (dotProduct > 0)
         {
             return 1;
-        } else if (dot_product < 0)
-        {
-            return 2;
-        } else if (dot_product == 0)
-        {
-            return 1;
-        } else
-        {
-            throw new ArgumentException();
         }
-
-        //if (dot_product > 0 || (diff_x == 0 && diff_y == 0))
-        //{
-        //    return 0;
-        //} else if (dot_product * dot_product != -1 * (diff_x * diff_x + diff_y * diff_y) * 1) // note that direction is a unitvector so its length is 1
-        //{
-        //    return 1;
-        //} else
-        //{
-        //    //Debug.WriteLine("position:" + position);
-        //    //Debug.WriteLine("end:" + end);
-        //    //Debug.WriteLine("direction:" + direction);
-        //    //Debug.WriteLine("diff:" + new Point(diff_x, diff_y));
-        //    //Debug.WriteLine("dot product:" + dot_product);
-        //    return 2;
-        //}
+        else if (dotProduct < 0)
+        {
+            return 2;
+        } 
+        else if ((diffX == 0 && diffY == 0) || dotProduct * dotProduct == (diffX * diffX + diffY * diffY) * 1) // note that direction is a unit vector so its length is 1
+        {
+            return 0;
+        }
+        else if (dotProduct * dotProduct == -1 * (diffX * diffX + diffY * diffY) * 1) // note that direction is a unit vector so its length is 1
+        {
+            return 2;
+        }
+        else // dotProduct == 0
+        {
+            return 1;
+        }
     }
 
-    protected static void CheckHeap(Step[] heap, int length, int[] heap_hashmap, int width)
+    /// <summary>
+    /// Checks if the heap up to the given length has the properties of a minimum heap, also checks if the heap hash map (maps 2D coordinates to their position in the heap)
+    /// </summary>
+    /// <param name="heap">Buffered array of the min heap</param>
+    /// <param name="length">The number of items inside the buffer</param>
+    /// <param name="heapHashMap">A hash map that maps 2d coordinates to their index inside the buffer</param>
+    /// <param name="width">Used because heap and heap hash map is flattened 2D arrays</param>
+    /// <exception cref="System.Exception">Thrown if the heap or the heap hash map is bad</exception>
+    protected static void CheckHeap(Step[] heap, int length, int[] heapHashMap, int width)
     {
+#if CHECK_HEAP
         for (int i = 1; i < length; i++)
         {
             int root_index = (i - 1) / 2;
@@ -179,128 +179,170 @@ internal abstract class PathFinder
 
         for (int i = 0; i < length; i++)
         {
-            if (heap_hashmap[heap[i].Position.Y * width + heap[i].Position.X] != i)
+            if (heapHashMap[heap[i].Position.Y * width + heap[i].Position.X] != i)
             {
-                //for (int j = 0; j < length; j++)
-                //{
-                //    Debug.WriteLine("j: " + j + "\t" + heap[j].Position + "\t" + heap[j].Direction + "\t" + heap_hashmap[heap[j].Position.Y * width + heap[j].Position.X]);
-                //}
-                throw new System.Exception("error in heap hashmap!");
+                throw new System.Exception("error in heap hash map!");
             }
         }
+
+        for (int i = 0; i < heapHashMap.Length; i++)
+        {
+            int y = (int)i / width;
+            int x = i % width;
+            int index = heapHashMap[i];
+        
+            if (heapHashMap[i] != -1 && heap[index].Position != new Point(x, y))
+            {
+                throw new System.Exception("error in heap hash map!");
+            }
+        }
+#endif
     }
 
-    protected static void HeapInsert(Step[] heap, int length, Step item, int[] heap_hashmap, int width)
+    /// <summary>
+    /// Inserts an item into the given minimum heap while keeping its properties
+    /// </summary>
+    /// <param name="heap">Buffered array of the min heap</param>
+    /// <param name="length">The number of items inside the buffer</param>
+    /// <param name="item">The item to be inserted</param>
+    /// <param name="heapHashMap">A hash map that maps 2d coordinates to their index inside the buffer</param>
+    /// <param name="width">Used because heap and heap hash map is flattened 2D arrays</param>
+    protected static void HeapInsert(Step[] heap, int length, Step item, int[] heapHashMap, int width)
     {
+        CheckHeap(heap, length, heapHashMap, width);
         heap[length] = item;
-        heap_hashmap[item.Position.Y * width + item.Position.X] = length;
+        heapHashMap[item.Position.Y * width + item.Position.X] = length;
 
         int index = length;
         int root_index = (index - 1) / 2;
 
 
-        // <= is used (instead of <), because it makes the newer Step with same value prefered, 
+        // <= is used (instead of <), because it makes the newer Step with same value preferred, 
         // which usually leads to finding the solution quicker.
         while (index > 0 && heap[index].Heuristic <= heap[root_index].Heuristic)
         {
-            int hashmap_index = heap[index].Position.Y * width + heap[index].Position.X;
-            int hashmap_root_index = heap[root_index].Position.Y * width + heap[root_index].Position.X;
+            int hashMapIndex = heap[index].Position.Y * width + heap[index].Position.X;
+            int hashMapRootIndex = heap[root_index].Position.Y * width + heap[root_index].Position.X;
 
             // swap
             (heap[root_index], heap[index]) = (heap[index], heap[root_index]);
-            (heap_hashmap[hashmap_root_index], heap_hashmap[hashmap_index]) = (heap_hashmap[hashmap_index], heap_hashmap[hashmap_root_index]);
+            (heapHashMap[hashMapRootIndex], heapHashMap[hashMapIndex]) = (heapHashMap[hashMapIndex], heapHashMap[hashMapRootIndex]);
 
             index = root_index;
             root_index = (index - 1) / 2;
         }
+        CheckHeap(heap, length + 1, heapHashMap, width);
     }
 
-    protected static Step HeapRemoveMin(Step[] heap, int length, int[] heap_hashmap, int width)
+    /// <summary>
+    /// Removes an item from the minimum heap while keeping its properties
+    /// </summary>
+    /// <param name="heap">Buffered array of the min heap</param>
+    /// <param name="length">The number of items inside the buffer</param>
+    /// <param name="heapHashMap">A hash map that maps 2d coordinates to their index inside the buffer</param>
+    /// <param name="width">Used because heap and heap hash map is flattened 2D arrays</param>
+    /// <returns>The minimum item</returns>
+    protected static Step HeapRemoveMin(Step[] heap, int length, int[] heapHashMap, int width)
     {
-        Step min_item = heap[0];
-        heap_hashmap[heap[0].Position.Y * width + heap[0].Position.X] = -1;
+        CheckHeap(heap, length, heapHashMap, width);
+        Step minItem = heap[0];
+        heapHashMap[heap[0].Position.Y * width + heap[0].Position.X] = -1;
 
         heap[0] = heap[length - 1];
-        heap_hashmap[heap[length - 1].Position.Y * width + heap[length - 1].Position.X] = 0;
+        if (length > 1) 
+        {
+            // it doesnt matter if heap stays the same if theres only 1 item (because heapLength), but setting heapHashMap matters
+            heapHashMap[heap[length - 1].Position.Y * width + heap[length - 1].Position.X] = 0;
+        }
 
         length--; // this is only local!!!
 
         int index = 0;
-        int left_child_index = 1;
-        int right_child_index = 2;
+        int leftChildIndex = 1;
+        int rightChildIndex = 2;
 
-        int next_child_index = left_child_index;
-        if (right_child_index < length && heap[right_child_index].Heuristic < heap[left_child_index].Heuristic)
+        int nextChildIndex = leftChildIndex;
+        if (rightChildIndex < length && heap[rightChildIndex].Heuristic < heap[leftChildIndex].Heuristic)
         {
-            next_child_index = right_child_index;
+            nextChildIndex = rightChildIndex;
         }
 
-        while (left_child_index < length && heap[next_child_index].Heuristic < heap[index].Heuristic)
+        while (leftChildIndex < length && heap[nextChildIndex].Heuristic < heap[index].Heuristic)
         {
-            int hashmap_index = heap[index].Position.Y * width + heap[index].Position.X;
-            int hashmap_next_child_index = heap[next_child_index].Position.Y * width + heap[next_child_index].Position.X;
+            int hashMapIndex = heap[index].Position.Y * width + heap[index].Position.X;
+            int hashMapNextChildIndex = heap[nextChildIndex].Position.Y * width + heap[nextChildIndex].Position.X;
 
             // swap
-            (heap[next_child_index], heap[index]) = (heap[index], heap[next_child_index]);
-            (heap_hashmap[hashmap_next_child_index], heap_hashmap[hashmap_index]) = (heap_hashmap[hashmap_index], heap_hashmap[hashmap_next_child_index]);
+            (heap[nextChildIndex], heap[index]) = (heap[index], heap[nextChildIndex]);
+            (heapHashMap[hashMapNextChildIndex], heapHashMap[hashMapIndex]) = (heapHashMap[hashMapIndex], heapHashMap[hashMapNextChildIndex]);
 
-            index = next_child_index;
-            left_child_index = 2 * index + 1;
-            right_child_index = 2 * index + 2;
+            index = nextChildIndex;
+            leftChildIndex = 2 * index + 1;
+            rightChildIndex = 2 * index + 2;
 
-            next_child_index = left_child_index;
-            if (right_child_index < length && heap[right_child_index].Heuristic < heap[left_child_index].Heuristic)
+            nextChildIndex = leftChildIndex;
+            if (rightChildIndex < length && heap[rightChildIndex].Heuristic < heap[leftChildIndex].Heuristic)
             {
-                next_child_index = right_child_index;
+                nextChildIndex = rightChildIndex;
             }
         }
 
-        return min_item;
+        CheckHeap(heap, length, heapHashMap, width); // length is decreased locally
+        return minItem;
     }
 
-    protected static void UpdateHeapItem(Step[] heap, int length, Step item, int[] heap_hashmap, int width)
+    /// <summary>
+    /// Updates the value of an item already inside the heap while keeping its properties
+    /// </summary>
+    /// <param name="heap">Buffered array of the min heap</param>
+    /// <param name="length">The number of items inside the buffer</param>
+    /// <param name="item">The item to be updated</param>
+    /// <param name="heapHashMap">A hash map that maps 2d coordinates to their index inside the buffer</param>
+    /// <param name="width">Used because heap and heap hash map is flattened 2D arrays</param>
+    /// <exception cref="System.Exception">Thrown if the item (to be updated) is not inside the heap</exception>
+    protected static void UpdateHeapItem(Step[] heap, int length, Step item, int[] heapHashMap, int width)
     {
-        int index = heap_hashmap[item.Position.Y * width + item.Position.X];
-        if (index >= length || index < 0)
+        CheckHeap(heap, length, heapHashMap, width);
+        int index = heapHashMap[item.Position.Y * width + item.Position.X];
+
+#if CHECK_HEAP
+        if (index < 0)
         {
-            //Debug.WriteLine("index: " + index);
-            //for (int i = 0; i < length; i++)
-            //{
-            //    Debug.WriteLine("i: " + i + "\t" + heap[i].Position + "\t" + heap[i].Direction + "\t" + heap_hashmap[heap[i].Position.Y * width + heap[i].Position.X]);
-            //}
             throw new System.Exception("invalid index, item not in heap");
         }
+#endif
+
         if (heap[index].Heuristic < item.Heuristic)
         {
             // cascade up item
             heap[index] = item;
 
-            int left_child_index = 2 * index + 1;
-            int right_child_index = 2 * index + 2;
+            int leftChildIndex = 2 * index + 1;
+            int rightChildIndex = 2 * index + 2;
 
-            int next_child_index = left_child_index;
-            if (right_child_index < length && heap[right_child_index].Heuristic < heap[left_child_index].Heuristic)
+            int nextChildIndex = leftChildIndex;
+            if (rightChildIndex < length && heap[rightChildIndex].Heuristic < heap[leftChildIndex].Heuristic)
             {
-                next_child_index = right_child_index;
+                nextChildIndex = rightChildIndex;
             }
 
-            while (left_child_index < length && heap[next_child_index].Heuristic < heap[index].Heuristic)
+            while (leftChildIndex < length && heap[nextChildIndex].Heuristic < heap[index].Heuristic)
             {
-                int hashmap_index = heap[index].Position.Y * width + heap[index].Position.X;
-                int hashmap_next_child_index = heap[next_child_index].Position.Y * width + heap[next_child_index].Position.X;
+                int hashMapIndex = heap[index].Position.Y * width + heap[index].Position.X;
+                int hashMapNextChildIndex = heap[nextChildIndex].Position.Y * width + heap[nextChildIndex].Position.X;
 
                 // swap
-                (heap[next_child_index], heap[index]) = (heap[index], heap[next_child_index]);
-                (heap_hashmap[hashmap_next_child_index], heap_hashmap[hashmap_index]) = (heap_hashmap[hashmap_index], heap_hashmap[hashmap_next_child_index]);
+                (heap[nextChildIndex], heap[index]) = (heap[index], heap[nextChildIndex]);
+                (heapHashMap[hashMapNextChildIndex], heapHashMap[hashMapIndex]) = (heapHashMap[hashMapIndex], heapHashMap[hashMapNextChildIndex]);
 
-                index = next_child_index;
-                left_child_index = 2 * index + 1;
-                right_child_index = 2 * index + 2;
+                index = nextChildIndex;
+                leftChildIndex = 2 * index + 1;
+                rightChildIndex = 2 * index + 2;
 
-                next_child_index = left_child_index;
-                if (right_child_index < length && heap[right_child_index].Heuristic < heap[left_child_index].Heuristic)
+                nextChildIndex = leftChildIndex;
+                if (rightChildIndex < length && heap[rightChildIndex].Heuristic < heap[leftChildIndex].Heuristic)
                 {
-                    next_child_index = right_child_index;
+                    nextChildIndex = rightChildIndex;
                 }
             }
 
@@ -310,22 +352,23 @@ internal abstract class PathFinder
             // cascade down item
             heap[index] = item;
 
-            int root_index = (index - 1) / 2;
+            int rootIndex = (index - 1) / 2;
 
-            // <= is used (instead of <), because it makes the newer Step with same value prefered, 
+            // <= is used (instead of <), because it makes the newer Step with same value preferred, 
             // which usually leads to finding the solution quicker.
-            while (index > 0 && heap[index].Heuristic <= heap[root_index].Heuristic)
+            while (index > 0 && heap[index].Heuristic <= heap[rootIndex].Heuristic)
             {
-                int hashmap_index = heap[index].Position.Y * width + heap[index].Position.X;
-                int hashmap_root_index = heap[root_index].Position.Y * width + heap[root_index].Position.X;
+                int hashMapIndex = heap[index].Position.Y * width + heap[index].Position.X;
+                int hashMapRootIndex = heap[rootIndex].Position.Y * width + heap[rootIndex].Position.X;
 
                 // swap
-                (heap[root_index], heap[index]) = (heap[index], heap[root_index]);
-                (heap_hashmap[hashmap_root_index], heap_hashmap[hashmap_index]) = (heap_hashmap[hashmap_index], heap_hashmap[hashmap_root_index]);
+                (heap[rootIndex], heap[index]) = (heap[index], heap[rootIndex]);
+                (heapHashMap[hashMapRootIndex], heapHashMap[hashMapIndex]) = (heapHashMap[hashMapIndex], heapHashMap[hashMapRootIndex]);
 
-                index = root_index;
-                root_index = (index - 1) / 2;
+                index = rootIndex;
+                rootIndex = (index - 1) / 2;
             }
         }
+        CheckHeap(heap, length, heapHashMap, width);
     }
 }

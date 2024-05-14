@@ -4,6 +4,7 @@ public class Logger
 {
     private readonly LogFile _logFile;
     private readonly string _fileName;
+
     public Logger(string mapName)
     {
         _logFile = LogFile.New;
@@ -34,22 +35,49 @@ public class Logger
         if (_logFile.Start.Count > 0) throw new InvalidOperationException("Starts have already been set");
 
         _logFile.Start.AddRange(robots.Select(r => (r.Position, r.Direction)));
+        _logFile.TeamSize = _logFile.Start.Count;
         _logFile.Events.AddRange(robots.Select(r => new List<(int, int, string)>()));
         _logFile.PlannerPaths.AddRange(robots.Select(r => new List<Action>()));
+        _logFile.ActualPaths.AddRange(robots.Select(r => new List<Action>()));
     }
 
     /// <summary>
-    /// Logs the paths actually taken by the robots based on their history
+    /// Logs the paths actually taken by the robots based on their history (clears the ActualPaths list)
     /// </summary>
     /// <param name="robots">List of robots</param>
-    public void LogActualPaths(IEnumerable<Robot> robots) => _logFile.ActualPaths.AddRange(robots.Select(r => r.History.ToList()));
+    public void LogActualPaths(IEnumerable<Robot> robots)
+    {
+        foreach (var robot in robots)
+        {
+            _logFile.ActualPaths[robot.ID - 1].Clear();
+            _logFile.ActualPaths[robot.ID - 1].AddRange(robot.History);
+        }
+    }
 
     /// <summary>
-    /// Logs the planned path to the currently assigned task
+    /// 
+    /// </summary>
+    /// <param name="iD"></param>
+    /// <param name="action"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    public void LogActualPath(int iD, Action action)
+    {
+        _logFile.ActualPaths[iD - 1].Add(action);
+    }
+
+    /// <summary>
+    /// Logs the planned path of the currently assigned task
     /// </summary>
     /// <param name="robotID">Identifier of the robot</param>
     /// <param name="plannedPath">Planned path</param>
     public void LogPlannerPaths(int robotID, Path plannedPath) => _logFile.PlannerPaths[robotID - 1].AddRange(plannedPath.PlannedPath);
+
+    /// <summary>
+    /// Logs a single step of the planned path of the currently assigned task
+    /// </summary>
+    /// <param name="robotID">Identifier of the robot</param>
+    /// <param name="step">The step to be logged</param>
+    public void LogPlannerPaths(int robotID, Action step) => _logFile.PlannerPaths[robotID - 1].Add(step);
 
     /// <summary>
     /// Logs the time taken by the planner to assign to each robot
@@ -98,7 +126,13 @@ public class Logger
     }
 
     /// <summary>
-    /// 
+    /// Logs a single task
+    /// </summary>
+    /// <param name="package">Task to log</param>
+    public void LogTask(Package package) => _logFile.Tasks.Add((_logFile.Tasks.Count, package.Position.Y - 1, package.Position.X - 1));
+
+    /// <summary>
+    /// Logs a collection of tasks
     /// </summary>
     /// <param name="tasks">Collection of tasks</param>
     public void LogTasks(IEnumerable<Package> tasks) => _logFile.Tasks.AddRange(tasks.Select((t, i) => (i, t.Position.Y - 1, t.Position.X - 1)));
@@ -109,16 +143,16 @@ public class Logger
     /// Saves the logged data to a log file
     /// </summary>
     /// <param name="access">The type data access to use</param>
-    /// <returns>A Task that represents the asynchronous save opertaion</returns>
+    /// <returns>A Task that represents the asynchronous save operation</returns>
     public async Task SaveAsync(ILogFileDataAccess access) => await access.SaveAsync(_fileName, _logFile);
 
     /// <summary>
     /// Creates a deep copy of the log file
     /// </summary>
-    /// <returns>An equivalent log file</returns>
+    /// <returns>A log file equivalent to the one used by the logger</returns>
     public LogFile GetLogFile()
     {
-        var l = LogFile.New;
+        LogFile l = LogFile.New;
 
         l.ActualPaths.AddRange(_logFile.ActualPaths);
         l.AllValid = _logFile.AllValid;

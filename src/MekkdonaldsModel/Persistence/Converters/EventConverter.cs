@@ -5,6 +5,14 @@ namespace Mekkdonalds.Persistence.Converters;
 
 internal class EventConverter : JsonConverter<List<List<(int, int, string)>>>
 {
+    /// <summary>
+    /// custom json converter for List of Event lists
+    /// </summary>
+    /// <param name="reader"> reader object</param>
+    /// <param name="typeToConvert">type of the object to convert</param> 
+    /// <param name="options">options for the serializer</param> 
+    /// <returns>list of lists of tuples (The type of Events)</returns> 
+    /// <exception cref="JsonException"> throws exception if the json is not in the correct format</exception>
     public override List<List<(int, int, string)>> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType != JsonTokenType.StartArray)
@@ -12,7 +20,7 @@ internal class EventConverter : JsonConverter<List<List<(int, int, string)>>>
             throw new JsonException();
         }
 
-        var list = new List<List<(int, int, string)>>();
+        List<List<(int, int, string)>> list = [];
 
         while (reader.Read())
         {
@@ -27,6 +35,12 @@ internal class EventConverter : JsonConverter<List<List<(int, int, string)>>>
         throw new JsonException();
     }
 
+    /// <summary>
+    /// writes the event list to the json
+    /// </summary>
+    /// <param name="writer">writer object</param> 
+    /// <param name="value">List of  Event lists to be written to the json</param> 
+    /// <param name="options">options for the serializer</param> 
     public override void Write(Utf8JsonWriter writer, List<List<(int, int, string)>> value, JsonSerializerOptions options)
     {
         writer.WriteStartArray();
@@ -45,7 +59,12 @@ internal class EventConverter : JsonConverter<List<List<(int, int, string)>>>
         }
         writer.WriteEndArray();
     }
-
+    /// <summary>
+    /// reads a list of events from the json
+    /// </summary>
+    /// <param name="reader"> the reader object</param>
+    /// <returns>list of tuples (a list of events)</returns>  
+    /// <exception cref="JsonException">throws exception if the json is not in the correct format</exception> 
     private static List<(int, int, string)> ReadList(ref Utf8JsonReader reader)
     {
         if (reader.TokenType != JsonTokenType.StartArray)
@@ -53,7 +72,7 @@ internal class EventConverter : JsonConverter<List<List<(int, int, string)>>>
             throw new JsonException();
         }
 
-        var list = new List<(int, int, string)>();
+        List<(int, int, string)> list = [];
 
         while (reader.Read())
         {
@@ -68,7 +87,12 @@ internal class EventConverter : JsonConverter<List<List<(int, int, string)>>>
         throw new JsonException();
 
     }
-
+    /// <summary>
+    /// reads a single event value from the json
+    /// </summary>
+    /// <param name="reader">the reader object</param> 
+    /// <returns>tuple of event values (a single event)</returns> 
+    /// <exception cref="JsonException"> throws exception if the json is not in the correct format</exception>
     private static (int, int, string) ReadValue(ref Utf8JsonReader reader)
     {
         int fst = 0, snd = 0, i = 0;

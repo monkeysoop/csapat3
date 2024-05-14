@@ -1,154 +1,101 @@
 ﻿namespace Mekkdonalds.Simulation.PathFinding;
 
-internal sealed class DFS : PathFinder
+public sealed class DFS : PathFinder
 {
-    protected override (bool, int[], int[]) FindPath(Board board, Point start_position, int start_direction, Point end_position, int start_cost)
+    protected override (bool, int[], int[]) FindPath(Board board, Point startPosition, int startDirection, Point endPosition, int startCost)
     {
         // this depth first search uses heuristics to hopefully find a correct path quicker
         Step[] stack = new Step[5 * board.Height * board.Width];
-        int stack_index = 0;
-        int[] parents = new int[board.Height * board.Width]; // all items are automatically set to 0
-        int[] costs = new int[board.Height * board.Width]; // all items are automatically set to 0
+        int stackIndex = 0;
+        int[] parents = new int[board.Height * board.Width];
+        int[] costs = new int[board.Height * board.Width];
 
 
-        if (board.SetSearchedIfEmptyStart(start_position, start_cost))
-        {
-            stack[stack_index] = new Step(start_position, start_direction, 0);
-            stack_index++;
-
-            costs[start_position.Y * board.Width + start_position.X] = start_cost;
-            parents[start_position.Y * board.Width + start_position.X] = start_direction;
-        }
-        else
+        if (!board.SetSearchedIfEmptyStart(startPosition, startCost))
         {
             throw new System.Exception("start position is blocked by a WALL");
         }
 
+        stack[stackIndex] = new Step(startPosition, startDirection, 0);
+        stackIndex++;
 
-        int backward_direction = (start_direction + 2) % 4;
-        Point backward_offset = nexts_offsets[backward_direction];
-        Point backward_next_position = new(start_position.X + backward_offset.X,
-                                           start_position.Y + backward_offset.Y);
-        int backward_cost = start_cost + 3;
+        costs[startPosition.Y * board.Width + startPosition.X] = startCost;
+        parents[startPosition.Y * board.Width + startPosition.X] = startDirection;
 
-        if (board.SetSearchedIfEmptyBackward(start_position, backward_next_position, backward_cost))
+        int backwardDirection = (startDirection + 2) % 4;
+        Point backwardOffset = backwardDirection.GetOffset();
+        Point backwardNextPosition = new(startPosition.X + backwardOffset.X,
+                                           startPosition.Y + backwardOffset.Y);
+        int backwardCost = startCost + 3;
+
+        if (board.SetSearchedIfEmptyBackward(startPosition, backwardNextPosition, backwardCost))
         {
-            stack[stack_index] = new Step(backward_next_position, backward_direction, 0);
-            stack_index++;
+            stack[stackIndex] = new Step(backwardNextPosition, backwardDirection, 0);
+            stackIndex++;
 
-            costs[backward_next_position.Y * board.Width + backward_next_position.X] = backward_cost;
-            parents[backward_next_position.Y * board.Width + backward_next_position.X] = backward_direction;
+            costs[backwardNextPosition.Y * board.Width + backwardNextPosition.X] = backwardCost;
+            parents[backwardNextPosition.Y * board.Width + backwardNextPosition.X] = backwardDirection;
         }
 
 
         bool found = false;
-        while (stack_index != 0 && !found)
+        while (stackIndex != 0 && !found)
         {
-            stack_index--;
-            Step current_step = stack[stack_index];
-            if (board.Searchable(current_step.Position))
+            stackIndex--;
+            Step currentStep = stack[stackIndex];
+            if (board.Searchable(currentStep.Position))
             {
-                if (ComparePoints(current_step.Position, end_position))
+                if (currentStep.Position == endPosition)
                 {
                     found = true;
                 }
                 else
                 {
-                    int forward_direction = current_step.Direction;
-                    int left_direction = (current_step.Direction + 3) % 4;
-                    int right_direction = (current_step.Direction + 1) % 4;
+                    int forwardDirection = currentStep.Direction;
+                    int leftDirection = (currentStep.Direction + 3) % 4;
+                    int rightDirection = (currentStep.Direction + 1) % 4;
 
-                    Point forward_offset = nexts_offsets[forward_direction];
-                    Point left_offset = nexts_offsets[left_direction];
-                    Point right_offset = nexts_offsets[right_direction];
+                    Point forwardOffset = forwardDirection.GetOffset();
+                    Point leftOffset = leftDirection.GetOffset();
+                    Point rightOffset = rightDirection.GetOffset();
 
-                    Point forward_next_position = new(current_step.Position.X + forward_offset.X,
-                                                      current_step.Position.Y + forward_offset.Y);
-                    Point left_next_position = new(current_step.Position.X + left_offset.X,
-                                                   current_step.Position.Y + left_offset.Y);
-                    Point right_next_position = new(current_step.Position.X + right_offset.X,
-                                                    current_step.Position.Y + right_offset.Y);
+                    Point forwardNextPosition = new(currentStep.Position.X + forwardOffset.X,
+                                                      currentStep.Position.Y + forwardOffset.Y);
+                    Point leftNextPosition = new(currentStep.Position.X + leftOffset.X,
+                                                   currentStep.Position.Y + leftOffset.Y);
+                    Point rightNextPosition = new(currentStep.Position.X + rightOffset.X,
+                                                    currentStep.Position.Y + rightOffset.Y);
 
-                    int current_cost = costs[current_step.Position.Y * board.Width + current_step.Position.X];
+                    int currentCost = costs[currentStep.Position.Y * board.Width + currentStep.Position.X];
 
-                    int forward_cost = current_cost + 1;
-                    int left_cost = current_cost + 2;
-                    int right_cost = current_cost + 2;
+                    int forwardCost = currentCost + 1;
+                    int leftCost = currentCost + 2;
+                    int rightCost = currentCost + 2;
 
-                    //int heuristic1 = forward_cost +
-                    //                 MaxTurnsRequired(forward_next_position, forward_offset, end_position) +
-                    //                 ManhattenDistance(forward_next_position, end_position);
-                    //
-                    //int heuristic2 = left_cost +
-                    //                 MaxTurnsRequired(left_next_position, left_offset, end_position) +
-                    //                 ManhattenDistance(left_next_position, end_position);
-                    //
-                    //int heuristic3 = right_cost +
-                    //                 MaxTurnsRequired(right_next_position, right_offset, end_position) +
-                    //                 ManhattenDistance(right_next_position, end_position);
-
-
-                    if (board.SetSearchedIfEmptyLeftRight(current_step.Position, left_next_position, left_cost))
+                    if (board.SetSearchedIfEmptyLeftRight(currentStep.Position, leftNextPosition, leftCost))
                     {
-                        stack[stack_index] = new Step(left_next_position, left_direction, 0);
-                        stack_index++;
+                        stack[stackIndex] = new Step(leftNextPosition, leftDirection, 0);
+                        stackIndex++;
 
-                        costs[left_next_position.Y * board.Width + left_next_position.X] = left_cost;
-                        parents[left_next_position.Y * board.Width + left_next_position.X] = left_direction;
+                        costs[leftNextPosition.Y * board.Width + leftNextPosition.X] = leftCost;
+                        parents[leftNextPosition.Y * board.Width + leftNextPosition.X] = leftDirection;
                     }
-                    if (board.SetSearchedIfEmptyLeftRight(current_step.Position, right_next_position, right_cost))
+                    if (board.SetSearchedIfEmptyLeftRight(currentStep.Position, rightNextPosition, rightCost))
                     {
-                        stack[stack_index] = new Step(right_next_position, right_direction, 0);
-                        stack_index++;
+                        stack[stackIndex] = new Step(rightNextPosition, rightDirection, 0);
+                        stackIndex++;
 
-                        costs[right_next_position.Y * board.Width + right_next_position.X] = right_cost;
-                        parents[right_next_position.Y * board.Width + right_next_position.X] = right_direction;
+                        costs[rightNextPosition.Y * board.Width + rightNextPosition.X] = rightCost;
+                        parents[rightNextPosition.Y * board.Width + rightNextPosition.X] = rightDirection;
                     }
-                    if (board.SetSearchedIfEmptyForward(forward_next_position, forward_cost))
+                    if (board.SetSearchedIfEmptyForward(forwardNextPosition, forwardCost))
                     {
-                        stack[stack_index] = new Step(forward_next_position, forward_direction, 0);
-                        stack_index++;
+                        stack[stackIndex] = new Step(forwardNextPosition, forwardDirection, 0);
+                        stackIndex++;
 
-                        costs[forward_next_position.Y * board.Width + forward_next_position.X] = forward_cost;
-                        parents[forward_next_position.Y * board.Width + forward_next_position.X] = forward_direction;
+                        costs[forwardNextPosition.Y * board.Width + forwardNextPosition.X] = forwardCost;
+                        parents[forwardNextPosition.Y * board.Width + forwardNextPosition.X] = forwardDirection;
                     }
-
-
-                    //int index_offset1 = 2;
-                    //int index_offset2 = 1;
-                    //int index_offset3 = 0;
-                    //
-                    //if (heuristic1 > heuristic2)
-                    //{
-                    //    int t = heuristic1;
-                    //    heuristic1 = heuristic2;
-                    //    heuristic2 = t;
-                    //    index_offset1 = 1;
-                    //    index_offset2 = 2;
-                    //}
-                    //if (heuristic1 > heuristic3)
-                    //{
-                    //    int t = heuristic1;
-                    //    heuristic1 = heuristic3;
-                    //    heuristic3 = t;
-                    //    index_offset3 = index_offset1;
-                    //    index_offset1 = 0;
-                    //}
-                    //if (heuristic2 > heuristic3)
-                    //{
-                    //    int t = heuristic2;
-                    //    heuristic2 = heuristic3;
-                    //    heuristic3 = t;
-                    //    int tt = index_offset2;
-                    //    index_offset2 = index_offset3;
-                    //    index_offset3 = tt;
-                    //}
-                    //
-                    //stack[stack_index + index_offset1] = new Step(forward_next_position, forward_direction, heuristic1);
-                    //stack[stack_index + index_offset2] = new Step(left_next_position, left_direction, heuristic2);
-                    //stack[stack_index + index_offset3] = new Step(right_next_position, right_direction, heuristic3);
-                    //
-                    //stack_index += 3;
                 }
             }
         }

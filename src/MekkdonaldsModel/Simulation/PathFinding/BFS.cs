@@ -1,32 +1,30 @@
 ﻿namespace Mekkdonalds.Simulation.PathFinding;
 
-internal sealed class BFS : PathFinder
+public sealed class BFS : PathFinder
 {
-    protected override (bool, int[], int[]) FindPath(Board board, Point start_position, int start_direction, Point end_position, int start_cost)
+    protected override (bool, int[], int[]) FindPath(Board board, Point startPosition, int startDirection, Point endPosition, int startCost)
     {
         Step[] heap = new Step[5 * board.Height * board.Width];
-        int heap_length = 0;
+        int heapLength = 0;
 
-        int[] heap_hashmap = new int[board.Height * board.Width];
+        int[] heapHashMap = new int[board.Height * board.Width];
 
-        int[] costs = new int[board.Height * board.Width]; // all items are automatically set to 0
-        int[] parents = new int[board.Height * board.Width]; // all items are automatically set to 0
+        int[] costs = new int[board.Height * board.Width];
+        int[] parents = new int[board.Height * board.Width];
 
         for (int i = 0; i < board.Height * board.Width; i++)
         {
-            heap_hashmap[i] = -1;
+            heapHashMap[i] = -1;
         }
 
 
-        if (board.SetSearchedIfEmptyStart(start_position, start_cost))
+        if (board.SetSearchedIfEmptyStart(startPosition, startCost))
         {
-            //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
-            HeapInsert(heap, heap_length, new Step(start_position, start_direction, start_cost), heap_hashmap, board.Width);
-            heap_length++;
-            //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
+            HeapInsert(heap, heapLength, new Step(startPosition, startDirection, startCost), heapHashMap, board.Width);
+            heapLength++;            
 
-            costs[start_position.Y * board.Width + start_position.X] = start_cost;
-            parents[start_position.Y * board.Width + start_position.X] = start_direction;
+            costs[startPosition.Y * board.Width + startPosition.X] = startCost;
+            parents[startPosition.Y * board.Width + startPosition.X] = startDirection;
         }
         else
         {
@@ -34,129 +32,120 @@ internal sealed class BFS : PathFinder
         }
 
 
-        int backward_direction = (start_direction + 2) % 4;
-        Point backward_offset = nexts_offsets[backward_direction];
-        Point backward_next_position = new(start_position.X + backward_offset.X,
-                                           start_position.Y + backward_offset.Y);
-        int backward_cost = start_cost + 3;
-        int backward_heuristic = backward_cost +
-                                 MaxTurnsRequired(backward_next_position, backward_offset, end_position) +
-                                 ManhattenDistance(backward_next_position, end_position);
+        int backwardDirection = (startDirection + 2) % 4;
+        Point backwardOffset = backwardDirection.GetOffset();
+        Point backwardNextPosition = new(startPosition.X + backwardOffset.X,
+                                           startPosition.Y + backwardOffset.Y);
+        int backwardCost = startCost + 3;
+        int backwardHeuristic = backwardCost +
+                                 MaxTurnsRequired(backwardNextPosition, backwardOffset, endPosition) +
+                                 ManhattanDistance(backwardNextPosition, endPosition);
 
-        if (board.SetSearchedIfEmptyBackward(start_position, backward_next_position, backward_cost))
+        if (board.SetSearchedIfEmptyBackward(startPosition, backwardNextPosition, backwardCost))
         {
-            //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
-            HeapInsert(heap, heap_length, new Step(backward_next_position, backward_direction, backward_heuristic), heap_hashmap, board.Width);
-            heap_length++;
-            //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
-            costs[backward_next_position.Y * board.Width + backward_next_position.X] = backward_cost;
-            parents[backward_next_position.Y * board.Width + backward_next_position.X] = backward_direction;
+            HeapInsert(heap, heapLength, new Step(backwardNextPosition, backwardDirection, backwardHeuristic), heapHashMap, board.Width);
+            heapLength++;
+
+            costs[backwardNextPosition.Y * board.Width + backwardNextPosition.X] = backwardCost;
+            parents[backwardNextPosition.Y * board.Width + backwardNextPosition.X] = backwardDirection;
         }
 
 
         bool found = false;
-        //while (heap_length != 0 && !found)
-        while (heap_length != 0 && !found)
-        {
-            //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
-            Step current_step = HeapRemoveMin(heap, heap_length, heap_hashmap, board.Width);
-            heap_length--;
-            //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
 
-            if (ComparePoints(current_step.Position, end_position))
+        while (heapLength != 0 && !found)
+        {
+            Step currentStep = HeapRemoveMin(heap, heapLength, heapHashMap, board.Width);
+            heapLength--;
+
+            if (currentStep.Position == endPosition)
             {
                 found = true;
             }
             else
             {
-                int forward_direction = current_step.Direction;
-                int left_direction = (current_step.Direction + 3) % 4;
-                int right_direction = (current_step.Direction + 1) % 4;
+                int forwardDirection = currentStep.Direction;
+                int leftDirection = (currentStep.Direction + 3) % 4;
+                int rightDirection = (currentStep.Direction + 1) % 4;
 
-                Point forward_offset = nexts_offsets[forward_direction];
-                Point left_offset = nexts_offsets[left_direction];
-                Point right_offset = nexts_offsets[right_direction];
+                Point forwardOffset = forwardDirection.GetOffset();
+                Point leftOffset = leftDirection.GetOffset();
+                Point rightOffset = rightDirection.GetOffset();
 
-                Point forward_next_position = new(current_step.Position.X + forward_offset.X,
-                                                  current_step.Position.Y + forward_offset.Y);
-                Point left_next_position = new(current_step.Position.X + left_offset.X,
-                                               current_step.Position.Y + left_offset.Y);
-                Point right_next_position = new(current_step.Position.X + right_offset.X,
-                                                current_step.Position.Y + right_offset.Y);
+                Point forwardNextPosition = new(currentStep.Position.X + forwardOffset.X,
+                                                  currentStep.Position.Y + forwardOffset.Y);
+                Point leftNextPosition = new(currentStep.Position.X + leftOffset.X,
+                                               currentStep.Position.Y + leftOffset.Y);
+                Point rightNextPosition = new(currentStep.Position.X + rightOffset.X,
+                                                currentStep.Position.Y + rightOffset.Y);
 
-                int current_cost = costs[current_step.Position.Y * board.Width + current_step.Position.X];
+                int currentCost = costs[currentStep.Position.Y * board.Width + currentStep.Position.X];
 
-                int forward_cost = current_cost + 1;
-                int left_cost = current_cost + 2;
-                int right_cost = current_cost + 2;
+                int forwardCost = currentCost + 1;
+                int leftCost = currentCost + 2;
+                int rightCost = currentCost + 2;
 
-                int forward_heuristic = forward_cost;
-                int left_heuristic = left_cost;
-                int right_heuristic = right_cost;
+                int forwardHeuristic = forwardCost;
+                int leftHeuristic = leftCost;
+                int rightHeuristic = rightCost;
 
 
-                if (board.SetSearchedIfEmptyForward(forward_next_position, forward_cost))
+                if (board.SetSearchedIfEmptyForward(forwardNextPosition, forwardCost))
                 {
-                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
-                    HeapInsert(heap, heap_length, new Step(forward_next_position, forward_direction, forward_heuristic), heap_hashmap, board.Width);
-                    heap_length++;
-                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
-                    costs[forward_next_position.Y * board.Width + forward_next_position.X] = forward_cost;
-                    parents[forward_next_position.Y * board.Width + forward_next_position.X] = forward_direction;
+                    HeapInsert(heap, heapLength, new Step(forwardNextPosition, forwardDirection, forwardHeuristic), heapHashMap, board.Width);
+                    heapLength++;
+
+                    costs[forwardNextPosition.Y * board.Width + forwardNextPosition.X] = forwardCost;
+                    parents[forwardNextPosition.Y * board.Width + forwardNextPosition.X] = forwardDirection;
                 }
-                else if ((forward_cost < costs[forward_next_position.Y * board.Width + forward_next_position.X]) &&
-                        (board.NotReservedForward(forward_next_position, forward_cost)) &&
-                        (heap_hashmap[forward_next_position.Y * board.Width + forward_next_position.X] != -1))
+                else if ((forwardCost < costs[forwardNextPosition.Y * board.Width + forwardNextPosition.X]) &&
+                        (board.NotReservedForward(forwardNextPosition, forwardCost)) &&
+                        (heapHashMap[forwardNextPosition.Y * board.Width + forwardNextPosition.X] != -1))
                 {
-                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
-                    UpdateHeapItem(heap, heap_length, new Step(forward_next_position, forward_direction, forward_heuristic), heap_hashmap, board.Width);
-                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
-                    costs[forward_next_position.Y * board.Width + forward_next_position.X] = forward_cost;
-                    parents[forward_next_position.Y * board.Width + forward_next_position.X] = forward_direction;
+                    UpdateHeapItem(heap, heapLength, new Step(forwardNextPosition, forwardDirection, forwardHeuristic), heapHashMap, board.Width);
+
+                    costs[forwardNextPosition.Y * board.Width + forwardNextPosition.X] = forwardCost;
+                    parents[forwardNextPosition.Y * board.Width + forwardNextPosition.X] = forwardDirection;
                 }
 
 
 
-                if (board.SetSearchedIfEmptyLeftRight(current_step.Position, left_next_position, left_cost))
+                if (board.SetSearchedIfEmptyLeftRight(currentStep.Position, leftNextPosition, leftCost))
                 {
-                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
-                    HeapInsert(heap, heap_length, new Step(left_next_position, left_direction, left_heuristic), heap_hashmap, board.Width);
-                    heap_length++;
-                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
-                    costs[left_next_position.Y * board.Width + left_next_position.X] = left_cost;
-                    parents[left_next_position.Y * board.Width + left_next_position.X] = left_direction;
+                    HeapInsert(heap, heapLength, new Step(leftNextPosition, leftDirection, leftHeuristic), heapHashMap, board.Width);
+                    heapLength++;
+
+                    costs[leftNextPosition.Y * board.Width + leftNextPosition.X] = leftCost;
+                    parents[leftNextPosition.Y * board.Width + leftNextPosition.X] = leftDirection;
                 }
-                else if ((left_cost < costs[left_next_position.Y * board.Width + left_next_position.X]) &&
-                        (board.NotReservedLeftRight(current_step.Position, left_next_position, left_cost)) &&
-                        (heap_hashmap[left_next_position.Y * board.Width + left_next_position.X] != -1))
+                else if ((leftCost < costs[leftNextPosition.Y * board.Width + leftNextPosition.X]) &&
+                        (board.NotReservedLeftRight(currentStep.Position, leftNextPosition, leftCost)) &&
+                        (heapHashMap[leftNextPosition.Y * board.Width + leftNextPosition.X] != -1))
                 {
-                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
-                    UpdateHeapItem(heap, heap_length, new Step(left_next_position, left_direction, left_heuristic), heap_hashmap, board.Width);
-                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
-                    costs[left_next_position.Y * board.Width + left_next_position.X] = left_cost;
-                    parents[left_next_position.Y * board.Width + left_next_position.X] = left_direction;
+                    UpdateHeapItem(heap, heapLength, new Step(leftNextPosition, leftDirection, leftHeuristic), heapHashMap, board.Width);
+
+                    costs[leftNextPosition.Y * board.Width + leftNextPosition.X] = leftCost;
+                    parents[leftNextPosition.Y * board.Width + leftNextPosition.X] = leftDirection;
                 }
 
 
 
-                if (board.SetSearchedIfEmptyLeftRight(current_step.Position, right_next_position, right_cost))
+                if (board.SetSearchedIfEmptyLeftRight(currentStep.Position, rightNextPosition, rightCost))
                 {
-                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
-                    HeapInsert(heap, heap_length, new Step(right_next_position, right_direction, right_heuristic), heap_hashmap, board.Width);
-                    heap_length++;
-                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
-                    costs[right_next_position.Y * board.Width + right_next_position.X] = right_cost;
-                    parents[right_next_position.Y * board.Width + right_next_position.X] = right_direction;
+                    HeapInsert(heap, heapLength, new Step(rightNextPosition, rightDirection, rightHeuristic), heapHashMap, board.Width);
+                    heapLength++;
+
+                    costs[rightNextPosition.Y * board.Width + rightNextPosition.X] = rightCost;
+                    parents[rightNextPosition.Y * board.Width + rightNextPosition.X] = rightDirection;
                 }
-                else if ((right_cost < costs[right_next_position.Y * board.Width + right_next_position.X]) &&
-                        (board.NotReservedLeftRight(current_step.Position, right_next_position, right_cost)) &&
-                        (heap_hashmap[right_next_position.Y * board.Width + right_next_position.X] != -1))
+                else if ((rightCost < costs[rightNextPosition.Y * board.Width + rightNextPosition.X]) &&
+                        (board.NotReservedLeftRight(currentStep.Position, rightNextPosition, rightCost)) &&
+                        (heapHashMap[rightNextPosition.Y * board.Width + rightNextPosition.X] != -1))
                 {
-                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
-                    UpdateHeapItem(heap, heap_length, new Step(right_next_position, right_direction, right_heuristic), heap_hashmap, board.Width);
-                    //CheckHeap(heap, heap_length, heap_hashmap, board.Width);
-                    costs[right_next_position.Y * board.Width + right_next_position.X] = right_cost;
-                    parents[right_next_position.Y * board.Width + right_next_position.X] = right_direction;
+                    UpdateHeapItem(heap, heapLength, new Step(rightNextPosition, rightDirection, rightHeuristic), heapHashMap, board.Width);
+
+                    costs[rightNextPosition.Y * board.Width + rightNextPosition.X] = rightCost;
+                    parents[rightNextPosition.Y * board.Width + rightNextPosition.X] = rightDirection;
                 }
 
             }

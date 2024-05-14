@@ -1,7 +1,4 @@
-﻿using Mekkdonalds.Persistence;
-using Mekkdonalds.Simulation;
-
-using Action = Mekkdonalds.Simulation.Action;
+﻿using Action = Mekkdonalds.Simulation.Action;
 
 namespace Mekkdonalds.Test;
 
@@ -28,8 +25,10 @@ internal class LoggerTests
     [Test]
     public void StartLogTests()
     {
-        var rs = new List<Robot>();
-        rs.AddRange(Enumerable.Range(0, 10).Select(_ => new Robot(new(Random.Shared.Next(30), Random.Shared.Next(30)), (Direction)Random.Shared.Next(4))));
+        List<Robot> rs =
+        [
+            .. Enumerable.Range(0, 10).Select(_ => new Robot(new(Random.Shared.Next(30), Random.Shared.Next(30)), (Direction)Random.Shared.Next(4))),
+        ];
         _logger.LogStarts(rs);
         Assert.That(
             _logger.GetLogFile().Start,
@@ -47,7 +46,7 @@ internal class LoggerTests
     [Test]
     public void SetTeamSizeTest()
     {
-        var size = Random.Shared.Next(1, 2000);
+        int size = Random.Shared.Next(1, 2000);
         _logger.SetTeamSize(size);
         Assert.That(_logger.GetLogFile().TeamSize, Is.EqualTo(size));
     }
@@ -55,12 +54,15 @@ internal class LoggerTests
     [Test]
     public void LogActualPathsTest()
     {
-        var rs = new List<Robot>();
+        List<Robot> rs =
+        [
+            .. Enumerable.Range(0, 10).Select(_ => new Robot(
+                new(Random.Shared.Next(30), Random.Shared.Next(30)),
+                (Direction)Random.Shared.Next(4)
+            )),
+        ];
 
-        rs.AddRange(Enumerable.Range(0, 10).Select(_ => new Robot(
-            new(Random.Shared.Next(30), Random.Shared.Next(30)),
-            (Direction)Random.Shared.Next(4)
-        )));
+        _logger.LogStarts(rs); // this will create the necessary lists
 
         rs.ForEach(robot =>
             Enumerable.Range(0, Random.Shared.Next(5, 20)).ToList().ForEach(_ =>
@@ -77,18 +79,74 @@ internal class LoggerTests
     }
 
     [Test]
-    public void LogPlannerPathsTest()
+    public void LogActualPathTest()
     {
-        var count = Random.Shared.Next(1, 2000);
-        var rs = new List<Robot>();
-        rs.AddRange(Enumerable.Repeat(new Robot(new(0,0), Direction.East), count));
+        List<Robot> rs =
+        [
+            .. Enumerable.Range(0, 10).Select(_ =>
+                new Robot(
+                    new(Random.Shared.Next(30), Random.Shared.Next(30)),
+                    (Direction)Random.Shared.Next(4)
+            ))
+        ];
+
         _logger.LogStarts(rs); // this will create the necessary lists
 
-        var paths = rs.Select(_ => new Simulation.Path([.. Enumerable.Range(0, Random.Shared.Next(20)).Select(x => RandomAction)], default)).ToList();
+        rs.ForEach(robot =>
+            Enumerable.Range(0, Random.Shared.Next(5, 20)).ToList().ForEach(_ =>
+                            robot.Step(RandomAction)
+            )
+        );
 
-        for (var i = 0; i < count; i++)
+        for (int i = 0; i < rs.Count; i++)
         {
-            _logger.LogPlannerPaths(i+1, paths[i]);
+            for (int j = 0; j < rs[i].History.Count; j++)
+            {
+                _logger.LogActualPath(i + 1, rs[i].History[j]);
+            }
+        }
+
+        Assert.That(
+            _logger.GetLogFile().ActualPaths,
+            Is.EquivalentTo(rs.Select(robot => robot.History))
+        );
+    }
+
+    [Test]
+    public void LogPlannerPathsTest()
+    {
+        int count = Random.Shared.Next(1, 2000);
+        List<Robot> rs = [.. Enumerable.Repeat(new Robot(new(0, 0), Direction.East), count)];
+        _logger.LogStarts(rs); // this will create the necessary lists
+
+        List<Simulation.Path> paths = rs.Select(_ => new Simulation.Path([.. Enumerable.Range(0, Random.Shared.Next(20)).Select(x => RandomAction)], default)).ToList();
+
+        for (int i = 0; i < count; i++)
+        {
+            _logger.LogPlannerPaths(i + 1, paths[i]);
+        }
+
+        Assert.That(
+            _logger.GetLogFile().PlannerPaths,
+            Is.EqualTo(paths.Select(p => p.PlannedPath))
+        );
+    }
+
+    [Test]
+    public void LogPlannerPathTest()
+    {
+        int count = Random.Shared.Next(1, 2000);
+        List<Robot> rs = [.. Enumerable.Repeat(new Robot(new(0, 0), Direction.East), count)];
+        _logger.LogStarts(rs); // this will create the necessary lists
+
+        List<Simulation.Path> paths = rs.Select(_ => new Simulation.Path([.. Enumerable.Range(0, Random.Shared.Next(20)).Select(x => RandomAction)], default)).ToList();
+
+        for (int i = 0; i < count; i++)
+        {
+            for (int j = 0; j < paths[i].PlannedPath.Count; j++)
+            {
+                _logger.LogPlannerPaths(i + 1, paths[i].PlannedPath[j]);
+            }
         }
 
         Assert.That(
@@ -100,7 +158,7 @@ internal class LoggerTests
     [Test]
     public void LogTimeTest()
     {
-        var times = Enumerable.Range(0, Random.Shared.Next(1, 2000)).Select(_ => Random.Shared.NextDouble() / 2).ToList();
+        List<double> times = Enumerable.Range(0, Random.Shared.Next(1, 2000)).Select(_ => Random.Shared.NextDouble() / 2).ToList();
 
         times.ForEach(_logger.LogTime);
 
@@ -115,8 +173,8 @@ internal class LoggerTests
     {
         Assert.Multiple(() =>
         {
-            
-            var count = Random.Shared.Next(1, 2000);
+
+            int count = Random.Shared.Next(1, 2000);
             List<(int R1, int R2, int T, string msg)> errors = Enumerable.Range(0, count).Select(_ => (Random.Shared.Next(1, 2000), Random.Shared.Next(1, 2000), Random.Shared.Next(1, 2000), RandomAction.ToString())).ToList();
 
             errors.ForEach(e => _logger.LogError(e.R1, e.R2, e.T, e.msg));
@@ -144,10 +202,9 @@ internal class LoggerTests
     [Test]
     public void LogAssignmentTest()
     {
-        var count = Random.Shared.Next(1, 2000);
+        int count = Random.Shared.Next(1, 2000);
 
-        var rs = new List<Robot>();
-        rs.AddRange(Enumerable.Repeat(new Robot(new(0, 0), Direction.East), count));
+        List<Robot> rs = [.. Enumerable.Repeat(new Robot(new(0, 0), Direction.East), count)];
         _logger.LogStarts(rs); // this will create the necessary lists
 
         List<(int R, int T, int W)> assignments = Enumerable.Range(0, count).Select(_ => (Random.Shared.Next(1, count), Random.Shared.Next(1, 2000), Random.Shared.Next(1, 2000))).ToList();
@@ -168,10 +225,9 @@ internal class LoggerTests
     [Test]
     public void LogFinishTest()
     {
-        var count = Random.Shared.Next(1, 2000);
+        int count = Random.Shared.Next(1, 2000);
 
-        var rs = new List<Robot>();
-        rs.AddRange(Enumerable.Repeat(new Robot(new(0, 0), Direction.East), count));
+        List<Robot> rs = [.. Enumerable.Repeat(new Robot(new(0, 0), Direction.East), count)];
         _logger.LogStarts(rs); // this will create the necessary lists
 
         List<(int R, int T, int W)> finishes = Enumerable.Range(1, count).Select(_ => (Random.Shared.Next(1, count), Random.Shared.Next(1, 2000), Random.Shared.Next(1, 2000))).ToList();
@@ -192,9 +248,9 @@ internal class LoggerTests
     [Test]
     public void LogTasksTest()
     {
-        var count = Random.Shared.Next(1, 2000);
+        int count = Random.Shared.Next(1, 2000);
 
-        var tasks = Enumerable.Range(1, count).Select(_ => new Package(new(Random.Shared.Next(50), Random.Shared.Next(50)))).ToList(); // needs to be a list (otherwise Random.Shared.Next will be called again)
+        List<Package> tasks = Enumerable.Range(1, count).Select(_ => new Package(new(Random.Shared.Next(50), Random.Shared.Next(50)))).ToList(); // needs to be a list (otherwise Random.Shared.Next will be called again)
 
         _logger.LogTasks(tasks);
 
@@ -207,7 +263,7 @@ internal class LoggerTests
     [Test]
     public void LogReplayLengthTest()
     {
-        var length = Random.Shared.Next(1, 2000);
+        int length = Random.Shared.Next(1, 2000);
         _logger.LogReplayLength(length);
         Assert.That(_logger.GetLogFile().Makespan, Is.EqualTo(length));
     }
@@ -233,7 +289,7 @@ internal class LoggerTests
             Assert.That(Directory.GetFiles("./logs"), Is.Empty);
             await _logger.SaveAsync(new LogFileDataAccess());
             Assert.That(Directory.GetFiles("./logs"), Has.Length.EqualTo(1));
-            var fileName = Directory.GetFiles("./logs")[0];
+            string fileName = Directory.GetFiles("./logs")[0];
             Assert.That(File.Exists(fileName));
             Assert.That(System.IO.Path.GetExtension(fileName), Is.EqualTo("json"));
             Assert.That(fileName, Does.StartWith(MAPNAME));

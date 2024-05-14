@@ -403,3 +403,5 @@ docs/html/
 docs/latex/
 
 .mono/
+
+*.jar

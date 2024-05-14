@@ -1,18 +1,28 @@
 ﻿namespace Mekkdonalds.Persistence;
-
+/// <summary>
+/// Data access for the packages
+/// </summary>
 public class PackagesDataAccess : IPackagesDataAccess
 {
+    /// <summary>
+    /// Loads the packages from a file
+    /// </summary>
+    /// <param name="path">Path to the file</param> 
+    /// <param name="width">Width of the board</param> 
+    /// <param name="height">Height of the board</param> 
+    /// <returns>A task that represents the loading operation. The task result contains the list of packages</returns> 
+    /// <exception cref="PackagesDataException">Thrown when the data is invalid</exception> 
     public async Task<List<Package>> LoadAsync(string path, int width, int height)
     {
-        var packages = new List<Package>();
+        List<Package> packages = [];
 
-        using var sr = new StreamReader(path);
+        using StreamReader sr = new(path);
 
         _ = await sr.ReadLineAsync();
 
         while (!sr.EndOfStream)
         {
-            var line = await sr.ReadLineAsync() ?? throw new PackagesDataException();
+            string line = await sr.ReadLineAsync() ?? throw new PackagesDataException();
 
             if (!int.TryParse(line, out var pos) || pos < 0 || pos >= height * width)
             {
